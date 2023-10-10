@@ -1,7 +1,9 @@
-import './App.css';
+import React from 'react';
+import Router from './shared/Router';
 
-function App() {
-  return <></>;
-}
+type AppProps = {};
 
+const App: React.FC<AppProps> = () => {
+  return <Router />;
+};
 export default App;
