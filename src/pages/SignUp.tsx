@@ -1,8 +1,6 @@
 import React from 'react';
 
-type SignUpProps = {};
-
-const SignUp: React.FC<SignUpProps> = () => {
+const SignUp: React.FC = () => {
   return <div>SignUp</div>;
 };
 
