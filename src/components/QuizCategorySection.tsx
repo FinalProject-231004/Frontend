@@ -4,13 +4,15 @@ import { QuizCategorySectionProps } from '@/types/home';
 
 const QuizCategorySection: React.FC<QuizCategorySectionProps> = ({
   title,
-  quizzes,
+  quiz,
 }) => {
+  const displayedQuiz = quiz.slice(0, 6);
+
   return (
     <div>
       <h1 className="my-[80px] text-[28px] font-bold text-center">{title}</h1>
       <div className="gap-[20px] grid grid-cols-3">
-        {quizzes.map(quiz => (
+        {displayedQuiz.map(quiz => (
           <QuizThumbnail key={quiz.id} quiz={quiz} />
         ))}
       </div>
