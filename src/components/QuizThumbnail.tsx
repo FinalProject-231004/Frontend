@@ -4,6 +4,7 @@ import { QuizThumbnailProps } from '@/types/home';
 const QuizThumbnail: React.FC<QuizThumbnailProps> = ({ quiz }) => {
   return (
     <div className="w-[347px]">
+      <h4 className="text-lg mt-2">{quiz.category}</h4>
       <h4 className="text-lg mt-2">{quiz.title}</h4>
       <img
         src={quiz.image}
