@@ -1,20 +1,22 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '@/pages/Home';
+import QuizQuestionsEditor from '@/pages/QuizQuestionsEditor';
 // import MyPage from '@/pages/MyPage';
-// import CreateQuiz1 from '@/pages/CreateQuiz1';
-// import CreateQuiz2 from '@/pages/CreateQuiz2';
+// import QuizInfoEditor from '@/pages/QuizInfoEditor';
 // import QuizDetail from '@/pages/QuizDetail';
 
 const Router = () => {
   return (
     <BrowserRouter>
+      {/* 헤더 위치 */}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/quizquestions" element={<QuizQuestionsEditor />} />
         {/* <Route path="/mypage" element={<MyPage />} />
-        <Route path="/createquiz/1" element={<CreateQuiz1 />} />
-        <Route path="/createquiz/2" element={<CreateQuiz2 />} />
+        <Route path="/quizinfoeditor" element={<QuizInfoEditor />} />
         <Route path="/quizdetail" element={<QuizDetail />} /> */}
       </Routes>
+      {/* 푸터 위치 */}
     </BrowserRouter>
   );
 };
