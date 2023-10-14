@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import { ChakraProvider } from '@chakra-ui/react';
 import './index.css';
+import { RecoilRoot } from 'recoil';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <ChakraProvider>
+  <RecoilRoot>
     <App />
-  </ChakraProvider>,
+  </RecoilRoot>,
 );
