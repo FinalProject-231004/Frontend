@@ -36,7 +36,7 @@ export default function CustomizedButtons({
   } else if (size === 'large') {
     width = '200px';
     height = '40px';
-  } else if (size === 'full') {
+  } else if (size === 'pull') {
     width = '1080px';
     height = '40px';
   }
