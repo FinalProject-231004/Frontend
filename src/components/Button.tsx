@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 type ButtonsProps = {
   size: string;
   fontColor: string;
-  BtnName: string;
+  BtnName: string | JSX.Element;
   BtnBg: string;
   BtnHoverBg: string;
   BtnActiveBg: string;

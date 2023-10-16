@@ -9,6 +9,10 @@ export default {
         offwhite: '#f4f4f4',
         deep_dark_gray: '#3e3e3e',
       },
+      width: {
+        'custom-225': '225px',
+        'custom-530': '530px',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],

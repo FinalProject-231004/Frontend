@@ -15,23 +15,23 @@ function UserInfoInput({ inputVal, onChange, type, placeholder, size, focusBorde
   //   setInputVal(e.target.value)
   // }
 
-  let width: string = '';
+  let widthClass: string = '';
 
   // 아직 디자인이 확정되지 않아 필요에 따라 수정하기
   if (size === 'medium') {
-    width = '100px';
+    widthClass = 'w-custom-225';
   } else if (size === 'large') {
-    width = '200px';
-  }  
+    widthClass = 'w-custom-530';
+  } 
 
-  const dynamicClasses = `w-[${width}] focus:border-[${focusBorderColor}]`; // 동적 클래스 생성
+  const dynamicClasses = `${widthClass} focus:border-[${focusBorderColor}]`; // 동적 클래스 생성
 
   return (
     <form className="w-full max-w-sm">
       <div className="md:flex md:items-center mb-6">
         <div className="md:w-2/3">
           <input
-            className={`bg-white appearance-none border-2 border-gray-200 rounded-[12px] py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}
+            className={`h-[72px] bg-white appearance-none border-2 border-gray-200 rounded-[12px] py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}
             id="inline-full-name"
             type={type}
             placeholder={placeholder}

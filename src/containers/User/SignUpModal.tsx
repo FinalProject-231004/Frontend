@@ -1,9 +1,9 @@
 import { useRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
-import Button from './Button'
-import Modal from './Modal';
-import UserInfoInput from './UserInfoInput';
-import { useState } from 'react';
+import Button from '../../components/Button'
+import Modal from '../../components/Modal';
+import UserInfoInput from '../../components/UserInfoInput';
+import { useEffect, useState } from 'react';
 import { userNickNameState } from '@/recoil/userNickNameState';
 import { postAPI } from '@/apis/axios';
 
@@ -23,7 +23,7 @@ function SignUpModal() {
   const [nickNameMessage,setNickNameMessage] = useState('');
   const [pwMessage,setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
-  const [allCheckMessag, setAllCheckMessag] = useState('')
+  const [allCheckMessag, setAllCheckMessag] = useState('');
 
 
   const openModal = () => {
@@ -44,7 +44,7 @@ function SignUpModal() {
     setIsNickName(pattern.test(id));
   };
   const validatePw = (pw: string) => {
-    const pattern = /^(?=.*[0-9])(?=.*[a-zA-Z]|\W)(?=\S+$).{8,20}$/;
+    const pattern = /^(?=.*[A-Za-z])(?=.*[\d])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~|/\\])[A-Za-z\d!@#$%^&*()_+{}\[\]:;<>,.?~|/\\]{8,20}$/;
     setIsPw(pattern.test(pw));
   };
   const validatepwCheck = (pwCheck: string) => {
@@ -58,10 +58,6 @@ function SignUpModal() {
   };
 
   // const validationClass = (isSuccess: boolean) => (isSuccess ? 'text-green-600' : 'text-red-600');
-
-  const postData = {
-
-  }
 
   type postData = {
     username: string;
@@ -84,10 +80,16 @@ function SignUpModal() {
     nickname: nickNameInput,
   };
 
+  useEffect(() => {
+    if (isId) setIdMessage('');
+    if (isPw) setPwMessage('');
+    if (isNickName) setNickNameMessage('');
+  }, [isId, isPw, isNickName]);
+  
   return (
     <>
       <Button size='small' fontColor='navy' BtnName='회원가입' BtnBg='transperate' BtnHoverBg='' BtnActiveBg='' borderRadius='18px' onClick={openModal} />
-      <Modal onRequestClose={closeModal} width='500px' height='400px' bgColor='#0078FF'>
+      <Modal onRequestClose={closeModal} width='713px' height='589px' bgColor='#0078FF'>
         <div>
           <UserInfoInput 
             type='text' placeholder='아이디' size={''} focusBorderColor={''} 
@@ -115,7 +117,7 @@ function SignUpModal() {
             onChange={(e) => {
               nameHandleChange(e.target.value);
               validateNickName(e.target.value);
-              setNickNameMessage('한글 또는 숫자 포함 2자리 이상 5자리 이하');
+              setNickNameMessage('한글 또는 숫자 포함 2자리 이상 5자리 이하'); // 한글,숫자,영문 소문자 하나 이상 조합(공백 )으로 변경
               if(isNickName === true) setNickNameMessage('');
             }} />
            {nickNameInput.length >= 0 && (
@@ -132,7 +134,7 @@ function SignUpModal() {
             onChange={(e) => {
               pwHandleChange(e.target.value);
               validatePw(e.target.value);
-              setPwMessage('영문/숫자/특수문자(공백 제외) 모두 포함 8자리 이상 20자리 이하');
+              setPwMessage('8자리 이상 20자리 이하에 영문/숫자/특수문자(공백 제외) 1가지 조합 이상 '); //알파벳 대소문자 숫자 특수문자
               if(isPw === true) setPwMessage('');
             }} />
             {pwInput.length >= 0 && (
