@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL: string = import.meta.env.VITE_APP_GENERATED_SERVER_URL;
 
 // 모든 요청이 보내기 전에 실행되며, 주로 인증 및 토큰 관리
 axios.interceptors.request.use(
@@ -10,14 +10,12 @@ axios.interceptors.request.use(
       config.headers['Authorization'] = `Bearer ${token}`;
     }
     config.withCredentials = true;
-
     return config;
   },
   error => {
     return Promise.reject(error);
   },
 );
-
 
 // 모든 응답이 도착하기 전에 실행되며, 주로 응답을 가로채서 처리(로그인)
 // axios.interceptors.response.use(
@@ -31,12 +29,14 @@ axios.interceptors.request.use(
 //       !originalRequest._retry &&
 //       originalRequest.url !== `${API_BASE_URL}/api/refresh`
 //     ) {
+//       console.log("Refreshing access token...");
 //       originalRequest._retry = true;
 
 //       const refreshResponse = await axios.post(`${API_BASE_URL}/api/refresh`);
 //       const newToken = refreshResponse.data.newAccessToken;
 
 //       originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+//       console.log("New access token obtained.");
 //       return axios(originalRequest); // 401 에러가 생기면 서버에 리프레쉬 토큰으로 새로운 엑세스 토큰 요청
 //     }
 //     return Promise.reject(error);
