@@ -10,7 +10,9 @@ const QuizCategorySection: React.FC<QuizCategorySectionProps> = ({
 
   return (
     <div>
-      <h1 className="my-[80px] text-[28px] font-bold text-center">{title}</h1>
+      <h1 className="my-[80px] text-[28px] font-extrabold text-center">
+        {title}
+      </h1>
       <div className="gap-[20px] grid grid-cols-3">
         {displayedQuiz.map(quiz => (
           <QuizThumbnail key={quiz.id} quiz={quiz} />
