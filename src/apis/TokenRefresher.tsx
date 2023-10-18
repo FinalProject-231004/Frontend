@@ -8,7 +8,7 @@ export default function TokenRefresher() {
   useEffect(() => {
     const refreshAPI = axios.create({
       baseURL: import.meta.env.VITE_APP_GENERATED_SERVER_URL,
-      headers: {"Content-Type": "application/json"} // 정확히 뭔지 모름
+      headers: {"Content-Type": "application/json"} 
     });
 
     const interceptor = axios.interceptors.response.use(
@@ -25,13 +25,13 @@ export default function TokenRefresher() {
         if (
           error.response.status === 401 &&
           !originalRequest._retry && // 요청이 이미 재시도 되었는지 확인
-          originalRequest.url !== `${refreshAPI}/api/member/` // 요청이 리프레시 토큰을 얻기 위한 요청인지 확인하기 위해 검사
+          originalRequest.url !== `${refreshAPI}/api/token/reissue` // 요청이 리프레시 토큰을 얻기 위한 요청인지 확인하기 위해 검사
         ) {
           console.log("Refreshing access token...");
           originalRequest._retry = true; // 요청이 이미 재시도되었는지 확인
     
           // 토큰 갱신 요청
-          const refreshResponse = await axios.post(`${refreshAPI}/api/member/`);
+          const refreshResponse = await axios.post(`${refreshAPI}/api/token/reissue`);
           const newToken = refreshResponse.data.newAccessToken; 
     
           originalRequest.headers['Authorization'] = `Bearer ${newToken}`; // 새로 받은 엑세스 토큰을 사용
@@ -48,6 +48,6 @@ export default function TokenRefresher() {
   }, []);
   
   return (
-    <div>TokenRefresher</div>
+    <div></div>
   )
 }
