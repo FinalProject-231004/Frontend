@@ -17,6 +17,10 @@ export default {
       regular: 400,
       extrabold: 800,
     },
+    width: {
+      'custom-225': '225px',
+      'custom-530': '530px',
+    },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };

@@ -10,6 +10,7 @@ Modal.setAppElement('#root');
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <RecoilRoot>
+  <RecoilRoot>
     <App />
     <ToastContainer
       position="top-center"
