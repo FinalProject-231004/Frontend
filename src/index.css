@@ -2,9 +2,23 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-:root {
-  --navy: #0e2958;
-  --blue: #0078ff;
-  --offwhite: #f4f4f4;
-  --deep_dark_gray: #3e3e3e;
+@font-face {
+  font-family: 'TmoneyRoundWind';
+  src: url('./assets/fonts/TmoneyRoundWindRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TmoneyRoundWind';
+  src: url('./assets/fonts/TmoneyRoundWindExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+body {
+  font-family: 'TmoneyRoundWind', sans-serif;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
