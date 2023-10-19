@@ -1,8 +1,8 @@
 import { modalState } from '@/recoil/modalState';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import Button from '../../components/Button';
-import Modal from '../../components/Modal';
-import UserInfoInput from '../../components/UserInfoInput';
+import Button from '@/components/common/Button';
+import Modal from '@/components/common/Modal';
+import UserInfoInput from '@/components/common/UserInfoInput';
 import { useEffect, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import { isLoggedInState } from '@/recoil/loggedHeaderState';
@@ -36,20 +36,20 @@ function SignInModal() {
   type postData = {
     username: string;
     password: string;
-  }
+  };
 
   const data = {
     username: idInput,
     password: pwInput,
-  }
+  };
 
-  const login =async (info:postData) => {
+  const login = async (info: postData) => {
     try {
-      const response = await postAPI('/api/member/login',info);
+      const response = await postAPI('/api/member/login', info);
       if (response.status === 200) {
-        console.log(response.headers); 
-        console.log( 'authoriztion : ',response.headers['authorization']); 
-        console.log('refresh : ',response.headers['refresh']); 
+        console.log(response.headers);
+        console.log('authoriztion : ', response.headers['authorization']);
+        console.log('refresh : ', response.headers['refresh']);
 
         // if (response.headers.authorization) {
         //   localStorage.setItem('Authorization', response.headers.authorization);
@@ -58,9 +58,9 @@ function SignInModal() {
         //   localStorage.setItem('Refresh', response.headers.refresh);
         // }
         localStorage.setItem('Authorization', response.headers.authorization);
-        localStorage.setItem('Refresh', response.headers.refresh); 
-        console.log( 'authoriztion : ',response.headers['authorization']); 
-        console.log('refresh : ',response.headers['refresh']); 
+        localStorage.setItem('Refresh', response.headers.refresh);
+        console.log('authoriztion : ', response.headers['authorization']);
+        console.log('refresh : ', response.headers['refresh']);
         // const token = localStorage.getItem('Authorization');
         // if(token) setIsLoggedIn(true);
         setIsLoggedIn(true);
@@ -71,61 +71,92 @@ function SignInModal() {
     } catch (error) {
       console.error('Error:', error);
     }
-  }
+  };
 
   return (
     <>
-      <button className='w-[84.77px] h-[36px] rounded-[18px] text-blue border border-[#0078ff]' onClick={openModal}>로그인</button>
+      <button
+        className="w-[84.77px] h-[36px] rounded-[18px] text-blue border border-[#0078ff]"
+        onClick={openModal}
+      >
+        로그인
+      </button>
       {/* <Button size='small' fontColor='var(--navy)' BtnName='로그인' BtnBg='#fff' BtnHoverBg='' BtnActiveBg='' borderRadius='18px' onClick={openModal} /> */}
-      <Modal onRequestClose={closeModal} width='713px' height='517px' bgColor='#0078FF'>
+      <Modal
+        onRequestClose={closeModal}
+        width="713px"
+        height="517px"
+        bgColor="#0078FF"
+      >
         <h1>로그인</h1>
         <div>
           <div>
-            <UserInfoInput 
-              type='text' placeholder='아이디' size='large' focusBorderColor={''} 
+            <UserInfoInput
+              type="text"
+              placeholder="아이디"
+              size="large"
+              focusBorderColor={''}
               inputVal={idInput}
-              onChange={(e) => {
+              onChange={e => {
                 setIdInput(e.target.value);
-              }} />
+              }}
+            />
           </div>
           <div>
             <UserInfoInput
-              type='password' placeholder='비밀번호' size='large' focusBorderColor={''} 
+              type="password"
+              placeholder="비밀번호"
+              size="large"
+              focusBorderColor={''}
               inputVal={pwInput}
-              onChange={(e) => {
+              onChange={e => {
                 setPwInput(e.target.value);
-              }} />
+              }}
+            />
           </div>
         </div>
-        
+
         {allCheckMessag}
 
-        <div className='flex'>
-          <Button size={''} fontColor='#000' 
+        <div className="flex">
+          <Button
+            size={''}
+            fontColor="#000"
             BtnName={
               <div>
                 <i className="fa-solid fa-comment"></i>
                 카카오로 시작하기
-              </div>} 
-            BtnBg='#FEE500' BtnHoverBg='#FEE500' BtnActiveBg={''} borderRadius='12px' 
+              </div>
+            }
+            BtnBg="#FEE500"
+            BtnHoverBg="#FEE500"
+            BtnActiveBg={''}
+            borderRadius="12px"
             onClick={() => {
               window.location.href =
-              'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4ced98994663e71c06cadbedd2b2ac21&redirect_uri=https://www.yulmoo.world/api/member/kakao/callback';
+                'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4ced98994663e71c06cadbedd2b2ac21&redirect_uri=https://www.yulmoo.world/api/member/kakao/callback';
             }}
-            />
-          <Button size='' fontColor='#fff' BtnName='로그인 하기' BtnBg='var(--navy)' BtnHoverBg='var(--blue)' BtnActiveBg={''} borderRadius='12px' 
-            onClick={()=>{
+          />
+          <Button
+            size=""
+            fontColor="#fff"
+            BtnName="로그인 하기"
+            BtnBg="var(--navy)"
+            BtnHoverBg="var(--blue)"
+            BtnActiveBg={''}
+            borderRadius="12px"
+            onClick={() => {
               if (idInput === '' || pwInput === '') {
                 setAllCheckMessag('모든 정보를 입력해주세요.');
                 return;
               }
               login(data);
-            }} />
+            }}
+          />
         </div>
-        
       </Modal>
     </>
-  )
+  );
 }
 
-export default SignInModal
+export default SignInModal;
