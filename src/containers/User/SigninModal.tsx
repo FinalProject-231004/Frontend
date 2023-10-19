@@ -1,8 +1,8 @@
 import { modalState } from '@/recoil/modalState';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import Button from '../../components/Button';
-import Modal from '../../components/Modal';
-import UserInfoInput from '../../components/UserInfoInput';
+import Button from '@/components/common/Button';
+import Modal from '@/components/common/Modal';
+import UserInfoInput from '@/components/common/UserInfoInput';
 import { useEffect, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import { isLoggedInState } from '@/recoil/loggedHeaderState';
@@ -36,12 +36,12 @@ function SignInModal() {
   type postData = {
     username: string;
     password: string;
-  }
+  };
 
   const data = {
     username: idInput,
     password: pwInput,
-  }
+  };
 
   const login =async (info:postData) => {
     try {
