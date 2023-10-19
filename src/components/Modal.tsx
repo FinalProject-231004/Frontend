@@ -27,6 +27,7 @@ const Modal: React.FC<ModalProps> = ({ children, onRequestClose, width, height, 
     content: {
       width: width,
       height: height,
+      padding: 0,
       zIndex: 150,
       position: "absolute",
       top: "50%",

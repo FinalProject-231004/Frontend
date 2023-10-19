@@ -7,7 +7,7 @@ axios.interceptors.request.use(
   config => {
     console.log(config);
     const token = localStorage.getItem('Authorization'); // 소문자로 바꿔보기 - 확인 필요
-    console.log(token);
+    // console.log(token);
     if (token) {
       config.headers['Authorization'] = `${token}`;
     }
