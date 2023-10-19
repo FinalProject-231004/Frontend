@@ -116,8 +116,7 @@ function SignUpModal() {
               validateId(e.target.value);
               setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
               if (isId === true) setIdMessage('');
-            }}
-          />
+            } } borderColor={''}  />
           {idInput.length >= 0 && (
             <div>
               {/* <div className={`message ${validationClass(isId)}`}>
@@ -140,8 +139,7 @@ function SignUpModal() {
               validateNickName(e.target.value);
               setNickNameMessage('한글 또는 숫자 포함 2자리 이상 5자리 이하'); // 한글,숫자,영문 소문자 하나 이상 조합(공백 )으로 변경
               if (isNickName === true) setNickNameMessage('');
-            }}
-          />
+            } } borderColor={''} />
           {nickNameInput.length >= 0 && <div>{nickNameMessage}</div>}
         </div>
 
@@ -156,11 +154,10 @@ function SignUpModal() {
               pwHandleChange(e.target.value);
               validatePw(e.target.value);
               setPwMessage(
-                '8자리 이상 20자리 이하에 영문/숫자/특수문자(공백 제외) 1가지 조합 이상 ',
+                '8자리 이상 20자리 이하에 영문/숫자/특수문자(공백 제외) 1가지 조합 이상 '
               ); //알파벳 대소문자 숫자 특수문자
               if (isPw === true) setPwMessage('');
-            }}
-          />
+            } } borderColor={''} />
           {pwInput.length >= 0 && <div>{pwMessage}</div>}
         </div>
 
@@ -174,8 +171,7 @@ function SignUpModal() {
             onChange={e => {
               pwCheckHandleChange(e.target.value);
               validatepwCheck(e.target.value);
-            }}
-          />
+            } } borderColor={''}          />
           {pwCheckInput.length >= 0 && <div>{pwCheckMessage}</div>}
         </div>
 
