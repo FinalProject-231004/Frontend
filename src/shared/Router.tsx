@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RecoilEnv } from 'recoil';
 import Home from '@/pages/Home';
 import CreateQuizQuestions from '@/pages/CreateQuizQuestions';
+import CreateQuizDetails from '@/pages/CreateQuizDetails';
 
 import Layout from '@/components/Layout/Layout';
 
@@ -21,7 +22,11 @@ const Router = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/quizquestions" element={<CreateQuizQuestions />} />
+          <Route
+            path="/create-quiz/questions"
+            element={<CreateQuizQuestions />}
+          />
+          <Route path="/create-quiz/details" element={<CreateQuizDetails />} />
           {/* <Route path="/mypage" element={<MyPage />} />
           <Route path="/quizdetail" element={<QuizDetail />} /> */}
         </Routes>
