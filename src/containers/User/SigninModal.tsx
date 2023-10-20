@@ -47,13 +47,11 @@ function SignInModal() {
     try {
       const response = await postAPI('/api/member/login',info);
       if (response.status === 200) {
-        console.log(response.headers); 
+        // console.log(response.headers); 
         localStorage.setItem('Authorization', response.headers.authorization);
         localStorage.setItem('Refresh', response.headers.refresh); 
-        console.log( 'authoriztion : ',response.headers['authorization']); 
-        console.log('refresh : ',response.headers['refresh']); 
-        // const token = localStorage.getItem('Authorization');
-        // if(token) setIsLoggedIn(true);
+        // console.log( 'authoriztion : ',response.headers['authorization']); 
+        // console.log('refresh : ',response.headers['refresh']); 
         setIsLoggedIn(true);
         closeModal();
       }
