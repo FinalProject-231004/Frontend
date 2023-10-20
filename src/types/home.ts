@@ -3,7 +3,7 @@ export type Banner = {
   category: string;
 };
 
-export type QuizData = {
+export type Quiz = {
   id: number;
   viewNum: number;
   likes: number;
@@ -14,15 +14,14 @@ export type QuizData = {
 };
 
 export type QuizThumbnailProps = {
-  quiz: QuizData;
+  quiz: Quiz;
 };
 
 export type QuizCategorySectionProps = {
   title: string;
-  quiz: QuizData[];
+  quiz: Quiz[] | null;
 };
 
 export type Category = {
-  id: number;
-  name: string;
+  category: string;
 };
