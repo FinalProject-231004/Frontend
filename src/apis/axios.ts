@@ -5,7 +5,7 @@ const API_BASE_URL: string = import.meta.env.VITE_APP_GENERATED_SERVER_URL;
 // 모든 요청이 보내기 전에 실행되며, 주로 인증 및 토큰 관리
 axios.interceptors.request.use(
   config => {
-    console.log(config);
+    // console.log(config);
     const token = localStorage.getItem('Authorization'); // 소문자로 바꿔보기 - 확인 필요
     // console.log(token);
     if (token) {
@@ -15,7 +15,7 @@ axios.interceptors.request.use(
     return config;
   },
   error => {
-    console.log(error)
+    // console.log(error)
     return Promise.reject(error);
   },
 );
@@ -23,11 +23,11 @@ axios.interceptors.request.use(
 // 모든 응답이 도착하기 전에 실행되며, 주로 응답을 가로채서 처리(로그인)
 axios.interceptors.response.use(
   async response => {
-    console.log(response);
+    // console.log(response);
     return response;
   },
   async error => {
-    console.log(error);
+    // console.log(error);
     // const originalRequest = error.config;
     // if (
     //   error.response.status === 401 &&

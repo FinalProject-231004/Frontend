@@ -5,7 +5,7 @@ import CreateQuizQuestions from '@/pages/CreateQuizQuestions';
 import Layout from '@/components/Layout/Layout';
 
 import TokenRefresher from '@/apis/TokenRefresher';
-import Auth from '@/containers/User/Auth';
+// import Auth from '@/containers/User/Auth';
 
 // import MyPage from '@/pages/MyPage';
 // import QuizInfoEditor from '@/pages/QuizInfoEditor';
@@ -19,7 +19,7 @@ const Router = () => {
       <Layout>
         <TokenRefresher />
         <Routes>
-          <Route path="/api/member/kakao/callback" element={<Auth />} />
+          {/* <Route path="/api/member/kakao/callback" element={<Auth />} /> */}
           <Route path="/" element={<Home />} />
           <Route path="/quizquestions" element={<CreateQuizQuestions />} />
           {/* <Route path="/mypage" element={<MyPage />} />
