@@ -1,76 +1,77 @@
 import QuizCategorySection from '@/components/QuizCategorySection';
-import Banner from '@/components/HomeBanner';
+import HomeBanner from '@/components/HomeBanner';
 import useFetchQuiz from '@/hooks/useFetchQuiz';
-import { Category } from '@/types/home';
+import { Category, Quiz } from '@/types/home';
 
 const Home: React.FC = () => {
-  // 신규순 - 전체조회 후 신규순?
-  const { quiz: newQuiz } = useFetchQuiz(
+  <HomeBanner />;
+
+  // 전체 퀴즈
+  const { quiz: allQuizzes } = useFetchQuiz(
     `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
-    // `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`
+  );
+
+  // 신규순 - 전체조회 후 신규순
+  const { quiz: newQuiz } = useFetchQuiz(
+    // `${import.meta.env.VITE_APP_JSON_URL}/tester`,
+    `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
   );
 
   // 인기순
   const { quiz: hotQuiz } = useFetchQuiz(
-    `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
-    // `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/hot`,
+    // `${import.meta.env.VITE_APP_JSON_URL}/tester`,
+    `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/hot`,
   );
 
-  // 조회순 (api 모르겠다아아확인 필요)
+  // 조회순
   const { quiz: viewNum } = useFetchQuiz(
-    `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
-    // `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/{id}/view`,
+    // `${import.meta.env.VITE_APP_JSON_URL}/tester`,
+    `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/viewNum`,
   );
 
-  // 카테고리별 - ㄹㅇ 서버
-  // const quizzes = useFetchQuiz(
-  //   `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/quiz`,
-  // );
-  // 카테고리별 - json 서버
+  // 카테고리별
   const { quiz: categories } = useFetchQuiz(
-    `${import.meta.env.VITE_APP_JSON_URL}/category`,
+    `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
   );
+
+  // unique key
+  const uniqueCategoryNames = Array.from(
+    new Set(categories.map(c => c.category)),
+  );
+
+  const uniqueCategories = uniqueCategoryNames
+    .map(categoryName => categories.find(c => c.category === categoryName))
+    .filter(Boolean) as Category[];
 
   return (
-    <div className="mx-auto max-w-[1080px]">
-      {/* 배너 - ( 와이어프레임상) 1080 * 285 - 무한슬라이더*/}
-      <Banner />
+    <div className="w-[1920px] h-[1080px] mx-auto">
+      <div className="w-[1080px] mx-auto">
+        {/* 배너 - ( 와이어프레임상) 1080 * 285 - 무한슬라이더*/}
+        <HomeBanner />
 
-      <QuizCategorySection
-        title="🆕 이곳은 신규순 카테고리 자리에욤"
-        quiz={newQuiz}
-      />
+        <QuizCategorySection title="🆕 이곳은 신규순 자리에욤" quiz={newQuiz} />
 
-      <QuizCategorySection
-        title="🔥 이곳은 인기순 카테고리 자리에욤"
-        quiz={hotQuiz}
-      />
+        <QuizCategorySection title="🔥 이곳은 인기순 자리에욤" quiz={hotQuiz} />
 
-      <QuizCategorySection
-        title="👁‍🗨 이곳은 조회순 카테고리 자리에욤"
-        quiz={viewNum}
-      />
+        <QuizCategorySection title="👁‍🗨 이곳은 조회순 자리에욤" quiz={viewNum} />
 
-      {/* 여기서부터는 카테고리 별로 뿌려주는 섹션 - */}
-      <div className="mx-auto max-w-[1080px]">
-        {/* ... 기존 코드 */}
+        {/* 여기서부터는 카테고리 별로 뿌려주는 섹션 - */}
+        <div className="mx-auto max-w-[1080px]">
+          {/* 카테고리별 퀴즈 렌더링 */}
 
-        {/* 카테고리별 섹션 렌더링 */}
-        {categories &&
-          categories.map((categoryItem: Category) => {
-            // 해당 카테고리의 퀴즈만 필터링
-            const categoryQuizzes = quizzes.filter(
-              quiz => quiz.category === categoryItem.name,
+          {uniqueCategories?.map((categoryItem: Category) => {
+            const categoryQuizzes = allQuizzes?.filter(
+              (quiz: Quiz) => quiz.category === categoryItem.category,
             );
-
             return (
               <QuizCategorySection
-                key={categoryItem.id}
-                title={`😺 ${categoryItem.name}`}
+                key={categoryItem.category}
+                title={`😺 ${categoryItem.category}`}
                 quiz={categoryQuizzes}
               />
             );
           })}
+        </div>
       </div>
     </div>
   );
