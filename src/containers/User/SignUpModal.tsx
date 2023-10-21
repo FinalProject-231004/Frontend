@@ -1,10 +1,10 @@
-import { useRecoilState } from 'recoil';
-import { modalState } from '@/recoil/modalState';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { loginModalState, modalState } from '@/recoil/atoms/modalAtom';
 import Button from '@/components/common/Button';
 import Modal from '@/components/common/Modal';
 import UserInfoInput from '@/components/common//UserInfoInput';
 import { useEffect, useState } from 'react';
-import { userNickNameState } from '@/recoil/userNickNameState';
+import { userNickNameState } from '@/recoil/atoms/userNickNameAtom';
 import { postAPI } from '@/apis/axios';
 
 function SignUpModal() {
@@ -25,9 +25,7 @@ function SignUpModal() {
   const [pwCheckMessage, setPwCheckMessage] = useState('');
   const [allCheckMessag, setAllCheckMessag] = useState('');
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  const setLoginModal = useSetRecoilState(loginModalState);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -86,122 +84,128 @@ function SignUpModal() {
     if (isNickName) setNickNameMessage('');
   }, [isId, isPw, isNickName]);
 
+  useEffect(() =>{
+    if(!isOpen) {
+      setLoginModal(true);
+      idHandleChange('');
+      nameHandleChange('');
+      pwHandleChange('');
+      pwCheckHandleChange('');
+    }
+  },[isOpen])
+
   return (
     <>
-      <Button
-        size="small"
-        fontColor="navy"
-        BtnName="회원가입"
-        BtnBg="transperate"
-        BtnHoverBg=""
-        BtnActiveBg=""
-        borderRadius="18px"
-        onClick={openModal}
-      />
       <Modal
         onRequestClose={closeModal}
         width="713px"
         height="589px"
         bgColor="#0078FF"
       >
-        <div>
-          <UserInfoInput
-            type="text"
-            placeholder="아이디"
-            size={''}
-            focusBorderColor={''}
-            inputVal={idInput}
-            onChange={e => {
-              idHandleChange(e.target.value);
-              validateId(e.target.value);
-              setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
-              if (isId === true) setIdMessage('');
-            } } borderColor={''}  />
-          {idInput.length >= 0 && (
-            <div>
-              {/* <div className={`message ${validationClass(isId)}`}>
-                {idMessage}
-              </div> */}
-              {idMessage}
+        <div className='flex flex-col justify-around  items-center'>
+          <p className='my-[42px] text-[34px] text-white'>회원가입</p>
+
+          <div className='w-[530px] h-[350px] flex flex-col justify-between'>
+            <div className='flex justify-between'>
+              <div>
+                <UserInfoInput
+                  type="text"
+                  placeholder="아이디"
+                  size='medium'
+                  focusBorderColor={''}
+                  inputVal={idInput}
+                  onChange={e => {
+                    idHandleChange(e.target.value);
+                    validateId(e.target.value);
+                    setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
+                    if (isId === true) setIdMessage('');
+                  } } borderColor={''}  />
+                {idInput.length >= 0 && (
+                  <div className='mt-1 ml-1 text-[11.5px] text-white font-hairline'>
+                    {/* <div className={`message ${validationClass(isId)}`}>
+                      {idMessage}
+                    </div> */}
+                    {idMessage}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <UserInfoInput
+                  type="text"
+                  placeholder="닉네임"
+                  size='medium'
+                  focusBorderColor={''}
+                  inputVal={nickNameInput}
+                  onChange={e => {
+                    nameHandleChange(e.target.value);
+                    validateNickName(e.target.value);
+                    setNickNameMessage('한글 또는 숫자 포함 2자리 이상 5자리 이하'); // 한글,숫자,영문 소문자 하나 이상 조합(공백 )으로 변경
+                    if (isNickName === true) setNickNameMessage('');
+                  } } borderColor={''} />
+                {nickNameInput.length >= 0 && <div className='mt-1 ml-1 text-[11.5px] text-white font-hairline'>{nickNameMessage}</div>}
+              </div>
             </div>
-          )}
-        </div>
+            
+            <div>
+              <UserInfoInput
+                type="password"
+                placeholder="비밀번호"
+                size='large'
+                focusBorderColor={''}
+                inputVal={pwInput}
+                onChange={e => {
+                  pwHandleChange(e.target.value);
+                  validatePw(e.target.value);
+                  setPwMessage(
+                    '8자리 이상 20자리 이하에 영문/숫자/특수문자(공백 제외) 1가지 조합 이상 '
+                  ); //알파벳 대소문자 숫자 특수문자
+                  if (isPw === true) setPwMessage('');
+                } } borderColor={''} />
+              {pwInput.length >= 0 && <div className='mt-1 ml-1 text-[11.5px] text-white font-hairline'>{pwMessage}</div>}
+            </div>
 
-        <div>
-          <UserInfoInput
-            type="text"
-            placeholder="닉네임"
-            size={''}
-            focusBorderColor={''}
-            inputVal={nickNameInput}
-            onChange={e => {
-              nameHandleChange(e.target.value);
-              validateNickName(e.target.value);
-              setNickNameMessage('한글 또는 숫자 포함 2자리 이상 5자리 이하'); // 한글,숫자,영문 소문자 하나 이상 조합(공백 )으로 변경
-              if (isNickName === true) setNickNameMessage('');
-            } } borderColor={''} />
-          {nickNameInput.length >= 0 && <div>{nickNameMessage}</div>}
-        </div>
+            <div>
+              <UserInfoInput
+                type="password"
+                placeholder="비밀번호 확인"
+                size='large'
+                focusBorderColor={''}
+                inputVal={pwCheckInput}
+                onChange={e => {
+                  pwCheckHandleChange(e.target.value);
+                  validatepwCheck(e.target.value);
+                } } borderColor={''}          />
+              {pwCheckInput.length >= 0 && <div className='mt-1 ml-1 text-[11.5px] text-white font-hairline'>{pwCheckMessage}</div>}
+            </div>
 
-        <div>
-          <UserInfoInput
-            type="password"
-            placeholder="비밀번호"
-            size={''}
-            focusBorderColor={''}
-            inputVal={pwInput}
-            onChange={e => {
-              pwHandleChange(e.target.value);
-              validatePw(e.target.value);
-              setPwMessage(
-                '8자리 이상 20자리 이하에 영문/숫자/특수문자(공백 제외) 1가지 조합 이상 '
-              ); //알파벳 대소문자 숫자 특수문자
-              if (isPw === true) setPwMessage('');
-            } } borderColor={''} />
-          {pwInput.length >= 0 && <div>{pwMessage}</div>}
-        </div>
-
-        <div>
-          <UserInfoInput
-            type="password"
-            placeholder="비밀번호 확인"
-            size={''}
-            focusBorderColor={''}
-            inputVal={pwCheckInput}
-            onChange={e => {
-              pwCheckHandleChange(e.target.value);
-              validatepwCheck(e.target.value);
-            } } borderColor={''}          />
-          {pwCheckInput.length >= 0 && <div>{pwCheckMessage}</div>}
-        </div>
-
-        <div>{allCheckMessag}</div>
-
-        <Button
-          size={''}
-          fontColor={''}
-          BtnName="가입하기"
-          BtnBg="navy"
-          BtnHoverBg={''}
-          BtnActiveBg={''}
-          borderRadius={''}
-          onClick={() => {
-            if (
-              idInput === '' ||
-              nickNameInput === '' ||
-              pwInput === '' ||
-              pwCheckInput === ''
-            ) {
-              setAllCheckMessag('모든 정보를 입력해주세요.');
-              return;
-            }
-            if (!isId || !isNickName || !isPw || !isPwCheck) {
-              setAllCheckMessag('입력값을 확인해주세요.');
-              return;
-            }
-            signUp(data);
-          }}
-        />
+            <div className='text-xs text-center mb-2 text-white'>{allCheckMessag}</div>
+          </div>
+          
+          <Button
+              size='small'
+              fontColor='white'
+              fontSize='21px'
+              BtnName="가입하기"
+              BtnBg="navy"
+              BtnHoverBg={''}
+              BtnActiveBg={''}
+              borderRadius='28.5px'
+              onClick={() => {
+                if (idInput === '' ||
+                  nickNameInput === '' ||
+                  pwInput === '' ||
+                  pwCheckInput === '') {
+                  setAllCheckMessag('모든 정보를 입력해주세요.');
+                  return;
+                }
+                if (!isId || !isNickName || !isPw || !isPwCheck) {
+                  setAllCheckMessag('입력값을 확인해주세요.');
+                  return;
+                }
+                signUp(data);
+              } } />
+            </div>
       </Modal>
     </>
   );
