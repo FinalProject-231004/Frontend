@@ -7,8 +7,6 @@ import { uploadImageSelector } from '@/recoil/selectors/imageSelectors';
 interface QuestionItemProps {
   question: Question;
   index: number;
-  removeImage: (id: string) => void;
-  uploadImage: (id: string, file: File) => void;
   removeQuestion: (id: string) => void;
   setQuestions: (questions: Question[]) => void;
   questions: Question[];
@@ -25,7 +23,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-[12px] mt-2 px-3 py-1 bg-slate-100">
+      <div className="flex items-center justify-between mb-[12px] mt-8 px-3 py-1">
         <h3 className="text-[30px] text-blue font-tmoney font-extrabold">
           질문 {index + 1}
         </h3>
