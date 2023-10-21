@@ -14,15 +14,15 @@ export default function TokenRefresher() {
     const interceptor = axios.interceptors.response.use(
       // 성공적인 응답 처리
       response => {
-        console.log('Starting Request', response)
+        // console.log('Starting Request', response)
         return response;
       },
       async error => {
         const originalConfig = error.config; // 기존에 수행하려고 했던 작업
         const msg = error.response.data.msg; // error msg from backend
         const status = error.response.status; // 현재 발생한 에러 코드
-        console.log(error);
-        console.log(status, msg);
+        // console.log(error);
+        // console.log(status, msg);
         // access_token 재발급
         if (status === 401 ) {
           if(msg == "Expired Access Token. 토큰이 만료되었습니다.") {
@@ -72,8 +72,8 @@ export default function TokenRefresher() {
           }
         }
         else if(status == 400 || status == 404 || status == 409) {
-          // window.alert(msg);
-          console.log(msg)
+          // window.alert(msg); 
+          // console.log(msg)
         }
         console.error('Error response:', error);
         // 다른 모든 오류를 거부하고 처리

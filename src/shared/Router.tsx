@@ -6,8 +6,8 @@ import CreateQuizDetails from '@/pages/CreateQuizDetails';
 
 import Layout from '@/components/Layout/Layout';
 
-// import TokenRefresher from '@/apis/TokenRefresher';
-// import TokenTest from '@/apis/tokenTest';
+import TokenRefresher from '@/apis/TokenRefresher';
+// import Auth from '@/containers/User/Auth';
 
 // import MyPage from '@/pages/MyPage';
 // import QuizInfoEditor from '@/pages/QuizInfoEditor';
@@ -18,9 +18,10 @@ RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 const Router = () => {
   return (
     <BrowserRouter>
-      {/* <TokenRefresher /> */}
+      <TokenRefresher />
       <Layout>
         <Routes>
+          {/* <Route path="/api/member/kakao/callback" element={<Auth />} /> */}
           <Route path="/" element={<Home />} />
           <Route
             path="/create-quiz/questions"
