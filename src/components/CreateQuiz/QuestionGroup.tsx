@@ -1,33 +1,32 @@
 import { useRecoilState } from 'recoil';
-import { questionAtoms } from '@/recoil/atoms/questionAtoms';
+import { questionAtom } from '@/recoil/atoms/questionAtom';
 import QuestionItem from '@/components/CreateQuiz/QuestionItem';
 import ChoiceItem from '@/components/CreateQuiz/ChoiceItem';
 import { useChoiceActions } from '@/hooks/useChoiceActions';
 import { useQuestionActions } from '@/hooks/useQuestionActions';
 import { useNavigate } from 'react-router-dom';
-import CustomModal from '@/components/Modal/CustomModal';
+import CustomModal from '@/components/CreateQuiz/WarningModal';
 import useModalState from '@/hooks/useModalState';
 
 const QuestiontGroup: React.FC = () => {
-  const [questions, setQuestions] = useRecoilState(questionAtoms);
-  const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
-  const { addQuestion, removeQuestion } = useQuestionActions();
+  const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
   const choiceModal = useModalState();
   const questionModal = useModalState();
   const warningModal = useModalState();
   const completionModal = useModalState();
+  const { addChoice, removeChoice, handleChoiceCheck } =
+    useChoiceActions(choiceModal);
+  const { addQuestion, removeQuestion } = useQuestionActions(questionModal);
 
   // 퀴즈 제출 전 검수
   const checkForIncompleteData = () => {
     for (const question of questions) {
-      // const를 사용하도록 변경
       if (question.text.trim() === '') return true;
 
       let isCorrectExists = false;
 
       for (const choice of question.choices) {
-        // const를 사용하도록 변경
         if (choice.text.trim() === '') return true;
         if (choice.isAnswer) isCorrectExists = true;
       }
@@ -41,19 +40,11 @@ const QuestiontGroup: React.FC = () => {
     e.preventDefault();
 
     if (checkForIncompleteData()) {
-      warningModal.open(); // 수정된 부분
+      warningModal.open();
     } else {
-      completionModal.open(); // 수정된 부분
+      completionModal.open();
     }
   };
-
-  function uploadImage() {
-    throw new Error('Function not implemented.');
-  }
-
-  function removeImage() {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <div>
@@ -66,12 +57,10 @@ const QuestiontGroup: React.FC = () => {
             removeQuestion={removeQuestion}
             setQuestions={setQuestions}
             questions={questions}
-            uploadImage={uploadImage}
-            removeImage={removeImage}
           />
           {question.image?.preview && (
             <div
-              className="w-[600px] h-[400px] mx-auto mt-[10px] mb-[20px] border-4 border-blue rounded-2xl bg-cover bg-center"
+              className="w-1080px] h-[600px] mx-auto mt-[10px] mb-[20px] border-4 border-blue rounded-2xl bg-cover bg-center"
               style={{ backgroundImage: `url(${question.image.preview})` }}
             ></div>
           )}
@@ -107,7 +96,6 @@ const QuestiontGroup: React.FC = () => {
       >
         + 질문 추가하기
       </button>
-      {/* 선택지, 질문 모달 급 안뜸 ㅠㅠ 일단 패스 */}
       <div>
         <CustomModal
           isOpen={choiceModal.isOpen}

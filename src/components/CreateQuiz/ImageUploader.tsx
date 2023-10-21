@@ -17,21 +17,27 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
         toast.error('5MB 이하만 업로드 가능해요 🙇‍♀️');
-
+        return;
+      }
+      if (
+        !['image/jpeg', 'image/jpg', 'image/png', 'image/bmp'].includes(
+          file.type,
+        )
+      ) {
+        toast.error('지원하지 않는 파일 형식입니다!');
         return;
       }
       uploadImage(question.id, file);
     }
   };
-
   return (
     <div>
       <button
         className={`w-[128px] h-[37px] rounded-[6px] ${
           question.image?.file ? 'bg-[#FF6347]' : 'bg-navy'
-        } hover:border-4 hover:${
-          question.image?.file ? 'border-[#FF6347]' : 'border-[#FF6347]'
-        } active:scale-105 transition-transform  duration-200`}
+        } hover:border  hover:${
+          question.image?.file ? 'border-[#FF6347]' : 'border-navy'
+        } active:scale-105 transition-transform  duration-2000`}
         onClick={() => {
           if (question.image?.file) {
             removeImage(question.id);
@@ -51,12 +57,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         id={`image-upload-${question.id}`}
         style={{ display: 'none' }}
       />
-      {/* {question.image?.preview && (
-        <div
-          className="w-[600px] h-[400px] mx-auto mt-[10px] mb-[20px] border-4 border-blue rounded-2xl bg-cover bg-center"
-          style={{ backgroundImage: `url(${question.image.preview})` }}
-        ></div>
-      )} */}
     </div>
   );
 };
