@@ -1,6 +1,6 @@
 import Modal from 'react-modal';
 
-type CustomModalProps = {
+type WarningModalProps = {
   isOpen: boolean;
   onRequestClose: () => void;
   title: string;
@@ -8,7 +8,7 @@ type CustomModalProps = {
   buttons: React.ReactNode;
 };
 
-const CustomModal: React.FC<CustomModalProps> = ({
+const WarningModal: React.FC<WarningModalProps> = ({
   isOpen,
   onRequestClose,
   title,
@@ -39,4 +39,4 @@ const CustomModal: React.FC<CustomModalProps> = ({
   </Modal>
 );
 
-export default CustomModal;
+export default WarningModal;

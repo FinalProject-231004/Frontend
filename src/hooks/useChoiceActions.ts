@@ -1,11 +1,15 @@
 import { useRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
-import { questionAtoms } from '@/recoil/atoms/questionAtoms';
-import useModalState from '@/hooks/useModalState';
+import { questionAtom } from '@/recoil/atoms/questionAtom';
 
-export const useChoiceActions = () => {
-  const [questions, setQuestions] = useRecoilState(questionAtoms);
-  const choiceModal = useModalState();
+type WarningModalType = {
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+};
+
+export const useChoiceActions = (choiceModal: WarningModalType) => {
+  const [questions, setQuestions] = useRecoilState(questionAtom);
 
   const addChoice = (questionId: string) => {
     const newChoiceId = uuidv4();
