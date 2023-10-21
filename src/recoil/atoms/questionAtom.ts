@@ -2,8 +2,8 @@ import { atom } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 import { Question } from '@/types/questionTypes';
 
-export const questionAtoms = atom<Question[]>({
-  key: 'questionAtoms',
+export const questionAtom = atom<Question[]>({
+  key: 'questionAtom',
   default: [
     {
       id: uuidv4(),

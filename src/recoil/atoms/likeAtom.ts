@@ -6,7 +6,7 @@ export const likedState = atom<Record<number, number>>({
   default: {},
 });
 
-export const likesState = atom<number[]>({
+export const likesState = atom<Record<number, number>>({
   key: 'likesState',
-  default: [],
+  default: {},
 });
