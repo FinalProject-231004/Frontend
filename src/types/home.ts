@@ -13,15 +13,19 @@ export type Quiz = {
   username: string;
 };
 
-export type QuizThumbnailProps = {
-  quiz: Quiz;
-};
-
-export type QuizCategorySectionProps = {
-  title: string;
-  quiz: Quiz[] | null;
-};
-
 export type Category = {
   category: string;
 };
+
+export type QuizThumbnailProps = {
+  quiz: Quiz;
+};
+export interface QuizCategorySectionProps {
+  title: string;
+  quiz: Quiz[];
+}
+
+export interface LikesState {
+  id: number;
+  likes: number;
+}
