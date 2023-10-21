@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import { useRecoilState } from 'recoil';
-import { modalState } from '@/recoil/modalState';
+import { modalState } from '@/recoil/atoms/modalAtom';
 
 interface ModalProps {
   children: React.ReactNode;

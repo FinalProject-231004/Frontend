@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 type ButtonsProps = {
   size: string;
   fontColor: string;
+  fontSize: string;
   BtnName: string | JSX.Element;
   BtnBg: string;
   BtnHoverBg: string;
@@ -16,6 +17,7 @@ type ButtonsProps = {
 export default function CustomizedButtons({
   size,
   fontColor,
+  fontSize,
   BtnName,
   BtnBg,
   BtnHoverBg,
@@ -28,14 +30,14 @@ export default function CustomizedButtons({
 
   // 아직 디자인이 확정되지 않아 필요에 따라 수정하기
   if (size === 'small') {
-    width = '100px';
-    height = '40px';
+    width = '146px';
+    height = '57px';
   } else if (size === 'medium') {
     width = '150px';
     height = '40px';
   } else if (size === 'large') {
-    width = '200px';
-    height = '40px';
+    width = '530px';
+    height = '57px';
   } else if (size === 'pull') {
     width = '1080px';
     height = '40px';
@@ -47,6 +49,7 @@ export default function CustomizedButtons({
         width={width}
         height={height}
         fontColor={fontColor}
+        fontSize={fontSize}
         BtnBg={BtnBg}
         borderRadius={borderRadius}
         BtnHoverBg={BtnHoverBg}
@@ -64,6 +67,7 @@ const ColorButton = styled(Button)<{
   width: string;
   height: string;
   fontColor: string;
+  fontSize: string;
   BtnBg: string;
   borderRadius: string;
   BtnHoverBg: string;
@@ -74,7 +78,7 @@ const ColorButton = styled(Button)<{
   color: props.fontColor,
   backgroundColor: props.BtnBg,
   borderRadius: props.borderRadius,
-  fontSize: 16,
+  fontSize: props.fontSize,
   boxShadow: 'none',
   textTransform: 'none',
   '&:hover': {

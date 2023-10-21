@@ -20,7 +20,7 @@ function UserInfoInput({ inputVal, onChange, type, placeholder, size, focusBorde
 
   // 아직 디자인이 확정되지 않아 필요에 따라 수정하기
   if (size === 'medium') {
-    widthClass = 'w-[225px]'; // 수정 필요
+    widthClass = 'w-[255px]'; // 수정 필요
   } else if (size === 'large') {
     widthClass = 'w-[530px]'; // 수정 필요
   } 
@@ -29,7 +29,7 @@ function UserInfoInput({ inputVal, onChange, type, placeholder, size, focusBorde
 
   return (
     <form className="w-full">
-      <div className="md:flex md:items-center mb-[22px]">
+      <div className="md:flex md:items-center">
         <div className="md:w-2/3">
           <input
             className={`h-[72px] bg-white appearance-none border-2  rounded-[12px] py-2 px-4 text-gray-700 text-[24px] leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}

@@ -1,6 +1,6 @@
 // import SignUpModal from '../SignUpModal'
 import SignInModal from '@/containers/User/SigninModal';
-import { isLoggedInState } from '@/recoil/loggedHeaderState';
+import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import { Link } from 'react-router-dom'
 import {  useRecoilValue } from 'recoil';
 import LoggedInHeader from './LoggedInHeader';

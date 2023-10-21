@@ -1,4 +1,4 @@
-import { isLoggedInState } from '@/recoil/loggedHeaderState';
+import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import { useSetRecoilState } from 'recoil';
 import * as React from 'react';
 import Box from '@mui/material/Box';
