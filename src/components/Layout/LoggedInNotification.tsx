@@ -19,6 +19,7 @@ type Notification = {
 export default function LoggedInNotification() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null); // 사용자 메뉴를 표시
   const [notification, setNotification] = useState<Notification[]>([]);
+  const [haveNotification, setHaveNotification] = useState(false);
 
   // const navigate = useNavigate();
 
@@ -46,7 +47,7 @@ export default function LoggedInNotification() {
   };
   
   // 시간 구하기
-  let result = '';
+  let timeReceived = '';
   notification.map((note) => {
     const now = new Date();
     const postedDate = new Date(note.created_at);
@@ -58,19 +59,24 @@ export default function LoggedInNotification() {
     const differenceInDays = Math.floor(differenceInHours / 24);
 
     if (differenceInDays > 0) {
-        result = `${differenceInDays}일 전`;
+        timeReceived = `${differenceInDays}일 전`;
     } else if (differenceInHours > 0) {
-        result = `${differenceInHours % 24}시간 전`;
+        timeReceived = `${differenceInHours % 24}시간 전`;
     } else {
         // 10단위로 반올림
         const roundedMinutes = Math.round(differenceInMinutes / 10) * 10;
-        result = `${roundedMinutes}분 전`;
+        timeReceived = `${roundedMinutes}분 전`;
     }
 });
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
     getNotification();
+    if(notification.length == 0) {
+      setAnchorElUser(null);
+    } else {
+      setHaveNotification(true);
+      setAnchorElUser(event.currentTarget);
+    }
   };
 
   const handleCloseUserMenu = () => {
@@ -80,7 +86,7 @@ export default function LoggedInNotification() {
   return (
         <>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title={haveNotification ? 'Check it out' : 'Nothing'}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size="large" aria-label="show new notifications" color="inherit">
                 <Badge badgeContent={notification.length} color="error">
                   <NotificationsIcon />
@@ -111,14 +117,14 @@ export default function LoggedInNotification() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <div className='w-[px] h-[324px] py-[23px] px-[10px] bg-[#FAFAFA] border-[1.5px] border-solid rounded-md border-black'>
+              <div className='w-[448px] h-[324px] py-[23px] px-[10px] bg-[#FAFAFA] border-[1.5px] border-solid rounded-md border-black'>
                 {notification.map((note, index) => {
                   const isFirstItem = index === 0;
                   return(
                     <MenuItem className='w-full' onClick={handleCloseUserMenu}> 
                       <Typography className={`flex justify-between border-b-2 w-[416px] pb-[8px] ${isFirstItem ? 'border-navy' : 'border-blue'}`} textAlign="center">
                         <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{note.content}</p>
-                        <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{result}</p>
+                        <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{timeReceived}</p>
                       </Typography>
                     </MenuItem>
                   )
