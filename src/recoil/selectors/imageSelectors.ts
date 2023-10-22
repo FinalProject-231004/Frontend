@@ -20,9 +20,7 @@ export const uploadImageSelector = selector<ImageActions>({
 
     const removeImage = (questionId: string) => {
       return questions.map(q =>
-        q.id === questionId
-          ? { ...q, image: { file: null, preview: null } }
-          : q,
+        q.id === questionId ? { ...q, image: { ...q, image: null } } : q,
       );
     };
 

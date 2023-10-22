@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Quiz } from '@/types/home';
 
-const useFetchQuiz = (url: string) => {
+export const useFetchQuiz = (url: string) => {
   const [quiz, setQuiz] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<AxiosError | null>(null);

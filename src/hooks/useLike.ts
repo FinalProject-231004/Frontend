@@ -1,4 +1,3 @@
-// hooks/useLike.ts
 import { useRecoilState } from 'recoil';
 import { likesState, likedState } from '@/recoil/atoms/likeAtom';
 import { useToggleLikeMutation } from '@/apis/likeAPI';
