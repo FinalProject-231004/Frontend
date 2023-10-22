@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { QuizData } from '@/types/home';
+import { Quiz } from '@/types/home';
 
-const useFetchQuiz = (url: string) => {
-  const [quiz, setQuiz] = useState<QuizData[]>([]);
+export const useFetchQuiz = (url: string) => {
+  const [quiz, setQuiz] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<AxiosError | null>(null); // 상태 타입을 AxiosError로 수정
+  const [error, setError] = useState<AxiosError | null>(null);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -15,8 +15,7 @@ const useFetchQuiz = (url: string) => {
         setLoading(false);
       } catch (error) {
         console.error(`Error fetching quiz from ${url}:`, error);
-        setError(error as AxiosError); // 에러 타입을 AxiosError로 변환
-        setLoading(false);
+        setError(error as AxiosError);
       }
     };
 

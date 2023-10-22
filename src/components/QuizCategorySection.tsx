@@ -6,7 +6,7 @@ const QuizCategorySection: React.FC<QuizCategorySectionProps> = ({
   title,
   quiz,
 }) => {
-  const displayedQuiz = quiz.slice(0, 6);
+  const displayedQuiz = quiz ? quiz.slice(0, 6) : [];
 
   return (
     <div>

@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RecoilEnv } from 'recoil';
 import Home from '@/pages/Home';
 import CreateQuizQuestions from '@/pages/CreateQuizQuestions';
+import CreateQuizDetails from '@/pages/CreateQuizDetails';
+
 import Layout from '@/components/Layout/Layout';
 
 import TokenRefresher from '@/apis/TokenRefresher';
@@ -16,12 +18,16 @@ RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 const Router = () => {
   return (
     <BrowserRouter>
+      <TokenRefresher />
       <Layout>
-        <TokenRefresher />
         <Routes>
           {/* <Route path="/api/member/kakao/callback" element={<Auth />} /> */}
           <Route path="/" element={<Home />} />
-          <Route path="/quizquestions" element={<CreateQuizQuestions />} />
+          <Route
+            path="/create-quiz/questions"
+            element={<CreateQuizQuestions />}
+          />
+          <Route path="/create-quiz/details" element={<CreateQuizDetails />} />
           {/* <Route path="/mypage" element={<MyPage />} />
           <Route path="/quizdetail" element={<QuizDetail />} /> */}
         </Routes>

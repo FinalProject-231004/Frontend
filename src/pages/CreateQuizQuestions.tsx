@@ -1,12 +1,10 @@
-import QuestionGroup from '@/components/CreateQuiz/QuestionGroup';
+import CreateQuestionGroup from '@/components/CreateQuiz/CreateQuestionGroup';
 
 const CreateQuizQuestions: React.FC = () => {
   return (
     <div className="max-w-[1080px] mx-auto">
-      <h2 className="text-center mt-[150px] mb-[75px] text-[32px] font-extrabold text-blue">
-        퀴즈 만들기
-      </h2>
-      <QuestionGroup />
+      <h2 className="title">퀴즈 만들기</h2>
+      <CreateQuestionGroup />
     </div>
   );
 };

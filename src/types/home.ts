@@ -3,7 +3,7 @@ export type Banner = {
   category: string;
 };
 
-export type QuizData = {
+export type Quiz = {
   id: number;
   viewNum: number;
   likes: number;
@@ -13,16 +13,19 @@ export type QuizData = {
   username: string;
 };
 
-export type QuizThumbnailProps = {
-  quiz: QuizData;
-};
-
-export type QuizCategorySectionProps = {
-  title: string;
-  quiz: QuizData[];
-};
-
 export type Category = {
-  id: number;
-  name: string;
+  category: string;
 };
+
+export type QuizThumbnailProps = {
+  quiz: Quiz;
+};
+export interface QuizCategorySectionProps {
+  title: string;
+  quiz: Quiz[];
+}
+
+export interface LikesState {
+  id: number;
+  likes: number;
+}

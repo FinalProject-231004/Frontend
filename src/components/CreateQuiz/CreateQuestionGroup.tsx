@@ -1,59 +1,41 @@
 import { useRecoilState } from 'recoil';
-import { questionAtoms } from '@/recoil/atoms/questionAtoms';
-import QuestionItem from '@/components/CreateQuiz/QuestionItem';
-import ChoiceItem from '@/components/CreateQuiz/ChoiceItem';
-import { useChoiceActions } from '@/hooks/useChoiceActions';
-import { useQuestionActions } from '@/hooks/useQuestionActions';
-import { useNavigate } from 'react-router-dom';
-import CustomModal from '@/components/Modal/CustomModal';
-import useModalState from '@/hooks/useModalState';
+import { questionAtom } from '@/recoil/atoms/questionAtom';
+import { useNavigate } from 'react-router';
+import {
+  QuestionItem,
+  ChoiceItem,
+  WarningModal,
+} from '@/components/CreateQuiz';
+import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
 
-const QuestiontGroup: React.FC = () => {
-  const [questions, setQuestions] = useRecoilState(questionAtoms);
-  const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
-  const { addQuestion, removeQuestion } = useQuestionActions();
+const CreateQuestionGroup: React.FC = () => {
+  const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
   const choiceModal = useModalState();
   const questionModal = useModalState();
   const warningModal = useModalState();
   const completionModal = useModalState();
+  const { addChoice, removeChoice, handleChoiceCheck } =
+    useChoiceActions(choiceModal);
+  const { addQuestion, removeQuestion } = useQuestionActions(questionModal);
 
   // 퀴즈 제출 전 검수
   const checkForIncompleteData = () => {
-    for (const question of questions) {
-      // const를 사용하도록 변경
-      if (question.text.trim() === '') return true;
-
-      let isCorrectExists = false;
-
-      for (const choice of question.choices) {
-        // const를 사용하도록 변경
-        if (choice.text.trim() === '') return true;
-        if (choice.isAnswer) isCorrectExists = true;
-      }
-
-      if (!isCorrectExists) return true;
-    }
-    return false;
+    return questions.some(question => {
+      if (!question.text.trim()) return true;
+      const isCorrectExists = question.choices.some(
+        choice => choice.isAnswer && choice.text.trim(),
+      );
+      return (
+        !isCorrectExists || question.choices.some(choice => !choice.text.trim())
+      );
+    });
   };
 
   const handleCompleteClick = (e: React.MouseEvent) => {
     e.preventDefault();
-
-    if (checkForIncompleteData()) {
-      warningModal.open(); // 수정된 부분
-    } else {
-      completionModal.open(); // 수정된 부분
-    }
+    (checkForIncompleteData() ? warningModal : completionModal).open();
   };
-
-  function uploadImage() {
-    throw new Error('Function not implemented.');
-  }
-
-  function removeImage() {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <div>
@@ -66,15 +48,7 @@ const QuestiontGroup: React.FC = () => {
             removeQuestion={removeQuestion}
             setQuestions={setQuestions}
             questions={questions}
-            uploadImage={uploadImage}
-            removeImage={removeImage}
           />
-          {question.image?.preview && (
-            <div
-              className="w-[600px] h-[400px] mx-auto mt-[10px] mb-[20px] border-4 border-blue rounded-2xl bg-cover bg-center"
-              style={{ backgroundImage: `url(${question.image.preview})` }}
-            ></div>
-          )}
           {question.choices.map(choice => (
             <ChoiceItem
               key={choice.id}
@@ -107,9 +81,9 @@ const QuestiontGroup: React.FC = () => {
       >
         + 질문 추가하기
       </button>
-      {/* 선택지, 질문 모달 급 안뜸 ㅠㅠ 일단 패스 */}
       <div>
-        <CustomModal
+        {/* 추후 모달관련 로직 따로 분리하기 */}
+        <WarningModal
           isOpen={choiceModal.isOpen}
           onRequestClose={choiceModal.close}
           title="⚠"
@@ -117,7 +91,7 @@ const QuestiontGroup: React.FC = () => {
           buttons={<button onClick={choiceModal.close}>확인</button>}
         />
 
-        <CustomModal
+        <WarningModal
           isOpen={questionModal.isOpen}
           onRequestClose={questionModal.close}
           title="⚠"
@@ -125,7 +99,7 @@ const QuestiontGroup: React.FC = () => {
           buttons={<button onClick={questionModal.close}>확인</button>}
         />
 
-        <CustomModal
+        <WarningModal
           isOpen={warningModal.isOpen}
           onRequestClose={warningModal.close}
           title="⚠"
@@ -133,7 +107,7 @@ const QuestiontGroup: React.FC = () => {
           buttons={<button onClick={warningModal.close}>닫기</button>}
         />
 
-        <CustomModal
+        <WarningModal
           isOpen={completionModal.isOpen}
           onRequestClose={completionModal.close}
           title="⚠"
@@ -172,4 +146,4 @@ const QuestiontGroup: React.FC = () => {
   );
 };
 
-export default QuestiontGroup;
+export default CreateQuestionGroup;
