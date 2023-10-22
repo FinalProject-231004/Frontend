@@ -1,14 +1,16 @@
-import { Question } from '@/types/questionTypes';
 import { toast } from 'react-toastify';
+import { ImageInfo } from '@/types/questionTypes';
 
 interface ImageUploaderProps {
-  question: Question;
+  id: string;
+  image: ImageInfo | null | undefined;
+  uploadImage: (file: File, questionId: string) => void;
   removeImage: (questionId: string) => void;
-  uploadImage: (id: string, file: File) => void;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
-  question,
+  id,
+  image,
   removeImage,
   uploadImage,
 }) => {
@@ -27,34 +29,35 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         toast.error('지원하지 않는 파일 형식입니다!');
         return;
       }
-      uploadImage(question.id, file);
+      uploadImage(file, id);
     }
   };
   return (
     <div>
       <button
+        type="button"
         className={`w-[128px] h-[37px] rounded-[6px] ${
-          question.image?.file ? 'bg-[#FF6347]' : 'bg-navy'
+          image?.file ? 'bg-[#FF6347]' : 'bg-navy'
         } hover:border  hover:${
-          question.image?.file ? 'border-[#FF6347]' : 'border-navy'
+          image?.file ? 'border-[#FF6347]' : 'border-navy'
         } active:scale-105 transition-transform  duration-2000`}
         onClick={() => {
-          if (question.image?.file) {
-            removeImage(question.id);
+          if (image?.file) {
+            removeImage(id);
           } else {
-            document.getElementById(`image-upload-${question.id}`)?.click();
+            document.getElementById(`image-upload-${id}`)?.click();
           }
         }}
       >
-        <p className="font-tmoney text-xl">
-          {question.image?.file ? '이미지삭제' : '이미지추가'}
+        <p className="font-tmoney text-xl text-white">
+          {image?.file ? '이미지삭제' : '이미지추가'}
         </p>
       </button>
       <input
         type="file"
         accept=".jpg, .jpeg, .png, .bmp"
         onChange={handleImageChange}
-        id={`image-upload-${question.id}`}
+        id={`image-upload-${id}`}
         style={{ display: 'none' }}
       />
     </div>
