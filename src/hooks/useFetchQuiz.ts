@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { Quiz } from '@/types/home';
+import { Quiz } from '@/types/homeQuiz';
 
 export const useFetchQuiz = (url: string) => {
   const [quiz, setQuiz] = useState<Quiz[]>([]);
@@ -14,7 +14,7 @@ export const useFetchQuiz = (url: string) => {
         setQuiz(response.data);
         setLoading(false);
       } catch (error) {
-        console.error(`Error fetching quiz from ${url}:`, error);
+        console.error(`${url}로부터 퀴즈 가져오는데 실패함 💩:`, error);
         setError(error as AxiosError);
       }
     };

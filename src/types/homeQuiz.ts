@@ -5,12 +5,12 @@ export type Banner = {
 
 export type Quiz = {
   id: number;
-  viewNum: number;
+  viewCount: number;
   likes: number;
   category: string;
   title: string;
   image: string;
-  username: string;
+  nickname: string;
 };
 
 export type Category = {

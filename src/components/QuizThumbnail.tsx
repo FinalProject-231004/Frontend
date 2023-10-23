@@ -1,33 +1,37 @@
 import React from 'react';
-import { QuizThumbnailProps } from '@/types/home';
+import { QuizThumbnailProps } from '@/types/homeQuiz';
 import { BiLike, BiSolidLike } from 'react-icons/bi';
 import { FaRegEye } from 'react-icons/fa';
-import { useLike } from '@/hooks/useLike';
+import { useLike } from '@/hooks';
 
 const QuizThumbnail: React.FC<QuizThumbnailProps> = ({ quiz }) => {
-  const { isLiked, likes, handleLike } = useLike(quiz.id);
+  const { isLiked, likes, handleLike, isLoading } = useLike(
+    quiz.id,
+    quiz.likes,
+  );
 
   return (
     <div className="w-[347px]">
-      <h4 className="hidden">{quiz.category}</h4>
-      <h4 className="text-lg mt-2">{quiz.title}</h4>
       <img
         src={quiz.image}
         alt={quiz.title}
         className="h-[185px] w-full object-cover"
       />
       <div className="flex mt-2 justify-between">
-        <div>{quiz.username}</div>
+        <h4 className="text-lg mt-2">{quiz.title}</h4>
 
-        <button onClick={handleLike}>
-          {isLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />}
-          {likes || 0}
-        </button>
-
-        <button>
-          <FaRegEye size={25} />
-          {quiz.viewNum}
-        </button>
+        <div className="flex gap-5">
+          <div>
+            <button type="button" onClick={handleLike} disabled={isLoading}>
+              {isLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />}
+            </button>
+            {likes}
+          </div>
+          <div>
+            <FaRegEye size={25} />
+            {quiz.viewCount}
+          </div>
+        </div>
       </div>
     </div>
   );
