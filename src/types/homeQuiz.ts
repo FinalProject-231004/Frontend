@@ -29,3 +29,29 @@ export interface LikesState {
   id: number;
   likes: number;
 }
+
+export type QuizThumbnailModalProps = {
+  quiz: QuizThumbNailModal;
+  onClose: () => void;
+};
+
+export type QuizThumbNailModal = {
+  id: number;
+  title: 'string';
+  username: 'string';
+  image: 'string';
+  viewCount: number;
+  likes: number;
+  createdTime: 'string';
+  category: 'string';
+  content: 'string';
+  comments: [
+    {
+      id: number;
+      comment: 'string';
+      complainInt: number;
+      memberId: number;
+      nickname: 'string';
+    },
+  ];
+};
