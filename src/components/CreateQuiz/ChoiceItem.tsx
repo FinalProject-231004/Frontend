@@ -2,20 +2,7 @@ import React from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import { BsCheckCircle, BsCheckCircleFill } from 'react-icons/bs';
 import { AiOutlinePlus, AiOutlineClose } from 'react-icons/ai';
-import { Choice } from '@/types/questionTypes';
-
-interface ChoiceItemProps {
-  choice: Choice;
-  questionId: string;
-  handleChoiceCheck: (questionId: string, choiceId: string) => void;
-  handleChoiceChange: (
-    questionId: string,
-    choiceId: string,
-    text: string,
-  ) => void;
-  addChoice: (questionId: string) => void;
-  removeChoice: (questionId: string, choiceId: string) => void;
-}
+import { ChoiceItemProps } from '@/types/questionTypes';
 
 const ChoiceItem: React.FC<ChoiceItemProps> = ({
   choice,
