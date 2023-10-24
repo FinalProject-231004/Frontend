@@ -1,16 +1,8 @@
-import { Question } from '@/types/questionTypes';
+import { QuestionItemProps } from '@/types/questionTypes';
 import { BsFillTrashFill } from 'react-icons/bs';
 import ImageUploader from './ImageUploader';
 import { useRecoilValue } from 'recoil';
 import { uploadImageSelector } from '@/recoil/selectors/imageSelectors';
-
-interface QuestionItemProps {
-  question: Question;
-  index: number;
-  removeQuestion: (id: string) => void;
-  setQuestions: (questions: Question[]) => void;
-  questions: Question[];
-}
 
 const QuestionItem: React.FC<QuestionItemProps> = ({
   question,

@@ -36,7 +36,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     <div>
       <button
         type="button"
-        className={`w-[128px] h-[37px] rounded-[6px] ${
+        className={`w-[128px] h-[37px] rounded-[6px] shadow-md shadow-slate-200 ${
           image?.file ? 'bg-[#FF6347]' : 'bg-navy'
         } hover:border  hover:${
           image?.file ? 'border-[#FF6347]' : 'border-navy'
