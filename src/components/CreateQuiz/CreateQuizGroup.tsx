@@ -26,6 +26,16 @@ const CreateQuizGroup: React.FC = () => {
     toast.success('이미지 업로드 성공!😎');
   };
 
+  // 퀴즈 정보를 JSON으로 변환하여 formData에 추가
+  const requestDto = {
+    title: quiz.title || '',
+    category: selectedCategory || '',
+    content: quiz.content || '',
+  };
+  const blob = new Blob([JSON.stringify(requestDto)], {
+    type: 'application/json',
+  });
+
   // 퀴즈 정보를 서버에 전송하는 함수
   const submitQuiz = async () => {
     try {
@@ -34,18 +44,13 @@ const CreateQuizGroup: React.FC = () => {
       // 이미지 파일이 있으면 formData에 추가
       if (quiz.image && quiz.image.file) {
         formData.append('image', quiz.image.file);
+        formData.append('requestDto', blob);
       }
 
-      // 퀴즈 정보를 JSON으로 변환하여 formData에 추가
-      const requestDto = {
-        title: quiz.title || '',
-        category: selectedCategory || '',
-        content: quiz.content || '',
-      };
-      formData.append(
-        'requestDto',
-        new Blob([JSON.stringify(requestDto)], { type: 'application/json' }),
-      );
+      // formData.append(
+      //   'requestDto',
+      //   new Blob([JSON.stringify(requestDto)], { type: 'application/json' }),
+      // );
 
       // 요청 전송
       const response = await fetch(
@@ -53,6 +58,9 @@ const CreateQuizGroup: React.FC = () => {
         {
           method: 'POST',
           body: formData,
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+          },
         },
       );
 
