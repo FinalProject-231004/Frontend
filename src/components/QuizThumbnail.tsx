@@ -1,33 +1,49 @@
 import React from 'react';
-import { QuizThumbnailProps } from '@/types/home';
+import { QuizThumbnailProps } from '@/types/homeQuiz';
 import { BiLike, BiSolidLike } from 'react-icons/bi';
 import { FaRegEye } from 'react-icons/fa';
-import { useLike } from '@/hooks/useLike';
+import { useLike } from '@/hooks';
+import QuizThumbnailModal from './QuizThumbnailModal';
 
 const QuizThumbnail: React.FC<QuizThumbnailProps> = ({ quiz }) => {
-  const { isLiked, likes, handleLike } = useLike(quiz.id);
+  const { isLiked, likes, handleLike } = useLike(quiz.id, quiz.likes);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const handleImageClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="w-[347px]">
-      <h4 className="hidden">{quiz.category}</h4>
-      <h4 className="text-lg mt-2">{quiz.title}</h4>
       <img
+        className="h-[185px] w-full object-cover "
         src={quiz.image}
         alt={quiz.title}
-        className="h-[185px] w-full object-cover"
+        onClick={handleImageClick}
       />
-      <div className="flex mt-2 justify-between">
-        <div>{quiz.username}</div>
+      <div className="flex mt-2 mb-8  justify-between items-center">
+        <h4 className="text-lg mt-2 font-extrabold">{quiz.title}</h4>
 
-        <button onClick={handleLike}>
-          {isLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />}
-          {likes || 0}
-        </button>
-
-        <button>
-          <FaRegEye size={25} />
-          {quiz.viewNum}
-        </button>
+        <div className="flex gap-5 text-[18px]">
+          <button
+            className="flex items-center gap-1"
+            type="button"
+            onClick={handleLike}
+          >
+            {isLiked ? <BiSolidLike size={20} /> : <BiLike size={20} />}
+            {likes}
+          </button>
+          <div className="flex items-center gap-1">
+            <FaRegEye size={20} />
+            {quiz.viewCount}
+          </div>
+          {isModalOpen && (
+            <QuizThumbnailModal
+              quiz={quiz}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
