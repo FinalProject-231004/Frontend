@@ -1,22 +1,10 @@
 import { useEffect, useRef } from 'react';
+import { categories } from '@/constants/categories';
+
 interface CategoryButtonProps {
   selectedCategory: string | null;
   onCategoryClick: (category: string) => void;
 }
-
-const categories = [
-  { displayName: '영화/TV', value: 'MOVIE_TV' },
-  { displayName: '만화', value: 'CARTOON' },
-  { displayName: '게임', value: 'GAME' },
-  { displayName: 'IQ테스트', value: 'IQ_TEST' },
-  { displayName: '인물', value: 'PERSON' },
-  { displayName: '상식', value: 'COMMON_SENSE' },
-  { displayName: '음식', value: 'FOOD' },
-  { displayName: '스포츠', value: 'SPORT' },
-  { displayName: '동물', value: 'ANIMAL' },
-  { displayName: '기타', value: 'ETC' },
-];
-
 const CategoryButton: React.FC<CategoryButtonProps> = ({
   selectedCategory,
   onCategoryClick,
@@ -43,7 +31,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
       <h3>
         나의 퀴즈 카테고리는:{' '}
         <span className="font-extrabold underline">
-          {categories.find(cat => cat.value === selectedCategory)
+          {categories.find(cat => cat.category === selectedCategory)
             ?.displayName || ''}
         </span>
       </h3>
@@ -53,9 +41,9 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
       >
         {categories.map(category => (
           <div
-            key={category.value}
+            key={category.category}
             className="w-[147px] h-[72px] my-5 border-2 text-xl flex-shrink-0 flex justify-center items-center border-blue rounded-lg cursor-pointer transition-all hover:bg-blue hover:text-white shadow-md shadow-slate-200 hover:shadow-inner hover:shadow-slate-300"
-            onClick={() => onCategoryClick(category.value)}
+            onClick={() => onCategoryClick(category.category)}
           >
             {category.displayName}
           </div>
