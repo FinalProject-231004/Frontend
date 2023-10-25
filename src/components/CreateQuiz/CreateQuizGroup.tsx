@@ -9,7 +9,7 @@ import {
   ImageUploader,
   CategoryButton,
   WarningModal,
-} from '.';
+} from '..';
 
 const CreateQuizGroup: React.FC = () => {
   const navigate = useNavigate();

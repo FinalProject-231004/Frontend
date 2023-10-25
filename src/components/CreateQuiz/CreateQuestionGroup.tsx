@@ -1,11 +1,7 @@
 import { useRecoilState } from 'recoil';
 import { questionAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
-import {
-  QuestionItem,
-  ChoiceItem,
-  WarningModal,
-} from '@/components/CreateQuiz';
+import { QuestionItem, ChoiceItem, WarningModal } from '@/components';
 import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
 
 const CreateQuestionGroup: React.FC = () => {
