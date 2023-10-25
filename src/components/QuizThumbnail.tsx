@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { QuizThumbnailProps } from '@/types/homeQuiz';
 import { BiLike, BiSolidLike } from 'react-icons/bi';
 import { FaRegEye } from 'react-icons/fa';
@@ -7,7 +7,7 @@ import QuizThumbnailModal from './QuizThumbnailModal';
 
 const QuizThumbnail: React.FC<QuizThumbnailProps> = ({ quiz }) => {
   const { isLiked, likes, handleLike } = useLike(quiz.id, quiz.likes);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleImageClick = () => {
     setIsModalOpen(true);

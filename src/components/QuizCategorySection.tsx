@@ -1,5 +1,5 @@
 import React from 'react';
-import QuizThumbnail from './QuizThumbnail';
+import { QuizThumbnail } from '@/components';
 import { QuizCategorySectionProps } from '@/types/homeQuiz';
 
 const QuizCategorySection: React.FC<QuizCategorySectionProps> = ({
