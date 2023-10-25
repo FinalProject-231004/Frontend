@@ -26,12 +26,12 @@ export default function CustomizedButtons({
   onClick,
 }: ButtonsProps) {
   let width: string = ''; // 초기화 -> 변수가 할당되기 전에 사용되었다는 오류 막음
-  let height: string= '';
+  let height: string = '';
 
   // 아직 디자인이 확정되지 않아 필요에 따라 수정하기
   if (size === 'small') {
-    width = '146px';
-    height = '57px';
+    width = '98px';
+    height = '60px';
   } else if (size === 'medium') {
     width = '150px';
     height = '40px';
@@ -72,7 +72,7 @@ const ColorButton = styled(Button)<{
   borderRadius: string;
   BtnHoverBg: string;
   BtnActiveBg: string;
-}>((props) => ({
+}>(props => ({
   height: props.height,
   width: props.width,
   color: props.fontColor,
@@ -90,4 +90,3 @@ const ColorButton = styled(Button)<{
     backgroundColor: props.BtnActiveBg,
   },
 }));
-

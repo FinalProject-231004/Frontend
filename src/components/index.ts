@@ -1,5 +1,7 @@
 // common
-export { default as Button } from './common/Button';
+export { default as CustomizedButtons } from './common/CustomizedButtons';
+export { default as QuizCustomButton } from './common/QuizCustomButton';
+export { default as Comment } from './common/Comment';
 export { default as Modal } from './common/Modal';
 export { default as WarningModal } from './common/WarningModal';
 export { default as UserInfoInput } from './common/UserInfoInput';
