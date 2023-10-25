@@ -20,6 +20,7 @@ export type Category = {
 export type QuizThumbnailProps = {
   quiz: Quiz;
 };
+
 export interface QuizCategorySectionProps {
   title: string;
   quiz: Quiz[];
@@ -31,11 +32,11 @@ export interface LikesState {
 }
 
 export type QuizThumbnailModalProps = {
-  quiz: QuizThumbNailModal;
+  id: number;
   onClose: () => void;
 };
 
-export type QuizThumbNailModal = {
+export type QuizDetail = {
   id: number;
   title: 'string';
   username: 'string';
@@ -45,13 +46,13 @@ export type QuizThumbNailModal = {
   createdTime: 'string';
   category: 'string';
   content: 'string';
-  comments: [
-    {
-      id: number;
-      comment: 'string';
-      complainInt: number;
-      memberId: number;
-      nickname: 'string';
-    },
-  ];
+  comments: Comments[];
+};
+
+export type Comments = {
+  id: number;
+  comment: 'string';
+  complainInt: number;
+  memberId: number;
+  nickname: 'string';
 };
