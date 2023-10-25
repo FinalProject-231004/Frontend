@@ -3,8 +3,8 @@ import { useRecoilState } from 'recoil';
 import { quizAtom } from '@/recoil/atoms/quizAtom';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
-import { useModalState } from '@/hooks';
 import axios from 'axios';
+import { useModalState } from '@/hooks';
 import {
   CustomQuizInput,
   ImageUploader,
@@ -55,7 +55,7 @@ const CreateQuizGroup: React.FC = () => {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
           },
         },
       );

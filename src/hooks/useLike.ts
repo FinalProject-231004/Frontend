@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { likeAtom } from '@/recoil/atoms/likeAtom';
 import { useMutation } from 'react-query';
@@ -14,7 +14,7 @@ const setLikeStatus = async (id: number) => {
       { id },
       {
         headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
         },
       },
     );
@@ -32,17 +32,44 @@ const setLikeStatus = async (id: number) => {
 
 export const useLike = (id: number, initialLikes: number) => {
   const [likeStates, setLikeStates] = useRecoilState(likeAtom);
-  const isLiked = likeStates[id] || false;
   const [likes, setLikes] = useState(initialLikes);
+
+  // 로컬 스토리지에서 좋아요 상태를 가져와 초기값을 설정합니다.
+  useEffect(() => {
+    // 좋아요 상태 초기화
+    const savedLikes = localStorage.getItem('likes');
+    const likesObject = savedLikes ? JSON.parse(savedLikes) : {};
+    const isLiked = likesObject[id] || false;
+    setLikeStates(prev => ({ ...prev, [id]: isLiked }));
+    setLikes(prev => (isLiked ? prev + 1 : prev));
+  }, [id, setLikeStates]);
+
+  const isLiked = likeStates[id] || false;
 
   const mutation = useMutation(() => setLikeStatus(id), {
     onSuccess: data => {
-      console.log('Server response:', data); // 서버에서 받은 메시지 로깅
-      setLikeStates(prev => ({ ...prev, [id]: !isLiked }));
-      setLikes(prev => (isLiked ? prev - 1 : prev + 1));
+      console.log('Server response:', data);
+      const newIsLiked = !isLiked;
+      const newLikes = likes + (newIsLiked ? 1 : -1);
+
+      // 좋아요 수가 0 미만이 되지 않도록 방지
+      if (newLikes >= 0) {
+        // 상태 업데이트
+        setLikeStates(prev => ({ ...prev, [id]: newIsLiked }));
+        setLikes(newLikes);
+
+        // 로컬 스토리지 업데이트
+        const savedLikes = localStorage.getItem('likes');
+        const likesObject = savedLikes ? JSON.parse(savedLikes) : {};
+        localStorage.setItem(
+          'likes',
+          JSON.stringify({ ...likesObject, [id]: newIsLiked }),
+        );
+      }
     },
   });
 
+  // 좋아요 버튼 클릭 핸들러
   const handleLike = () => {
     console.log('좋아요 버튼 클릭 전 -> 현재 좋아요 상태:', isLiked);
     console.log('좋아요 버튼 클릭 전 -> 현재 좋아요 수:', likes);

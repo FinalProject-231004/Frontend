@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
 export const likeAtom = atom<Record<number, boolean>>({
-  key: 'likeAtom',
+  key: 'likeStatusAtom',
   default: {},
 });

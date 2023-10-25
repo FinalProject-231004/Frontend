@@ -39,7 +39,7 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = ({ quiz }) => {
           </div>
           {isModalOpen && (
             <QuizThumbnailModal
-              quiz={quiz}
+              id={quiz.id}
               onClose={() => setIsModalOpen(false)}
             />
           )}
