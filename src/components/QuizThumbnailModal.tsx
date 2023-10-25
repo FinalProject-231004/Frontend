@@ -1,5 +1,5 @@
 import { QuizThumbnailProps } from '@/types/homeQuiz';
-import QuizThumbnail from './QuizThumbnail';
+import { QuizThumbnail } from '@/components';
 import { AiOutlineClose } from 'react-icons/ai';
 
 interface QuizThumbnailModalProps {

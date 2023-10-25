@@ -4,6 +4,7 @@ import { quizAtom } from '@/recoil/atoms/quizAtom';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import { useModalState } from '@/hooks';
+import axios from 'axios';
 import {
   CustomQuizInput,
   ImageUploader,
@@ -47,31 +48,29 @@ const CreateQuizGroup: React.FC = () => {
         formData.append('requestDto', blob);
       }
 
-      // formData.append(
-      //   'requestDto',
-      //   new Blob([JSON.stringify(requestDto)], { type: 'application/json' }),
-      // );
-
       // 요청 전송
-      const response = await fetch(
+      await axios.post(
         `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
+        formData,
         {
-          method: 'POST',
-          body: formData,
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
           },
         },
       );
 
-      if (!response.ok) {
-        throw new Error('퀴즈 전송 실패');
-      }
-
       navigate('/create-quiz/questions');
     } catch (error) {
       toast.error('퀴즈 생성에 실패했습니다. 다시 시도해주세요.');
-      console.error('퀴즈 생성에 실패했습니다:', error);
+      if (axios.isAxiosError(error)) {
+        console.error(
+          '퀴즈 생성에 실패했습니다:',
+          error.response?.data || error.message,
+        );
+      } else {
+        console.error('퀴즈 생성에 실패했습니다:', error);
+      }
     }
   };
 

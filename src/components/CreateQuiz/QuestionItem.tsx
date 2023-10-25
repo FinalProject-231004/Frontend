@@ -1,6 +1,6 @@
 import { QuestionItemProps } from '@/types/questionTypes';
 import { BsFillTrashFill } from 'react-icons/bs';
-import ImageUploader from '../common/ImageUploader';
+import { ImageUploader } from '@/components';
 import { useRecoilValue } from 'recoil';
 import { uploadImageSelector } from '@/recoil/selectors/imageSelectors';
 
