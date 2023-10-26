@@ -11,7 +11,7 @@ import TokenRefresher from '@/apis/TokenRefresher';
 import MyPage from '@/pages/MyPage';
 import VerifyPassword from '@/pages/VerifyPassword';
 import { ReactNode } from 'react';
-// import Auth from '@/containers/User/Auth';
+import Auth from '@/containers/User/Auth';
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
@@ -36,6 +36,7 @@ const Router = () => {
           {/* <Route path="/api/member/kakao/callback" element={<Auth />} /> */}
           <Route path="/" element={<Home />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/login/kakao" element={<Auth />} />
           <Route path="/mypage/verify-password" element={<VerifyPassword />} />
           <Route
             path="/create-quiz/questions/:id"

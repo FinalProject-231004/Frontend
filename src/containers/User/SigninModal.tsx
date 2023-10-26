@@ -73,6 +73,13 @@ function SignInModal() {
     setLoginMoadal(false);
   };
 
+  const kakaoLogin: () => void = () => {
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_APP_GENERATED_CLIENT_URL}/login/kakao&response_type=code`;
+    window.location.href = kakaoURL;
+  };
+
+
+  
   return (
     <>
       <button
@@ -155,12 +162,8 @@ function SignInModal() {
                 BtnHoverBg="#FEE500"
                 BtnActiveBg={''}
                 borderRadius="12px"
-                onClick={() => {
-                  console.log('카카오 인증 시작');
-                  window.location.href =
-                    'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=e0d3b3077a5d847a09593bf8a6ff851a&redirect_uri=https://yulmoo.world/api/member/kakao/callback';
-                }}
-              />
+                onClick={kakaoLogin}
+                />
               <p
                 className="w-[118px] mt-5 mb-6 text-xl font-medium text-center text-white border-b-2 border-solid border-white cursor-pointer"
                 onClick={signUpHandler}
