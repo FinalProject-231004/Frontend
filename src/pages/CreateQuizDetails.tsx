@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateQuizGroup from '@/components/CreateQuiz/CreateQuizGroup';
+import { CreateQuizGroup } from '@/components';
 
 const CreateQuizDetails: React.FC = () => {
   return (

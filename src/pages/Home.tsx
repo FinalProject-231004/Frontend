@@ -1,5 +1,4 @@
-import QuizCategorySection from '@/components/QuizCategorySection';
-import HomeBanner from '@/components/HomeBanner';
+import { QuizCategorySection, HomeBanner } from '@/components';
 import { useFetchQuiz } from '@/hooks';
 import { Category, Quiz } from '@/types/homeQuiz';
 import { categories } from '@/constants/categories';

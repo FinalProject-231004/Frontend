@@ -1,4 +1,4 @@
-import CreateQuestionGroup from '@/components/CreateQuiz/CreateQuestionGroup';
+import { CreateQuestionGroup } from '@/components';
 
 const CreateQuizQuestions: React.FC = () => {
   return (
