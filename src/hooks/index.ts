@@ -7,3 +7,4 @@ export { useModalState } from './useModalState';
 export { useQuestionActions } from './useQuestionActions';
 export { useHorizontalScroll } from './useHorizontalScroll';
 export { useDebounce } from './useDebounce';
+export { usePlayQuiz } from './usePlayQuiz';
