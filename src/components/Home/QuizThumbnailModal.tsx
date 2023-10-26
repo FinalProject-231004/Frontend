@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { QuizThumbnailModalProps } from '@/types/homeQuiz';
-import { QuizCustomButton, Comment } from '.';
+import { QuizCustomButton, Comment } from '..';
 import { useQuizDetail, useLike } from '@/hooks';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiLike, BiSolidLike } from 'react-icons/bi';

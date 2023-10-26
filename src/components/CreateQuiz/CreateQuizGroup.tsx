@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { quizAtom } from '@/recoil/atoms/quizAtom';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useModalState } from '@/hooks';
@@ -10,6 +10,7 @@ import {
   ImageUploader,
   CategoryButton,
   WarningModal,
+  BottomLongButton,
 } from '..';
 
 const CreateQuizGroup: React.FC = () => {
@@ -18,7 +19,6 @@ const CreateQuizGroup: React.FC = () => {
   const [quiz, setQuiz] = useRecoilState(quizAtom);
   const warningModal = useModalState();
 
-  // 이미지> string으로 변환버전
   const handleImageUpload = async (file: File) => {
     setQuiz({
       ...quiz,
@@ -165,16 +165,10 @@ const CreateQuizGroup: React.FC = () => {
         message="공백이나, 체크하지 않은 선택지가 있어요!"
         buttons={<button onClick={warningModal.close}>닫기</button>}
       />
-
-      <div className="fixed bottom-0 w-[1080px] mx-auto bg-white">
-        <button
-          type="button"
-          className="w-full h-[80px] bg-blue font-extrabold text-[26px] text-white py-3"
-          onClick={handleNavigation}
-        >
-          세부 질문 만들기
-        </button>
-      </div>
+      <ToastContainer />
+      <BottomLongButton onClick={handleNavigation}>
+        세부 질문 만들기
+      </BottomLongButton>
     </div>
   );
 };

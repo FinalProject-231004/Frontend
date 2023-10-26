@@ -1,14 +1,9 @@
 import { useRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 import { questionAtom } from '@/recoil/atoms/questionAtom';
+import { warningToast } from '@/utils/customtoast';
 
-type WarningModalType = {
-  isOpen: boolean;
-  open: () => void;
-  close: () => void;
-};
-
-export const useChoiceActions = (choiceModal: WarningModalType) => {
+export const useChoiceActions = () => {
   const [questions, setQuestions] = useRecoilState(questionAtom);
 
   const addChoice = (questionId: string) => {
@@ -36,7 +31,7 @@ export const useChoiceActions = (choiceModal: WarningModalType) => {
     const targetQuestion = questions.find(q => q.id === questionId);
 
     if (targetQuestion && targetQuestion.choices.length <= 2) {
-      choiceModal.open();
+      warningToast('선택지는 2개 이상 필요해요 ! 🙇‍♀️');
       return;
     }
 
@@ -58,11 +53,10 @@ export const useChoiceActions = (choiceModal: WarningModalType) => {
         if (q.id === questionId) {
           return {
             ...q,
-            choices: q.choices.map(c =>
-              c.id === choiceId
-                ? { ...c, isAnswer: true }
-                : { ...c, isAnswer: false },
-            ),
+            choices: q.choices.map(c => ({
+              ...c,
+              isAnswer: c.id === choiceId, //
+            })),
           };
         }
         return q;
