@@ -63,7 +63,7 @@ const CreateQuestionGroup: React.FC = () => {
 
       navigate('/create-quiz/questions');
     } catch (error) {
-      toast.error('퀴즈 생성에 실패했습니다. 다시 시도해주세요.');
+      toast.error(' 퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
       if (axios.isAxiosError(error)) {
         console.error(
           '퀴즈 생성에 실패했습니다:',
