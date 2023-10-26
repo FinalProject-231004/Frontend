@@ -6,3 +6,4 @@ export { useQuizDetail } from './useQuizDetail';
 export { useModalState } from './useModalState';
 export { useQuestionActions } from './useQuestionActions';
 export { useHorizontalScroll } from './useHorizontalScroll';
+export { useDebounce } from './useDebounce';

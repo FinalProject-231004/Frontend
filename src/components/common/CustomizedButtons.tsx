@@ -41,6 +41,9 @@ export default function CustomizedButtons({
   } else if (size === 'pull') {
     width = '1080px';
     height = '40px';
+  } else if (size === 'signUp') {
+    width = '146px';
+    height = '57px';
   }
 
   return (
