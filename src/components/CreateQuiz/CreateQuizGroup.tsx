@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { quizAtom } from '@/recoil/atoms/quizAtom';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useModalState } from '@/hooks';
@@ -25,7 +25,7 @@ const CreateQuizGroup: React.FC = () => {
       ...quiz,
       image: { file, preview: URL.createObjectURL(file) },
     });
-    toast.success('이미지 업로드 성공!😎');
+    toast.success(' 이미지 업로드 성공 ! 😎');
   };
 
   // 퀴즈 정보를 JSON으로 변환하여 formData에 추가
@@ -50,7 +50,7 @@ const CreateQuizGroup: React.FC = () => {
       }
 
       // 요청 전송
-      await axios.post(
+      const response = await axios.post(
         `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
         formData,
         {
@@ -61,9 +61,10 @@ const CreateQuizGroup: React.FC = () => {
         },
       );
 
-      navigate('/create-quiz/questions');
+      const quizId = response.data.data.id;
+      navigate(`/create-quiz/questions/${quizId}`);
     } catch (error) {
-      toast.error('퀴즈 생성에 실패했습니다. 다시 시도해주세요.');
+      toast.error(' 퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
       if (axios.isAxiosError(error)) {
         console.error(
           '퀴즈 생성에 실패했습니다:',
@@ -91,7 +92,7 @@ const CreateQuizGroup: React.FC = () => {
 
   const handleImageRemove = () => {
     setQuiz({ ...quiz, image: null });
-    toast.error('이미지를 삭제했어요!');
+    toast.error(' 이미지를 삭제했어요 ! 🧺');
   };
 
   const handleCategoryClick = (category: string) => {
@@ -166,7 +167,6 @@ const CreateQuizGroup: React.FC = () => {
         message="공백이나, 체크하지 않은 선택지가 있어요!"
         buttons={<button onClick={warningModal.close}>닫기</button>}
       />
-      <ToastContainer />
       <BottomLongButton onClick={handleNavigation}>
         세부 질문 만들기
       </BottomLongButton>

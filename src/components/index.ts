@@ -37,10 +37,11 @@ export { default as DeleteAccount } from './MyPage/DeleteAccount';
 export { default as HistoryList } from './MyPage/HistoryList';
 export { default as UpdateMyInfo } from './MyPage/UpdateMyInfo';
 
-// Root
-export { default as HomeBanner } from './HomeBanner';
-export { default as QuizCategorySection } from './QuizCategorySection';
-export { default as QuizThumbnail } from './QuizThumbnail';
-export { default as QuizThumbnailModal } from './QuizThumbnailModal';
-export { default as CurrentDate } from './CurrentDate';
+// Home
+export { default as HomeBanner } from './Home/HomeBanner';
+export { default as QuizCategorySection } from './Home/QuizCategorySection';
+export { default as QuizThumbnail } from './Home/QuizThumbnail';
+export { default as QuizThumbnailModal } from './Home/QuizThumbnailModal';
 
+// Root
+export { default as CurrentDate } from './CurrentDate';
