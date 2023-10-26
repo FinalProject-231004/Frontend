@@ -47,3 +47,16 @@ export type PlayQuiz = {
     isAnswer: boolean;
   }[];
 };
+
+export type QuizQuestion = {
+  image: string;
+  requestDto: {
+    title: string;
+    quizChoices: [
+      {
+        answer: string;
+        checks: false;
+      },
+    ];
+  };
+};
