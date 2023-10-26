@@ -19,8 +19,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = ({
           className="scale-[1.8]"
           icon={<BsCheckCircle />}
           checkedIcon={<BsCheckCircleFill />}
-          checked={checked}
-          readOnly
+          checked={checked || false}
           onChange={() => onCheck()}
           sx={{
             color: '#d4d4d4',

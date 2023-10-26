@@ -52,8 +52,10 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
         if (Number(q.id) === questionId) {
           return {
             ...q,
-            choices: q.quizChoices.map(c =>
-              c.id === choiceId ? { ...c, checks: !c.checks } : c,
+            quizChoices: q.quizChoices.map(c =>
+              c.id === choiceId
+                ? { ...c, checks: !c.checks }
+                : { ...c, checks: false },
             ),
           };
         }
@@ -61,6 +63,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
       }),
     );
   };
+
   const moveToNextQuestion = () => {
     if (selectedQuestion < totalQuestions) {
       setSelectedQuestion(prev => prev + 1);
