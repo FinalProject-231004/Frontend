@@ -3,6 +3,7 @@ import { BsFillTrashFill } from 'react-icons/bs';
 import { ImageUploader } from '@/components';
 import { useRecoilValue } from 'recoil';
 import { uploadImageSelector } from '@/recoil/selectors/imageSelectors';
+import { toast } from 'react-toastify';
 
 const QuestionItem: React.FC<QuestionItemProps> = ({
   question,
@@ -11,7 +12,20 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
   setQuestions,
   questions,
 }) => {
-  const { uploadImage, removeImage } = useRecoilValue(uploadImageSelector);
+  const { removeImage } = useRecoilValue(uploadImageSelector);
+
+  const handleImageUpload = async (file: File, questionId: string) => {
+    const updatedQuestions = questions.map(q =>
+      q.id === questionId
+        ? {
+            ...q,
+            image: { file, preview: URL.createObjectURL(file) },
+          }
+        : q,
+    );
+    setQuestions(updatedQuestions);
+    toast.success('이미지 업로드 성공!😎');
+  };
 
   return (
     <div>
@@ -23,12 +37,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
           <ImageUploader
             id={question.id}
             image={question.image}
-            uploadImage={(file, questionId) => {
-              const updatedQuestions = uploadImage(questionId, file);
-              if (Array.isArray(updatedQuestions)) {
-                setQuestions(updatedQuestions);
-              }
-            }}
+            uploadImage={file => handleImageUpload(file, question.id)}
             removeImage={questionId => {
               const updatedQuestions = removeImage(questionId);
               if (Array.isArray(updatedQuestions)) {

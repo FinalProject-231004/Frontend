@@ -1,22 +1,23 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { RecoilEnv } from 'recoil';
-import Home from '@/pages/Home';
-import CreateQuizQuestions from '@/pages/CreateQuizQuestions';
-import CreateQuizDetails from '@/pages/CreateQuizDetails';
-import { Layout } from '@/components/Layout';
+import {
+  Home,
+  CreateQuizQuestions,
+  CreateQuizDetails,
+  PlayQuiz,
+} from '@/pages';
+import { Layout } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
 import MyPage from '@/pages/MyPage';
 import VerifyPassword from '@/pages/VerifyPassword';
 import { ReactNode } from 'react';
 import Auth from '@/containers/User/Auth';
-// import QuizInfoEditor from '@/pages/QuizInfoEditor';
-// import QuizDetail from '@/pages/QuizDetail';
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
 type ConditionalLayoutProps = {
   children: ReactNode;
-}
+};
 
 const ConditionalLayout: React.FC<ConditionalLayoutProps> = ({ children }) => {
   const location = useLocation();
@@ -38,11 +39,12 @@ const Router = () => {
           <Route path="/login/kakao" element={<Auth />} />
           <Route path="/mypage/verify-password" element={<VerifyPassword />} />
           <Route
-            path="/create-quiz/questions"
+            path="/create-quiz/questions/:id"
             element={<CreateQuizQuestions />}
           />
           <Route path="/create-quiz/details" element={<CreateQuizDetails />} />
-          {/* <Route path="/quizdetail" element={<QuizDetail />} /> */}
+          <Route path="/play-quiz/:id" element={<PlayQuiz id={''} />} />
+          {/* <Route path="/mypage" element={<MyPage />} />*/}
         </Routes>
       </ConditionalLayout>
     </BrowserRouter>

@@ -34,7 +34,10 @@ body {
 }
 
 .title {
-  @apply text-center mt-[150px] mb-[90px] text-[32px] text-blue font-extrabold;
+  @apply text-center mt-[148px] mb-[90px] text-[32px] text-blue font-extrabold;
+}
+.play-quiz__title {
+  @apply text-center mt-[148px] mb-[76px] text-[32px] text-blue font-extrabold;
 }
 
 .customborder {

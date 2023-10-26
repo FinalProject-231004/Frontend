@@ -36,3 +36,27 @@ export type ChoiceItemProps = {
   addChoice: (questionId: string) => void;
   removeChoice: (questionId: string, choiceId: string) => void;
 };
+
+export type PlayQuiz = {
+  image: string;
+  id: string;
+  title: string;
+  quizChoices: {
+    id: number;
+    answer: string;
+    checks: boolean;
+  }[];
+};
+
+export type QuizQuestion = {
+  image: string;
+  requestDto: {
+    title: string;
+    quizChoices: [
+      {
+        answer: string;
+        checks: false;
+      },
+    ];
+  };
+};

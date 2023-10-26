@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
-import { Question } from '@/types/questionTypes';
+import { Question, PlayQuiz, QuizQuestion } from '@/types/questionTypes';
 
 export const questionAtom = atom<Question[]>({
   key: 'questionAtom',
@@ -15,4 +15,20 @@ export const questionAtom = atom<Question[]>({
       image: { file: null, preview: null },
     },
   ],
+});
+
+export const playQuizAtom = atom<PlayQuiz[]>({
+  key: 'playQuizAtom',
+  default: [],
+});
+
+export const quizquestionAtom = atom<QuizQuestion>({
+  key: 'questionsAtom',
+  default: {
+    image: '',
+    requestDto: {
+      title: '',
+      quizChoices: [{ answer: '', checks: false }],
+    },
+  },
 });

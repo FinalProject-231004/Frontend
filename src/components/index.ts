@@ -7,6 +7,8 @@ export { default as WarningModal } from './common/WarningModal';
 export { default as UserInfoInput } from './common/UserInfoInput';
 export { default as CustomQuizInput } from './common/CustomQuizInput';
 export { default as ImageUploader } from './common/ImageUploader';
+export { default as BottomLongButton } from './common/BottomLongButton';
+export { default as ChoiceInput } from './common/ChoiceInput';
 
 // CreateQuiz
 export { default as CreateQuestionGroup } from './CreateQuiz/CreateQuestionGroup';
@@ -14,6 +16,9 @@ export { default as CreateQuizGroup } from './CreateQuiz/CreateQuizGroup';
 export { default as QuestionItem } from './CreateQuiz/QuestionItem';
 export { default as ChoiceItem } from './CreateQuiz/ChoiceItem';
 export { default as CategoryButton } from './CreateQuiz/CategoryButton';
+
+// PlayQuiz
+export { default as PlayQuizGroup } from './PlayQuiz/PlayQuizGroup';
 
 // Layout
 export { default as Header } from './Layout/Header';

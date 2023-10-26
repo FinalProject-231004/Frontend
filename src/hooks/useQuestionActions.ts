@@ -1,14 +1,9 @@
 import { useRecoilState } from 'recoil';
 import { questionAtom } from '@/recoil/atoms/questionAtom';
 import { v4 as uuidv4 } from 'uuid';
+import { warningToast } from '@/utils/customtoast';
 
-type WarningModalType = {
-  isOpen: boolean;
-  open: () => void;
-  close: () => void;
-};
-
-export const useQuestionActions = (questionModal: WarningModalType) => {
+export const useQuestionActions = () => {
   const [questions, setQuestions] = useRecoilState(questionAtom);
 
   const addQuestion = () => {
@@ -26,7 +21,7 @@ export const useQuestionActions = (questionModal: WarningModalType) => {
 
   const removeQuestion = (questionId: string) => {
     if (questions.length <= 1) {
-      questionModal.open();
+      warningToast('질문은 1개 이상 필요해요 ! 🙇‍♀️');
       return;
     }
     const updatedQuestions = questions.filter(q => q.id !== questionId);
