@@ -1,0 +1,58 @@
+export type Banner = {
+  image: string;
+  category: string;
+};
+
+export type Quiz = {
+  id: number;
+  viewCount: number;
+  likes: number;
+  category: string;
+  title: string;
+  image: string;
+  nickname: string;
+};
+
+export type Category = {
+  category: string;
+};
+
+export type QuizThumbnailProps = {
+  quiz: Quiz;
+};
+
+export interface QuizCategorySectionProps {
+  title: string;
+  quiz: Quiz[];
+}
+
+export interface LikesState {
+  id: number;
+  likes: number;
+}
+
+export type QuizThumbnailModalProps = {
+  id: number;
+  onClose: () => void;
+};
+
+export type QuizDetail = {
+  id: number;
+  title: 'string';
+  username: 'string';
+  image: 'string';
+  viewCount: number;
+  likes: number;
+  createdTime: 'string';
+  category: 'string';
+  content: 'string';
+  comments: Comments[];
+};
+
+export type Comments = {
+  id: number;
+  comment: 'string';
+  complainInt: number;
+  memberId: number;
+  nickname: 'string';
+};

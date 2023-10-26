@@ -26,7 +26,7 @@ export default function CustomizedButtons({
   onClick,
 }: ButtonsProps) {
   let width: string = ''; // 초기화 -> 변수가 할당되기 전에 사용되었다는 오류 막음
-  let height: string= '';
+  let height: string = '';
 
   // 아직 디자인이 확정되지 않아 필요에 따라 수정하기
   if (size === 'small') {
@@ -75,7 +75,7 @@ const ColorButton = styled(Button)<{
   borderRadius: string;
   BtnHoverBg: string;
   BtnActiveBg: string;
-}>((props) => ({
+}>(props => ({
   height: props.height,
   width: props.width,
   color: props.fontColor,
@@ -93,4 +93,3 @@ const ColorButton = styled(Button)<{
     backgroundColor: props.BtnActiveBg,
   },
 }));
-
