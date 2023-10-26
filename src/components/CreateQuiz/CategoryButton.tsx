@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { categories } from '@/constants/categories';
+import { useHorizontalScroll } from '@/hooks';
 
 interface CategoryButtonProps {
   selectedCategory: string | null;
@@ -10,21 +11,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
   onCategoryClick,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const currentContainer = scrollContainerRef.current;
-
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      currentContainer!.scrollLeft += event.deltaY;
-    };
-
-    currentContainer?.addEventListener('wheel', handleWheel);
-
-    return () => {
-      currentContainer?.removeEventListener('wheel', handleWheel);
-    };
-  }, [scrollContainerRef.current]);
+  useHorizontalScroll(scrollContainerRef);
 
   return (
     <div className="mb-[30px]">
