@@ -1,6 +1,6 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginModalState, modalState } from '@/recoil/atoms/signUpModalAtom';
-import { CustomizedButtons, Modal, UserInfoInput } from '@/components/common'
+import { CustomizedButtons, Modal, UserInfoInput } from '@/components';
 import { useEffect, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 
@@ -38,7 +38,8 @@ function SignUpModal() {
     setIsNickName(pattern.test(id));
   };
   const validatePw = (pw: string) => {
-    const pattern = /^(?=.*[A-Za-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
+    const pattern =
+      /^(?=.*[A-Za-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
     setIsPw(pattern.test(pw));
   };
   const validatepwCheck = (pwCheck: string) => {
@@ -108,7 +109,7 @@ function SignUpModal() {
                 <UserInfoInput
                   type="text"
                   placeholder="아이디"
-                  size='small'
+                  size="small"
                   focusBorderColor={''}
                   inputVal={idInput}
                   onChange={e => {
@@ -135,7 +136,7 @@ function SignUpModal() {
                 <UserInfoInput
                   type="text"
                   placeholder="닉네임"
-                  size='small'
+                  size="small"
                   focusBorderColor={''}
                   inputVal={nickNameInput}
                   onChange={e => {
@@ -160,7 +161,7 @@ function SignUpModal() {
               <UserInfoInput
                 type="password"
                 placeholder="비밀번호"
-                size='medium'
+                size="medium"
                 focusBorderColor={''}
                 inputVal={pwInput}
                 onChange={e => {
@@ -184,46 +185,54 @@ function SignUpModal() {
               <UserInfoInput
                 type="password"
                 placeholder="비밀번호 확인"
-                size='medium'
+                size="medium"
                 focusBorderColor={''}
                 borderColor={''}
                 inputVal={pwCheckInput}
                 onChange={e => {
                   pwCheckHandleChange(e.target.value);
                   validatepwCheck(e.target.value);
-                } } />
-              {pwCheckInput.length >= 0 && <div className='mt-1 ml-1 text-[11.5px] text-white font-hairline'>{pwCheckMessage}</div>}
+                }}
+              />
+              {pwCheckInput.length >= 0 && (
+                <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
+                  {pwCheckMessage}
+                </div>
+              )}
             </div>
 
             <div className="text-xs text-center mb-2 text-white">
               {allCheckMessag}
             </div>
           </div>
-          
+
           <CustomizedButtons
-              size='signUp'
-              fontColor='white'
-              fontSize='21px'
-              BtnName="가입하기"
-              BtnBg="navy"
-              BtnHoverBg={''}
-              BtnActiveBg={''}
-              borderRadius='28.5px'
-              onClick={() => {
-                if (idInput === '' ||
-                  nickNameInput === '' ||
-                  pwInput === '' ||
-                  pwCheckInput === '') {
-                  setAllCheckMessag('모든 정보를 입력해주세요.');
-                  return;
-                }
-                if (!isId || !isNickName || !isPw || !isPwCheck) {
-                  setAllCheckMessag('입력값을 확인해주세요.');
-                  return;
-                }
-                signUp(data);
-              } } />
-            </div>
+            size="signUp"
+            fontColor="white"
+            fontSize="21px"
+            BtnName="가입하기"
+            BtnBg="navy"
+            BtnHoverBg={''}
+            BtnActiveBg={''}
+            borderRadius="28.5px"
+            onClick={() => {
+              if (
+                idInput === '' ||
+                nickNameInput === '' ||
+                pwInput === '' ||
+                pwCheckInput === ''
+              ) {
+                setAllCheckMessag('모든 정보를 입력해주세요.');
+                return;
+              }
+              if (!isId || !isNickName || !isPw || !isPwCheck) {
+                setAllCheckMessag('입력값을 확인해주세요.');
+                return;
+              }
+              signUp(data);
+            }}
+          />
+        </div>
       </Modal>
     </>
   );
