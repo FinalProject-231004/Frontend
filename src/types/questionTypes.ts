@@ -41,10 +41,10 @@ export type PlayQuiz = {
   image: string;
   id: string;
   title: string;
-  choices: {
+  quizChoices: {
     id: number;
     answer: string;
-    isAnswer: boolean;
+    checks: boolean;
   }[];
 };
 

@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import { PlayQuiz } from '@/types/questionTypes';
 import { playQuizAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 type PlayQuizProps = {
   totalQuestions: number;
@@ -20,26 +21,26 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
 
   const sendQuizDataToServer = async (id: number, questionData: PlayQuiz) => {
     try {
-      const response = await fetch(`/api/quiz/${id}/quizQuestion`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        `/api/quiz/${id}/quizQuestion`,
+        {
           image: 'YOUR_IMAGE_STRING_HERE', // 이미지 문자열 정보를 여기에 넣어주세요
           requestDto: {
             title: questionData.title,
-            choices: questionData.choices.map(choice => ({
-              answer: choice.answer,
-              isAnswer: choice.isAnswer,
+            choices: questionData.quizChoices.map(quizChoices => ({
+              answer: quizChoices.answer,
+              isAnswer: quizChoices.checks,
             })),
           },
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
+        },
+        {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        console.log(response.data);
       } else {
         console.error('Failed to send data to server.');
       }
@@ -55,7 +56,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
         if (q.id === questionId) {
           return {
             ...q,
-            quizChoices: q.choices.map(c =>
+            quizChoices: q.quizChoices.map(c =>
               c.id === c.id ? { ...c, checks: true } : { ...c, checks: false },
             ),
           };
@@ -90,17 +91,19 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
         }}
       />
       <div>
-        {questions[selectedQuestion - 1]?.choices.map((choice, idx) => (
-          <ChoiceInput
-            key={choice.id} //
-            checked={choice.isAnswer || false}
-            onCheck={() =>
-              handleChoiceCheck(questions[selectedQuestion - 1].id)
-            }
-          >
-            {choice.answer || `문항 내용 짠짠 ${idx + 1}`}
-          </ChoiceInput>
-        ))}
+        {questions[selectedQuestion - 1]?.quizChoices.map(
+          (quizChoices, idx) => (
+            <ChoiceInput
+              key={quizChoices.id} //
+              checked={quizChoices.checks || false}
+              onCheck={() =>
+                handleChoiceCheck(questions[selectedQuestion - 1].id)
+              }
+            >
+              {quizChoices.answer || `문항 내용 짠짠 ${idx + 1}`}
+            </ChoiceInput>
+          ),
+        )}
       </div>
       <div className="w-[900px] h-[160px] mt-16 mx-auto">
         <div

@@ -5,6 +5,7 @@ import { useQuizDetail, useLike } from '@/hooks';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiLike, BiSolidLike } from 'react-icons/bi';
 import { FaRegEye } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 const QuizThumbnailModal: React.FC<QuizThumbnailModalProps> = ({
   id,
@@ -13,10 +14,12 @@ const QuizThumbnailModal: React.FC<QuizThumbnailModalProps> = ({
   const { data: quizDetail } = useQuizDetail(id);
   const { isLiked, likes, handleLike } = useLike(id, quizDetail?.likes || 0);
   const [showAllComments, setShowAllComments] = useState(false);
+  const navigate = useNavigate();
   if (!quizDetail) return null;
   const handleShowAllComments = () => {
     setShowAllComments(!showAllComments);
   };
+  console.log(quizDetail.id);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-500">
@@ -84,7 +87,12 @@ const QuizThumbnailModal: React.FC<QuizThumbnailModalProps> = ({
             <QuizCustomButton theme="white" onClick={() => {}}>
               공유하기
             </QuizCustomButton>
-            <QuizCustomButton theme="blue" onClick={() => {}}>
+            <QuizCustomButton
+              theme="blue"
+              onClick={() => {
+                navigate(`/play-quiz/${quizDetail.id}`);
+              }}
+            >
               시작하기
             </QuizCustomButton>
           </div>
