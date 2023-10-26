@@ -20,6 +20,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = ({
           icon={<BsCheckCircle />}
           checkedIcon={<BsCheckCircleFill />}
           checked={checked}
+          readOnly
           onChange={() => onCheck()}
           sx={{
             color: '#d4d4d4',

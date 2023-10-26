@@ -21,32 +21,32 @@ const CreateQuestionGroup: React.FC = () => {
   const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
   const { addQuestion, removeQuestion } = useQuestionActions();
   const { id } = useParams();
-  console.log(id);
 
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
       const quizTitle = questions[0]?.text || '';
-      const quizChoices = questions.map(question => ({
-        answer: question.text,
-        checks: question.choices.some(choice => choice.isAnswer),
-      }));
+
+      const quizChoices =
+        questions[0]?.choices.map(choice => ({
+          answer: choice.text,
+          checks: choice.isAnswer,
+        })) || [];
 
       const requestDto = {
         title: quizTitle,
         quizChoices,
       };
 
-      const blob = new Blob([JSON.stringify(requestDto)], {
+      const requestDtoBlob = new Blob([JSON.stringify(requestDto)], {
         type: 'application/json',
       });
 
-      formData.append('requestDto', blob);
+      formData.append('requestDto', requestDtoBlob);
 
       if (questions[0]?.image?.file) {
         formData.append('image', questions[0].image.file);
       }
-
       // 요청 전송
       await axios.post(
         `${

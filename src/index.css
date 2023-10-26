@@ -47,3 +47,7 @@ body {
 .bordernoneinput {
   @apply border-none focus:outline-none focus:border-none focus:ring-0 input-placeholder;
 }
+
+.slateshadow {
+  @apply shadow-md shadow-slate-200;
+}
