@@ -29,7 +29,7 @@ export default function UpdateMyInfo() {
   useEffect(()=>{getUserInfo();},[])
 
   return (
-    <div className="h-full mt-[148px] flex flex-col items-center justify-center">
+    <div className="h-full mt-[148px] flex flex-col items-center justify-start">
       <ChangeProfile profileImg={profileImg}/>
 
       <div className="w-[896px] h-[482px] mt-[59px] flex flex-col justify-start items-start">

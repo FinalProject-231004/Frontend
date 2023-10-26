@@ -31,9 +31,33 @@ export type deletePw = {
 }
 
 export type historyListProps = {
-  cost: string;
-  title: string;
-  count: string;
+  price: string;
+  cost: number;
+  itemName: string;
+  quantity: number|null;
   email: string;
   date: string;
+}
+
+export type mileageUsingHistoryRes = {
+  data: mileageUsingHistory[];
+  msg: string;
+}
+export type mileageUsingHistory = {
+  totalPrice: number;
+  itemName: string;
+  quantity: number;
+  email: string;
+  orderedAt: string;
+}
+
+export type mileageGetHistoryRes = {
+  data: mileageGetHistory[];
+  msg: string;
+}
+export type mileageGetHistory = {
+  date: string;
+  description: string;
+  type: string;
+  points: number;
 }

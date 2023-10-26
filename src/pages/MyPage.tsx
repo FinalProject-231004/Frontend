@@ -20,7 +20,7 @@ export default function MyPage() {
 
   return (
     <div className="w-[1920px] h-[1080px] mx-auto flex ">
-      <aside className='mt-[180px] ml-[173px] flex-shrink-0'>
+      <aside className='mt-[148px] ml-[173px] flex-shrink-0'>
         <div className='text-[32px] mb-[105px]'>안녕하세요,<br/>{nickName}</div>
         <ul className='text-[24px] w-[247px]'>
           <li 
