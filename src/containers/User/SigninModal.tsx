@@ -1,8 +1,6 @@
-import { loginModalState, modalState } from '@/recoil/atoms/modalAtom';
+import { loginModalState, modalState } from '@/recoil/atoms/signUpModalAtom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import Button from '@/components/common/Button';
-import Modal from '@/components/common/Modal';
-import UserInfoInput from '@/components/common/UserInfoInput';
+import { CustomizedButtons, Modal, UserInfoInput } from '@/components/common'
 import { useEffect, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
@@ -36,7 +34,7 @@ function SignInModal() {
         localStorage.setItem('Authorization', response.headers.authorization);
         localStorage.setItem('Refresh', response.headers.refresh); 
         // console.log( 'authoriztion : ',response.headers['authorization']); 
-        // console.log('refresh : ',response.headers['refresh']); 
+        // console.log('refresh : ',response.headers['refrezsh']); 
         setIsLoggedIn(true);
         closeModal();
       }
@@ -80,21 +78,21 @@ function SignInModal() {
     <>
       <button className='w-[84.77px] h-[36px] rounded-[18px] text-blue border border-[#0078ff]' onClick={openModal}>로그인</button>
       {/* <Button size='small' fontColor='var(--navy)' BtnName='로그인' BtnBg='#fff' BtnHoverBg='' BtnActiveBg='' borderRadius='18px' onClick={openModal} /> */}
-      <Modal onRequestClose={closeModal} width='713px' height='590px' bgColor='#0078FF'>
+      <Modal onRequestClose={closeModal} isOpen={isOpen} width='713px' height='590px' bgColor='#0078FF'>
         {loginMoadal ? (
           <div className='flex flex-col justify-center items-center'>
           <h1 className='text-[34px] text-white my-[40px]'>로그인</h1>
             <div className='w-[530px] mb-[40px]'> 
               <div className='mb-[22px]'>
                 <UserInfoInput 
-                  type='text' placeholder='아이디' size='large' focusBorderColor='white' borderColor='navy'
+                  type='text' placeholder='아이디' size='medium' focusBorderColor='white' borderColor='navy'
                   inputVal={idInput}
                   onChange={(e) => {
                     setIdInput(e.target.value);
                   } } />
               </div>
               <UserInfoInput
-                type='password' placeholder='비밀번호' size='large' focusBorderColor='white' borderColor='navy'
+                type='password' placeholder='비밀번호' size='medium' focusBorderColor='white' borderColor='navy'
                 inputVal={pwInput}
                 onChange={(e) => {
                 setPwInput(e.target.value);
@@ -106,7 +104,7 @@ function SignInModal() {
             </div>
 
             <div className='flex flex-col justify-center items-center gap-4'>
-              <Button size='large' fontSize='26px' fontColor='#fff' BtnName='로그인 하기' BtnBg='navy' BtnHoverBg='' BtnActiveBg={''} borderRadius='12px' 
+              <CustomizedButtons size='large' fontSize='26px' fontColor='#fff' BtnName='로그인 하기' BtnBg='navy' BtnHoverBg='' BtnActiveBg={''} borderRadius='12px' 
                 onClick={()=>{
                   if (idInput === '' || pwInput === '') {
                     setAllCheckMessag('모든 정보를 입력해주세요.');
@@ -116,7 +114,7 @@ function SignInModal() {
                   }
                   login(data);
                 }} />
-                <Button size='large' fontColor='#000' fontSize='26px'
+                <CustomizedButtons size='large' fontColor='#000' fontSize='26px'
                 BtnName={
                   <div className='flex justify-center items-center'>
                     <i className="fa-solid fa-comment mr-2"></i>

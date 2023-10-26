@@ -8,13 +8,7 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useState } from 'react';
 import { getAPI } from '@/apis/axios';
-
-type Notification = {
-  id: number;
-  notificationId: string;
-  content: string;
-  created_at: string;
-}
+import { Notification } from '@/types/header';
 
 export default function LoggedInNotification() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null); // 사용자 메뉴를 표시

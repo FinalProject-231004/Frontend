@@ -1,17 +1,16 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import { useRecoilState } from 'recoil';
-import { modalState } from '@/recoil/atoms/modalAtom';
 
 interface ModalProps {
   children: React.ReactNode;
+  isOpen: boolean;
   onRequestClose: () => void;
   width: string;
   height: string;
   bgColor: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, onRequestClose, width, height, bgColor }) => {
+const Modal: React.FC<ModalProps> = ({ children, isOpen, onRequestClose, width, height, bgColor }) => {
 
   const customModalStyles: ReactModal.Styles = {
     /*overlay는 모달 창 바깥 부분, content는 모달 창부분*/
@@ -41,8 +40,6 @@ const Modal: React.FC<ModalProps> = ({ children, onRequestClose, width, height, 
       overflow: "auto",
     },
   };
-
-  const [isOpen, setIsOpen] = useRecoilState(modalState);
 
   // 모달을 닫을 때 onRequestClose 함수 호출
   const closeModal = () => {

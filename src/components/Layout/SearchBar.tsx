@@ -1,14 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { getAPI } from '@/apis/axios';
-import useDebounce from '@/hooks/useDebounce';
+import { useDebounce } from '@/hooks';
 import { useNavigate } from 'react-router';
+import { SearchResult } from '@/types/header';
 
 const SearchBar = () => {
-  type SearchResult = { 
-    title: string;
-    id: number;
-  };  
-
   const [searchInput, setSearchInput] = useState('');
   const [relativeSearch,setRelativeSearch] = useState<SearchResult[]>([]);
   const debouncedSearchTerm = useDebounce(searchInput, 200);

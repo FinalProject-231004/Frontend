@@ -52,7 +52,7 @@ export const postAPI = <T = unknown, R = unknown>(
   url: string,
   data: T,
 ): Promise<AxiosResponse<R>> => {
-  console.log("요청보내고 있음")
+  // console.log("요청보내고 있음")
   return axios.post<R>(API_BASE_URL + url, data);
 };
 
@@ -70,9 +70,13 @@ export const getAPI = <R = unknown>(
   return axios.get<R>(API_BASE_URL + url, config);
 };
 
-export const deleteAPI = <R = unknown>(url: string): Promise<AxiosResponse<R>> => {
-  return axios.delete<R>(API_BASE_URL + url);
+export const deleteAPI = <T = unknown, R = unknown>(
+  url: string,
+  data?: T,
+): Promise<AxiosResponse<R>> => {
+  return axios.delete<R>(API_BASE_URL + url, { data });
 };
+
 
 export const patchAPI = <T = unknown, R = unknown>(
   url: string,

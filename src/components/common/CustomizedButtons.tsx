@@ -30,8 +30,8 @@ export default function CustomizedButtons({
 
   // 아직 디자인이 확정되지 않아 필요에 따라 수정하기
   if (size === 'small') {
-    width = '146px';
-    height = '57px';
+    width = '98px';
+    height = '60px';
   } else if (size === 'medium') {
     width = '150px';
     height = '40px';
@@ -41,6 +41,9 @@ export default function CustomizedButtons({
   } else if (size === 'pull') {
     width = '1080px';
     height = '40px';
+  } else if (size === 'signUp') {
+    width = '146px';
+    height = '57px';
   }
 
   return (

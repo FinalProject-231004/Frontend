@@ -1,6 +1,4 @@
-import LoggedInNotification from './LoggedInNotification';
-import LoggedInProfileMenu from './LoggedInProfileMenu'; 
-import SearchBar from './SearchBar';
+import { LoggedInNotification, LoggedInProfileMenu, SearchBar } from '.';
 
 function LoggedInHeader() {
   return (

@@ -19,10 +19,12 @@ function UserInfoInput({ inputVal, onChange, type, placeholder, size, focusBorde
   let widthClass: string = '';
 
   // 아직 디자인이 확정되지 않아 필요에 따라 수정하기
-  if (size === 'medium') {
-    widthClass = 'w-[255px]'; // 수정 필요
+  if (size === 'small') {
+    widthClass = 'w-[255px]'; 
+  } else if (size === 'medium') {
+    widthClass = 'w-[530px]'; 
   } else if (size === 'large') {
-    widthClass = 'w-[530px]'; // 수정 필요
+    widthClass = 'w-[765px]'; 
   } 
 
   const dynamicClasses = `${widthClass} border-${borderColor} focus:border-${focusBorderColor}`; // 동적 클래스 생성
@@ -32,7 +34,7 @@ function UserInfoInput({ inputVal, onChange, type, placeholder, size, focusBorde
       <div className="md:flex md:items-center">
         <div className="md:w-2/3">
           <input
-            className={`h-[72px] bg-white appearance-none border-2  rounded-[12px] py-2 px-4 text-gray-700 text-[24px] leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}
+            className={`h-[72px] bg-white appearance-none border-2  rounded-[6px] cursor-pointer py-2 px-7 text-gray-700 text-[24px] leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}
             id="inline-full-name"
             type={type}
             placeholder={placeholder}
