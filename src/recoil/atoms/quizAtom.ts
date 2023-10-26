@@ -1,5 +1,4 @@
 import { atom } from 'recoil';
-import { QuizThumbNailModal } from '@/types/homeQuiz';
 
 interface QuizState {
   title: string;
@@ -16,9 +15,4 @@ export const quizAtom = atom<QuizState>({
     category: '',
     image: null,
   },
-});
-
-export const selectedQuizState = atom<QuizThumbNailModal | null>({
-  key: 'selectedQuizState',
-  default: null,
 });
