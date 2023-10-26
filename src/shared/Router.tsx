@@ -38,7 +38,7 @@ const Router = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/verify-password" element={<VerifyPassword />} />
           <Route
-            path="/create-quiz/questions"
+            path="/create-quiz/questions/:id"
             element={<CreateQuizQuestions />}
           />
           <Route path="/create-quiz/details" element={<CreateQuizDetails />} />

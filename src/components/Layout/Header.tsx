@@ -2,7 +2,7 @@ import SignInModal from '@/containers/User/SigninModal';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { LoggedInHeader } from '.';
+import { LoggedInHeader } from '@/components';
 
 function Header() {
   const isLoggedIn = useRecoilValue(isLoggedInState);

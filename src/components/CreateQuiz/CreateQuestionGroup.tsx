@@ -1,6 +1,10 @@
 import { useRecoilState } from 'recoil';
 import { questionAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
+
 import {
   QuestionItem,
   ChoiceItem,
@@ -12,11 +16,65 @@ import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
 const CreateQuestionGroup: React.FC = () => {
   const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
-
   const warningModal = useModalState();
   const completionModal = useModalState();
   const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
   const { addQuestion, removeQuestion } = useQuestionActions();
+  const { id } = useParams();
+  console.log(id);
+
+  const submitQuiz = async () => {
+    try {
+      const formData = new FormData();
+      const quizTitle = questions[0]?.text || '';
+      const quizChoices = questions.map(question => ({
+        answer: question.text,
+        checks: question.choices.some(choice => choice.isAnswer),
+      }));
+
+      const requestDto = {
+        title: quizTitle,
+        quizChoices,
+      };
+
+      const blob = new Blob([JSON.stringify(requestDto)], {
+        type: 'application/json',
+      });
+
+      formData.append('requestDto', blob);
+
+      if (questions[0]?.image?.file) {
+        formData.append('image', questions[0].image.file);
+      }
+
+      // 요청 전송
+      await axios.post(
+        `${
+          import.meta.env.VITE_APP_GENERATED_SERVER_URL
+        }/api/quiz/${id}/quizQuestion`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+          },
+        },
+      );
+
+      navigate('/create-quiz/questions');
+    } catch (error) {
+      toast.error('퀴즈 생성에 실패했습니다. 다시 시도해주세요.');
+      if (axios.isAxiosError(error)) {
+        console.error(
+          '퀴즈 생성에 실패했습니다:',
+          error.response?.data || error.message,
+        );
+      } else {
+        console.error('퀴즈 생성에 실패했습니다:', error);
+      }
+      throw error; // 에러를 던져서 상위 함수에서 catch 할 수 있게 함
+    }
+  };
 
   // 퀴즈 제출 전 검수
   const checkForIncompleteData = () => {
@@ -31,9 +89,19 @@ const CreateQuestionGroup: React.FC = () => {
     });
   };
 
-  const handleCompleteClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    (checkForIncompleteData() ? warningModal : completionModal).open();
+  const handleNavigation = async () => {
+    try {
+      if (checkForIncompleteData()) {
+        warningModal.open();
+      } else {
+        await submitQuiz();
+        navigate('/');
+      }
+    } catch (error) {
+      // submitQuiz에서 에러가 발생하면 여기로 온다.
+      // 이 경우에는 페이지 이동을 하지 않음.
+      console.error('Quiz submission failed:', error);
+    }
   };
 
   return (
@@ -117,7 +185,7 @@ const CreateQuestionGroup: React.FC = () => {
           }
         />
       </div>
-      <BottomLongButton onClick={handleCompleteClick}>
+      <BottomLongButton onClick={handleNavigation}>
         작성 완료하기
       </BottomLongButton>
     </div>
