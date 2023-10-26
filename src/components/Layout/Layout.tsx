@@ -1,4 +1,4 @@
-import Header from './Header'; // 공통 헤더 컴포넌트
+import { Header } from '.'; // 공통 헤더 컴포넌트
 // import Footer from './Footer'; // 공통 푸터 컴포넌트
 import React, { ReactNode } from 'react';
 
