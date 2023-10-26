@@ -1,19 +1,22 @@
 import { useRecoilState } from 'recoil';
 import { questionAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
-import { QuestionItem, ChoiceItem, WarningModal } from '@/components';
+import {
+  QuestionItem,
+  ChoiceItem,
+  WarningModal,
+  BottomLongButton,
+} from '@/components';
 import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
 
 const CreateQuestionGroup: React.FC = () => {
   const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
-  const choiceModal = useModalState();
-  const questionModal = useModalState();
+
   const warningModal = useModalState();
   const completionModal = useModalState();
-  const { addChoice, removeChoice, handleChoiceCheck } =
-    useChoiceActions(choiceModal);
-  const { addQuestion, removeQuestion } = useQuestionActions(questionModal);
+  const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
+  const { addQuestion, removeQuestion } = useQuestionActions();
 
   // 퀴즈 제출 전 검수
   const checkForIncompleteData = () => {
@@ -79,21 +82,6 @@ const CreateQuestionGroup: React.FC = () => {
       </button>
       <div>
         {/* 추후 모달관련 로직 따로 분리하기 */}
-        <WarningModal
-          isOpen={choiceModal.isOpen}
-          onRequestClose={choiceModal.close}
-          title="⚠"
-          message="선택지는 2개 이상 필요해요! 😣"
-          buttons={<button onClick={choiceModal.close}>확인</button>}
-        />
-
-        <WarningModal
-          isOpen={questionModal.isOpen}
-          onRequestClose={questionModal.close}
-          title="⚠"
-          message="질문은 1개 이상 필요해요!🙄"
-          buttons={<button onClick={questionModal.close}>확인</button>}
-        />
 
         <WarningModal
           isOpen={warningModal.isOpen}
@@ -129,15 +117,9 @@ const CreateQuestionGroup: React.FC = () => {
           }
         />
       </div>
-      <div className="fixed bottom-0 w-[1080px] mx-auto bg-white">
-        <button
-          type="button"
-          onClick={handleCompleteClick}
-          className="w-full h-[80px] bg-blue font-extrabold text-[26px] text-white py-3"
-        >
-          작성 완료하기
-        </button>
-      </div>
+      <BottomLongButton onClick={handleCompleteClick}>
+        작성 완료하기
+      </BottomLongButton>
     </div>
   );
 };
