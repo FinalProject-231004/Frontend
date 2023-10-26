@@ -1,9 +1,9 @@
 import { useRecoilState } from 'recoil';
-import { useParams } from 'react-router';
 import { questionAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 
 import {
   QuestionItem,
@@ -23,28 +23,37 @@ const CreateQuestionGroup: React.FC = () => {
   const { id } = useParams();
   console.log(id);
 
+  const requestDto = {
+    quizTitle: questions[0]?.text || '',
+    quizChoices: questions.map(question => ({
+      answer: question.text,
+      checks: question.choices.some(choice => choice.isAnswer),
+    })),
+  };
+
+  const blob = new Blob([JSON.stringify(requestDto)], {
+    type: 'application/json',
+  });
+
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
-      const quizTitle = questions[0]?.text || '';
-      const quizChoices = questions.map(question => ({
-        answer: question.text,
-        checks: question.choices.some(choice => choice.isAnswer),
-      }));
 
-      // 퀴즈 정보를 JSON으로 변환하여 formData에 추가
-      const requestDto = {
-        title: quizTitle,
-        quizChoices,
-      };
-      const blob = new Blob([JSON.stringify(requestDto)], {
-        type: 'application/json',
-      });
-
+      // 이미지 추가
       if (questions[0]?.image?.file) {
-        formData.append('requestDto', blob);
         formData.append('image', questions[0].image.file);
       }
+
+      // requestDto 객체 추가
+      const requestDtoForServer = {
+        title: questions[0]?.text || '',
+        quizChoices: questions.map(question => ({
+          answer: question.text,
+          checks: question.choices.some(choice => choice.isAnswer),
+        })),
+      };
+
+      formData.append('requestDto', JSON.stringify(requestDtoForServer));
 
       // 요청 전송
       await axios.post(
@@ -54,7 +63,7 @@ const CreateQuestionGroup: React.FC = () => {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            // 'Content-Type': 'multipart/form-data', // 주석 처리된 이 부분은 유지해도 되지만, formData를 사용할 경우 브라우저가 자동으로 설정합니다.
             Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
           },
         },
