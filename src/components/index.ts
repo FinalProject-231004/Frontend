@@ -9,6 +9,7 @@ export { default as CustomQuizInput } from './common/CustomQuizInput';
 export { default as ImageUploader } from './common/ImageUploader';
 export { default as BottomLongButton } from './common/BottomLongButton';
 export { default as ChoiceInput } from './common/ChoiceInput';
+export { default as PrivateRoute } from './common/PrivateRoute';
 
 // CreateQuiz
 export { default as CreateQuestionGroup } from './CreateQuiz/CreateQuestionGroup';
