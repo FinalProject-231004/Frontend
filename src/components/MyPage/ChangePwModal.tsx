@@ -136,13 +136,13 @@ export default function ChangePwModal() {
 
           <CustomizedButtons
             size="large"
-            fontColor="white"
+            fontcolor="white"
             fontSize="24px"
             BtnName="저장하기"
-            BtnBg="#0078FF"
-            BtnHoverBg="navy"
-            BtnActiveBg={''}
-            borderRadius="28.5px"
+            btnbg="#0078FF"
+            btnhoverbg="navy"
+            btnactivebg={''}
+            borderradius="28.5px"
             onClick={saveBtnHandler}
           />
         </div>

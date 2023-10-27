@@ -95,13 +95,13 @@ export default function DeleteAccount() {
           <div className="mt-[60px]">
             <CustomizedButtons
               size="large"
-              fontColor="white"
+              fontcolor="white"
               fontSize="24px"
               BtnName="네...탈퇴할게요🥲"
-              BtnBg="#0078FF"
-              BtnHoverBg={''}
-              BtnActiveBg={''}
-              borderRadius="28.5px"
+              btnbg="#0078FF"
+              btnhoverbg={''}
+              btnactivebg={''}
+              borderradius="28.5px"
               onClick={() => {
                 deleteAccount(pwData);
               }}

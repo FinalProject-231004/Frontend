@@ -19,9 +19,9 @@ export default function MileageHistory() {
   const MileageUsage = async () => {
     try {
       const response = await getAPI<mileageUsingHistoryRes>('/api/mypage/purchase-history');
-      console.log( '사용내역',response.data.data);
+      // console.log( '사용내역',response.data.data);
       setUsageHistory(response.data.data);
-      console.log('usageHistory',usageHistory);
+      // console.log('usageHistory',usageHistory);
 
     } catch (error) {
       console.error('Error:', error);
