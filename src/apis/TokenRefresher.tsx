@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-// import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 
 export default function TokenRefresher() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const refreshAPI = axios.create({
@@ -31,10 +31,8 @@ export default function TokenRefresher() {
               `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/token/reissue`,{},
               // accesstoken 수정
               {headers: {
-                // Authorization: localStorage.getItem("Authorization"),
                 Authorization: `${localStorage.getItem('Authorization')}`,
                 Refresh: `${localStorage.getItem('Refresh')}`,
-                // refreshToken: localStorage.getItem("Refresh"),
               }},
             )
             .then((res) => {
@@ -55,7 +53,7 @@ export default function TokenRefresher() {
               console.log("New access token obtained.");
               return refreshAPI(originalConfig);
             })
-            .then((res) =>{
+            .then(() =>{
               console.log("리로드 할거야!!!!")
               window.location.reload(); // 액세스 토큰이 만료된 후 수행하려던 요청이 성공적으로 끝나야지 리로드 될것 같다 -> 다른 페이지에서 성공확인 후 다시 돌아와서 확인하기!!
             })
@@ -67,7 +65,7 @@ export default function TokenRefresher() {
           // else if(msg == "만료된 리프레시 토큰입니다") {
           else{
             localStorage.clear();
-            // navigate("/"); // 모달창 띄워야함 나는
+            navigate("/"); 
             window.alert("토큰이 만료되어 자동으로 로그아웃 되었습니다.")
           }
         }

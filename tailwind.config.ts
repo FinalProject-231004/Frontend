@@ -8,6 +8,7 @@ export default {
       colors: {
         navy: '#0e2958',
         blue: '#0078ff',
+        lightBlue: '#F1F8FF',
         offwhite: '#f4f4f4',
         deep_dark_gray: '#3e3e3e',
       },

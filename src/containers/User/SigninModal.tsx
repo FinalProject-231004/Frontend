@@ -14,7 +14,6 @@ function SignInModal() {
   const [loginMoadal, setLoginMoadal] = useRecoilState(loginModalState);
 
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  // const token = useRecoilValue(isLoggedInState);
 
   type postData = {
     username: string;
@@ -30,23 +29,18 @@ function SignInModal() {
     try {
       const response = await postAPI('/api/member/login', info);
       if (response.status === 200) {
-        console.log(response.headers);
         localStorage.setItem('Authorization', response.headers.authorization);
         localStorage.setItem('Refresh', response.headers.refresh);
-        // console.log( 'authoriztion : ',response.headers['authorization']);
-        // console.log('refresh : ',response.headers['refrezsh']);
         setIsLoggedIn(true);
         closeModal();
       }
-      console.log('Success:', response.data);
+      // console.log('Success:', response.data);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
   useEffect(() => {
-    // 페이지가 로드될 때 localStorage에서 토큰을 가져와서
-    // 토큰이 있다면 isLoggedIn 상태를 true로 업데이트
     const token = localStorage.getItem('Authorization');
     if (token) {
       setIsLoggedIn(true);
@@ -74,11 +68,9 @@ function SignInModal() {
   };
 
   const kakaoLogin: () => void = () => {
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_APP_GENERATED_CLIENT_URL}/login/kakao&response_type=code`;
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_APP_FE_URL}/login/kakao&response_type=code`;
     window.location.href = kakaoURL;
   };
-
-
   
   return (
     <>
@@ -94,11 +86,11 @@ function SignInModal() {
         isOpen={isOpen}
         width="713px"
         height="590px"
-        bgColor="#0078FF"
+        bgColor="#F1F8FF"
       >
         {loginMoadal ? (
           <div className="flex flex-col justify-center items-center">
-            <h1 className="text-[34px] text-white my-[40px]">로그인</h1>
+            <h1 className="text-[34px] text-blue my-[40px]">로그인</h1>
             <div className="w-[530px] mb-[40px]">
               <div className="mb-[22px]">
                 <UserInfoInput
@@ -134,7 +126,7 @@ function SignInModal() {
                 fontSize="26px"
                 fontColor="#fff"
                 BtnName="로그인 하기"
-                BtnBg="navy"
+                BtnBg="#0078FF"
                 BtnHoverBg=""
                 BtnActiveBg={''}
                 borderRadius="12px"
