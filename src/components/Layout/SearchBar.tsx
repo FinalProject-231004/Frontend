@@ -19,7 +19,6 @@ const SearchBar = () => {
     event.preventDefault(); 
   };
 
-  // 다 소용이 없었어~
   const handleOutsideClick = (event: MouseEvent) => {
     if (wrapperRef.current && event.target instanceof Node && !wrapperRef.current.contains(event.target)) {
       // input 필드와 결과 창 외부 클릭 감지
@@ -38,7 +37,7 @@ const SearchBar = () => {
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, []);
+  }, [isSearchOpen]);
 
   useEffect(() => {
     if(debouncedSearchTerm) {
@@ -48,11 +47,12 @@ const SearchBar = () => {
     }
   },[debouncedSearchTerm]);
 
-  useEffect(() => {
-    if (!isSearchOpen) {
-      setSearchInput('');
-    }
-  }, [isSearchOpen]);
+  // useEffect(() => {
+  //   if (!isSearchOpen) {
+  //     console.log('isSearchOpen:', isSearchOpen);
+  //     setSearchInput('');
+  //   }
+  // }, [isSearchOpen]);
 
   const getSearchResult = async () => {
     try {
@@ -94,7 +94,7 @@ const SearchBar = () => {
           </div>
       </form>
 
-      {isSearchOpen && ( // isSearchOpen 상태에 따라 결과 창 표시
+      {isSearchOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border border-t-0 z-10">
           {searchInput &&
             relativeSearch.map((result) => (
