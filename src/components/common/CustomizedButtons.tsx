@@ -4,25 +4,25 @@ import Stack from '@mui/material/Stack';
 
 type ButtonsProps = {
   size: string;
-  fontColor: string;
+  fontcolor: string;
   fontSize: string;
   BtnName: string | JSX.Element;
-  BtnBg: string;
-  BtnHoverBg: string;
-  BtnActiveBg: string;
-  borderRadius: string;
+  btnbg: string;
+  btnhoverbg: string;
+  btnactivebg: string;
+  borderradius: string;
   onClick: () => void;
 };
 
 export default function CustomizedButtons({
   size,
-  fontColor,
+  fontcolor,
   fontSize,
   BtnName,
-  BtnBg,
-  BtnHoverBg,
-  BtnActiveBg,
-  borderRadius,
+  btnbg,
+  btnhoverbg,
+  btnactivebg,
+  borderradius,
   onClick,
 }: ButtonsProps) {
   let width: string = ''; // 초기화 -> 변수가 할당되기 전에 사용되었다는 오류 막음
@@ -51,12 +51,12 @@ export default function CustomizedButtons({
       <ColorButton
         width={width}
         height={height}
-        fontColor={fontColor}
+        fontcolor={fontcolor}
         fontSize={fontSize}
-        BtnBg={BtnBg}
-        borderRadius={borderRadius}
-        BtnHoverBg={BtnHoverBg}
-        BtnActiveBg={BtnActiveBg}
+        btnbg={btnbg}
+        borderradius={borderradius}
+        btnhoverbg={btnhoverbg}
+        btnactivebg={btnactivebg}
         onClick={onClick}
         variant="contained"
       >
@@ -69,27 +69,27 @@ export default function CustomizedButtons({
 const ColorButton = styled(Button)<{
   width: string;
   height: string;
-  fontColor: string;
+  fontcolor: string;
   fontSize: string;
-  BtnBg: string;
-  borderRadius: string;
-  BtnHoverBg: string;
-  BtnActiveBg: string;
+  btnbg: string;
+  borderradius: string;
+  btnhoverbg: string;
+  btnactivebg: string;
 }>(props => ({
   height: props.height,
   width: props.width,
-  color: props.fontColor,
-  backgroundColor: props.BtnBg,
-  borderRadius: props.borderRadius,
+  color: props.fontcolor,
+  backgroundColor: props.btnbg,
+  borderradius: props.borderradius,
   fontSize: props.fontSize,
   boxShadow: 'none',
   textTransform: 'none',
   '&:hover': {
-    backgroundColor: props.BtnHoverBg,
+    backgroundColor: props.btnhoverbg,
     boxShadow: 'none',
   },
   '&:active': {
     boxShadow: 'none',
-    backgroundColor: props.BtnActiveBg,
+    backgroundColor: props.btnactivebg,
   },
 }));

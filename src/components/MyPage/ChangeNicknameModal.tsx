@@ -122,13 +122,13 @@ export default function ChangeNicknameModal() {
           <div className="mt-[60px]">
             <CustomizedButtons
               size="large"
-              fontColor="white"
+              fontcolor="white"
               fontSize="24px"
               BtnName="저장하기"
-              BtnBg="#0078FF"
-              BtnHoverBg={''}
-              BtnActiveBg={''}
-              borderRadius="28.5px"
+              btnbg="#0078FF"
+              btnhoverbg={''}
+              btnactivebg={''}
+              borderradius="28.5px"
               onClick={() => {
                 putNickname(updateNickname);
               }}
