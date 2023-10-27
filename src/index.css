@@ -33,6 +33,28 @@ body {
   opacity: 0.5;
 }
 
+.scrollbar-hide {
+  /* Firefox */
+  scrollbar-width: none;
+  /* Safari and Chrome */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* Chrome/Safari/Webkit */
+}
+
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
 .title {
   @apply text-center mt-[148px] mb-[90px] text-[32px] text-blue font-extrabold;
 }
@@ -41,7 +63,7 @@ body {
 }
 
 .customborder {
-  @apply p-[20px] border-2 border-blue text-blue rounded-md input-placeholder shadow-md shadow-slate-200;
+  @apply p-[20px] text-2xl items-center justify-start border-2 border-blue text-blue rounded-md input-placeholder bg-white shadow-md shadow-slate-200;
 }
 
 .bordernoneinput {

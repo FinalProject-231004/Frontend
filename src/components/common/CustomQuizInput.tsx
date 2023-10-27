@@ -16,7 +16,7 @@ const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
       <h3 className="mb-[20px]">{title}</h3>
       <input
         type="text"
-        className="w-full h-[72px] text-2xl customborder shadow-md"
+        className="w-full h-[72px] customborder"
         placeholder={placeholder}
         value={value}
         onChange={onChange}
