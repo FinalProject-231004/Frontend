@@ -58,6 +58,7 @@ export default function VerifyPassword() {
       const response = await postAPI('/api/member/validate/password', info);
       console.log(response);
       success();
+      navigate('/mypage');
       return (
         <ToastContainer
           position="top-center"
@@ -143,7 +144,6 @@ export default function VerifyPassword() {
             onClick={() => {
               sessionStorage.setItem('selectedTab', 'info'); // 'info' 값을 저장
               postPw(validateInfo);
-              navigate('/mypage');
             }}
           />
         </div>
