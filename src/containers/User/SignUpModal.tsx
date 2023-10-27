@@ -30,11 +30,11 @@ function SignUpModal() {
 
   // 유효성 검사
   const validateId = (id: string) => {
-    const pattern = /^[a-z][a-z\d]{3,14}$/;
+    const pattern = /^[a-z][a-z\d]{4,14}$/;
     setIsId(pattern.test(id));
   };
   const validateNickName = (id: string) => {
-    const pattern = /^(?=.*[가-힣\d])[가-힣\d]{2,5}$/;
+    const pattern = /^(?=.*[a-z\uAC00-\uD7A3\d]).{2,5}$/;
     setIsNickName(pattern.test(id));
   };
   const validatePw = (pw: string) => {
@@ -64,6 +64,7 @@ function SignUpModal() {
     try {
       const response = await postAPI('/api/member/signup', info);
       console.log('Success:', response.data);
+      setLoginModal(true);
     } catch (error) {
       console.error('Error:', error);
     }
