@@ -2,22 +2,22 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useSetRecoilState } from 'recoil';
+import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 
 const Auth = () => {
-  console.log("라우팅 탔음")
-
-  const code = new URL(window.location.href);
-  const codeValue = code.searchParams.get("code");
+  const code = window.location.search;
+  // console.log(code);
   const navigate = useNavigate();
-  console.log(codeValue)
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(
+        const response = await axios.get(
           `${
             import.meta.env.VITE_APP_GENERATED_SERVER_URL
-          }/api/member/kakao/callback?code=${codeValue}`,
+          }/api/member/kakao/callback${code}`,
           {
             headers: {
               "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -25,22 +25,26 @@ const Auth = () => {
           }
         );
 
-        if (res.status === 200) {
-          toast.success("카카오 계정을 통해 로그인 되었습니다.");
-          localStorage.setItem("Authorization", res.headers.authorization);
-          localStorage.setItem("Refresh", res.headers.refresh);
-          // navigate("/");
+        if (response.status === 200) {
+        localStorage.setItem('Authorization', response.headers.authorization);
+        localStorage.setItem('Refresh', response.headers.refresh);
+        setIsLoggedIn(true);
+        navigate('/');  
         }
-        window.location.reload();
+
       } catch (error) {
+        console.log('kakao 소셜 로그인 에러 : ', error);
+        // window.alert('소셜 로그인에 실패하였습니다.');
         toast.error("카카오 로그인에 문제가 생겼습니다.");
-        navigate("/");
+
+        window.location.href = `/`;
       }
     };
+
     fetchData();
   }, []);
 
-  return <></>;
+  return <div>로그인 중입니다.</div>;
 };
 
 export default Auth;

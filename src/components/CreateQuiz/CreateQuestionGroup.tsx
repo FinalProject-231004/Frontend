@@ -21,32 +21,32 @@ const CreateQuestionGroup: React.FC = () => {
   const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
   const { addQuestion, removeQuestion } = useQuestionActions();
   const { id } = useParams();
-  console.log(id);
 
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
       const quizTitle = questions[0]?.text || '';
-      const quizChoices = questions.map(question => ({
-        answer: question.text,
-        checks: question.choices.some(choice => choice.isAnswer),
-      }));
+
+      const quizChoices =
+        questions[0]?.choices.map(choice => ({
+          answer: choice.text,
+          checks: choice.isAnswer,
+        })) || [];
 
       const requestDto = {
         title: quizTitle,
         quizChoices,
       };
 
-      const blob = new Blob([JSON.stringify(requestDto)], {
+      const requestDtoBlob = new Blob([JSON.stringify(requestDto)], {
         type: 'application/json',
       });
 
-      formData.append('requestDto', blob);
+      formData.append('requestDto', requestDtoBlob);
 
       if (questions[0]?.image?.file) {
         formData.append('image', questions[0].image.file);
       }
-
       // 요청 전송
       await axios.post(
         `${
@@ -63,7 +63,7 @@ const CreateQuestionGroup: React.FC = () => {
 
       navigate('/create-quiz/questions');
     } catch (error) {
-      toast.error('퀴즈 생성에 실패했습니다. 다시 시도해주세요.');
+      toast.error(' 퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
       if (axios.isAxiosError(error)) {
         console.error(
           '퀴즈 생성에 실패했습니다:',

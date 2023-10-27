@@ -33,7 +33,6 @@ const Router = () => {
       <TokenRefresher />
       <ConditionalLayout>
         <Routes>
-          {/* <Route path="/api/member/kakao/callback" element={<Auth />} /> */}
           <Route path="/" element={<Home />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/login/kakao" element={<Auth />} />
@@ -43,7 +42,7 @@ const Router = () => {
             element={<CreateQuizQuestions />}
           />
           <Route path="/create-quiz/details" element={<CreateQuizDetails />} />
-          <Route path="/play-quiz/:id" element={<PlayQuiz id={''} />} />
+          <Route path="/play-quiz/:id" element={<PlayQuiz />} />
           {/* <Route path="/mypage" element={<MyPage />} />*/}
         </Routes>
       </ConditionalLayout>

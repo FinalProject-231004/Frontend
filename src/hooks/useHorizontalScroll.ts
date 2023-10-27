@@ -9,7 +9,9 @@ export const useHorizontalScroll = (ref: RefObject<HTMLDivElement>) => {
       currentContainer!.scrollLeft += event.deltaY;
     };
 
-    currentContainer?.addEventListener('wheel', handleWheel);
+    currentContainer?.addEventListener('wheel', handleWheel, {
+      passive: false,
+    });
 
     return () => {
       currentContainer?.removeEventListener('wheel', handleWheel);
