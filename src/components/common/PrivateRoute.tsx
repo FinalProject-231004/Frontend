@@ -1,5 +1,6 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useUserLoggedIn } from '@/hooks'
+import { useEffect } from 'react';
 
 type PrivateRouteProps = {
   children: JSX.Element;
@@ -7,6 +8,14 @@ type PrivateRouteProps = {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const isAuthenticated = useUserLoggedIn();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('isAuthenticated', isAuthenticated)
+    if (!isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   if (!isAuthenticated) {
     return <Navigate to="/" />;
