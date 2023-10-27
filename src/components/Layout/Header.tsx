@@ -1,20 +1,25 @@
 import SignInModal from '@/containers/User/SigninModal';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { LoggedInHeader } from '@/components';
 import { useModalState } from '@/hooks';
-import Modal from 'react-modal';
+import {Modal} from '@/components/index';
+import { toast } from 'react-toastify';
 
 function Header() {
+  const navigate = useNavigate();
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const confirmLoginModal = useModalState();
+  const token = localStorage.getItem('Authorization');
 
-  const handleQuizCreateClick = () => {
-    if (!isLoggedIn) {
-      confirmLoginModal.open();
-    } else {
-      // 로그인한 상태라면 퀴즈 만들기 페이지로 이동하거나 원하는 작업을 수행합니다.
+  const handleQuizCreateClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault(); // 이동 방지
+    if (!token) {
+      // confirmLoginModal.open();
+      toast.warning('로그인이 필요한 서비스입니다.');
+    } else if (token) {
+      navigate('/create-quiz/details');
     }
   };
 
@@ -30,7 +35,7 @@ function Header() {
             <Link onClick={handleQuizCreateClick} to="/create-quiz/details" className="mr-[37px]">
               퀴즈만들기
             </Link>
-            <Link to="" className="mr-[37px]">
+            <Link to="/create-quiz/details" className="mr-[37px]">
               마일리지샵
             </Link>
             <Link to="" className="mr-[37px]">
@@ -42,12 +47,9 @@ function Header() {
 
         <Modal
           isOpen={confirmLoginModal.isOpen}
-          onRequestClose={confirmLoginModal.close}
-          contentLabel="로그인이 필요한 서비스입니다."
-        >
+          onRequestClose={confirmLoginModal.close} width={''} height={''} bgColor={''}>
           <p>로그인이 필요한 서비스입니다.</p>
           <button onClick={confirmLoginModal.close}>닫기</button>
-          {/* 모달 안에 로그인 컴포넌트 또는 로그인 모달을 추가할 수 있습니다. */}
           {/* 예: <SignInModal /> */}
         </Modal>
 
