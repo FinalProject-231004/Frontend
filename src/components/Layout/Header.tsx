@@ -12,7 +12,6 @@ function Header() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const confirmLoginModal = useModalState();
   const token = localStorage.getItem('Authorization');
-  const logoImg = "/img/logo.svg";
 
   const handleQuizCreateClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault(); // 이동 방지
@@ -28,17 +27,17 @@ function Header() {
     <div className="w-[1920px] mx-auto">
       <div className="w-[1920px] h-[72px] mx-auto justify-center fixed top-0 bg-white flex items-center shadow-sm ">
         <div className="flex justify-between w-[1080px]">
-          <div className="flex items-center space-x-[37px]">
-            <Link to="/" style={{ width: '82px' }}>
-              <img src={logoImg} alt="Logo" />
+          <div className="flex items-center space-x-[37px] text-[20px]">
+            <Link to="/" style={{ width: '132px' }}>
+              <img src='/img/logo.svg' alt="Logo" />
             </Link>
-            <Link onClick={handleQuizCreateClick} to="/create-quiz/details" className="mr-[37px]">
+            <Link onClick={handleQuizCreateClick} to="/create-quiz/details">
               퀴즈만들기
             </Link>
-            <Link to="/create-quiz/details" style={{ width: '82px' }}>
+            <Link to="">
               마일리지샵
             </Link>
-            <Link to="" style={{ width: '82px' }}>
+            <Link to="">
               라이브 퀴즈
             </Link>
           </div>

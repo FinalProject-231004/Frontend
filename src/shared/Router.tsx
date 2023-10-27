@@ -5,11 +5,11 @@ import {
   CreateQuizQuestions,
   CreateQuizDetails,
   PlayQuiz,
+  VerifyPassword,
+  MyPage
 } from '@/pages';
-import { Layout } from '@/components';
+import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
-import MyPage from '@/pages/MyPage';
-import VerifyPassword from '@/pages/VerifyPassword';
 import { ReactNode } from 'react';
 import Auth from '@/containers/User/Auth';
 
@@ -34,16 +34,13 @@ const Router = () => {
       <ConditionalLayout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/mypage" element={<MyPage />} />
           <Route path="/login/kakao" element={<Auth />} />
-          <Route path="/mypage/verify-password" element={<VerifyPassword />} />
-          <Route
-            path="/create-quiz/questions/:id"
-            element={<CreateQuizQuestions />}
-          />
-          <Route path="/create-quiz/details" element={<CreateQuizDetails />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
-          {/* <Route path="/mypage" element={<MyPage />} />*/}
+
+          <Route path="/mypage" element={<PrivateRoute><MyPage /></PrivateRoute>} />
+          <Route path="/mypage/verify-password" element={<PrivateRoute><VerifyPassword /></PrivateRoute>} />
+          <Route path="/create-quiz/questions/:id" element={<PrivateRoute><CreateQuizQuestions /></PrivateRoute>} />
+          <Route path="/create-quiz/details" element={<PrivateRoute><CreateQuizDetails /></PrivateRoute>} />
         </Routes>
       </ConditionalLayout>
     </BrowserRouter>
