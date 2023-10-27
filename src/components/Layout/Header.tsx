@@ -12,6 +12,7 @@ function Header() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const confirmLoginModal = useModalState();
   const token = localStorage.getItem('Authorization');
+  const logoImg = "/img/logo.svg";
 
   const handleQuizCreateClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault(); // 이동 방지
@@ -30,7 +31,7 @@ function Header() {
         <div className="flex justify-between w-[1080px]">
           <div className="flex items-center">
             <Link to="/" className="mr-[37px]">
-              로고
+              <img src={logoImg} alt="Logo" />
             </Link>
             <Link onClick={handleQuizCreateClick} to="/create-quiz/details" className="mr-[37px]">
               퀴즈만들기
