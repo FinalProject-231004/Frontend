@@ -19,6 +19,9 @@ export default {
       regular: 400,
       extrabold: 800,
     },
+    scrollBehavior: {
+      smooth: 'smooth',
+    },
   },
   plugins: [require('@tailwindcss/forms'), tailwindScrollbar],
 };
