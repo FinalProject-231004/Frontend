@@ -37,7 +37,7 @@ export default function LoggedInProfileMenu() {
       const response = await getAPI<profileAPIResponse>(
         '/api/mypage/memberInfo',
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       const getData = response.data.data;
       setNickName(getData.nickname);
       setUserNickname(getData.nickname);

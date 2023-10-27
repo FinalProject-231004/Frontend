@@ -59,7 +59,7 @@ const SearchBar = () => {
       const response = await getAPI<SearchResult[]>(`/api/quiz/search-bar?keyword=${searchInput}`);
       setRelativeSearch(response.data);
       setIsSearchOpen(true);
-      console.log("퀴즈 검색",response.data);
+      // console.log("퀴즈 검색",response.data);
     } catch (error) {
       console.log('error', error);
     }
