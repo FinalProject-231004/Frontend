@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CommentSectionProps } from '@/types/result';
 import { CommentInput, CommentList } from '@/components';
-import { postAPI } from '@/apis/axios';
 import { toast } from 'react-toastify';
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { commentsState } from '@/recoil/atoms/CommentAtom';
 
-const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
+const CommentSection: React.FC<CommentSectionProps> = ({
+  comments,
+  quizId,
+}) => {
   const [newComment, setNewComment] = useState('');
-  const [commentId] = useState<number>(1); // 이 부분은 당신이 어디에서 ID를 가져오느냐에 따라 달라질 수 있습니다.
+  const [commentState, setCommentState] = useRecoilState(commentsState);
+
+  useEffect(() => {
+    if (comments) {
+      setCommentState(comments);
+    }
+  }, [comments]);
 
   const handleNewCommentChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -15,24 +26,34 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
   };
 
   const handleAddComment = async () => {
+    console.log('handleAddComment');
     if (newComment.trim() === '') {
       toast.warn('댓글을 입력해주세요 ! 🤡');
       return;
     }
 
+    console.log('호출 전 :', newComment);
     try {
-      const response = await postAPI(`/comment/${commentId}`, {
-        content: newComment,
-      });
+      const response = await axios.post(
+        `${
+          import.meta.env.VITE_APP_GENERATED_SERVER_URL
+        }/api/comment/${quizId}`,
+        {
+          content: newComment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+          },
+        },
+      );
+      console.log('호출 후 :', newComment);
 
-      if (response.data && response.data.msg) {
-        alert(response.data.msg);
+      const newCommentData = response.data; // 서버로부터 받은 새 댓글 데이터
+      if (newCommentData) {
+        setCommentState(prevComments => [...prevComments, newCommentData]);
+        setNewComment('');
       }
-
-      // 여기서 댓글 목록을 다시 불러오거나, 댓글을 직접 추가하세요.
-      // 예: setComments([...comments, newCommentData]);
-
-      setNewComment('');
     } catch (error) {
       console.error('댓글 추가 실패', error);
       toast.error('댓글 추가에 실패했습니다. 다시 시도해주세요. 😥');
@@ -56,8 +77,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
           className="overflow-x-hidden overflow-y-auto h-[450px] scroll-smooth"
           onScroll={handleScroll}
         >
-          {comments && comments.length > 0 ? (
-            comments.map(comment => (
+          {commentState && commentState.length > 0 ? (
+            commentState.map(comment => (
               <CommentList key={comment.id} commentData={comment} />
             ))
           ) : (

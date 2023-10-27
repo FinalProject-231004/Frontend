@@ -50,7 +50,10 @@ const QuizThumbnailModal: React.FC<QuizThumbnailModalProps> = ({
 
             <div className="w-1/2">
               <div className="w-[520px] mx-auto">
-                <CommentSection comments={quizDetail.comments || []} />
+                <CommentSection
+                  comments={quizDetail.comments || []}
+                  quizId={quizDetail.id}
+                />
               </div>
             </div>
           </div>

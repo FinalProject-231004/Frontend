@@ -42,7 +42,7 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
             />
           </div>
           <div className="flex w-1/2 items-end">
-            <CommentSection comments={data.comments} />
+            <CommentSection comments={data.comments} quizId={quizId} />
           </div>
         </div>
 
