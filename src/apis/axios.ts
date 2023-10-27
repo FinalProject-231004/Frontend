@@ -11,7 +11,7 @@ axios.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `${token}`;
     }
-    config.withCredentials = true;
+    // config.withCredentials = true;
     return config;
   },
   error => {

@@ -99,10 +99,10 @@ function SignUpModal() {
         isOpen={isOpen}
         width="713px"
         height="589px"
-        bgColor="#0078FF"
+        bgColor="#F1F8FF"
       >
         <div className="flex flex-col justify-around  items-center">
-          <p className="my-[42px] text-[34px] text-white">회원가입</p>
+          <p className="my-[42px] text-[34px] text-blue">회원가입</p>
 
           <div className="w-[530px] h-[350px] flex flex-col justify-between">
             <div className="flex justify-between">
@@ -124,7 +124,7 @@ function SignUpModal() {
                   borderColor={''}
                 />
                 {idInput.length >= 0 && (
-                  <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
+                  <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
                     {/* <div className={`message ${validationClass(isId)}`}>
                       {idMessage}
                     </div> */}
@@ -151,7 +151,7 @@ function SignUpModal() {
                   borderColor={''}
                 />
                 {nickNameInput.length >= 0 && (
-                  <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
+                  <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
                     {nickNameMessage}
                   </div>
                 )}
@@ -176,7 +176,7 @@ function SignUpModal() {
                 borderColor={''}
               />
               {pwInput.length >= 0 && (
-                <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
+                <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
                   {pwMessage}
                 </div>
               )}
@@ -196,13 +196,13 @@ function SignUpModal() {
                 }}
               />
               {pwCheckInput.length >= 0 && (
-                <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
+                <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
                   {pwCheckMessage}
                 </div>
               )}
             </div>
 
-            <div className="text-xs text-center mb-2 text-white">
+            <div className="text-xs text-center mb-2 text-blue">
               {allCheckMessag}
             </div>
           </div>
@@ -212,7 +212,7 @@ function SignUpModal() {
             fontColor="white"
             fontSize="21px"
             BtnName="가입하기"
-            BtnBg="navy"
+            BtnBg="#0078ff"
             BtnHoverBg={''}
             BtnActiveBg={''}
             borderRadius="28.5px"

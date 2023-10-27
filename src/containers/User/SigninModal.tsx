@@ -92,11 +92,11 @@ function SignInModal() {
         isOpen={isOpen}
         width="713px"
         height="590px"
-        bgColor="#0078FF"
+        bgColor="#F1F8FF"
       >
         {loginMoadal ? (
           <div className="flex flex-col justify-center items-center">
-            <h1 className="text-[34px] text-white my-[40px]">로그인</h1>
+            <h1 className="text-[34px] text-blue my-[40px]">로그인</h1>
             <div className="w-[530px] mb-[40px]">
               <div className="mb-[22px]">
                 <UserInfoInput
@@ -132,7 +132,7 @@ function SignInModal() {
                 fontSize="26px"
                 fontColor="#fff"
                 BtnName="로그인 하기"
-                BtnBg="navy"
+                BtnBg="#0078FF"
                 BtnHoverBg=""
                 BtnActiveBg={''}
                 borderRadius="12px"
