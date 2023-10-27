@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useHorizontalScroll } from '@/hooks';
 import { BottomLongButton, ChoiceInput } from '@/components';
 import { useRecoilState } from 'recoil';
@@ -7,6 +7,7 @@ import { playQuizAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { postAPI } from '@/apis/axios';
+import { toast } from 'react-toastify';
 
 type PlayQuizProps = {
   totalQuestions: number;
@@ -19,6 +20,21 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
   const navigate = useNavigate();
 
   useHorizontalScroll(questionButtonContainerRef);
+
+  useEffect(() => {
+    // questions 배열이 비어있거나 첫 번째 문항의 quizChoices 길이가 2 미만인 경우
+    if (
+      questions.length === 0 ||
+      (questions[0] && questions[0].quizChoices.length < 2)
+    ) {
+      toast.error(
+        '퀴즈에 오류가 발견 됐어요 😱! 이전 페이지로 돌아갑니다 🐱‍👤',
+      );
+      setTimeout(() => {
+        navigate(-1); // 이전 페이지로 이동
+      }, 5000); // 3초 후 실행
+    }
+  }, []);
 
   const sendQuizDataToServer = async (id: number, questionData: PlayQuiz) => {
     try {
@@ -87,7 +103,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
           {Array.from({ length: totalQuestions }).map((_, idx) => (
             <div
               key={idx}
-              className={`w-[72px] h-[72px] text-2xl rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
+              className={`min-w-[72px] h-[72px] text-2xl rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
                 idx + 1 === selectedQuestion
                   ? 'bg-blue text-white boder-blue'
                   : 'bg-white text-blue border-white'
