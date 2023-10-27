@@ -5,6 +5,7 @@ import {
   CreateQuizQuestions,
   CreateQuizDetails,
   PlayQuiz,
+  ResultPage,
 } from '@/pages';
 import { Layout } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
@@ -44,7 +45,7 @@ const Router = () => {
           />
           <Route path="/create-quiz/details" element={<CreateQuizDetails />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
-          {/* <Route path="/mypage" element={<MyPage />} />*/}
+          <Route path="/result/:id" element={<ResultPage />} />
         </Routes>
       </ConditionalLayout>
     </BrowserRouter>

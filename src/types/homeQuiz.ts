@@ -1,3 +1,5 @@
+import { Comments } from './result';
+
 export type Banner = {
   image: string;
   category: string;
@@ -47,12 +49,4 @@ export type QuizDetail = {
   category: 'string';
   content: 'string';
   comments: Comments[];
-};
-
-export type Comments = {
-  id: number;
-  comment: 'string';
-  complainInt: number;
-  memberId: number;
-  nickname: 'string';
 };

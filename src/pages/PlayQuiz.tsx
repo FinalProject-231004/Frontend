@@ -1,7 +1,7 @@
 import { PlayQuizGroup } from '@/components';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { usePlayQuiz } from '@/hooks'; // 경로는 실제 프로젝트에 따라 수정해야 합니다.
+import { usePlayQuiz } from '@/hooks';
 
 const PlayQuiz: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,7 +11,6 @@ const PlayQuiz: React.FC = () => {
   useEffect(() => {
     if (isNaN(numericId) || numericId <= 0) {
       console.error('Invalid quiz ID');
-      // 오류 처리 로직 추가
     }
   }, [numericId]);
 
