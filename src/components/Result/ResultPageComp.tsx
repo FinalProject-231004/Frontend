@@ -1,6 +1,5 @@
 import { QuizCustomButton, QuizInfo, CommentSection } from '@/components';
 import { useGetQuizDetail, useLike } from '@/hooks';
-import { AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router';
 import { QuizResultProps } from '@/types/questionTypes';
 import { useState } from 'react';

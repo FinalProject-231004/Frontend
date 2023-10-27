@@ -6,7 +6,6 @@ import { PlayQuiz } from '@/types/questionTypes';
 import { playQuizAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import { postAPI } from '@/apis/axios';
 import { toast } from 'react-toastify';
 
 type PlayQuizProps = {
@@ -36,21 +35,22 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
     }
   }, []);
 
-  const sendQuizDataToServer = async (id: number, questionData: PlayQuiz) => {
+  const sendQuizDataToServer = async (id: number) => {
     try {
-      const response = await postAPI(
-        `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/choice/${id}`,
+      const token = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`;
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/choice`,
         {
-          image: '',
-          requestDto: {
-            title: questionData.title,
-            choices: questionData.quizChoices.map(choice => ({
-              answer: choice.answer,
-              checks: choice.checks,
-            })),
+          id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
         },
       );
+
       console.log(response.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -144,10 +144,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
 
       <BottomLongButton
         onClick={() => {
-          sendQuizDataToServer(
-            parseInt(questions[selectedQuestion - 1].id),
-            questions[selectedQuestion - 1],
-          );
+          sendQuizDataToServer(parseInt(questions[selectedQuestion - 1].id));
           moveToNextQuestion();
         }}
       >
