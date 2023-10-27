@@ -13,7 +13,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = ({
   onCheck,
 }) => {
   return (
-    <div className="w-full h-[72px] flex items-center mb-[10px] customborder bg-white">
+    <div className="w-full h-[72px] flex mb-[10px] customborder">
       <div className="w-full flex justify-between items-center">
         <Checkbox
           className="scale-[1.8]"
