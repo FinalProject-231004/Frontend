@@ -17,24 +17,12 @@ export default function LoggedInNotification() {
 
   // const navigate = useNavigate();
 
-  // {
-  //   "id": 0,
-  //   "notificationId": "string",
-  //   "receiver": "string",
-  //   "content": "string",
-  //   "notificationType": "string",
-  //   "url": "string",
-  //   "readYn": "string",
-  //   "deletedYn": "string",
-  //   "created_at": "2023-10-20T01:24:07.940Z"
-  // }
-
   const getNotification = async () => {
     try {
       const response = await getAPI('/api/notification');
       const responseData = response.data as Notification[];
       setNotification(responseData);
-      console.log(responseData);
+      // console.log(responseData);
     } catch (error) {
       console.log('error', error);
     }

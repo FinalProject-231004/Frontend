@@ -29,6 +29,8 @@ function SignInModal() {
     try {
       const response = await postAPI('/api/member/login', info);
       if (response.status === 200) {
+        localStorage.setItem('Authorization', response.headers.authorization);
+        localStorage.setItem('Refresh', response.headers.refresh);
         setIsLoggedIn(true);
         closeModal();
       }

@@ -12,8 +12,9 @@ import { useNavigate } from 'react-router';
 import { LoggedInAttendence } from '@/components';
 import { getAPI } from '@/apis/axios';
 import { profileAPIResponse } from '@/types/header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { logOut } from '@/utils/authHelpers';
+
 import {
   userMileageState,
   userNickNameState,
@@ -29,6 +30,7 @@ export default function LoggedInProfileMenu() {
   const [mileage, setMileage] = useState(0);
   const setUserNickname = useSetRecoilState(userNickNameState);
   const setUserMileage = useSetRecoilState(userMileageState);
+  const baseImg = 'public/img/bonobono.png'
 
   const navigate = useNavigate();
 
@@ -37,7 +39,7 @@ export default function LoggedInProfileMenu() {
       const response = await getAPI<profileAPIResponse>(
         '/api/mypage/memberInfo',
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       const getData = response.data.data;
       setNickName(getData.nickname);
       setUserNickname(getData.nickname);
@@ -63,13 +65,16 @@ export default function LoggedInProfileMenu() {
     setAnchorElUser(null);
   };
 
+  useEffect(()=>{
+    getUserInfo();
+  },[])
+
   return (
     <>
       <Box sx={{ flexGrow: 0 }}>
         {/* <Tooltip title="Open settings"> */}
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />{' '}
-          {/* image */}
+          <Avatar alt={nickName} src={image || baseImg} />
         </IconButton>
         {/* </Tooltip> */}
         <Menu
