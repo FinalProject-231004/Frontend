@@ -14,7 +14,6 @@ function SignInModal() {
   const [loginMoadal, setLoginMoadal] = useRecoilState(loginModalState);
 
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  // const token = useRecoilValue(isLoggedInState);
 
   type postData = {
     username: string;

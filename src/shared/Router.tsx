@@ -33,7 +33,6 @@ const Router = () => {
       <TokenRefresher />
       <ConditionalLayout>
         <Routes>
-          {/* <Route path="/api/member/kakao/callback" element={<Auth />} /> */}
           <Route path="/" element={<Home />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/login/kakao" element={<Auth />} />
