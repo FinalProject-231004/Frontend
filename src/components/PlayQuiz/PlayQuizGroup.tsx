@@ -6,6 +6,7 @@ import { PlayQuiz } from '@/types/questionTypes';
 import { playQuizAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { postAPI } from '@/apis/axios';
 
 type PlayQuizProps = {
   totalQuestions: number;
@@ -21,43 +22,40 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
 
   const sendQuizDataToServer = async (id: number, questionData: PlayQuiz) => {
     try {
-      const response = await axios.post(
-        `/api/quiz/${id}/quizQuestion`,
+      const response = await postAPI(
+        `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/choice/${id}`,
         {
-          image: 'YOUR_IMAGE_STRING_HERE', // 이미지 문자열 정보를 여기에 넣어주세요
+          image: '',
           requestDto: {
             title: questionData.title,
-            choices: questionData.quizChoices.map(quizChoices => ({
-              answer: quizChoices.answer,
-              isAnswer: quizChoices.checks,
+            choices: questionData.quizChoices.map(choice => ({
+              answer: choice.answer,
+              checks: choice.checks,
             })),
           },
         },
-        {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
-          },
-        },
       );
-      if (response.status === 200) {
-        console.log(response.data);
-      } else {
-        console.error('Failed to send data to server.');
-      }
+      console.log(response.data);
     } catch (error) {
-      console.error('Error:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Failed to send data to server:', error.response?.data);
+      } else {
+        console.error('An unexpected error occurred:', error);
+      }
     }
   };
 
   // 체크 상태를 변경하는 함수
-  const handleChoiceCheck = (questionId: string) => {
+  const handleChoiceCheck = (questionId: number, choiceId: number) => {
     setQuestions(prevQuestions =>
       prevQuestions.map(q => {
-        if (q.id === questionId) {
+        if (Number(q.id) === questionId) {
           return {
             ...q,
             quizChoices: q.quizChoices.map(c =>
-              c.id === c.id ? { ...c, checks: true } : { ...c, checks: false },
+              c.id === choiceId
+                ? { ...c, checks: !c.checks }
+                : { ...c, checks: false },
             ),
           };
         }
@@ -70,41 +68,17 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
     if (selectedQuestion < totalQuestions) {
       setSelectedQuestion(prev => prev + 1);
     } else {
-      // 마지막 문제에서는 '/' 페이지로 라우팅
+      // 나중에 결과페이지로 변경변경변경 🐣
       navigate('/');
     }
   };
 
+  console.log(questions, selectedQuestion);
   return (
     <div>
       <h1 className="play-quiz__title">
         Q{selectedQuestion}. {questions[selectedQuestion - 1]?.title || '제목'}
       </h1>
-
-      {/* 문항에 이미지가 있다면 불러오기 - 이미지 요기 오세요 */}
-      <img
-        className="w-full h-[460px] mb-[10px] border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center"
-        style={{
-          backgroundImage: `url(${
-            questions[selectedQuestion - 1]?.image || ''
-          })`,
-        }}
-      />
-      <div>
-        {questions[selectedQuestion - 1]?.quizChoices.map(
-          (quizChoices, idx) => (
-            <ChoiceInput
-              key={quizChoices.id} //
-              checked={quizChoices.checks || false}
-              onCheck={() =>
-                handleChoiceCheck(questions[selectedQuestion - 1].id)
-              }
-            >
-              {quizChoices.answer || `문항 내용 짠짠 ${idx + 1}`}
-            </ChoiceInput>
-          ),
-        )}
-      </div>
       <div className="w-[900px] h-[160px] mt-16 mx-auto">
         <div
           className="flex space-x-5 mb-5 justify-center items-center"
@@ -113,26 +87,51 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
           {Array.from({ length: totalQuestions }).map((_, idx) => (
             <div
               key={idx}
-              className={`w-[72px] h-[72px] text-2xl rounded-full flex justify-center items-center border-blue border-2 ${
+              className={`w-[72px] h-[72px] text-2xl rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
                 idx + 1 === selectedQuestion
-                  ? 'bg-blue text-white'
-                  : 'bg-white text-blue'
+                  ? 'bg-blue text-white boder-blue'
+                  : 'bg-white text-blue border-white'
               }`}
             >
               Q{idx + 1}
             </div>
           ))}
         </div>
-        <div className="w-[900px] h-[35px] mt-5 border-2 border-blue relative rounded-[30px]">
+        <div className="w-[900px] h-[35px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
           <div
             className="h-full bg-blue rounded-[30px]"
             style={{ width: `${(selectedQuestion / totalQuestions) * 100}%` }}
           ></div>
         </div>
       </div>
+      <img
+        className="w-full h-[460px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
+        src={questions[selectedQuestion - 1]?.image}
+        alt="Quiz Image"
+      />
+      <div>
+        {questions[selectedQuestion - 1]?.quizChoices?.map((choice, idx) => (
+          <ChoiceInput
+            key={choice.id}
+            checked={choice.checks}
+            onCheck={() =>
+              handleChoiceCheck(
+                Number(questions[selectedQuestion - 1].id),
+                choice.id,
+              )
+            }
+          >
+            {choice.answer || `문항 내용 짠짠 ${idx + 1}`}
+          </ChoiceInput>
+        ))}
+      </div>
+
       <BottomLongButton
         onClick={() => {
-          sendQuizDataToServer;
+          sendQuizDataToServer(
+            parseInt(questions[selectedQuestion - 1].id),
+            questions[selectedQuestion - 1],
+          );
           moveToNextQuestion();
         }}
       >

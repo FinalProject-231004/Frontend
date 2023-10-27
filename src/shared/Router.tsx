@@ -42,7 +42,7 @@ const Router = () => {
             element={<CreateQuizQuestions />}
           />
           <Route path="/create-quiz/details" element={<CreateQuizDetails />} />
-          <Route path="/play-quiz/:id" element={<PlayQuiz id={''} />} />
+          <Route path="/play-quiz/:id" element={<PlayQuiz />} />
           {/* <Route path="/mypage" element={<MyPage />} />*/}
         </Routes>
       </ConditionalLayout>

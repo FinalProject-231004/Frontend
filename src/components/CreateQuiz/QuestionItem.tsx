@@ -24,7 +24,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
         : q,
     );
     setQuestions(updatedQuestions);
-    toast.success('이미지 업로드 성공!😎');
+    toast.success(' 이미지 업로드 성공 ! 😎');
   };
 
   return (
@@ -42,6 +42,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
               const updatedQuestions = removeImage(questionId);
               if (Array.isArray(updatedQuestions)) {
                 setQuestions(updatedQuestions);
+                toast.error(' 이미지를 삭제했어요 ! 🧺');
               }
             }}
           />
