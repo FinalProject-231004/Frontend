@@ -30,11 +30,11 @@ function SignUpModal() {
 
   // 유효성 검사
   const validateId = (id: string) => {
-    const pattern = /^[a-z][a-z\d]{3,14}$/;
+    const pattern = /^[a-z][a-z\d]{4,14}$/;
     setIsId(pattern.test(id));
   };
   const validateNickName = (id: string) => {
-    const pattern = /^(?=.*[가-힣\d])[가-힣\d]{2,5}$/;
+    const pattern = /^(?=.*[a-z\uAC00-\uD7A3\d]).{2,5}$/;
     setIsNickName(pattern.test(id));
   };
   const validatePw = (pw: string) => {
@@ -52,8 +52,6 @@ function SignUpModal() {
     }
   };
 
-  // const validationClass = (isSuccess: boolean) => (isSuccess ? 'text-green-600' : 'text-red-600');
-
   type postData = {
     username: string;
     password: string;
@@ -64,6 +62,7 @@ function SignUpModal() {
     try {
       const response = await postAPI('/api/member/signup', info);
       console.log('Success:', response.data);
+      setLoginModal(true);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -98,10 +97,10 @@ function SignUpModal() {
         isOpen={isOpen}
         width="713px"
         height="589px"
-        bgColor="#0078FF"
+        bgColor="#F1F8FF"
       >
         <div className="flex flex-col justify-around  items-center">
-          <p className="my-[42px] text-[34px] text-white">회원가입</p>
+          <p className="my-[42px] text-[34px] text-blue">회원가입</p>
 
           <div className="w-[530px] h-[350px] flex flex-col justify-between">
             <div className="flex justify-between">
@@ -123,10 +122,7 @@ function SignUpModal() {
                   borderColor={''}
                 />
                 {idInput.length >= 0 && (
-                  <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
-                    {/* <div className={`message ${validationClass(isId)}`}>
-                      {idMessage}
-                    </div> */}
+                  <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
                     {idMessage}
                   </div>
                 )}
@@ -150,7 +146,7 @@ function SignUpModal() {
                   borderColor={''}
                 />
                 {nickNameInput.length >= 0 && (
-                  <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
+                  <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
                     {nickNameMessage}
                   </div>
                 )}
@@ -175,7 +171,7 @@ function SignUpModal() {
                 borderColor={''}
               />
               {pwInput.length >= 0 && (
-                <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
+                <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
                   {pwMessage}
                 </div>
               )}
@@ -195,13 +191,13 @@ function SignUpModal() {
                 }}
               />
               {pwCheckInput.length >= 0 && (
-                <div className="mt-1 ml-1 text-[11.5px] text-white font-hairline">
+                <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
                   {pwCheckMessage}
                 </div>
               )}
             </div>
 
-            <div className="text-xs text-center mb-2 text-white">
+            <div className="text-xs text-center mb-2 text-blue">
               {allCheckMessag}
             </div>
           </div>
@@ -211,7 +207,7 @@ function SignUpModal() {
             fontColor="white"
             fontSize="21px"
             BtnName="가입하기"
-            BtnBg="navy"
+            BtnBg="#0078ff"
             BtnHoverBg={''}
             BtnActiveBg={''}
             borderRadius="28.5px"
