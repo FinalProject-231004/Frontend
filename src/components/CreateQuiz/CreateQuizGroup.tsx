@@ -127,7 +127,7 @@ const CreateQuizGroup: React.FC = () => {
       <div className="mb-[30px]">
         <h3 className="mb-[20px]">퀴즈 소개글</h3>
         <textarea
-          className="w-full h-[174px] text-2xl customborder"
+          className="w-full h-[174px] customborder"
           placeholder="퀴즈를 소개하는 글을 써주세요"
           value={quiz.content || ''}
           onChange={handleContentChange}

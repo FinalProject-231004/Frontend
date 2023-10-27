@@ -5,6 +5,7 @@ import {
   CreateQuizQuestions,
   CreateQuizDetails,
   PlayQuiz,
+  ResultPage,
   VerifyPassword,
   MyPage
 } from '@/pages';
@@ -36,7 +37,8 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login/kakao" element={<Auth />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
-
+          <Route path="/result/:id" element={<ResultPage />} />
+          
           <Route path="/mypage" element={<PrivateRoute><MyPage /></PrivateRoute>} />
           <Route path="/mypage/verify-password" element={<PrivateRoute><VerifyPassword /></PrivateRoute>} />
           <Route path="/create-quiz/questions/:id" element={<PrivateRoute><CreateQuizQuestions /></PrivateRoute>} />
