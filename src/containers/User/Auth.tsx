@@ -7,7 +7,7 @@ import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 
 const Auth = () => {
   const code = window.location.search;
-  console.log(code);
+  // console.log(code);
   const navigate = useNavigate();
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
 
@@ -26,10 +26,8 @@ const Auth = () => {
         );
 
         if (response.status === 200) {
-        console.log("카카오 로그인 성공",response)
         localStorage.setItem('Authorization', response.headers.authorization);
         localStorage.setItem('Refresh', response.headers.refresh);
-        console.log("카카오 로그인 종료",response.status)
         setIsLoggedIn(true);
         navigate('/');  
         }

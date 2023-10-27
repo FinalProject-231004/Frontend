@@ -52,8 +52,6 @@ function SignUpModal() {
     }
   };
 
-  // const validationClass = (isSuccess: boolean) => (isSuccess ? 'text-green-600' : 'text-red-600');
-
   type postData = {
     username: string;
     password: string;
@@ -125,9 +123,6 @@ function SignUpModal() {
                 />
                 {idInput.length >= 0 && (
                   <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
-                    {/* <div className={`message ${validationClass(isId)}`}>
-                      {idMessage}
-                    </div> */}
                     {idMessage}
                   </div>
                 )}

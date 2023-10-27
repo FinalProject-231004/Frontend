@@ -29,23 +29,16 @@ function SignInModal() {
     try {
       const response = await postAPI('/api/member/login', info);
       if (response.status === 200) {
-        console.log(response.headers);
-        localStorage.setItem('Authorization', response.headers.authorization);
-        localStorage.setItem('Refresh', response.headers.refresh);
-        // console.log( 'authoriztion : ',response.headers['authorization']);
-        // console.log('refresh : ',response.headers['refrezsh']);
         setIsLoggedIn(true);
         closeModal();
       }
-      console.log('Success:', response.data);
+      // console.log('Success:', response.data);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
   useEffect(() => {
-    // 페이지가 로드될 때 localStorage에서 토큰을 가져와서
-    // 토큰이 있다면 isLoggedIn 상태를 true로 업데이트
     const token = localStorage.getItem('Authorization');
     if (token) {
       setIsLoggedIn(true);
