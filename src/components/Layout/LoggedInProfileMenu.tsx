@@ -30,7 +30,6 @@ export default function LoggedInProfileMenu() {
   const [mileage, setMileage] = useState(0);
   const setUserNickname = useSetRecoilState(userNickNameState);
   const setUserMileage = useSetRecoilState(userMileageState);
-  const baseImg = 'public/img/bonobono.png'
 
   const navigate = useNavigate();
 
@@ -74,7 +73,7 @@ export default function LoggedInProfileMenu() {
       <Box sx={{ flexGrow: 0 }}>
         {/* <Tooltip title="Open settings"> */}
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt={nickName} src={image || baseImg} />
+          <Avatar alt={nickName} src={image || 'public/img/bonobono.png'} />
         </IconButton>
         {/* </Tooltip> */}
         <Menu
