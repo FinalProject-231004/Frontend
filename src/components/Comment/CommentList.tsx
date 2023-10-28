@@ -14,7 +14,7 @@ const CommentList: React.FC<CommentProps> = ({ commentData }) => {
           {commentData.nickname}
         </div>
         <div className="w-[438px] h-[50px] flex customborder">
-          {commentData.comment}
+          {commentData.content}
         </div>
       </div>
     </div>

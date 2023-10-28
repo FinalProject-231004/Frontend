@@ -4,7 +4,7 @@ import { CommentInput, CommentList } from '@/components';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import { commentsState } from '@/recoil/atoms/CommentAtom';
+import { commentsState } from '@/recoil/atoms/commentAtom';
 
 const CommentSection: React.FC<CommentSectionProps> = ({
   comments,
