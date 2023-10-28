@@ -1,23 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { CommentSectionProps } from '@/types/result';
 import { CommentInput, CommentList } from '@/components';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
+// import { useRecoilState } from 'recoil';
 import { commentsState } from '@/recoil/atoms/commentAtom';
 
 const CommentSection: React.FC<CommentSectionProps> = ({
-  comments,
   quizId,
+  comments,
 }) => {
   const [newComment, setNewComment] = useState('');
-  const [commentState, setCommentState] = useRecoilState(commentsState);
+  // const [commentState, setCommentState] = useRecoilState(commentsState);
+  const [commentState, setCommentState] = useState(comments);
+  console.log(commentState);
+  console.log(commentsState);
 
-  useEffect(() => {
-    if (comments) {
-      setCommentState(comments);
-    }
-  }, [comments]);
+  // useEffect(() => {
+  //   if (comments) {
+  //     setCommentState(comments);
+  //   }
+  // }, [comments]);
 
   const handleNewCommentChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -48,8 +51,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({
         },
       );
       console.log('호출 후 :', newComment);
-
+      console.log(response);
       const newCommentData = response.data; // 서버로부터 받은 새 댓글 데이터
+      console.log(newCommentData);
       if (newCommentData) {
         setCommentState(prevComments => [...prevComments, newCommentData]);
         setNewComment('');

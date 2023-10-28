@@ -25,29 +25,41 @@ const CreateQuestionGroup: React.FC = () => {
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
-      const quizTitle = questions[0]?.text || '';
-
-      const quizChoices =
-        questions[0]?.choices.map(choice => ({
+      const requestDtoArray = questions.map(question => {
+        const quizTitle = question.text || '';
+        const quizChoices = question.choices.map(choice => ({
           answer: choice.text,
           checks: choice.isAnswer,
-        })) || [];
-
-      const requestDto = {
-        title: quizTitle,
-        quizChoices,
-      };
-
-      const requestDtoBlob = new Blob([JSON.stringify(requestDto)], {
-        type: 'application/json',
+        }));
+        return {
+          title: quizTitle,
+          quizChoices,
+        };
       });
 
+      // Blob 객체로 변환
+      const requestDtoBlob = new Blob([JSON.stringify(requestDtoArray)], {
+        type: 'application/json',
+      });
       formData.append('requestDto', requestDtoBlob);
 
-      if (questions[0]?.image?.file) {
-        formData.append('image', questions[0].image.file);
+      // 이미지 파일을 배열로
+      const images = questions
+        .map(question => question.image?.file)
+        .filter(Boolean);
+
+      if (images.length === 0) {
+        toast.error('모든 질문에 이미지를 첨부해주세요.');
+        return false;
       }
-      // 요청 전송
+
+      images.forEach(image => {
+        if (image instanceof File) {
+          formData.append('image', image);
+        }
+      });
+
+      // API 요청
       await axios.post(
         `${
           import.meta.env.VITE_APP_GENERATED_SERVER_URL
@@ -62,17 +74,11 @@ const CreateQuestionGroup: React.FC = () => {
       );
 
       navigate('/create-quiz/questions');
+      return true; // 성공적으로 퀴즈를 제출했다면 true를 반환
     } catch (error) {
-      toast.error(' 퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
-      if (axios.isAxiosError(error)) {
-        console.error(
-          '퀴즈 생성에 실패했습니다:',
-          error.response?.data || error.message,
-        );
-      } else {
-        console.error('퀴즈 생성에 실패했습니다:', error);
-      }
-      throw error; // 에러를 던져서 상위 함수에서 catch 할 수 있게 함
+      console.error('Quiz submission failed:', error);
+      toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
+      return false;
     }
   };
 
@@ -90,17 +96,13 @@ const CreateQuestionGroup: React.FC = () => {
   };
 
   const handleNavigation = async () => {
-    try {
-      if (checkForIncompleteData()) {
-        warningModal.open();
-      } else {
-        await submitQuiz();
+    if (checkForIncompleteData()) {
+      warningModal.open();
+    } else {
+      const result = await submitQuiz();
+      if (result) {
         navigate('/');
       }
-    } catch (error) {
-      // submitQuiz에서 에러가 발생하면 여기로 온다.
-      // 이 경우에는 페이지 이동을 하지 않음.
-      console.error('Quiz submission failed:', error);
     }
   };
 
