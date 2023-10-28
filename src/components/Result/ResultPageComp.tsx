@@ -1,25 +1,26 @@
 import { QuizCustomButton, QuizInfo, CommentSection } from '@/components';
-import { useGetQuizDetail, useLike } from '@/hooks';
+import { useLike } from '@/hooks';
 import { useNavigate } from 'react-router';
-import { QuizResultProps } from '@/types/questionTypes';
+import { QuizResultProps } from '@/types/result';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 
 const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
+  console.log(msg, data);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const quizId = data.id;
-  console.log(data);
-  const { data: QuizResult } = useGetQuizDetail<QuizResultProps>(
-    `/api/quiz/result/${quizId}`,
-    ['QuizResult', quizId],
-  );
-  console.log(quizId);
-  const { isLiked, likes, handleLike } = useLike(quizId, data.likes || 0);
+  const { id } = useParams();
+
+  console.log(data); // undefined
+  console.log(data); // undefined
+
+  const { isLiked, likes, handleLike } = useLike(Number(id), data.likes || 0);
   const navigate = useNavigate();
-  if (!QuizResult) return null;
+  if (!data) return null;
 
   const handleCopyLink = () => {
-    const currentURL = `${window.location.origin}/api/quiz/result/${quizId}`;
+    const currentURL = `${window.location.origin}/api/quiz/result/${id}`;
     navigator.clipboard.writeText(currentURL).then(
       () => {
         toast.success('링크 복사 완료! 🤗');
@@ -49,7 +50,7 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
             />
           </div>
           <div className="flex w-1/2 items-end">
-            <CommentSection comments={data.comments} quizId={quizId} />
+            <CommentSection comments={data.comments} quizId={Number(id)} />
           </div>
         </div>
 

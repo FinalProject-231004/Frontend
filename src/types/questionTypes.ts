@@ -60,16 +60,3 @@ export type QuizQuestion = {
     ];
   };
 };
-
-export type QuizResultProps = {
-  msg: string;
-  data: {
-    id: number;
-    title: string;
-    content: string;
-    image: string;
-    likes: number;
-    viewCount: number;
-    comments: [];
-  };
-};

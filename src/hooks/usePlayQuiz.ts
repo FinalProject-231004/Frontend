@@ -12,6 +12,7 @@ export const usePlayQuiz = (id: number) => {
     const fetchData = async () => {
       try {
         const response = await getAPI(`/api/quiz/quizQuestion/${id}`);
+
         if (Array.isArray(response.data)) {
           setQuestions(response.data);
         }

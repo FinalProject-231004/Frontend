@@ -1,6 +1,6 @@
 import { ResultPageComp } from '@/components';
 import { useGetQuizDetail } from '@/hooks';
-import { QuizResultProps } from '@/types/questionTypes';
+import { QuizResultProps } from '@/types/result';
 import { useParams } from 'react-router';
 
 const ResultPage: React.FC = () => {
