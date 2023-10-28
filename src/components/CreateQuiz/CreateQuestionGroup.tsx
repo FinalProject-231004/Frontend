@@ -26,27 +26,16 @@ const CreateQuestionGroup: React.FC = () => {
     try {
       const formData = new FormData();
 
-      // 문제와 선택지 정보를 추가
-      const requestDtoArray = questions.map(question => {
-        const quizTitle = question.text || '';
-        const quizChoices = question.choices.map(choice => ({
-          answer: choice.text,
-          checks: choice.isAnswer,
-        }));
-        return {
-          title: quizTitle,
-          quizChoices,
-        };
-      });
-      const requestDtoBlob = new Blob([JSON.stringify(requestDtoArray)], {
-        type: 'application/json',
-      });
-      formData.append('requestDto', requestDtoBlob);
-
-      // 이미지 파일을 배열로 추출
+      // 이미지 파일을 배열로
       const images = questions
         .map(question => question.image?.file)
         .filter(Boolean);
+
+      if (images.length === 0) {
+        toast.error('모든 질문에 이미지를 첨부해주세요.');
+        return false;
+      }
+
       images.forEach(image => {
         if (image instanceof File) {
           formData.append('image', image);
@@ -68,16 +57,11 @@ const CreateQuestionGroup: React.FC = () => {
       );
 
       navigate('/create-quiz/questions');
+      return true; // 성공적으로 퀴즈를 제출했다면 true를 반환
     } catch (error) {
+      console.error('Quiz submission failed:', error);
       toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
-      if (axios.isAxiosError(error)) {
-        console.error(
-          '퀴즈 생성에 실패했습니다:',
-          error.response?.data || error.message,
-        );
-      } else {
-        console.error('퀴즈 생성에 실패했습니다:', error);
-      }
+      return false;
     }
   };
 
@@ -95,17 +79,13 @@ const CreateQuestionGroup: React.FC = () => {
   };
 
   const handleNavigation = async () => {
-    try {
-      if (checkForIncompleteData()) {
-        warningModal.open();
-      } else {
-        await submitQuiz();
+    if (checkForIncompleteData()) {
+      warningModal.open();
+    } else {
+      const result = await submitQuiz();
+      if (result) {
         navigate('/');
       }
-    } catch (error) {
-      // submitQuiz에서 에러가 발생하면 여기로 온다.
-      // 이 경우에는 페이지 이동을 하지 않음.
-      console.error('Quiz submission failed:', error);
     }
   };
 
