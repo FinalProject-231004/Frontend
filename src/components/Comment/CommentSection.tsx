@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CommentSectionProps } from '@/types/result';
 import { CommentInput, CommentList } from '@/components';
 import { toast } from 'react-toastify';
