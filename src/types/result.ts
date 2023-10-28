@@ -12,11 +12,10 @@ export type QuizInfoProps = {
 
 export type Comments = {
   id: number;
-  content: string;
-  complainInt: number;
+  comment: string;
+  // complainInt: number;
   memberId: number;
   nickname: string;
-  comment: string;
 };
 
 export type CommentSectionProps = {

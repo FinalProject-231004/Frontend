@@ -1,5 +1,5 @@
-import React from 'react';
 import { Comments } from '@/types/result';
+import React from 'react';
 
 type CommentProps = {
   commentData: Comments;
@@ -15,7 +15,7 @@ const CommentList: React.FC<CommentProps> = ({ commentData }) => {
           {commentData.nickname}
         </div>
         <div className="w-[438px] h-[50px] flex customborder">
-          {commentData.content}
+          {commentData.comment}
         </div>
       </div>
     </div>
