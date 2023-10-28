@@ -21,7 +21,7 @@ export default function MyPage() {
   return (
     <div className="w-[1920px] h-[1080px] mx-auto flex ">
       <aside className='mt-[148px] ml-[173px] flex-shrink-0'>
-        <div className='text-[32px] mb-[105px]'>안녕하세요,<br/>{nickName}</div>
+        <div className='text-[32px] mb-[105px] text-blue font-extrabold'>안녕하세요,<br/>{nickName}님!</div>
         <ul className='text-[24px] w-[247px]'>
           <li 
             className={`border-b-2 pb-[20px] cursor-pointer ${selected === 'mileage' ? 'text-blue border-blue' : ''}`} 
