@@ -16,7 +16,6 @@ export type Comments = {
   // complainInt: number;
   memberId: number;
   nickname: string;
-  comment: string;
 };
 
 export type CommentSectionProps = {
