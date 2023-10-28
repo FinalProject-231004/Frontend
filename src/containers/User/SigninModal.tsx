@@ -157,7 +157,7 @@ function SignInModal() {
                 onClick={kakaoLogin}
                 />
               <p
-                className="w-[118px] mt-5 mb-6 text-xl font-medium text-center text-white border-b-2 border-solid border-white cursor-pointer"
+                className="w-[118px] mt-5 mb-6 text-xl font-medium text-center text-navy border-b-2 border-solid border-navy cursor-pointer"
                 onClick={signUpHandler}
               >
                 회원가입하기
