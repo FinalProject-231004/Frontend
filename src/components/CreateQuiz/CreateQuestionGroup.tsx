@@ -25,6 +25,23 @@ const CreateQuestionGroup: React.FC = () => {
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
+      const requestDtoArray = questions.map(question => {
+        const quizTitle = question.text || '';
+        const quizChoices = question.choices.map(choice => ({
+          answer: choice.text,
+          checks: choice.isAnswer,
+        }));
+        return {
+          title: quizTitle,
+          quizChoices,
+        };
+      });
+
+      // Blob 객체로 변환
+      const requestDtoBlob = new Blob([JSON.stringify(requestDtoArray)], {
+        type: 'application/json',
+      });
+      formData.append('requestDto', requestDtoBlob);
 
       // 이미지 파일을 배열로
       const images = questions
