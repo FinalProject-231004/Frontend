@@ -6,6 +6,7 @@ type CommentProps = {
 };
 
 const CommentList: React.FC<CommentProps> = ({ commentData }) => {
+  console.log(commentData);
   return (
     <div className="flex mb-8 justify-center items-center">
       <img src="/profile.png" className="w-[72px]" alt={`profile`} />
