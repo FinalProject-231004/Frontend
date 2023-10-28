@@ -56,7 +56,7 @@ export default function VerifyPassword() {
   const postPw = async (info: varifyPw) => {
     try {
       const response = await postAPI('/api/member/validate/password', info);
-      console.log(response);
+      // console.log(response);
       success();
       navigate('/mypage');
       return (

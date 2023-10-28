@@ -80,7 +80,7 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
             ref={fileInputRef}
           />
           <button
-            className="text-blue-600 border border-blue-600 rounded px-2 hover:bg-blue-600 hover:text-white"
+            className="text-blue-600 border border-blue-600 rounded px-2 hover:bg-blue hover:text-white"
             onClick={putProfile}
           >
             저장

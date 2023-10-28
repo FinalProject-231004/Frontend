@@ -11,7 +11,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('isAuthenticated', isAuthenticated)
+    // console.log('isAuthenticated', isAuthenticated)
     if (!isAuthenticated) {
       navigate('/');
     }
