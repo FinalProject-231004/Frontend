@@ -16,7 +16,7 @@ const Auth = () => {
       try {
         const response = await axios.get(
           `${
-            import.meta.env.VITE_APP_GENERATED_SERVER_URL
+            import.meta.env.VITE_APP_MAIN_SERVER_URL
           }/api/member/kakao/callback${code}`,
           {
             headers: {
