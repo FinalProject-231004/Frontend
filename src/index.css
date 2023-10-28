@@ -1,0 +1,75 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@font-face {
+  font-family: 'TmoneyRoundWind';
+  src: url('./assets/fonts/TmoneyRoundWindRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TmoneyRoundWind';
+  src: url('./assets/fonts/TmoneyRoundWindExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+body {
+  font-family: 'TmoneyRoundWind', sans-serif;
+}
+
+.flex::-webkit-scrollbar-thumb {
+  border-radius: 25px;
+}
+
+.input-placeholder::placeholder {
+  color: #d4d4d4;
+  opacity: 0.8;
+}
+.custom-placeholder::placeholder {
+  color: white;
+  opacity: 0.5;
+}
+
+.scrollbar-hide {
+  /* Firefox */
+  scrollbar-width: none;
+  /* Safari and Chrome */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* Chrome/Safari/Webkit */
+}
+
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+.title {
+  @apply text-center mt-[148px] mb-[90px] text-[32px] text-blue font-extrabold;
+}
+.play-quiz__title {
+  @apply text-center mt-[148px] mb-[76px] text-[32px] text-blue font-extrabold;
+}
+
+.customborder {
+  @apply p-[20px] text-2xl items-center justify-start border-2 border-blue text-blue rounded-md input-placeholder bg-white shadow-md shadow-slate-200;
+}
+
+.bordernoneinput {
+  @apply border-none focus:outline-none focus:border-none focus:ring-0 input-placeholder;
+}
+
+.slateshadow {
+  @apply shadow-md shadow-slate-200;
+}

@@ -1,0 +1,142 @@
+{
+  "QuizData": [
+    {
+      "id": 1,
+      "viewNum": 752,
+      "likes": 223,
+      "category": "과학",
+      "title": "테스트1",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMTcg/MDAxNjQzMTAyOTg2MTY2.4HGNExAucKhzRUUUsMKLhjQOzSYnbWOS84SqxbosD3wg.tJ3xVfHIUXoQNLDQ7dGiilXAXVHj5aNkJvdR7TxGWLIg.JPEG.minziminzi128/IMG_7371.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 2,
+      "viewNum": 234,
+      "likes": 56,
+      "category": "역사",
+      "title": "테스트2",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMTcg/MDAxNjQzMTAyOTg2MTY2.4HGNExAucKhzRUUUsMKLhjQOzSYnbWOS84SqxbosD3wg.tJ3xVfHIUXoQNLDQ7dGiilXAXVHj5aNkJvdR7TxGWLIg.JPEG.minziminzi128/IMG_7371.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 3,
+      "viewNum": 3,
+      "likes": 664,
+      "category": "문학",
+      "title": "테스트3",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMTcg/MDAxNjQzMTAyOTg2MTY2.4HGNExAucKhzRUUUsMKLhjQOzSYnbWOS84SqxbosD3wg.tJ3xVfHIUXoQNLDQ7dGiilXAXVHj5aNkJvdR7TxGWLIg.JPEG.minziminzi128/IMG_7371.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 4,
+      "viewNum": 32,
+      "likes": 390,
+      "category": "영화 & TV",
+      "title": "테스트4",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjg0/MDAxNjQzMTAyOTg0Nzgz.sLrqOJ2S3r6pLboUm5yJTjB_JECC0zO9Tt3y_h86aJcg.w5VER_KDRAW3yRq8-nypsm2aGmKurM5YieSFcr1Vg0Qg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 5,
+      "viewNum": 241,
+      "likes": 39,
+      "category": "음악",
+      "title": "테스트5",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjg0/MDAxNjQzMTAyOTg0Nzgz.sLrqOJ2S3r6pLboUm5yJTjB_JECC0zO9Tt3y_h86aJcg.w5VER_KDRAW3yRq8-nypsm2aGmKurM5YieSFcr1Vg0Qg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 6,
+      "viewNum": 19,
+      "likes": 83,
+      "category": "스포츠",
+      "title": "테스트6",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjg0/MDAxNjQzMTAyOTg0Nzgz.sLrqOJ2S3r6pLboUm5yJTjB_JECC0zO9Tt3y_h86aJcg.w5VER_KDRAW3yRq8-nypsm2aGmKurM5YieSFcr1Vg0Qg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 7,
+      "viewNum": 752,
+      "likes": 223,
+      "category": "지리",
+      "title": "테스트1",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMTcg/MDAxNjQzMTAyOTg2MTY2.4HGNExAucKhzRUUUsMKLhjQOzSYnbWOS84SqxbosD3wg.tJ3xVfHIUXoQNLDQ7dGiilXAXVHj5aNkJvdR7TxGWLIg.JPEG.minziminzi128/IMG_7371.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 8,
+      "viewNum": 234,
+      "likes": 56,
+      "category": "수학",
+      "title": "테스트2",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMTcg/MDAxNjQzMTAyOTg2MTY2.4HGNExAucKhzRUUUsMKLhjQOzSYnbWOS84SqxbosD3wg.tJ3xVfHIUXoQNLDQ7dGiilXAXVHj5aNkJvdR7TxGWLIg.JPEG.minziminzi128/IMG_7371.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 9,
+      "viewNum": 3,
+      "likes": 664,
+      "category": "기술 & IT",
+      "title": "테스트3",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMTcg/MDAxNjQzMTAyOTg2MTY2.4HGNExAucKhzRUUUsMKLhjQOzSYnbWOS84SqxbosD3wg.tJ3xVfHIUXoQNLDQ7dGiilXAXVHj5aNkJvdR7TxGWLIg.JPEG.minziminzi128/IMG_7371.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 10,
+      "viewNum": 32,
+      "likes": 390,
+      "category": "생활 & 패션",
+      "title": "테스트4",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjg0/MDAxNjQzMTAyOTg0Nzgz.sLrqOJ2S3r6pLboUm5yJTjB_JECC0zO9Tt3y_h86aJcg.w5VER_KDRAW3yRq8-nypsm2aGmKurM5YieSFcr1Vg0Qg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 11,
+      "viewNum": 241,
+      "likes": 39,
+      "category": "취미 & 레저",
+      "title": "테스트5",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjg0/MDAxNjQzMTAyOTg0Nzgz.sLrqOJ2S3r6pLboUm5yJTjB_JECC0zO9Tt3y_h86aJcg.w5VER_KDRAW3yRq8-nypsm2aGmKurM5YieSFcr1Vg0Qg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      "username": "지두팔"
+    },
+    {
+      "id": 12,
+      "viewNum": 19,
+      "likes": 83,
+      "category": "사람(인물)",
+      "title": "테스트6",
+      "image": "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjg0/MDAxNjQzMTAyOTg0Nzgz.sLrqOJ2S3r6pLboUm5yJTjB_JECC0zO9Tt3y_h86aJcg.w5VER_KDRAW3yRq8-nypsm2aGmKurM5YieSFcr1Vg0Qg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      "username": "지두팔"
+    }
+  ],
+  "category": [
+    {
+      "id": 0,
+      "name": "과학"
+    },
+    {
+      "id": 1,
+      "name": "역사"
+    },
+    {
+      "id": 2,
+      "name": "문학"
+    },
+    {
+      "id": 3,
+      "name": "영화 & TV"
+    },
+    {
+      "id": 4,
+      "name": "음악"
+    },
+    {
+      "id": 5,
+      "name": "스포츠"
+    },
+    {
+      "id": 6,
+      "name": "지리"
+    }
+  ]
+}
