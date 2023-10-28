@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useSetRecoilState } from 'recoil';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
-
+ 
 const Auth = () => {
   const code = window.location.search;
   // console.log(code);
