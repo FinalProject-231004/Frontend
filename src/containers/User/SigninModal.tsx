@@ -124,12 +124,12 @@ function SignInModal() {
               <CustomizedButtons
                 size="large"
                 fontSize="26px"
-                fontColor="#fff"
+                fontcolor="#fff"
                 BtnName="로그인 하기"
-                BtnBg="#0078FF"
-                BtnHoverBg=""
-                BtnActiveBg={''}
-                borderRadius="12px"
+                btnbg="#0078FF"
+                btnhoverbg=""
+                btnactivebg={''}
+                borderradius="12px"
                 onClick={() => {
                   if (idInput === '' || pwInput === '') {
                     setAllCheckMessag('모든 정보를 입력해주세요.');
@@ -142,7 +142,7 @@ function SignInModal() {
               />
               <CustomizedButtons
                 size="large"
-                fontColor="#000"
+                fontcolor="#000"
                 fontSize="26px"
                 BtnName={
                   <div className="flex justify-center items-center">
@@ -150,10 +150,10 @@ function SignInModal() {
                     <p>카카오로 시작하기</p>
                   </div>
                 }
-                BtnBg="#FEE500"
-                BtnHoverBg="#FEE500"
-                BtnActiveBg={''}
-                borderRadius="12px"
+                btnbg="#FEE500"
+                btnhoverbg="#FEE500"
+                btnactivebg={''}
+                borderradius="12px"
                 onClick={kakaoLogin}
                 />
               <p

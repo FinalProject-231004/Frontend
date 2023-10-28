@@ -204,13 +204,13 @@ function SignUpModal() {
 
           <CustomizedButtons
             size="signUp"
-            fontColor="white"
+            fontcolor="white"
             fontSize="21px"
             BtnName="가입하기"
-            BtnBg="#0078ff"
-            BtnHoverBg={''}
-            BtnActiveBg={''}
-            borderRadius="28.5px"
+            btnbg="#0078ff"
+            btnhoverbg={''}
+            btnactivebg={''}
+            borderradius="28.5px"
             onClick={() => {
               if (
                 idInput === '' ||
