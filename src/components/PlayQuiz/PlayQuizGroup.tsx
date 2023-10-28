@@ -25,7 +25,11 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
 
   useEffect(() => {
     // questions 배열이 비어있거나 첫 번째 문항의 quizChoices 길이가 2 미만인 경우
-    if (questions[0] && questions[0].quizChoices.length < 2) {
+    if (
+      questions.length === 0 &&
+      questions[0] &&
+      questions[0].quizChoices.length < 2
+    ) {
       toast.error(
         '퀴즈에 오류가 발견 됐어요 😱! 이전 페이지로 돌아갑니다 🐱‍👤',
       );

@@ -85,12 +85,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     <div className="flex w-full">
       <div className="flex flex-col">
         <div
-          className="overflow-x-hidden overflow-y-auto h-[450px] scroll-smooth"
+          className="overflow-x-hidden overflow-y-auto h-[470px] scroll-smooth"
           onScroll={handleScroll}
         >
           {commentState && commentState.length > 0 ? (
             commentState.map(comment => (
-              <CommentList key={comment.id} commentData={comment} />
+              <CommentList key={comment.memberId} commentData={comment} />
             ))
           ) : (
             <div className="flex items-center justify-center h-[450px] text-slate-300">
