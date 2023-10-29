@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import SignUpModal from './SignUpModal';
+import { postData } from '@/types/header';
 
 function SignInModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -14,11 +15,6 @@ function SignInModal() {
   const [loginMoadal, setLoginMoadal] = useRecoilState(loginModalState);
 
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-
-  type postData = {
-    username: string;
-    password: string;
-  };
 
   const data = {
     username: idInput,

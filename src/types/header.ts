@@ -10,6 +10,11 @@ export type Notification = {
   created_at: string;
 }
 
+export type postData = {
+  username: string;
+  password: string;
+};
+
 export type profileAPIResponse = {
   msg: string;
   data: userInfo; 
