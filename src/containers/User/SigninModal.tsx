@@ -32,7 +32,8 @@ function SignInModal() {
       }
       // console.log('Success:', response.data);
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
+      setAllCheckMessag('아이디 혹은 비밀번호가 일치하지 않습니다!')
     }
   };
 
@@ -87,14 +88,14 @@ function SignInModal() {
         {loginMoadal ? (
           <div className="flex flex-col justify-center items-center">
             <h1 className="text-[34px] text-blue my-[40px]">로그인</h1>
-            <div className="w-[530px] mb-[40px]">
+            <div className="w-[530px] mb-[45px] relative">
               <div className="mb-[22px]">
                 <UserInfoInput
                   type="text"
                   placeholder="아이디"
                   size="medium"
                   focusBorderColor="white"
-                  borderColor="navy"
+                  borderColor='none'
                   inputVal={idInput}
                   onChange={e => {
                     setIdInput(e.target.value);
@@ -106,15 +107,14 @@ function SignInModal() {
                 placeholder="비밀번호"
                 size="medium"
                 focusBorderColor="white"
-                borderColor="navy"
+                borderColor='none'
                 inputVal={pwInput}
                 onChange={e => {
                   setPwInput(e.target.value);
                 }}
               />
+              <div className="mt-[6px] text-[12px] text-[#F92316] absolute right-0">{allCheckMessag}</div>
             </div>
-
-            <div className="mb-2 text-[12px]">{allCheckMessag}</div>
 
             <div className="flex flex-col justify-center items-center gap-4">
               <CustomizedButtons
