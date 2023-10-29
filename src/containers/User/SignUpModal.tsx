@@ -1,7 +1,7 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginModalState, modalState } from '@/recoil/atoms/signUpModalAtom';
 import { CustomizedButtons, Modal, UserInfoInput } from '@/components';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 
 function SignUpModal() {
@@ -24,13 +24,35 @@ function SignUpModal() {
 
   const setLoginModal = useSetRecoilState(loginModalState);
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  // 각 입력 필드에 대한 참조 생성
+  const idInputRef = useRef<HTMLInputElement>(null);
+  const nickNameInputRef = useRef(null);
+  const pwInputRef = useRef(null);
+  const pwCheckInputRef = useRef(null);
 
+  // Tab 키로 다음 입력 필드로 이동하는 함수
+  useEffect(() => {
+    // 첫 번째 input에 포커스를 설정하기 전에 ref의 존재 여부를 확인
+    if (idInputRef.current) {
+      idInputRef.current.focus();
+    }
+  }, []);
+
+  const handleTab = (event: React.KeyboardEvent, nextRef: React.RefObject<HTMLInputElement> | null) => {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      if (nextRef && nextRef.current) {
+        nextRef.current.focus();
+      } else {
+        // 마지막 input에서 Tab을 눌렀을 경우, 첫 번째 input으로 돌아가도록 설정
+        idInputRef.current?.focus();
+      }
+    }
+  };
+  
   // 유효성 검사
   const validateId = (id: string) => {
-    const pattern = /^[a-z][a-z\d]{4,14}$/;
+    const pattern = /^[a-z][a-z\d]{3,14}$/;
     setIsId(pattern.test(id));
   };
   const validateNickName = (id: string) => {
@@ -90,6 +112,10 @@ function SignUpModal() {
     }
   }, [isOpen]);
 
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <Modal
@@ -106,20 +132,22 @@ function SignUpModal() {
             <div className="flex justify-between">
               <div>
                 <UserInfoInput
+                  ref={idInputRef}
                   type="text"
                   placeholder="아이디"
                   size="small"
                   focusBorderColor={''}
                   inputVal={idInput}
+                  borderColor={''}
                   onChange={e => {
                     idHandleChange(e.target.value);
                     validateId(e.target.value);
                     setIdMessage(
-                      '알파벳 소문자/숫자 포함 4자리 이상 15자리 이하',
+                      '알파벳 소문자 또는 숫자 포함 4자 이상 15자 이하',
                     );
                     if (isId === true) setIdMessage('');
                   }}
-                  borderColor={''}
+                  onKeyDown={(e) => handleTab(e, nickNameInputRef)}
                 />
                 {idInput.length >= 0 && (
                   <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
@@ -130,20 +158,22 @@ function SignUpModal() {
 
               <div>
                 <UserInfoInput
+                  ref={nickNameInputRef}
                   type="text"
                   placeholder="닉네임"
                   size="small"
                   focusBorderColor={''}
+                  borderColor={''}
                   inputVal={nickNameInput}
                   onChange={e => {
                     nameHandleChange(e.target.value);
                     validateNickName(e.target.value);
                     setNickNameMessage(
-                      '한글 또는 숫자 포함 2자리 이상 5자리 이하',
-                    ); // 한글,숫자,영문 소문자 하나 이상 조합(공백 )으로 변경
+                      '한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하',
+                    );
                     if (isNickName === true) setNickNameMessage('');
                   }}
-                  borderColor={''}
+                  onKeyDown={(e) => handleTab(e, pwInputRef)}
                 />
                 {nickNameInput.length >= 0 && (
                   <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
@@ -155,20 +185,22 @@ function SignUpModal() {
 
             <div>
               <UserInfoInput
+                ref={pwInputRef}
                 type="password"
                 placeholder="비밀번호"
                 size="medium"
                 focusBorderColor={''}
                 inputVal={pwInput}
+                borderColor={''}
                 onChange={e => {
                   pwHandleChange(e.target.value);
                   validatePw(e.target.value);
                   setPwMessage(
-                    '8자리 이상 20자리 이하에 영문/숫자/특수문자(공백 제외) 1가지 조합 이상 ',
-                  ); //알파벳 대소문자 숫자 특수문자
+                    '8자리 이상 20자리 이하에 알파벳 대소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 ',
+                  );
                   if (isPw === true) setPwMessage('');
                 }}
-                borderColor={''}
+                onKeyDown={(e) => handleTab(e, pwCheckInputRef)}
               />
               {pwInput.length >= 0 && (
                 <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">
@@ -179,6 +211,7 @@ function SignUpModal() {
 
             <div>
               <UserInfoInput
+                ref={pwCheckInputRef}
                 type="password"
                 placeholder="비밀번호 확인"
                 size="medium"
@@ -189,6 +222,7 @@ function SignUpModal() {
                   pwCheckHandleChange(e.target.value);
                   validatepwCheck(e.target.value);
                 }}
+                onKeyDown={(e) => handleTab(e, null)}
               />
               {pwCheckInput.length >= 0 && (
                 <div className="mt-1 ml-1 text-[11.5px] text-blue font-hairline">

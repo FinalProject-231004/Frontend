@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import SignUpModal from './SignUpModal';
-import { postData } from '@/types/header';
+import { postSignIn } from '@/types/header';
 
 function SignInModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -21,7 +21,7 @@ function SignInModal() {
     password: pwInput,
   };
 
-  const login = async (info: postData) => {
+  const login = async (info: postSignIn) => {
     try {
       const response = await postAPI('/api/member/login', info);
       if (response.status === 200) {
