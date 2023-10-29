@@ -13,10 +13,10 @@ const ChoiceItem: React.FC<ChoiceItemProps> = ({
   removeChoice,
 }) => {
   return (
-    <div className="w-full h-[72px] flex mb-[10px] customborder">
+    <div className="w-full h-[58px] flex mb-[10px] customborder">
       <div className="w-full flex justify-between items-center">
         <Checkbox
-          className="scale-[1.8]"
+          className="scale-[1.4]"
           icon={<BsCheckCircle />}
           checkedIcon={<BsCheckCircleFill />}
           checked={choice.isAnswer}
@@ -29,7 +29,7 @@ const ChoiceItem: React.FC<ChoiceItemProps> = ({
           }}
         />
         <input
-          className="w-full text-2xl pl-[20px] bordernoneinput"
+          className="w-full bordernoneinput text-lg"
           placeholder="선택지를 입력해 주세요"
           value={choice.text}
           onChange={e =>
@@ -37,18 +37,18 @@ const ChoiceItem: React.FC<ChoiceItemProps> = ({
           }
         />
         <button
-          className="text-blue border-r px-[15px]"
+          className="text-blue border-r px-[10px]"
           onClick={() => {
             addChoice(questionId);
           }}
         >
-          <AiOutlinePlus size={28} />
+          <AiOutlinePlus size={20} />
         </button>
         <button
           onClick={() => removeChoice(questionId, choice.id)}
-          className="text-blue pl-[20px]"
+          className="text-blue pl-[10px]"
         >
-          <AiOutlineClose size={28} />
+          <AiOutlineClose size={20} />
         </button>
       </div>
     </div>

@@ -25,12 +25,14 @@ body {
 }
 
 .input-placeholder::placeholder {
+  font-size: 17px;
   color: #d4d4d4;
-  opacity: 0.8;
+  opacity: 0.6;
 }
 .custom-placeholder::placeholder {
+  font-size: 18px;
   color: white;
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .scrollbar-hide {
@@ -56,14 +58,14 @@ body {
 }
 
 .title {
-  @apply text-center mt-[148px] mb-[90px] text-[32px] text-blue font-extrabold;
+  @apply text-center mt-[132px] mb-[60px] text-[24px] text-blue font-extrabold;
 }
 .play-quiz__title {
-  @apply text-center mt-[148px] mb-[76px] text-[32px] text-blue font-extrabold;
+  @apply text-center mt-[132px] mb-[60px] text-[24px] text-blue font-extrabold;
 }
 
 .customborder {
-  @apply p-[20px] text-2xl items-center justify-start border-2 border-blue text-blue rounded-md input-placeholder bg-white shadow-md shadow-slate-200;
+  @apply p-[13px] items-center justify-start border-2 border-blue text-blue rounded-md input-placeholder bg-white shadow-md shadow-slate-200;
 }
 
 .bordernoneinput {

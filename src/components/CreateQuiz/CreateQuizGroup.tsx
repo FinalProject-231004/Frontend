@@ -49,6 +49,14 @@ const CreateQuizGroup: React.FC = () => {
         formData.append('requestDto', blob);
       }
 
+      // localStorage에서 토큰 가져오기
+      const token = localStorage.getItem('Authorization');
+
+      if (!token) {
+        toast.error('로그인이 필요합니다.');
+        return;
+      }
+
       // 요청 전송
       const response = await axios.post(
         `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
@@ -56,7 +64,7 @@ const CreateQuizGroup: React.FC = () => {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -64,7 +72,7 @@ const CreateQuizGroup: React.FC = () => {
       const quizId = response.data.data.id;
       navigate(`/create-quiz/questions/${quizId}`);
     } catch (error) {
-      toast.error(' 퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
+      toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
       if (axios.isAxiosError(error)) {
         console.error(
           '퀴즈 생성에 실패했습니다:',
@@ -116,7 +124,7 @@ const CreateQuizGroup: React.FC = () => {
   };
 
   return (
-    <div className="w-[1080px] text-blue text-2xl">
+    <div className="w-full text-blue text-xl">
       <CustomQuizInput
         title="퀴즈명"
         placeholder="퀴즈명을 입력해 주세요"
@@ -124,10 +132,10 @@ const CreateQuizGroup: React.FC = () => {
         onChange={handleTitleChange}
       />
 
-      <div className="mb-[30px]">
-        <h3 className="mb-[20px]">퀴즈 소개글</h3>
+      <div className="mb-[20px]">
+        <h3 className="mb-[15px] font-extrabold">퀴즈 소개글</h3>
         <textarea
-          className="w-full h-[174px] customborder"
+          className="w-full h-[114px] customborder"
           placeholder="퀴즈를 소개하는 글을 써주세요"
           value={quiz.content || ''}
           onChange={handleContentChange}
@@ -147,14 +155,14 @@ const CreateQuizGroup: React.FC = () => {
           removeImage={handleImageRemove}
         />
       </div>
-      <div className="w-[1080px] h-[600px] mx-auto mt-[10px] mb-[135px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
+      <div className="w-full h-[400px] mx-auto mt-[10px] mb-[135px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
         {quiz.image?.preview ? (
           <div
             className="w-full h-full bg-contain bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${quiz.image.preview})` }}
           ></div>
         ) : (
-          <span className="text-slate-200  text-xl">
+          <span className="text-slate-200 text-lg">
             썸네일 이미지를 첨부해 주세요!
           </span>
         )}

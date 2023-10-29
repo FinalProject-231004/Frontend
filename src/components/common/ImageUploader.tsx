@@ -36,7 +36,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     <div>
       <button
         type="button"
-        className={`w-[128px] h-[37px] rounded-[6px] shadow-md shadow-slate-200 ${
+        className={`w-[105px] h-[34px] rounded-[6px] shadow-md shadow-slate-200 ${
           image?.file ? 'bg-[#FF6347]' : 'bg-navy'
         } hover:border  hover:${
           image?.file ? 'border-[#FF6347]' : 'border-navy'
@@ -49,7 +49,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           }
         }}
       >
-        <p className="font-tmoney text-xl text-white">
+        <p className="font-tmoney text-base text-white">
           {image?.file ? '이미지삭제' : '이미지추가'}
         </p>
       </button>

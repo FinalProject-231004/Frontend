@@ -5,6 +5,13 @@ import { useMutation } from 'react-query';
 import axios from 'axios';
 
 const setLikeStatus = async (id: number) => {
+  const token = localStorage.getItem('Authorization');
+
+  if (!token) {
+    console.error('Authorization 토큰이 존재하지 않습니다.');
+    throw new Error('Unauthorized');
+  }
+
   console.log('서버에 좋아요 상태 업데이트 요청 전송 -> 퀴즈 ID:', id);
   try {
     const response = await axios.post(
@@ -14,7 +21,7 @@ const setLikeStatus = async (id: number) => {
       { id },
       {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );

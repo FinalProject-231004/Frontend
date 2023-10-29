@@ -58,7 +58,7 @@ const QuizThumbnailModal: React.FC<QuizThumbnailModalProps> = ({
             </div>
           </div>
 
-          <div className="flex gap-5 w-full justify-end mt- ">
+          <div className="flex gap-5 w-full justify-end mt-5">
             <QuizCustomButton theme="white" onClick={() => {}}>
               공유하기
             </QuizCustomButton>

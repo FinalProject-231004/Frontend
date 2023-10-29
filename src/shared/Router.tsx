@@ -7,7 +7,7 @@ import {
   PlayQuiz,
   ResultPage,
   VerifyPassword,
-  MyPage
+  MyPage,
 } from '@/pages';
 import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
@@ -38,11 +38,39 @@ const Router = () => {
           <Route path="/login/kakao" element={<Auth />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
           <Route path="/result/:id" element={<ResultPage />} />
-          
-          <Route path="/mypage" element={<PrivateRoute><MyPage /></PrivateRoute>} />
-          <Route path="/mypage/verify-password" element={<PrivateRoute><VerifyPassword /></PrivateRoute>} />
-          <Route path="/create-quiz/questions/:id" element={<PrivateRoute><CreateQuizQuestions /></PrivateRoute>} />
-          <Route path="/create-quiz/details" element={<PrivateRoute><CreateQuizDetails /></PrivateRoute>} />
+
+          <Route
+            path="/mypage"
+            element={
+              <PrivateRoute>
+                <MyPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/mypage/verify-password"
+            element={
+              <PrivateRoute>
+                <VerifyPassword />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/create-quiz/questions/:id"
+            element={
+              <PrivateRoute>
+                <CreateQuizQuestions />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/create-quiz/details"
+            element={
+              <PrivateRoute>
+                <CreateQuizDetails />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </ConditionalLayout>
     </BrowserRouter>
