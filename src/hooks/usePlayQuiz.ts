@@ -12,9 +12,18 @@ export const usePlayQuiz = (id: number) => {
     const fetchData = async () => {
       try {
         const response = await getAPI(`/api/quiz/quizQuestion/${id}`);
-
         if (Array.isArray(response.data)) {
-          setQuestions(response.data);
+          // 선택지 정보에 choiceId 값을 추가합니다.
+          const updatedQuestions = response.data.map(question => ({
+            ...question,
+            quizChoices: question.quizChoices.map(
+              (choice: { choiceId: number }) => ({
+                ...choice,
+                choiceId: choice.choiceId,
+              }),
+            ),
+          }));
+          setQuestions(updatedQuestions);
         }
       } catch (error) {
         console.error('Error fetching quiz questions:', error);

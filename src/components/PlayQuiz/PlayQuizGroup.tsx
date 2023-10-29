@@ -16,6 +16,7 @@ type PlayQuizProps = {
 const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
   const [selectedQuestion, setSelectedQuestion] = useState(1);
   const [questions, setQuestions] = useRecoilState<PlayQuiz[]>(playQuizAtom);
+  const [selectedChoiceId, setSelectedChoiceId] = useState<number | null>(null);
   const questionButtonContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -39,13 +40,13 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
     }
   }, []);
 
-  const sendQuizDataToServer = async (id: number) => {
+  const sendQuizDataToServer = async (choiceId: number) => {
     try {
       const token = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`;
       const response = await axios.post(
         `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/choice`,
         {
-          id,
+          choiceId,
         },
         {
           headers: {
@@ -54,8 +55,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
           },
         },
       );
-
-      console.log(response.data);
+      console.log(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('Failed to send data to server:', error.response?.data);
@@ -67,37 +67,51 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
 
   // 체크 상태를 변경하는 함수
   const handleChoiceCheck = (questionId: number, choiceId: number) => {
+    setSelectedChoiceId(choiceId);
+
     setQuestions(prevQuestions =>
       prevQuestions.map(q => {
         if (Number(q.id) === questionId) {
           return {
             ...q,
-            quizChoices: q.quizChoices.map(c =>
-              c.id === choiceId
-                ? { ...c, checks: !c.checks }
-                : { ...c, checks: false },
-            ),
+            quizChoices: q.quizChoices.map(c => ({
+              ...c,
+              checked: c.id === choiceId, // 현재 선택된 질문의 경우, 선택된 선택지만 체크
+            })),
           };
         }
-        return q;
+        return q; // 다른 질문은 변경하지 않음
       }),
     );
   };
 
   const moveToNextQuestion = () => {
     if (selectedQuestion < totalQuestions) {
+      setSelectedChoiceId(null);
       setSelectedQuestion(prev => prev + 1);
     } else {
       navigate(`/result/${quizId}`);
     }
   };
+  const handleSubmit = () => {
+    if (selectedChoiceId != null) {
+      sendQuizDataToServer(selectedChoiceId);
+      moveToNextQuestion();
+    } else {
+      toast.error('선택지를 선택해주세요.');
+    }
+  };
 
-  console.log(questions, selectedQuestion);
   return (
     <div>
       <h1 className="play-quiz__title">
         Q{selectedQuestion}. {questions[selectedQuestion - 1]?.title || '제목'}
       </h1>
+      <img
+        className="w-full h-[460px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
+        src={questions[selectedQuestion - 1]?.image}
+        alt="Quiz Image"
+      />
       <div className="w-[900px] h-[160px] mt-16 mx-auto">
         <div
           className="flex space-x-5 mb-5 justify-center items-center"
@@ -123,34 +137,24 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
           ></div>
         </div>
       </div>
-      <img
-        className="w-full h-[460px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
-        src={questions[selectedQuestion - 1]?.image}
-        alt="Quiz Image"
-      />
       <div>
-        {questions[selectedQuestion - 1]?.quizChoices?.map((choice, idx) => (
+        {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
           <ChoiceInput
-            key={choice.id}
-            checked={choice.checks}
-            onCheck={() =>
+            key={choice.choiceId}
+            choiceId={choice.choiceId}
+            checked={!!choice.checked}
+            onCheck={() => {
               handleChoiceCheck(
                 Number(questions[selectedQuestion - 1].id),
-                choice.id,
-              )
-            }
+                choice.choiceId,
+              );
+            }}
           >
-            {choice.answer || `문항 내용 짠짠 ${idx + 1}`}
+            {choice.answer}
           </ChoiceInput>
         ))}
       </div>
-
-      <BottomLongButton
-        onClick={() => {
-          sendQuizDataToServer(parseInt(questions[selectedQuestion - 1].id));
-          moveToNextQuestion();
-        }}
-      >
+      <BottomLongButton onClick={handleSubmit}>
         {selectedQuestion === totalQuestions ? '문제 결과보기' : '다음 문제로!'}
       </BottomLongButton>
     </div>

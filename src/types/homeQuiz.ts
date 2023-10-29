@@ -40,13 +40,13 @@ export type QuizThumbnailModalProps = {
 
 export type QuizDetail = {
   id: number;
-  title: 'string';
-  username: 'string';
-  image: 'string';
+  title: string;
+  username: string;
+  image: string;
   viewCount: number;
   likes: number;
-  createdTime: 'string';
-  category: 'string';
-  content: 'string';
+  createdTime: string;
+  category: string;
+  content: string;
   comments: Comments[];
 };

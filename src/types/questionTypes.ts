@@ -42,6 +42,8 @@ export type PlayQuiz = {
   id: string;
   title: string;
   quizChoices: {
+    choiceId: number;
+    checked: boolean;
     id: number;
     answer: string;
     checks: boolean;
