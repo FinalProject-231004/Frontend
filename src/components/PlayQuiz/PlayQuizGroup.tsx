@@ -107,12 +107,12 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
     }
   };
 
-  const handleChange = e => {
-    if (e.target.type === 'checkbox') {
-      return;
-    }
-    onCheck(!checked);
-  };
+  // const handleChange = e => {
+  //   if (e.target.type === 'checkbox') {
+  //     return;
+  //   }
+  //   onCheck(!checked);
+  // };
 
   return (
     <div>
