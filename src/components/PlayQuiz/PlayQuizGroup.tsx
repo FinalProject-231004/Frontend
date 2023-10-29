@@ -107,7 +107,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
       <h1 className="play-quiz__title">
         Q{selectedQuestion}. {questions[selectedQuestion - 1]?.title || '제목'}
       </h1>
-      <div className="w-[600px] mb-6 mx-auto">
+      <div className="w-[500px] mb-6 mx-auto">
         <div
           className="flex space-x-5 justify-center items-center"
           ref={questionButtonContainerRef}
@@ -125,7 +125,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
             </div>
           ))}
         </div>
-        <div className="w-[600px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
+        <div className="w-[500px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
           <div
             className="h-full bg-blue rounded-[30px]"
             style={{ width: `${(selectedQuestion / totalQuestions) * 100}%` }}
