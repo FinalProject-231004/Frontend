@@ -1,57 +1,66 @@
-import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { quizAtom } from '@/recoil/atoms/quizAtom';
-import { toast } from 'react-toastify';
+import { questionAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import { useModalState } from '@/hooks';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 import {
-  CustomQuizInput,
-  ImageUploader,
-  CategoryButton,
+  QuestionItem,
+  ChoiceItem,
   WarningModal,
   BottomLongButton,
-} from '..';
-
-const CreateQuizGroup: React.FC = () => {
+} from '@/components';
+import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
+const CreateQuestionGroup: React.FC = () => {
+  const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [quiz, setQuiz] = useRecoilState(quizAtom);
   const warningModal = useModalState();
-
-  // 이미지> string으로 변환버전
-  const handleImageUpload = async (file: File) => {
-    setQuiz({
-      ...quiz,
-      image: { file, preview: URL.createObjectURL(file) },
-    });
-    toast.success(' 이미지 업로드 성공 ! 😎');
-  };
-
-  // 퀴즈 정보를 JSON으로 변환하여 formData에 추가
-  const requestDto = {
-    title: quiz.title || '',
-    category: selectedCategory || '',
-    content: quiz.content || '',
-  };
-  const blob = new Blob([JSON.stringify(requestDto)], {
-    type: 'application/json',
-  });
-
-  // 퀴즈 정보를 서버에 전송하는 함수
+  const completionModal = useModalState();
+  const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
+  const { addQuestion, removeQuestion } = useQuestionActions();
+  const { id } = useParams();
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
+      const requestDtoArray = questions.map(question => {
+        const quizTitle = question.text || '';
+        const quizChoices = question.choices.map(choice => ({
+          answer: choice.text,
+          checks: choice.isAnswer,
+        }));
+        return {
+          title: quizTitle,
+          quizChoices,
+        };
+      });
 
-      // 이미지 파일이 있으면 formData에 추가
-      if (quiz.image && quiz.image.file) {
-        formData.append('image', quiz.image.file);
-        formData.append('requestDto', blob);
+      // Blob 객체로 변환
+      const requestDtoBlob = new Blob([JSON.stringify(requestDtoArray)], {
+        type: 'application/json',
+      });
+      formData.append('requestDto', requestDtoBlob);
+
+      // 이미지 파일을 배열로
+      const images = questions
+        .map(question => question.image?.file)
+        .filter(Boolean);
+
+      if (images.length === 0) {
+        toast.error('모든 질문에 이미지를 첨부해주세요.');
+        return false;
       }
 
-      // 요청 전송
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
+      images.forEach(image => {
+        if (image instanceof File) {
+          formData.append('image', image);
+        }
+      });
+
+      // API 요청
+      await axios.post(
+        `${
+          import.meta.env.VITE_APP_GENERATED_SERVER_URL
+        }/api/quiz/${id}/quizQuestion`,
         formData,
         {
           headers: {
@@ -61,117 +70,134 @@ const CreateQuizGroup: React.FC = () => {
         },
       );
 
-      const quizId = response.data.data.id;
-      navigate(`/create-quiz/questions/${quizId}`);
+      navigate('/create-quiz/questions');
+      return true; // 성공적으로 퀴즈를 제출했다면 true를 반환
     } catch (error) {
-      toast.error(' 퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
-      if (axios.isAxiosError(error)) {
-        console.error(
-          '퀴즈 생성에 실패했습니다:',
-          error.response?.data || error.message,
-        );
-      } else {
-        console.error('퀴즈 생성에 실패했습니다:', error);
+      console.error('Quiz submission failed:', error);
+      toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
+      return false;
+    }
+  };
+
+  // 퀴즈 제출 전 검수
+  const checkForIncompleteData = () => {
+    return questions.some(question => {
+      if (!question.text.trim()) return true;
+      const isCorrectExists = question.choices.some(
+        choice => choice.isAnswer && choice.text.trim(),
+      );
+      return (
+        !isCorrectExists || question.choices.some(choice => !choice.text.trim())
+      );
+    });
+  };
+
+  const handleNavigation = async () => {
+    if (checkForIncompleteData()) {
+      warningModal.open();
+    } else {
+      const result = await submitQuiz();
+      if (result) {
+        navigate('/');
       }
     }
   };
 
-  // '세부 질문 만들기' 버튼 클릭 시 호출되는 함수
-  const handleNavigation = async () => {
-    if (
-      !quiz.title?.trim() ||
-      !quiz.content?.trim() ||
-      !selectedCategory ||
-      !quiz.image?.preview
-    ) {
-      warningModal.open();
-    } else {
-      await submitQuiz();
-    }
-  };
-
-  const handleImageRemove = () => {
-    setQuiz({ ...quiz, image: null });
-    toast.error(' 이미지를 삭제했어요 ! 🧺');
-  };
-
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuiz({
-      ...quiz,
-      title: event.target.value,
-    });
-  };
-
-  const handleContentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    setQuiz({
-      ...quiz,
-      content: event.target.value,
-    });
-  };
-
   return (
-    <div className="w-[1080px] text-blue text-2xl">
-      <CustomQuizInput
-        title="퀴즈명"
-        placeholder="퀴즈명을 입력해 주세요"
-        value={quiz.title || ''}
-        onChange={handleTitleChange}
-      />
+    <div className="mb-48">
+      {questions.map((question, index) => (
+        <div key={question.id} className="w-full">
+          <QuestionItem
+            key={question.id}
+            question={question}
+            index={index}
+            removeQuestion={removeQuestion}
+            setQuestions={setQuestions}
+            questions={questions}
+          />
+          {question.choices.map(choice => (
+            <ChoiceItem
+              key={choice.id}
+              choice={choice}
+              questionId={question.id}
+              handleChoiceCheck={handleChoiceCheck}
+              handleChoiceChange={(questionId, choiceId, text) => {
+                setQuestions(
+                  questions.map(q =>
+                    q.id === questionId
+                      ? {
+                          ...q,
+                          choices: q.choices.map(c =>
+                            c.id === choiceId ? { ...c, text } : c,
+                          ),
+                        }
+                      : q,
+                  ),
+                );
+              }}
+              addChoice={addChoice}
+              removeChoice={removeChoice}
+            />
+          ))}
+        </div>
+      ))}
 
-      <div className="mb-[30px]">
-        <h3 className="mb-[20px]">퀴즈 소개글</h3>
-        <textarea
-          className="w-full h-[174px] customborder"
-          placeholder="퀴즈를 소개하는 글을 써주세요"
-          value={quiz.content || ''}
-          onChange={handleContentChange}
+      <div>
+        {/* 추후 모달관련 로직 따로 분리하기 */}
+        <WarningModal
+          isOpen={warningModal.isOpen}
+          onRequestClose={warningModal.close}
+          title="⚠"
+          message="공백이나, 체크하지 않은 선택지가 있어요!"
+          buttons={<button onClick={warningModal.close}>닫기</button>}
+        />
+        <WarningModal
+          isOpen={completionModal.isOpen}
+          onRequestClose={completionModal.close}
+          title="⚠"
+          message="만들고나면 수정할 수 없어요!😹"
+          buttons={
+            <div className="flex justify-between mt-3">
+              <button
+                onClick={completionModal.close}
+                className="w-1/2 mr-2 py-2 bg-gray-200 text-black rounded-md"
+              >
+                돌아가기
+              </button>
+              <button
+                onClick={() => {
+                  completionModal.close();
+                  navigate('/'); // 이후에는 다 퀴즈 상세페이지로 변경하기! 💩
+                }}
+                className="w-1/2 ml-2 py-2 bg-blue text-white rounded-md"
+              >
+                퀴즈 완성
+              </button>
+            </div>
+          }
         />
       </div>
 
-      <CategoryButton
-        selectedCategory={selectedCategory}
-        onCategoryClick={handleCategoryClick}
-      />
-
-      <div className="w-full flex mb-[20px] justify-end">
-        <ImageUploader
-          id="quiz-image"
-          image={quiz.image}
-          uploadImage={handleImageUpload}
-          removeImage={handleImageRemove}
-        />
+      <div className="fixed bottom-[95px]">
+        <div className="flex justify-between gap-2.5">
+          <button
+            className="w-[355px] h-[58px] text-blue text-lg font-extrabold bg-white border-blue border-2 py-3 rounded-md"
+            onClick={addQuestion}
+          >
+            + 질문 추가하기
+          </button>
+          <button
+            className="w-[355px] h-[58px] text-white text-lg font-extrabold bg-slate-200 border-2 py-3 rounded-md"
+            onClick={() => {}}
+          >
+            임시저장 하기
+          </button>
+        </div>
+        <BottomLongButton onClick={handleNavigation}>
+          작성 완료하기
+        </BottomLongButton>
       </div>
-      <div className="w-[1080px] h-[600px] mx-auto mt-[10px] mb-[135px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
-        {quiz.image?.preview ? (
-          <div
-            className="w-full h-full bg-contain bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${quiz.image.preview})` }}
-          ></div>
-        ) : (
-          <span className="text-slate-200  text-xl">
-            썸네일 이미지를 첨부해 주세요!
-          </span>
-        )}
-      </div>
-
-      <WarningModal
-        isOpen={warningModal.isOpen}
-        onRequestClose={warningModal.close}
-        title="⚠"
-        message="공백이나, 체크하지 않은 선택지가 있어요!"
-        buttons={<button onClick={warningModal.close}>닫기</button>}
-      />
-      <BottomLongButton onClick={handleNavigation}>
-        세부 질문 만들기
-      </BottomLongButton>
     </div>
   );
 };
-
-export default CreateQuizGroup;
+export default CreateQuestionGroup;

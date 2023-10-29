@@ -14,7 +14,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = ({
   onCheck,
 }) => {
   return (
-    <div className="w-full h-[72px] flex mb-[10px] customborder cursor-pointer">
+    <div className="w-full h-[58px] flex mb-[10px] customborder cursor-pointer">
       <div className="w-full flex justify-between items-center">
         <Checkbox
           className="scale-[1.8]"
@@ -33,7 +33,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = ({
             },
           }}
         />
-        <div className="w-full text-2xl pl-[20px] bordernoneinput">
+        <div className="w-full text-lg pl-[20px] bordernoneinput">
           {children}
         </div>
       </div>

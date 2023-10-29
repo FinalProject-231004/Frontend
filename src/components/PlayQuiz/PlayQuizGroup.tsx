@@ -107,20 +107,15 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
       <h1 className="play-quiz__title">
         Q{selectedQuestion}. {questions[selectedQuestion - 1]?.title || '제목'}
       </h1>
-      <img
-        className="w-full h-[460px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
-        src={questions[selectedQuestion - 1]?.image}
-        alt="Quiz Image"
-      />
-      <div className="w-[900px] h-[160px] mt-16 mx-auto">
+      <div className="w-[600px] mb-6 mx-auto">
         <div
-          className="flex space-x-5 mb-5 justify-center items-center"
+          className="flex space-x-5 justify-center items-center"
           ref={questionButtonContainerRef}
         >
           {Array.from({ length: totalQuestions }).map((_, idx) => (
             <div
               key={idx}
-              className={`min-w-[72px] h-[72px] text-2xl rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
+              className={`min-w-[40px] h-[40px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
                 idx + 1 === selectedQuestion
                   ? 'bg-blue text-white boder-blue'
                   : 'bg-white text-blue border-white'
@@ -130,14 +125,19 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
             </div>
           ))}
         </div>
-        <div className="w-[900px] h-[35px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
+        <div className="w-[600px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
           <div
             className="h-full bg-blue rounded-[30px]"
             style={{ width: `${(selectedQuestion / totalQuestions) * 100}%` }}
           ></div>
         </div>
       </div>
-      <div>
+      <img
+        className="w-full h-[305px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
+        src={questions[selectedQuestion - 1]?.image}
+        alt="Quiz Image"
+      />
+      <div className="mb-48">
         {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
           <ChoiceInput
             key={choice.choiceId}

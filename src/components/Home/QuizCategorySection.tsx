@@ -6,14 +6,14 @@ const QuizCategorySection: React.FC<QuizCategorySectionProps> = ({
   title,
   quiz,
 }) => {
-  const displayedQuiz = quiz ? quiz.slice(0, 6) : [];
+  const displayedQuiz = quiz ? quiz.slice(0, 8) : [];
 
   return (
     <div>
-      <h1 className="my-[80px] text-[28px] font-extrabold text-center">
+      <h1 className="my-[60px] text-[24px] text-blue font-extrabold text-center">
         {title}
       </h1>
-      <div className="gap-[20px] grid grid-cols-3">
+      <div className="gap-5 grid grid-cols-4">
         {displayedQuiz.map(quiz => (
           <QuizThumbnail key={quiz.id} quiz={quiz} />
         ))}
