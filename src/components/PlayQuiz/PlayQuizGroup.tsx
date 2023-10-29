@@ -42,12 +42,14 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
 
   const sendQuizDataToServer = async (choiceId: number) => {
     try {
-      const token = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`;
+      const token = localStorage.getItem('Authorization');
+      if (!token) {
+        throw new Error('Authorization 토큰이 존재하지 않습니다.');
+      }
+
       const response = await axios.post(
         `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/choice`,
-        {
-          choiceId,
-        },
+        { choiceId },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,9 +60,12 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
       console.log(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error('Failed to send data to server:', error.response?.data);
-      } else {
-        console.error('An unexpected error occurred:', error);
+        console.error(
+          '서버에 데이터를 보내는 데 실패했습니다:',
+          error.response?.data,
+        );
+      } else if (error instanceof Error) {
+        console.error('예상치 못한 오류가 발생했습니다:', error.message);
       }
     }
   };
@@ -102,6 +107,13 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
     }
   };
 
+  const handleChange = e => {
+    if (e.target.type === 'checkbox') {
+      return;
+    }
+    onCheck(!checked);
+  };
+
   return (
     <div>
       <h1 className="play-quiz__title">
@@ -125,7 +137,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
             </div>
           ))}
         </div>
-        <div className="w-[600px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
+        <div className="w-[500px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
           <div
             className="h-full bg-blue rounded-[30px]"
             style={{ width: `${(selectedQuestion / totalQuestions) * 100}%` }}

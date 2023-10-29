@@ -9,9 +9,7 @@ import { useParams } from 'react-router';
 const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
-
   const { isLiked, likes, handleLike } = useLike(Number(id), data?.likes || 0);
-
   const navigate = useNavigate();
   if (!data) return null;
 

@@ -56,6 +56,12 @@ const CreateQuestionGroup: React.FC = () => {
         }
       });
 
+      const token = localStorage.getItem('Authorization');
+      if (!token) {
+        toast.error('로그인이 필요합니다. 🙇‍♀️');
+        return false;
+      }
+
       // API 요청
       await axios.post(
         `${
@@ -65,17 +71,15 @@ const CreateQuestionGroup: React.FC = () => {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
 
       navigate('/create-quiz/questions');
-      return true; // 성공적으로 퀴즈를 제출했다면 true를 반환
+      return true;
     } catch (error) {
-      console.error('Quiz submission failed:', error);
-      toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
-      return false;
+      // ...
     }
   };
 

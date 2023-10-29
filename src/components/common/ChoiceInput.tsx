@@ -1,5 +1,5 @@
 import Checkbox from '@mui/material/Checkbox';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { BsCheckCircle, BsCheckCircleFill } from 'react-icons/bs';
 
 type ChoiceInputProps = {
@@ -15,16 +15,16 @@ const ChoiceInput: React.FC<ChoiceInputProps> = ({
   children,
   onCheck,
 }) => {
-  const [isChecked, setIsChecked] = useState(checked);
-
   const handleChange = () => {
-    const newChecked = !isChecked;
-    setIsChecked(newChecked);
     onCheck(!checked);
+    console.log('선택된 choiceId:', choiceId);
   };
 
   return (
-    <div className="w-full h-[58px] flex mb-[10px] customborder cursor-pointer">
+    <div
+      className="w-full h-[58px] flex mb-[10px] customborder cursor-pointer"
+      onClick={handleChange}
+    >
       <div className="w-full flex justify-between items-center">
         <Checkbox
           className="scale-[1.4]"

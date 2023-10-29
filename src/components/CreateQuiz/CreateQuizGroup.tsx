@@ -49,6 +49,14 @@ const CreateQuizGroup: React.FC = () => {
         formData.append('requestDto', blob);
       }
 
+      // localStorage에서 토큰 가져오기
+      const token = localStorage.getItem('Authorization');
+
+      if (!token) {
+        toast.error('로그인이 필요합니다.');
+        return;
+      }
+
       // 요청 전송
       const response = await axios.post(
         `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
@@ -56,7 +64,7 @@ const CreateQuizGroup: React.FC = () => {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -64,7 +72,7 @@ const CreateQuizGroup: React.FC = () => {
       const quizId = response.data.data.id;
       navigate(`/create-quiz/questions/${quizId}`);
     } catch (error) {
-      toast.error(' 퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
+      toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
       if (axios.isAxiosError(error)) {
         console.error(
           '퀴즈 생성에 실패했습니다:',
