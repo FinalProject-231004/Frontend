@@ -7,10 +7,10 @@ const BottomLongButton: React.FC<BottomLongButtonProps> = ({
   children,
 }) => {
   return (
-    <div className="w-[1080px] fixed bottom-0 mx-auto bg-white">
+    <div className="w-[720px] fixed bottom-0 bg-white">
       <button
         type="button"
-        className="w-full h-[80px] bg-blue font-extrabold text-[26px] text-white py-3"
+        className="w-full h-[80px] mt-130 bg-blue font-extrabold text-2xl text-white py-3"
         onClick={onClick}
       >
         {children}

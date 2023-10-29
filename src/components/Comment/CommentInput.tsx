@@ -21,7 +21,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
   };
 
   return (
-    <div className="flex mb-8 h-[72px]">
+    <div className="flex mb-9 h-[72px]">
       <img src="/profile.png" className="w-[72px]" alt={`profile`} />
       <div className=" ml-5 flex w-[510px] customborder">
         <input

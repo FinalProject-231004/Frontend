@@ -29,10 +29,8 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-[12px] mt-8 px-3 py-1">
-        <h3 className="text-[30px] text-blue font-extrabold">
-          질문 {index + 1}
-        </h3>
+      <div className="flex items-center justify-between mb-3 mt-8">
+        <h3 className="text-xl text-blue font-extrabold">질문 {index + 1}</h3>
         <div className="flex items-center justify-end rounded-[6px] gap-[10px]">
           <ImageUploader
             id={question.id}
@@ -47,7 +45,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
             }}
           />
           <button
-            className=" w-[37px] h-[37px] text-xl flex items-center justify-center rounded-[6px] bg-[#3E3E3E] border hover:border-4 hover:border-[#3E3E3E] text-white active:scale-105 transition-transform  duration-200"
+            className=" w-[34px] h-[34px] text-xl flex items-center justify-center rounded-[6px] bg-[#3E3E3E] border hover:border-4 hover:border-[#3E3E3E] text-white active:scale-105 transition-transform  duration-200"
             onClick={e => {
               e.preventDefault();
               removeQuestion(question.id);
@@ -58,7 +56,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
         </div>
       </div>
       <input
-        className="w-full h-[51px] px-6 mb-[10px] text-2xl border-blue focus:outline-none bg-blue rounded-md text-white custom-placeholder"
+        className="w-full h-[40px] px-6 mb-[10px] text-lg border-blue focus:outline-none bg-blue rounded-md text-white custom-placeholder"
         placeholder="질문을 입력해 주세요"
         value={question.text}
         onChange={e => {
@@ -70,7 +68,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
       />
       {question.image?.preview && (
         <div
-          className="w-[1080px] h-[600px] mx-auto mt-[10px] mb-[20px] border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat"
+          className="w-[720] h-[400px] mx-auto mt-[10px] mb-[20px] border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${question.image.preview})` }}
         ></div>
       )}

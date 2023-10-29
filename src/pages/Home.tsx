@@ -52,7 +52,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="w-[1920px] h-[1080px] mx-auto">
+    <div className="min-w-[1920px] min-h-[1080px] mx-auto">
       <div className="w-[1080px] mx-auto">
         <HomeBanner />
 
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
 
         <QuizCategorySection title="🔥 인기순 퀴즈" quiz={hotQuiz} />
 
-        <QuizCategorySection title="👁‍🗨 조회순 퀴즈" quiz={viewNum} />
+        <QuizCategorySection title="👀 조회순 퀴즈" quiz={viewNum} />
 
         {/* 여기서부터는 카테고리 별로 뿌려주는 섹션 - */}
         <div className="mx-auto max-w-[1080px]">
@@ -86,6 +86,7 @@ const Home: React.FC = () => {
           })}
         </div>
       </div>
+      <div className="w-full h-[72px] bg-white"></div>
     </div>
   );
 };

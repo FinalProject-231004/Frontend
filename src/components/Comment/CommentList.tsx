@@ -1,5 +1,5 @@
-import React from 'react';
 import { Comments } from '@/types/result';
+import React from 'react';
 
 type CommentProps = {
   commentData: Comments;
