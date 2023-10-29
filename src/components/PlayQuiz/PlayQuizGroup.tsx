@@ -125,7 +125,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
             </div>
           ))}
         </div>
-        <div className="w-[500px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
+        <div className="w-[600px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
           <div
             className="h-full bg-blue rounded-[30px]"
             style={{ width: `${(selectedQuestion / totalQuestions) * 100}%` }}
@@ -141,8 +141,8 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
         {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
           <ChoiceInput
             key={choice.choiceId}
-            choiceId={choice.choiceId}
-            checked={!!choice.checked}
+            choiceId={String(choice.choiceId)}
+            checked={selectedChoiceId === choice.choiceId}
             onCheck={() => {
               handleChoiceCheck(
                 Number(questions[selectedQuestion - 1].id),
@@ -154,6 +154,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = ({ totalQuestions }) => {
           </ChoiceInput>
         ))}
       </div>
+
       <BottomLongButton onClick={handleSubmit}>
         {selectedQuestion === totalQuestions ? '문제 결과보기' : '다음 문제로!'}
       </BottomLongButton>

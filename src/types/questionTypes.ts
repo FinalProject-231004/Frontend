@@ -1,9 +1,3 @@
-export type Choice = {
-  id: string;
-  text: string;
-  isAnswer: boolean;
-};
-
 export type ImageInfo = {
   file: File | null;
   preview: string | null;
@@ -22,6 +16,12 @@ export type QuestionItemProps = {
   removeQuestion: (id: string) => void;
   setQuestions: (questions: Question[]) => void;
   questions: Question[];
+};
+
+export type Choice = {
+  id: string;
+  text: string;
+  isAnswer: boolean;
 };
 
 export type ChoiceItemProps = {

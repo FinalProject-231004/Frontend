@@ -7,15 +7,11 @@ import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 
 const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
-  console.log(msg, data);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
 
-  console.log(data); // undefined
-  console.log(data); // undefined
+  const { isLiked, likes, handleLike } = useLike(Number(id), data?.likes || 0);
 
-  const { isLiked, likes, handleLike } = useLike(Number(id), data.likes || 0);
   const navigate = useNavigate();
   if (!data) return null;
 

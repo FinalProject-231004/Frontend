@@ -1,31 +1,37 @@
 import Checkbox from '@mui/material/Checkbox';
+import { useState } from 'react';
 import { BsCheckCircle, BsCheckCircleFill } from 'react-icons/bs';
 
 type ChoiceInputProps = {
-  choiceId: number;
+  choiceId: string;
   checked: boolean;
-  onCheck: () => void;
+  onCheck: (checked: boolean) => void; // checked 상태를 인자로 받도록 변경
   children: React.ReactNode;
 };
+
 const ChoiceInput: React.FC<ChoiceInputProps> = ({
   choiceId,
   checked,
   children,
   onCheck,
 }) => {
+  const [isChecked, setIsChecked] = useState(checked);
+
+  const handleChange = () => {
+    const newChecked = !isChecked;
+    setIsChecked(newChecked);
+    onCheck(!checked);
+  };
+
   return (
     <div className="w-full h-[58px] flex mb-[10px] customborder cursor-pointer">
       <div className="w-full flex justify-between items-center">
         <Checkbox
-          className="scale-[1.8]"
+          className="scale-[1.4]"
           icon={<BsCheckCircle />}
           checkedIcon={<BsCheckCircleFill />}
           checked={checked}
-          onChange={event => {
-            console.log(event.target.checked);
-            onCheck();
-            console.log(choiceId);
-          }}
+          onChange={handleChange}
           sx={{
             color: '#d4d4d4',
             '&.Mui-checked': {
@@ -33,6 +39,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = ({
             },
           }}
         />
+
         <div className="w-full text-lg pl-[20px] bordernoneinput">
           {children}
         </div>
