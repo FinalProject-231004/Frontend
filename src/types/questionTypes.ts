@@ -1,9 +1,3 @@
-export type Choice = {
-  id: string;
-  text: string;
-  isAnswer: boolean;
-};
-
 export type ImageInfo = {
   file: File | null;
   preview: string | null;
@@ -24,6 +18,12 @@ export type QuestionItemProps = {
   questions: Question[];
 };
 
+export type Choice = {
+  id: string;
+  text: string;
+  isAnswer: boolean;
+};
+
 export type ChoiceItemProps = {
   choice: Choice;
   questionId: string;
@@ -42,6 +42,8 @@ export type PlayQuiz = {
   id: string;
   title: string;
   quizChoices: {
+    choiceId: number;
+    checked: boolean;
     id: number;
     answer: string;
     checks: boolean;
@@ -58,18 +60,5 @@ export type QuizQuestion = {
         checks: false;
       },
     ];
-  };
-};
-
-export type QuizResultProps = {
-  msg: string;
-  data: {
-    id: number;
-    title: string;
-    content: string;
-    image: string;
-    likes: number;
-    viewCount: number;
-    comments: [];
   };
 };

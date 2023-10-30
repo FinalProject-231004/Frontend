@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
-
 import {
   QuestionItem,
   ChoiceItem,
@@ -12,7 +11,6 @@ import {
   BottomLongButton,
 } from '@/components';
 import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
-
 const CreateQuestionGroup: React.FC = () => {
   const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
@@ -21,7 +19,6 @@ const CreateQuestionGroup: React.FC = () => {
   const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
   const { addQuestion, removeQuestion } = useQuestionActions();
   const { id } = useParams();
-
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
@@ -59,6 +56,12 @@ const CreateQuestionGroup: React.FC = () => {
         }
       });
 
+      const token = localStorage.getItem('Authorization');
+      if (!token) {
+        toast.error('로그인이 필요합니다. 🙇‍♀️');
+        return false;
+      }
+
       // API 요청
       await axios.post(
         `${
@@ -68,17 +71,15 @@ const CreateQuestionGroup: React.FC = () => {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJhdXRoIjoiQURNSU4iLCJleHAiOjE2OTkxNjYwNzEsImlhdCI6MTY5Nzk1NjQ3MX0.cJ2DD8-STMhzrkBhP7ll27Fjyy5t4vcNcE2E5ifnzmw`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
 
       navigate('/create-quiz/questions');
-      return true; // 성공적으로 퀴즈를 제출했다면 true를 반환
+      return true;
     } catch (error) {
-      console.error('Quiz submission failed:', error);
-      toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
-      return false;
+      // ...
     }
   };
 
@@ -107,9 +108,9 @@ const CreateQuestionGroup: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="mb-48">
       {questions.map((question, index) => (
-        <div key={question.id} className="w-[1080px]">
+        <div key={question.id} className="w-full">
           <QuestionItem
             key={question.id}
             question={question}
@@ -144,15 +145,9 @@ const CreateQuestionGroup: React.FC = () => {
           ))}
         </div>
       ))}
-      <button
-        className="w-full h-[72px] mt-5 mb-[200px] text-blue text-2xl border-blue border-2 py-3 rounded-md"
-        onClick={addQuestion}
-      >
-        + 질문 추가하기
-      </button>
+
       <div>
         {/* 추후 모달관련 로직 따로 분리하기 */}
-
         <WarningModal
           isOpen={warningModal.isOpen}
           onRequestClose={warningModal.close}
@@ -160,7 +155,6 @@ const CreateQuestionGroup: React.FC = () => {
           message="공백이나, 체크하지 않은 선택지가 있어요!"
           buttons={<button onClick={warningModal.close}>닫기</button>}
         />
-
         <WarningModal
           isOpen={completionModal.isOpen}
           onRequestClose={completionModal.close}
@@ -187,11 +181,27 @@ const CreateQuestionGroup: React.FC = () => {
           }
         />
       </div>
-      <BottomLongButton onClick={handleNavigation}>
-        작성 완료하기
-      </BottomLongButton>
+
+      <div className="fixed bottom-[95px]">
+        <div className="flex justify-between gap-2.5">
+          <button
+            className="w-[355px] h-[58px] text-blue text-lg font-extrabold bg-white border-blue border-2 py-3 rounded-md"
+            onClick={addQuestion}
+          >
+            + 질문 추가하기
+          </button>
+          <button
+            className="w-[355px] h-[58px] text-white text-lg font-extrabold bg-slate-200 border-2 py-3 rounded-md"
+            onClick={() => {}}
+          >
+            임시저장 하기
+          </button>
+        </div>
+        <BottomLongButton onClick={handleNavigation}>
+          작성 완료하기
+        </BottomLongButton>
+      </div>
     </div>
   );
 };
-
 export default CreateQuestionGroup;
