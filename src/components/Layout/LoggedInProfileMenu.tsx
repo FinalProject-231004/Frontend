@@ -14,11 +14,12 @@ import { getAPI } from '@/apis/axios';
 import { profileAPIResponse } from '@/types/header';
 import { useEffect, useState } from 'react';
 import { logOut } from '@/utils/authHelpers';
-
 import {
   userMileageState,
   userNickNameState,
 } from '@/recoil/atoms/userInfoAtom';
+
+const fontFamily = "'TmoneyRoundWind', sans-serif";
 
 export default function LoggedInProfileMenu() {
   const setIsLoggedIn = useSetRecoilState(isLoggedInState); // 사용자의 로그인 상태 업데이트
@@ -77,7 +78,15 @@ export default function LoggedInProfileMenu() {
         </IconButton>
         {/* </Tooltip> */}
         <Menu
-          sx={{ mt: '45px' }}
+          sx={{ 
+            mt: '45px', 
+            '& .MuiPaper-root': {
+              boxShadow: '-1px 1px 8px 0 rgba(0, 0, 0, 0.1), 1px 1px 8px 0 rgba(0, 0, 0, 0.1)', 
+            },
+            '& .MuiMenu-list': { 
+              p: 0, 
+            },
+          }}
           id="menu-appbar"
           anchorEl={anchorElUser}
           anchorOrigin={{
@@ -92,26 +101,38 @@ export default function LoggedInProfileMenu() {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          <MenuItem onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{nickName}</Typography>
-          </MenuItem>
-          <MenuItem onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{mileage} point</Typography>
-          </MenuItem>
-          <LoggedInAttendence
-            handleCloseUserMenu={() => handleCloseUserMenu()}
-          />
-          <MenuItem
-            onClick={() => {
-              handleCloseUserMenu();
-              navigate('/mypage');
-            }}
-          >
-            <Typography textAlign="center">마이페이지</Typography>
-          </MenuItem>
-          <MenuItem onClick={handleLogOut}>
-            <Typography textAlign="center">로그아웃</Typography>
-          </MenuItem>
+          <div className='w-[264px] h-[300px] bg-lightBlue flex flex-col justify-center items-center'>
+            <div className='w-[216px] h-[260px]'>
+              <div className='flex justify-start' onClick={handleCloseUserMenu}>
+                <Typography textAlign="center"><p className='pl-[3px] mb-[17px] text-[25px] text-blue hover:' style={{ fontFamily }}>{nickName}</p></Typography>
+              </div>
+              <div className='p-0' onClick={handleCloseUserMenu}>
+                <Typography className='flex justify-between border-b-[1.5px] border-black w-[216px] pb-[13px]' textAlign="center">
+                  <p className='pl-[3px] text-[18px]' style={{ fontFamily }}>마일리지</p>
+                  <p className='text-[18px]' style={{ fontFamily }}>{mileage} M</p>
+                </Typography>
+              </div>
+              <LoggedInAttendence
+                handleCloseUserMenu={() => handleCloseUserMenu()}
+              />
+              <MenuItem sx={{ p: 0, m:0 }}
+                onClick={() => {
+                  handleCloseUserMenu();
+                  navigate('/mypage');
+                }}
+              >
+                <Typography className='p-0 border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
+                  <p className='pl-[3px] text-[18px]'>마이페이지</p>
+                </Typography>
+              </MenuItem>
+              <MenuItem sx={{ p: 0, m:0  }} onClick={handleLogOut}>
+                <Typography className='border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
+                  <p className='pl-[3px] text-[18px]'>로그아웃</p>
+                </Typography>
+              </MenuItem>
+            </div>
+          </div>
+          
         </Menu>
       </Box>
     </>
