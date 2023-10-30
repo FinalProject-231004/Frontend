@@ -8,6 +8,8 @@ type LoggedInAttendenceProps = {
   handleCloseUserMenu: ()=>void;
 }
 
+const fontFamily = "'TmoneyRoundWind', sans-serif";
+
 export default function LoggedInAttendence({handleCloseUserMenu}:LoggedInAttendenceProps) {
   const notifySuccess = () => toast.success('잊지 않으셨군요?! 출석 완료!', {
     position: "top-center",
@@ -74,8 +76,10 @@ export default function LoggedInAttendence({handleCloseUserMenu}:LoggedInAttende
 
   return (
     <>
-      <MenuItem onClick={()=>{handleCloseUserMenu(); postAttendencs();}}> 
-        <Typography textAlign="center">출석체크</Typography>
+      <MenuItem sx={{ p: 0 }} onClick={()=>{handleCloseUserMenu(); postAttendencs();}}> 
+        <Typography className='border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
+          <p className='pl-[3px] text-[18px]'>출석체크</p>
+        </Typography>
       </MenuItem>
     </>
     

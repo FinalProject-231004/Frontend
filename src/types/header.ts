@@ -10,7 +10,7 @@ export type Notification = {
   created_at: string;
 }
 
-export type postData = {
+export type postSignIn = {
   username: string;
   password: string;
 };
