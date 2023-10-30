@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import React, { useState } from 'react';
 import { getAPI } from '@/apis/axios';
 import { Notification } from '@/types/header';
+import { getTime } from '@/utils/dateUtils';
 
 export default function LoggedInNotification() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null); // 사용자 메뉴를 표시
@@ -27,29 +28,6 @@ export default function LoggedInNotification() {
       console.log('error', error);
     }
   };
-  
-  // 시간 구하기
-  let timeReceived = '';
-  notification.map((note) => {
-    const now = new Date();
-    const postedDate = new Date(note.created_at);
-
-    const differenceInMilliseconds = now.getTime() - postedDate.getTime();
-
-    const differenceInMinutes = Math.floor(differenceInMilliseconds / 60000);
-    const differenceInHours = Math.floor(differenceInMinutes / 60);
-    const differenceInDays = Math.floor(differenceInHours / 24);
-
-    if (differenceInDays > 0) {
-        timeReceived = `${differenceInDays}일 전`;
-    } else if (differenceInHours > 0) {
-        timeReceived = `${differenceInHours % 24}시간 전`;
-    } else {
-        // 10단위로 반올림
-        const roundedMinutes = Math.round(differenceInMinutes / 10) * 10;
-        timeReceived = `${roundedMinutes}분 전`;
-    }
-});
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     getNotification();
@@ -100,17 +78,18 @@ export default function LoggedInNotification() {
               onClose={handleCloseUserMenu}
             >
               <div className='w-[448px] h-[324px] py-[23px] px-[10px] bg-[#FAFAFA] border-[1.5px] border-solid rounded-md border-black'>
-                {notification.map((note, index) => {
-                  const isFirstItem = index === 0;
-                  return(
-                    <MenuItem className='w-full' onClick={handleCloseUserMenu}> 
-                      <Typography className={`flex justify-between border-b-2 w-[416px] pb-[8px] ${isFirstItem ? 'border-navy' : 'border-blue'}`} textAlign="center">
-                        <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{note.content}</p>
-                        <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{timeReceived}</p>
-                      </Typography>
-                    </MenuItem>
-                  )
-                })}
+              {notification.map((note, index) => {
+                const isFirstItem = index === 0;
+                const timeReceived = getTime(new Date(note.created_at));
+                return (
+                  <MenuItem className='w-full' onClick={handleCloseUserMenu}>
+                    <Typography className={`flex justify-between border-b-2 w-[416px] pb-[8px] ${isFirstItem ? 'border-navy' : 'border-blue'}`} textAlign="center">
+                      <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{note.content}</p>
+                      <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{timeReceived}</p>
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
               </div>
             </Menu>
           </Box>          
