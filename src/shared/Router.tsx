@@ -8,6 +8,7 @@ import {
   ResultPage,
   VerifyPassword,
   MyPage,
+  AllQuizCategories,
 } from '@/pages';
 import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
@@ -35,6 +36,7 @@ const Router = () => {
       <ConditionalLayout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/all-quiz" element={<AllQuizCategories />} />
           <Route path="/login/kakao" element={<Auth />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
           <Route path="/result/:id" element={<ResultPage />} />
