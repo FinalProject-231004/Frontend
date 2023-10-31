@@ -1,6 +1,6 @@
 export const categories = [
-  { displayName: '만화', category: 'CARTOON' },
   { displayName: '영화/TV', category: 'MOVIE_TV' },
+  { displayName: '만화', category: 'CARTOON' },
   { displayName: '게임', category: 'GAME' },
   { displayName: 'IQ테스트', category: 'IQ_TEST' },
   { displayName: '인물', category: 'PERSON' },
