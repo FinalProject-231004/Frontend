@@ -5,7 +5,7 @@ type WarningModalProps = {
   onRequestClose: () => void;
   title: string;
   message: string;
-  buttons: React.ReactNode;
+  button: React.ReactNode;
 };
 
 const WarningModal: React.FC<WarningModalProps> = ({
@@ -13,26 +13,29 @@ const WarningModal: React.FC<WarningModalProps> = ({
   onRequestClose,
   title,
   message,
-  buttons,
+  button,
 }) => (
   <Modal
     isOpen={isOpen}
     onRequestClose={onRequestClose}
     shouldCloseOnOverlayClick={false}
     contentLabel="Warning"
-    className="w-[713px] h-[180px] inline-block align-bottom bg-[#F1F8FF] rounded-lg text-left overflow-hidden shadow-md shadow-slate-400 transform transition-all sm:my-8 sm:align-middle max-w-md p-6"
-    overlayClassName="fixed inset-0 bg-gray-300 bg-opacity-75 transition-opacity flex justify-center items-center"
+    className="w-[470px] h-[240px] bg-[#F1F8FF] rounded-lg overflow-hidden shadow-md shadow-slate-300 transform transition-all p-6"
+    overlayClassName="fixed inset-0 bg-gray-200 bg-opacity-75 transition-opacity flex justify-center items-center"
   >
-    <div className="sm:flex flex-col justify-center items-center">
-      <h3 className="text-3xl">{title}</h3>
+    <div className="flex flex-col justify-center items-center h-full">
+      {' '}
+      {/* 이 div를 추가했습니다. */}
+      <div className="sm:flex flex-col justify-center items-center">
+        <h3 className="text-3xl">{title}</h3>
+      </div>
+      <p className="text-blue text-xl font-extrabold mt-3 text-center">
+        {message}
+      </p>
+      <div className="flex justify-center items-center mt-6 w-full">
+        {button}
+      </div>
     </div>
-    <p className="text-blue font-extrabold mt-3 text-center">{message}</p>
-    <button
-      className="text-sm mt-6 sm:flex bg-blue p-2 rounded-lg text-white mx-auto"
-      type="button"
-    >
-      {buttons}
-    </button>
   </Modal>
 );
 
