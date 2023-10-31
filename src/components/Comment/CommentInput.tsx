@@ -16,16 +16,16 @@ const CommentInput: React.FC<CommentInputProps> = ({
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      onAddComment(); // 엔터 키를 눌렀을 때 onAddComment 함수를 호출
+      onAddComment();
     }
   };
 
   return (
-    <div className="flex mb-9 h-[72px]">
+    <div className="flex mb-9 h-[60px]">
       <img src="/profile.png" className="w-[72px]" alt={`profile`} />
       <div className=" ml-5 flex w-[510px] customborder">
         <input
-          className="w-full text-2xl bg-transparent bordernoneinput -ml-2 mr-1"
+          className="w-full bg-transparent bordernoneinput -ml-2 mr-1"
           type="text"
           placeholder={placeholder}
           value={value}

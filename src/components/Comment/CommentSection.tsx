@@ -100,8 +100,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           onScroll={handleScroll}
         >
           {commentState && commentState.length > 0 ? (
-            commentState.map(comment => (
-              <CommentList key={comment.memberId} commentData={comment} />
+            commentState.map((comment, index) => (
+              <CommentList
+                key={comment.id}
+                commentData={comment}
+                isLastComment={index === commentState.length - 1}
+              />
             ))
           ) : (
             <div className="flex items-center justify-center h-[450px] text-slate-300">
