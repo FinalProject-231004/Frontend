@@ -36,7 +36,7 @@ const Sse = () => {
         'Cache-Control': 'no-cache'
       },
       reconnectInterval: 5000, // 5초 후 재연결 시도
-      heartbeatTimeout: 60000, // 1분 타임아웃 설정
+      heartbeatTimeout: 3600000, // 1시간 타임아웃 설정
     });
 
     eventSource.onopen = () => {
