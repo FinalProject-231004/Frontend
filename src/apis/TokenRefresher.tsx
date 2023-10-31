@@ -26,7 +26,7 @@ export default function TokenRefresher() {
         // access_token 재발급
         if (status === 401 ) {
           if(msg == "Expired Access Token. 토큰이 만료되었습니다.") {
-            console.log("토큰 재발급 요청");
+            // console.log("토큰 재발급 요청");
             await axios.post(
               `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/token/reissue`,{},
               // accesstoken 수정
@@ -73,7 +73,7 @@ export default function TokenRefresher() {
           // window.alert(msg); 
           // console.log(msg)
         }
-        console.error('Error response:', error);
+        // console.error('Error response:', error);
         // 다른 모든 오류를 거부하고 처리
         return Promise.reject(error);
       },

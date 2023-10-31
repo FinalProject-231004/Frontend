@@ -58,7 +58,7 @@ export const postAPI = <T = unknown, R = unknown>(
 
 export const putAPI = <T = unknown, R = unknown>(
   url: string,
-  data: T,
+  data?: T,
 ): Promise<AxiosResponse<R>> => {
   return axios.put<R>(API_BASE_URL + url, data);
 };
