@@ -126,59 +126,62 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     }
 
     return (
-      <div>
-        <h1 className="play-quiz__title">
-          Q{selectedQuestion}.{' '}
-          {questions[selectedQuestion - 1]?.title || '제목'}
-        </h1>
-        <div className="w-[500px] mb-6 mx-auto">
-          <div
-            className="flex space-x-5 justify-center items-center"
-            ref={questionButtonContainerRef}
-          >
-            {Array.from({ length: totalQuestions }).map((_, idx) => (
+      <div className="w-screen">
+        <div className="w-[720px] mx-auto">
+          <h1 className="play-quiz__title">
+            Q{selectedQuestion}.{' '}
+            {questions[selectedQuestion - 1]?.title || '제목'}
+          </h1>
+          <div className="w-[500px] mb-6 mx-auto">
+            <div
+              className="flex space-x-5 justify-center items-center"
+              ref={questionButtonContainerRef}
+            >
+              {Array.from({ length: totalQuestions }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`min-w-[40px] h-[40px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
+                    idx + 1 === selectedQuestion
+                      ? 'bg-blue text-white boder-blue'
+                      : 'bg-white text-blue border-white'
+                  }`}
+                >
+                  Q{idx + 1}
+                </div>
+              ))}
+            </div>
+            <div className="w-[500px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
               <div
-                key={idx}
-                className={`min-w-[40px] h-[40px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
-                  idx + 1 === selectedQuestion
-                    ? 'bg-blue text-white boder-blue'
-                    : 'bg-white text-blue border-white'
-                }`}
+                className="h-full bg-blue rounded-[30px]"
+                style={{
+                  width: `${(selectedQuestion / totalQuestions) * 100}%`,
+                }}
+              ></div>
+            </div>
+          </div>
+          <img
+            className="w-full h-[305px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
+            src={questions[selectedQuestion - 1]?.image}
+            alt="Quiz Image"
+          />
+          <div className="mb-48">
+            {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
+              <ChoiceInput
+                key={choice.choiceId}
+                choiceId={String(choice.choiceId)}
+                checked={selectedChoiceId === choice.choiceId}
+                onCheck={() => {
+                  handleChoiceCheck(
+                    Number(questions[selectedQuestion - 1].id),
+                    choice.choiceId,
+                  );
+                }}
               >
-                Q{idx + 1}
-              </div>
+                {choice.answer}
+              </ChoiceInput>
             ))}
           </div>
-          <div className="w-[500px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
-            <div
-              className="h-full bg-blue rounded-[30px]"
-              style={{ width: `${(selectedQuestion / totalQuestions) * 100}%` }}
-            ></div>
-          </div>
         </div>
-        <img
-          className="w-full h-[305px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
-          src={questions[selectedQuestion - 1]?.image}
-          alt="Quiz Image"
-        />
-        <div className="mb-48">
-          {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
-            <ChoiceInput
-              key={choice.choiceId}
-              choiceId={String(choice.choiceId)}
-              checked={selectedChoiceId === choice.choiceId}
-              onCheck={() => {
-                handleChoiceCheck(
-                  Number(questions[selectedQuestion - 1].id),
-                  choice.choiceId,
-                );
-              }}
-            >
-              {choice.answer}
-            </ChoiceInput>
-          ))}
-        </div>
-
         <BottomLongButton onClick={handleSubmit}>
           {selectedQuestion === totalQuestions
             ? '문제 결과보기'
