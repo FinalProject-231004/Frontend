@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router';
 
 const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   const navigate = useNavigate();
-
+  const quizId = quiz.id;
   const handleImageClick = () => {
-    navigate('/quiz/${id}');
+    console.log(quizId);
+    navigate(`/quiz/${quizId}`);
   };
 
   return (
