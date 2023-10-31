@@ -8,5 +8,5 @@ export const categories = [
   { displayName: '음식', category: 'FOOD' },
   { displayName: '스포츠', category: 'SPORT' },
   { displayName: '동물', category: 'ANIMAL' },
-  { displayName: 'etc.', category: 'ETC' },
+  { displayName: '기타', category: 'ETC' },
 ];

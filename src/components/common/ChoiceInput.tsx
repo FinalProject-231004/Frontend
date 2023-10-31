@@ -5,7 +5,7 @@ import { BsCheckCircle, BsCheckCircleFill } from 'react-icons/bs';
 type ChoiceInputProps = {
   choiceId: string;
   checked: boolean;
-  onCheck: (checked: boolean) => void; // checked 상태를 인자로 받도록 변경
+  onCheck: (checked: boolean) => void;
   children: React.ReactNode;
 };
 

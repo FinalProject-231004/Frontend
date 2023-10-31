@@ -42,7 +42,7 @@ export { default as UpdateMyInfo } from './MyPage/UpdateMyInfo';
 export { default as HomeBanner } from './Home/HomeBanner';
 export { default as QuizCategorySection } from './Home/QuizCategorySection';
 export { default as QuizThumbnail } from './Home/QuizThumbnail';
-export { default as QuizThumbnailModal } from './Home/QuizThumbnailModal';
+export { default as DetailPageComp } from './Home/DetailPageComp';
 
 // Result
 export { default as ResultPageComp } from './Result/ResultPageComp';
