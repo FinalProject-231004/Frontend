@@ -52,5 +52,8 @@ export { default as CommentSection } from './Comment/CommentSection';
 export { default as CommentList } from './Comment/CommentList';
 export { default as CommentInput } from './Comment/CommentInput';
 
+// MileageShop
+export { default as GifticonList } from './MileageShop/GifticonList';
+
 // Root
 export { default as CurrentDate } from './CurrentDate';
