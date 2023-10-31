@@ -6,3 +6,4 @@ export { default as MyPage } from './MyPage';
 export { default as VerifyPassword } from './VerifyPassword';
 export { default as ResultPage } from './ResultPage';
 export { default as AllQuizCategories } from './AllQuizCategories';
+export { default as DetailPage } from './DetailPage';

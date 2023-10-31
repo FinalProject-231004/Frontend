@@ -93,30 +93,32 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   };
 
   return (
-    <div className="flex w-full">
-      <div className="flex flex-col">
-        <div
-          className="overflow-x-hidden overflow-y-auto h-[470px] scroll-smooth"
-          onScroll={handleScroll}
-        >
-          {commentState && commentState.length > 0 ? (
-            commentState.map(comment => (
-              <CommentList key={comment.memberId} commentData={comment} />
-            ))
-          ) : (
-            <div className="flex items-center justify-center h-[450px] text-slate-300">
-              아직 등록된 댓글이 없어요! 🧐
-            </div>
-          )}
-        </div>
-        <div className="flex mt-10">
-          <CommentInput
-            placeholder="댓글을 입력해주세요"
-            value={newComment}
-            onChange={handleNewCommentChange}
-            onAddComment={handleAddComment}
-          />
-        </div>
+    <div className="w-full h-[472px] flex flex-col">
+      <div
+        className="w-full h-[472px] overflow-x-hidden overflow-y-auto scroll-smooth"
+        onScroll={handleScroll}
+      >
+        {commentState && commentState.length > 0 ? (
+          commentState.map((comment, index) => (
+            <CommentList
+              key={comment.id}
+              commentData={comment}
+              isLastComment={index === commentState.length - 1}
+            />
+          ))
+        ) : (
+          <div className="flex items-center justify-center h-[450px] text-slate-300">
+            아직 등록된 댓글이 없어요! 🧐
+          </div>
+        )}
+      </div>
+      <div className="flex mt-2">
+        <CommentInput
+          placeholder="댓글을 입력해주세요"
+          value={newComment}
+          onChange={handleNewCommentChange}
+          onAddComment={handleAddComment}
+        />
       </div>
     </div>
   );

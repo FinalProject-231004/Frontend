@@ -8,7 +8,7 @@ import { QuizCategorySection } from '@/components';
 const AllQuizCategories: React.FC = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    'CARTOON',
+    'MOVIE_TV',
   );
   const [, setCategoryState] = useState(categories);
   const getToken = () => localStorage.getItem('Authorization');

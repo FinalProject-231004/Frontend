@@ -14,7 +14,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
   useHorizontalScroll(scrollContainerRef);
 
   return (
-    <div className="mb-6">
+    <div className="w-full mb-6 mx-auto">
       <h3 className="font-extrabold">
         나의 퀴즈 카테고리는:{' '}
         <span className="font-extrabold underline">
@@ -23,13 +23,17 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
         </span>
       </h3>
       <div
-        className="flex overflow-x-auto gap-4 scrollbar-thumb-blue scrollbar-track-gray-100 scrollbar-thin"
+        className="flex overflow-x-auto mb-6 gap-4 scrollbar-thumb-blue scrollbar-track-gray-100 scrollbar-thin"
         ref={scrollContainerRef}
       >
         {categories.map(category => (
           <div
             key={category.category}
-            className="w-[96px] h-[46px] text-base my-5 border-2 flex-shrink-0 flex justify-center items-center border-blue rounded-xl cursor-pointer transition-all hover:bg-blue hover:text-white shadow-md shadow-slate-200 hover:shadow-inner hover:shadow-slate-300"
+            className={`w-[94px] h-[46px] text-base my-5 border-2 flex-shrink-0 flex justify-center items-center rounded-2xl cursor-pointer transition-all shadow-sm shadow-slate-200 ${
+              selectedCategory === category.category
+                ? 'bg-blue text-white shadow-inner'
+                : 'border-gray  text-gray-300 hover:bg-blue hover:border-blue hover:text-white hover:shadow-inner hover:shadow-slate-300'
+            }`}
             onClick={() => onCategoryClick(category.category)}
           >
             {category.displayName}
