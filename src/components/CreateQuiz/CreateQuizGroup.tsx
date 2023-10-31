@@ -173,8 +173,15 @@ const CreateQuizGroup: React.FC = () => {
           isOpen={warningModal.isOpen}
           onRequestClose={warningModal.close}
           title="🚨"
-          message="공백인 항목이 있거나, 체크하지 않은 선택지가 있어요!"
-          buttons={<button onClick={warningModal.close}>돌아가기</button>}
+          message="공백이거나, 체크하지 않은 선택지가 있어요!"
+          button={
+            <div
+              onClick={warningModal.close}
+              className="bg-blue text-white rounded-md"
+            >
+              닫기
+            </div>
+          }
         />
       </div>
       <BottomLongButton onClick={handleNavigation}>
