@@ -108,7 +108,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
         setSelectedChoiceId(null);
         setSelectedQuestion(prev => prev + 1);
       } else {
-        navigate(`/result/${quizId}`);
+        navigate(`/quiz/result/${id}`);
       }
     };
     const handleSubmit = () => {
