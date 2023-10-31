@@ -10,6 +10,7 @@ export { default as BottomLongButton } from './common/BottomLongButton';
 export { default as ChoiceInput } from './common/ChoiceInput';
 export { default as QuizInfo } from './common/QuizInfo';
 export { default as PrivateRoute } from './common/PrivateRoute';
+export { default as ShareModal } from './common/ShareModal';
 
 // CreateQuiz
 export { default as CreateQuestionGroup } from './CreateQuiz/CreateQuestionGroup';
