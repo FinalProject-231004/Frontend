@@ -103,13 +103,13 @@ export default function LoggedInProfileMenu() {
         >
           <div className='w-[264px] h-[300px] bg-lightBlue flex flex-col justify-center items-center'>
             <div className='w-[216px] h-[260px]'>
-              <div className='flex justify-start' onClick={handleCloseUserMenu}>
-                <Typography textAlign="center"><p className='pl-[3px] mb-[17px] text-[25px] text-blue hover:' style={{ fontFamily }}>{nickName}</p></Typography>
+              <div className='flex justify-start mb-[15px]' onClick={handleCloseUserMenu}>
+                <Typography textAlign="center"><span className='pl-[3px] mb-[17px] text-[25px] text-blue hover:' style={{ fontFamily }}>{nickName}</span></Typography>
               </div>
               <div className='p-0' onClick={handleCloseUserMenu}>
                 <Typography className='flex justify-between border-b-[1.5px] border-black w-[216px] pb-[13px]' textAlign="center">
-                  <p className='pl-[3px] text-[18px]' style={{ fontFamily }}>마일리지</p>
-                  <p className='text-[18px]' style={{ fontFamily }}>{mileage} M</p>
+                  <span className='pl-[3px] text-[18px]' style={{ fontFamily }}>마일리지</span>
+                  <span className='text-[18px]' style={{ fontFamily }}>{mileage} M</span>
                 </Typography>
               </div>
               <LoggedInAttendence
@@ -122,12 +122,12 @@ export default function LoggedInProfileMenu() {
                 }}
               >
                 <Typography className='p-0 border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
-                  <p className='pl-[3px] text-[18px]'>마이페이지</p>
+                  <span className='pl-[3px] text-[18px]'>마이페이지</span>
                 </Typography>
               </MenuItem>
               <MenuItem sx={{ p: 0, m:0  }} onClick={handleLogOut}>
                 <Typography className='border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
-                  <p className='pl-[3px] text-[18px]'>로그아웃</p>
+                  <span className='pl-[3px] text-[18px]'>로그아웃</span>
                 </Typography>
               </MenuItem>
             </div>
