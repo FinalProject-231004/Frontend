@@ -53,10 +53,10 @@ export default function LoggedInAttendence({handleCloseUserMenu}:LoggedInAttende
           />
         );
       }
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       notifyWarning();
-      console.log('error', error);
+      // console.log('error', error);
       return(
         <ToastContainer
           position="top-center"

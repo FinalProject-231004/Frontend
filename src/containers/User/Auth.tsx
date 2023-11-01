@@ -23,7 +23,7 @@ const Auth = () => {
         );
 
         if (response.status === 200) {
-          console.log(response)
+          // console.log(response)
           localStorage.setItem('Authorization', response.headers.authorization);
           localStorage.setItem('Refresh', response.headers.refresh);
           setIsLoggedIn(true);
@@ -38,7 +38,7 @@ const Auth = () => {
         }
 
       } catch (error) {
-        console.error('카카오 소셜 로그인 에러 : ', error);
+        // console.error('카카오 소셜 로그인 에러 : ', error);
         toast.error("카카오 로그인에 문제가 생겼습니다.");
       }
     };
