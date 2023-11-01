@@ -10,7 +10,6 @@ export default function KakaoFirstLogin() {
   const [kakaopwInput, setKakaoPwInput] = useState('');
   const [newPwInput, setNewPwInput] = useState('');
   const [checkPwInput, setCheckPwInput] = useState('');
-  const [isPwCheck, setIsPwCheck] = useState(false);
   const [pwCheckMessage, setPwCheckMessage] = useState('');
 
   const navigate = useNavigate();
@@ -87,10 +86,8 @@ export default function KakaoFirstLogin() {
 
   const validatepwCheck = (pwCheck: string) => {
     if (pwCheck === newPwInput) {
-      setIsPwCheck(true);
       setPwCheckMessage('');
     } else {
-      setIsPwCheck(false);
       setPwCheckMessage('비밀번호가 일치하지 않습니다.');
     }
   };

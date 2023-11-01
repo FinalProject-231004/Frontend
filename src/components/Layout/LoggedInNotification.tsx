@@ -8,13 +8,13 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useState } from 'react';
 import { getAPI } from '@/apis/axios';
-import { Notification } from '@/types/header';
+import { Notifications } from '@/types/header';
 import { getTime } from '@/utils/dateUtils';
 // import Sse from './Sse';
 
 export default function LoggedInNotification() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null); // 사용자 메뉴를 표시
-  const [notification, setNotification] = useState<Notification[]>([]);
+  const [notification, setNotification] = useState<Notifications[]>([]);
   const [haveNotification, setHaveNotification] = useState(false);
 
   // const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function LoggedInNotification() {
   const getNotification = async () => {
     try {
       const response = await getAPI('/api/notification');
-      const responseData = response.data as Notification[];
+      const responseData = response.data as Notifications[];
       setNotification(responseData);
       console.log(response);
     } catch (error) {
