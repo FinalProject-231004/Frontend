@@ -69,6 +69,13 @@ const CreateQuizGroup: React.FC = () => {
         },
       );
 
+      setQuiz({
+        title: '',
+        content: '',
+        category: '',
+        image: null,
+      });
+
       const quizId = response.data.data.id;
       navigate(`/create-quiz/questions/${quizId}`);
     } catch (error) {
@@ -173,11 +180,11 @@ const CreateQuizGroup: React.FC = () => {
           isOpen={warningModal.isOpen}
           onRequestClose={warningModal.close}
           title="🚨"
-          message="공백이거나, 체크하지 않은 선택지가 있어요!"
+          message="비어있는 항목 또는 체크하지 않은 선택지가 있어요!"
           button={
             <div
               onClick={warningModal.close}
-              className="bg-blue text-white rounded-md"
+              className="flex justify-center items-center w-20 bg-blue text-white rounded-md py-2"
             >
               닫기
             </div>
