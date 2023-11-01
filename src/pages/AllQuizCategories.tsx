@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { categories } from '@/constants/categories';
 import React from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import { QuizCategorySection } from '@/components';
 
 const AllQuizCategories: React.FC = () => {
@@ -16,9 +15,19 @@ const AllQuizCategories: React.FC = () => {
   const fetchCategories = async (category: string) => {
     try {
       const token = getToken();
-      if (!token) {
-        toast.error('로그인이 필요합니다.');
-        return;
+
+      let headers: {
+        'Content-Type': string;
+        Authorization?: string;
+      } = {
+        'Content-Type': 'application/json',
+      };
+
+      if (token) {
+        headers = {
+          ...headers,
+          Authorization: `Bearer ${token}`,
+        };
       }
 
       const response = await axios.post(
@@ -27,22 +36,19 @@ const AllQuizCategories: React.FC = () => {
           category: category,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: headers,
         },
       );
-      console.log(response.data);
       setCategoryState(response.data.categories);
       setQuizzes(response.data);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
   // 컴포넌트가 마운트될 때 '영화/TV' 카테고리의 데이터를 자동으로 가져오게하기
   useEffect(() => {
-    fetchCategories('CARTOON');
+    fetchCategories('MOVIE_TV');
   }, []);
 
   return (

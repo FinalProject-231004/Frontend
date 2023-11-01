@@ -78,7 +78,6 @@ export const deleteAPI = <T = unknown, R = unknown>(
   return axios.delete<R>(API_BASE_URL + url, { data });
 };
 
-
 export const patchAPI = <T = unknown, R = unknown>(
   url: string,
   data: T,

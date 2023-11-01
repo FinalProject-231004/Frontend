@@ -33,11 +33,11 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
 
   return (
     <div className="w-[1080px] h-full mx-auto">
-      <h1 className="mt-[152px] mb-[80px]  text-blue font-extrabold text-center text-[24px]">
+      <h1 className="mt-[152px] mb-[80px] text-blue font-extrabold text-center text-[28px]">
         {msg}🔥
       </h1>
 
-      <div className="w-full h-[600px] mb-2 flex mx-auto">
+      <div className="w-full h-full mb-2 flex mx-auto">
         <div className="w-1/2">
           <div className="w-[520px] mr-auto">
             <QuizInfo
@@ -63,7 +63,7 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
         handleCopyLink={handleCopyLink}
       />
 
-      <div className="flex gap-5 w-full justify-end">
+      <div className="flex gap-5 justify-end mt-8">
         <QuizCustomButton theme="white" onClick={() => setIsModalOpen(true)}>
           공유하기
         </QuizCustomButton>

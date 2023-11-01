@@ -20,7 +20,7 @@ const WarningModal: React.FC<WarningModalProps> = ({
     onRequestClose={onRequestClose}
     shouldCloseOnOverlayClick={false}
     contentLabel="Warning"
-    className="w-[470px] h-[240px] bg-[#F1F8FF] rounded-lg overflow-hidden shadow-md shadow-slate-300 transform transition-all p-6"
+    className="w-[500px] h-[220px] bg-[#F1F8FF] rounded-lg overflow-hidden shadow-md shadow-slate-300 transform transition-all p-6"
     overlayClassName="fixed inset-0 bg-gray-200 bg-opacity-75 transition-opacity flex justify-center items-center"
   >
     <div className="flex flex-col justify-center items-center h-full">

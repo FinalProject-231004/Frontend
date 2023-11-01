@@ -20,6 +20,10 @@ body {
   font-family: 'TmoneyRoundWind', sans-serif;
 }
 
+input:focus {
+  outline: none;
+}
+
 .flex::-webkit-scrollbar-thumb {
   border-radius: 25px;
 }

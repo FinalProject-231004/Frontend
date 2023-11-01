@@ -8,11 +8,11 @@ const setLikeStatus = async (id: number) => {
   const token = localStorage.getItem('Authorization');
 
   if (!token) {
-    console.error('Authorization 토큰이 존재하지 않습니다.');
+    // console.error('Authorization 토큰이 존재하지 않습니다.');
     throw new Error('Unauthorized');
   }
 
-  console.log('서버에 좋아요 상태 업데이트 요청 전송 -> 퀴즈 ID:', id);
+  // console.log('서버에 좋아요 상태 업데이트 요청 전송 -> 퀴즈 ID:', id);
   try {
     const response = await axios.post(
       `${
@@ -25,13 +25,13 @@ const setLikeStatus = async (id: number) => {
         },
       },
     );
-    console.log('서버에서 받은 응답:', response.data);
+    // console.log('서버에서 받은 응답:', response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      console.error('서버에서 오류 응답:', error.response.data);
+      // console.error('서버에서 오류 응답:', error.response.data);
     } else {
-      console.error('요청 중 오류 발생:', error);
+      // console.error('요청 중 오류 발생:', error);
     }
     throw error;
   }
@@ -54,8 +54,7 @@ export const useLike = (id: number, initialLikes: number) => {
   const isLiked = likeStates[id] || false;
 
   const mutation = useMutation(() => setLikeStatus(id), {
-    onSuccess: data => {
-      console.log('Server response:', data);
+    onSuccess: () => {
       const newIsLiked = !isLiked;
       const newLikes = likes + (newIsLiked ? 1 : -1);
 

@@ -16,7 +16,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      onAddComment(); // 엔터 키를 눌렀을 때 onAddComment 함수를 호출
+      onAddComment();
     }
   };
 

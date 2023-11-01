@@ -10,10 +10,10 @@ type ChoiceInputProps = {
 };
 
 const ChoiceInput: React.FC<ChoiceInputProps> = React.memo(
-  ({ choiceId, checked, children, onCheck }) => {
+  ({ checked, children, onCheck }) => {
     const handleChange = () => {
       onCheck(!checked);
-      console.log('선택된 choiceId:', choiceId);
+      // console.log('선택된 choiceId:', choiceId);
     };
 
     return (
