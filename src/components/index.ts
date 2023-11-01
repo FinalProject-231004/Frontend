@@ -10,6 +10,7 @@ export { default as BottomLongButton } from './common/BottomLongButton';
 export { default as ChoiceInput } from './common/ChoiceInput';
 export { default as QuizInfo } from './common/QuizInfo';
 export { default as PrivateRoute } from './common/PrivateRoute';
+export { default as ShareModal } from './common/ShareModal';
 
 // CreateQuiz
 export { default as CreateQuestionGroup } from './CreateQuiz/CreateQuestionGroup';
@@ -42,7 +43,7 @@ export { default as UpdateMyInfo } from './MyPage/UpdateMyInfo';
 export { default as HomeBanner } from './Home/HomeBanner';
 export { default as QuizCategorySection } from './Home/QuizCategorySection';
 export { default as QuizThumbnail } from './Home/QuizThumbnail';
-export { default as QuizThumbnailModal } from './Home/QuizThumbnailModal';
+export { default as DetailPageComp } from './Home/DetailPageComp';
 
 // Result
 export { default as ResultPageComp } from './Result/ResultPageComp';

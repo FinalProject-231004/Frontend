@@ -48,6 +48,15 @@ body {
   background: transparent; /* Chrome/Safari/Webkit */
 }
 
+.canvas {
+  height: 100vh;
+  left: 0px;
+  pointer-events: none;
+  position: fixed;
+  top: 0px;
+  width: 100vw;
+}
+
 * {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
@@ -66,6 +75,9 @@ body {
 
 .customborder {
   @apply p-[13px] items-center justify-start border-2 border-blue text-blue rounded-md input-placeholder bg-white shadow-md shadow-slate-200;
+}
+.customborder-gray {
+  @apply p-[13px] items-center justify-start border-2 border-deep_dark_gray rounded-md input-placeholder bg-white shadow-md shadow-slate-200;
 }
 
 .bordernoneinput {

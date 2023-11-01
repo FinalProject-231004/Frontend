@@ -56,7 +56,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
         </div>
       </div>
       <input
-        className="w-full h-[40px] px-6 mb-[10px] text-lg border-blue focus:outline-none bg-blue rounded-md text-white custom-placeholder"
+        className="w-full h-[40px] px-6 mb-[10px] text-lg focus:outline-none bg-blue rounded-md text-white custom-placeholder shadow-sm shadow-slate-300"
         placeholder="질문을 입력해 주세요"
         value={question.text}
         onChange={e => {
