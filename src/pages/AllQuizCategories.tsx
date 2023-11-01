@@ -48,7 +48,7 @@ const AllQuizCategories: React.FC = () => {
 
   // 컴포넌트가 마운트될 때 '영화/TV' 카테고리의 데이터를 자동으로 가져오게하기
   useEffect(() => {
-    fetchCategories('CARTOON');
+    fetchCategories('MOVIE_TV');
   }, []);
 
   return (
