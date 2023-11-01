@@ -34,7 +34,7 @@ const Home: React.FC = () => {
           <button
             type="button"
             onClick={() => {
-              navigate('all-quiz');
+              navigate('/quiz/categories');
             }}
           >
             전체카테고리 보러가기👉

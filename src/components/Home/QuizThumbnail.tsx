@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import React from 'react';
 import { QuizThumbnailProps } from '@/types/homeQuiz';
 import { FaRegEye } from 'react-icons/fa';
-import QuizThumbnailModal from './QuizThumbnailModal';
+import { useNavigate } from 'react-router';
 
-const QuizThumbnail: React.FC<QuizThumbnailProps> = ({ quiz }) => {
-  // const { isLiked, likes, handleLike } = useLike(quiz.id, quiz.likes);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
+  const navigate = useNavigate();
+  const quizId = quiz.id;
   const handleImageClick = () => {
-    setIsModalOpen(true);
+    console.log(quizId);
+    navigate(`/quiz/${quizId}`);
   };
 
   return (
     <div className="w-[255px]">
       <img
+        loading="lazy"
         className="h-[135px] w-full object-cover "
         src={quiz.image}
         alt={quiz.title}
@@ -29,16 +30,10 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = ({ quiz }) => {
               {quiz.viewCount}
             </div>
           </div>
-          {isModalOpen && (
-            <QuizThumbnailModal
-              id={quiz.id}
-              onClose={() => setIsModalOpen(false)}
-            />
-          )}
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default QuizThumbnail;
