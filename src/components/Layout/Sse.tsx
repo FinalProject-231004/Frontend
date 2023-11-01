@@ -39,17 +39,22 @@ const Sse = () => {
     });
 
     eventSource.onopen = () => {
-      // console.log('SSE 연결됨');
+      console.log('SSE 연결됨');
     };
 
     eventSource.addEventListener('sse', event  => {
       const messageEvent = event as MessageEvent;
       const parsedData = JSON.parse(messageEvent.data);
-      setNewAlert((prev) => [...prev, parsedData]);
-      // console.log('새로운 알림',newAlert);
+      if (parsedData.content === "send dummy data to client.") {
+        // console.log('더미데이터는 무시하겠다.')
+        return;
+      }
+        setNewAlert((prev) => [...prev, parsedData]);
+        console.log('새로운 알림',newAlert);
 
-      queryClient.invalidateQueries('alertList');
+        queryClient.invalidateQueries('alertList');
     });
+
 
     eventSource.onerror = () => {
       // console.error("EventSource failed:", error);
