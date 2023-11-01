@@ -11,6 +11,7 @@ export default {
         lightBlue: '#F1F8FF',
         offwhite: '#f4f4f4',
         deep_dark_gray: '#3e3e3e',
+        red: '#F92316',
       },
     },
     fontFamily: {

@@ -8,6 +8,10 @@ import {
   ResultPage,
   VerifyPassword,
   MyPage,
+  AllQuizCategories,
+  MileageShop,
+  KakaoFirstLogin,
+  DetailPage,
 } from '@/pages';
 import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
@@ -35,9 +39,12 @@ const Router = () => {
       <ConditionalLayout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/quiz/:id" element={<DetailPage />} />
+          <Route path="/quiz/categories" element={<AllQuizCategories />} />
           <Route path="/login/kakao" element={<Auth />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
-          <Route path="/result/:id" element={<ResultPage />} />
+          <Route path="/mileage-shop" element={<MileageShop />} />
+          <Route path="/quiz/result/:id" element={<ResultPage />} />
 
           <Route
             path="/mypage"
@@ -68,6 +75,14 @@ const Router = () => {
             element={
               <PrivateRoute>
                 <CreateQuizDetails />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/kakao/first-login"
+            element={
+              <PrivateRoute>
+                <KakaoFirstLogin />
               </PrivateRoute>
             }
           />

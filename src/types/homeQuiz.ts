@@ -26,6 +26,7 @@ export type QuizThumbnailProps = {
 export interface QuizCategorySectionProps {
   title: string;
   quiz: Quiz[];
+  skipSlice?: boolean;
 }
 
 export interface LikesState {
@@ -33,9 +34,8 @@ export interface LikesState {
   likes: number;
 }
 
-export type QuizThumbnailModalProps = {
+export type DetailPageCompProps = {
   id: number;
-  onClose: () => void;
 };
 
 export type QuizDetail = {

@@ -1,17 +1,15 @@
 import {
-  LoggedInNotification,
+  // LoggedInNotification,
   LoggedInProfileMenu,
-  SearchBar,
 } from '@/components';
+import Sse from './Sse';
 
 function LoggedInHeader() {
   return (
     <div className="flex items-center">
       <div className="mr-[25px]">
-        <SearchBar />
-      </div>
-      <div className="mr-[25px]">
-        <LoggedInNotification />
+        {/* <LoggedInNotification /> */}
+        <Sse />
       </div>
       <LoggedInProfileMenu />
     </div>

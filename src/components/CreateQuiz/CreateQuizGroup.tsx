@@ -124,57 +124,66 @@ const CreateQuizGroup: React.FC = () => {
   };
 
   return (
-    <div className="w-full text-blue text-xl">
-      <CustomQuizInput
-        title="퀴즈명"
-        placeholder="퀴즈명을 입력해 주세요"
-        value={quiz.title || ''}
-        onChange={handleTitleChange}
-      />
+    <div className="w-screen">
+      <div className="w-[720px] mx-auto  text-blue text-xl">
+        <CustomQuizInput
+          title="퀴즈명"
+          placeholder="퀴즈명을 입력해 주세요"
+          value={quiz.title || ''}
+          onChange={handleTitleChange}
+        />
 
-      <div className="mb-[20px]">
-        <h3 className="mb-[15px] font-extrabold">퀴즈 소개글</h3>
-        <textarea
-          className="w-full h-[114px] customborder"
-          placeholder="퀴즈를 소개하는 글을 써주세요"
-          value={quiz.content || ''}
-          onChange={handleContentChange}
+        <div className="mb-[20px]">
+          <h3 className="mb-[15px] font-extrabold">퀴즈 소개글</h3>
+          <textarea
+            className="w-full h-[114px] customborder"
+            placeholder="퀴즈를 소개하는 글을 써주세요"
+            value={quiz.content || ''}
+            onChange={handleContentChange}
+          />
+        </div>
+
+        <CategoryButton
+          selectedCategory={selectedCategory}
+          onCategoryClick={handleCategoryClick}
+        />
+
+        <div className="flex mb-[20px] justify-end">
+          <ImageUploader
+            id="quiz-image"
+            image={quiz.image}
+            uploadImage={handleImageUpload}
+            removeImage={handleImageRemove}
+          />
+        </div>
+        <div className="w-full h-[450px] mx-auto mt-[10px] mb-[135px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
+          {quiz.image?.preview ? (
+            <div
+              className="w-full h-full bg-contain bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${quiz.image.preview})` }}
+            ></div>
+          ) : (
+            <span className="text-slate-200 text-lg">
+              썸네일 이미지를 첨부해 주세요!
+            </span>
+          )}
+        </div>
+
+        <WarningModal
+          isOpen={warningModal.isOpen}
+          onRequestClose={warningModal.close}
+          title="🚨"
+          message="공백이거나, 체크하지 않은 선택지가 있어요!"
+          button={
+            <div
+              onClick={warningModal.close}
+              className="bg-blue text-white rounded-md"
+            >
+              닫기
+            </div>
+          }
         />
       </div>
-
-      <CategoryButton
-        selectedCategory={selectedCategory}
-        onCategoryClick={handleCategoryClick}
-      />
-
-      <div className="w-full flex mb-[20px] justify-end">
-        <ImageUploader
-          id="quiz-image"
-          image={quiz.image}
-          uploadImage={handleImageUpload}
-          removeImage={handleImageRemove}
-        />
-      </div>
-      <div className="w-full h-[400px] mx-auto mt-[10px] mb-[135px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
-        {quiz.image?.preview ? (
-          <div
-            className="w-full h-full bg-contain bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${quiz.image.preview})` }}
-          ></div>
-        ) : (
-          <span className="text-slate-200 text-lg">
-            썸네일 이미지를 첨부해 주세요!
-          </span>
-        )}
-      </div>
-
-      <WarningModal
-        isOpen={warningModal.isOpen}
-        onRequestClose={warningModal.close}
-        title="⚠"
-        message="공백이나, 체크하지 않은 선택지가 있어요!"
-        buttons={<button onClick={warningModal.close}>닫기</button>}
-      />
       <BottomLongButton onClick={handleNavigation}>
         세부 질문 만들기
       </BottomLongButton>

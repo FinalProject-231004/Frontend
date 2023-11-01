@@ -11,7 +11,7 @@ const QuizInfo: React.FC<QuizInfoProps> = ({
   content,
 }) => (
   <div className="w-full">
-    <div className="w-[510px] mx-auto">
+    <div className="mx-auto">
       <img
         className="w-full h-[282px] object-cover mb-5"
         src={image}

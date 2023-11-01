@@ -2,7 +2,7 @@ import SignInModal from '@/containers/User/SigninModal';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { LoggedInHeader } from '@/components';
+import { LoggedInHeader, SearchBar } from '@/components';
 import { useModalState } from '@/hooks';
 import { Modal } from '@/components/index';
 import { toast } from 'react-toastify';
@@ -27,7 +27,7 @@ function Header() {
 
   return (
     <div className="w-[1920px] mx-auto">
-      <div className="w-[1920px] h-[72px] mx-auto justify-center fixed top-0 bg-white flex items-center shadow-sm ">
+      <div className="w-[1920px] h-[72px] mx-auto justify-center fixed top-0 bg-white flex items-center shadow-sm z-[999]">
         <div className="flex justify-between w-[1080px]">
           <div className="flex items-center space-x-[37px] text-[20px]">
             <Link to="/" style={{ width: '132px' }}>
@@ -39,7 +39,12 @@ function Header() {
             <Link to="">마일리지샵</Link>
             <Link to="">라이브 퀴즈</Link>
           </div>
-          <div>{isLoggedIn ? <LoggedInHeader /> : <SignInModal />}</div>
+          <div className="flex">
+            <div className="mr-[25px]">
+              <SearchBar />
+            </div>
+            {isLoggedIn ? <LoggedInHeader /> : <SignInModal />}
+          </div>
         </div>
 
         <Modal

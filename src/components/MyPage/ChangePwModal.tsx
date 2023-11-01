@@ -30,7 +30,7 @@ export default function ChangePwModal() {
 
   const validatePw = (pw: string) => {
     const pattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d\s]).{8,20}$/;
+      /^(?=.*[a-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
     setIsPw(pattern.test(pw));
   };
   const validatepwCheck = (pwCheck: string) => {
@@ -90,7 +90,7 @@ export default function ChangePwModal() {
                 setUpdatePw(e.target.value);
                 validatePw(e.target.value);
                 setPwMessage(
-                  '알파벳 대소문자/숫자/특수문자 적어도 하나씩 포함하여 8자 이상, 20자 이하',
+                  '영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하',
                 ); //알파벳 대소문자 숫자 특수문자
                 if (isPw === true) setPwMessage('');
               }}

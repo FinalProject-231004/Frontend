@@ -15,7 +15,7 @@ const PlayQuiz: React.FC = () => {
   }, [numericId]);
 
   return (
-    <div className="max-w-[720px] mx-auto">
+    <div className="w-screen mx-auto">
       <PlayQuizGroup totalQuestions={questions.length} />
     </div>
   );

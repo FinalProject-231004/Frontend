@@ -21,24 +21,21 @@ const CommentInput: React.FC<CommentInputProps> = ({
   };
 
   return (
-    <div className="flex mb-9 h-[72px]">
-      <img src="/profile.png" className="w-[72px]" alt={`profile`} />
-      <div className=" ml-5 flex w-[510px] customborder">
-        <input
-          className="w-full text-2xl bg-transparent bordernoneinput -ml-2 mr-1"
-          type="text"
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          onKeyDown={handleKeyDown}
-        />
-        <button
-          onClick={onAddComment}
-          className="min-w-[40px] h-10 rounded-full flex items-center justify-center bg-blue text-white shadow-slate-200 shadow-inner"
-        >
-          <AiOutlineArrowUp size={24} />
-        </button>
-      </div>
+    <div className="flex w-full h-[60px] customborder">
+      <input
+        className="w-full bg-transparent bordernoneinput -ml-2 mr-1"
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        onKeyDown={handleKeyDown}
+      />
+      <button
+        onClick={onAddComment}
+        className="min-w-[40px] h-10 rounded-full flex items-center justify-center bg-blue text-white shadow-slate-200 shadow-inner"
+      >
+        <AiOutlineArrowUp size={24} />
+      </button>
     </div>
   );
 };

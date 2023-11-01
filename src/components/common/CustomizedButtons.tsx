@@ -80,7 +80,7 @@ const ColorButton = styled(Button)<{
   width: props.width,
   color: props.fontcolor,
   backgroundColor: props.btnbg,
-  borderradius: props.borderradius,
+  borderRadius: props.borderradius,
   fontSize: props.fontSize,
   boxShadow: 'none',
   textTransform: 'none',

@@ -3,14 +3,29 @@ export type SearchResult = {
   id: number;
 };
 
-export type Notification = {
+export type Notifications = {
   id: number;
   notificationId: string;
   content: string;
+  url: string;
   created_at: string;
 }
 
-export type postData = {
+declare module 'event-source-polyfill' {
+  export interface EventSourcePolyfillInit {
+    reconnectInterval?: number;
+    heartbeatTimeout?: number;
+  }
+}
+
+export type signUpData = {
+  username: string;
+  password: string;
+  nickname: string;
+  checkPassword: string;
+};
+
+export type postSignIn = {
   username: string;
   password: string;
 };
