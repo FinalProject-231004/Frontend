@@ -10,12 +10,12 @@ import { useEffect, useState } from 'react';
 import { Notifications } from '@/types/header';
 import { getTime } from '@/utils/dateUtils';
 
-import { useQuery, useQueryClient } from 'react-query'; // 예시로 react-query 사용
-import { useGetMessageAlert, usePutReadAlert, useDeleteAlert } from '@/hooks';
+import { useQueryClient } from 'react-query'; // 예시로 react-query 사용
+import { useGetMessageAlert } from '@/hooks';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
 const Sse = () => {
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [newAlert, setNewAlert] = useState<Notifications[]>([]);
   const { data: alertList } = useGetMessageAlert();
   // const allList: Notification[] | undefined = alertList?.data;
@@ -24,7 +24,6 @@ const Sse = () => {
 
   const API_BASE_URL = import.meta.env.VITE_APP_GENERATED_SERVER_URL; 
   const token = localStorage.getItem('Authorization');
-
 
   // 재연결 로직을 별도의 함수로 분리
   const setupEventSource = (token: string, baseUrl: string) => {
@@ -40,20 +39,20 @@ const Sse = () => {
     });
 
     eventSource.onopen = () => {
-      console.log('SSE 연결됨');
+      // console.log('SSE 연결됨');
     };
 
     eventSource.addEventListener('sse', event  => {
       const messageEvent = event as MessageEvent;
       const parsedData = JSON.parse(messageEvent.data);
       setNewAlert((prev) => [...prev, parsedData]);
-      console.log('새로운 알림',newAlert);
+      // console.log('새로운 알림',newAlert);
 
       queryClient.invalidateQueries('alertList');
     });
 
-    eventSource.onerror = (error) => {
-      console.error("EventSource failed:", error);
+    eventSource.onerror = () => {
+      // console.error("EventSource failed:", error);
       eventSource.close();
       setTimeout(() => setupEventSource(token, baseUrl), 5000);
     };
@@ -74,60 +73,13 @@ const Sse = () => {
       }
     };
   }, [token, API_BASE_URL]);
-  
-
-
-  // useEffect(() => {
-  //   if (token) {
-  //     const eventSource = new EventSourcePolyfill(`${API_BASE_URL}/api/subscribe`, {
-  //       headers: {
-  //         Authorization: token,
-  //         // 'Accept': 'text/event-stream',
-  //         'Content-Type': 'text/event-stream',
-  //         'Connection': 'keep-alive',
-  //         'Cache-Control': 'no-cache'
-  //       }
-  //     });
-  
-  //     eventSource.onopen = () => {
-  //       console.log('SSE 연결됨');
-  //     };
-
-  //     eventSource.addEventListener('sse', event  => {
-  //       const messageEvent = event as MessageEvent;
-  //       const parsedData = JSON.parse(messageEvent.data);
-  //       setNewAlert((prev) => [...prev, parsedData]);
-  //       console.log('새로운 알림',newAlert);
-
-  //       queryClient.invalidateQueries('alertList');
-  //     });
-  
-  //     eventSource.onerror = (error) => {
-  //       console.error("EventSource failed:", error);
-  //       eventSource.close();
-  //       setTimeout(() => setupEventSource(token, API_BASE_URL), 5000); // 5초 후 재연결 시도
-  //     };
-
-  //     // 재연결 로직을 별도의 함수로 분리
-  //     const setupEventSource = (token, baseUrl) => {
-  //       const eventSource = new EventSourcePolyfill("https://api.quizpop.net/api/subscribe");
-  //     };
-  
-  //     return () => {
-  //       eventSource.close();
-  //     };
-  //   }
-  // }, [token, API_BASE_URL]);
 
   useEffect(() => {
     if (token && allList) { 
       setNewAlert(allList);
       queryClient.invalidateQueries('unreadList');
     }
-    // 나머지 코드...
   }, [allList, token, queryClient]);
-  
-
 
   // const messageDelete = async (id) => {
   //   await removeAlert(id);
@@ -144,7 +96,7 @@ const Sse = () => {
   //   return null;
   // }
 
-  const handleOpenUserMenu = (e) => {
+  const handleOpenUserMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElUser(e.currentTarget);
   };
 

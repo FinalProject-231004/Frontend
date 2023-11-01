@@ -16,13 +16,13 @@ function SignUpModal() {
   const [isNickName, setIsNickName] = useState(false);
   const [isId, setIsId] = useState(false);
   const [isPw, setIsPw] = useState(false);
-  const [isPwCheck, setIsPwCheck] = useState(false);
+  // const [isPwCheck, setIsPwCheck] = useState(false);
 
   const [idMessage, setIdMessage] = useState('');
   const [nickNameMessage, setNickNameMessage] = useState('');
   const [pwMessage, setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
-  const [checkMsg, setCheckMsg] = useState(true);
+  // const [checkMsg, setCheckMsg] = useState(true);
   // const [checkAllMsg, setCheckAllMsg] = useState(true);
   // const checkMsgColor = checkMsg ? 'blue' : 'red';
 
@@ -70,10 +70,10 @@ function SignUpModal() {
   };
   const validatepwCheck = (pwCheck: string) => {
     if (pwCheck === pwInput) {
-      setIsPwCheck(true);
+      // setIsPwCheck(true);
       setPwCheckMessage('');
     } else {
-      setIsPwCheck(false);
+      // setIsPwCheck(false);
       setPwCheckMessage('비밀번호가 일치하지 않습니다.');
     }
   };
@@ -82,8 +82,8 @@ function SignUpModal() {
 
   const signUp = async (info: signUpData) => {
     try {
-      const response = await postAPI('/api/member/signup', info);
-      console.log('Success:', response.data);
+      await postAPI('/api/member/signup', info);
+      // console.log('Success:', response.data);
 
       setLoginModal(true);
     } catch (error: unknown) { 
@@ -95,7 +95,7 @@ function SignUpModal() {
           // setCheckAllMsg(serverError.response.data.message);
         }
       } else {
-        console.error('An unexpected error occurred');
+        // console.error('An unexpected error occurred');
       }
     }
   };
@@ -156,8 +156,8 @@ function SignUpModal() {
                     setIdMessage(
                       '알파벳 소문자 또는 숫자 포함 4자 이상 15자 이하',
                     );
-                    setCheckMsg(false);
-                    if (isId === true) {setIdMessage(''); setCheckMsg(true);}
+                    // setCheckMsg(false);
+                    if (isId === true) {setIdMessage(''); }
                   }}
                   onKeyDown={(e) => handleTab(e, nickNameInputRef)}
                 />
