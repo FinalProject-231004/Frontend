@@ -40,20 +40,20 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
         setFormData(newFormData);
       }
     }
-    console.log(formData);
+    // console.log(formData);
   };
 
   const putProfile = async () => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/api/member/update/profile`, formData, {
+      await axios.put(`${API_BASE_URL}/api/member/update/profile`, formData, {
         headers: { 
           'Content-Type': 'multipart/form-data', 
           Authorization: `${localStorage.getItem('Authorization')}` 
         },
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 

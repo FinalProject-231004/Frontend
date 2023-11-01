@@ -25,6 +25,8 @@ export default function CustomizedButtons({
   borderradius,
   onClick,
 }: ButtonsProps) {
+  const fontFamily = "'TmoneyRoundWind', sans-serif";
+
   let width: string = ''; // 초기화 -> 변수가 할당되기 전에 사용되었다는 오류 막음
   let height: string = '';
 
@@ -44,11 +46,15 @@ export default function CustomizedButtons({
   } else if (size === 'signUp') {
     width = '146px';
     height = '57px';
+  } else if (size === 'mileage') {
+    width = '249px';
+    height = '57px';
   }
 
   return (
     <Stack spacing={2} direction="row">
       <ColorButton
+        style={{ fontFamily }}
         width={width}
         height={height}
         fontcolor={fontcolor}
