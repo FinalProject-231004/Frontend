@@ -22,8 +22,8 @@ export default function ChangeNicknameModal() {
 
   const duplicateVerify = async (nickName: newNickname) => {
     try {
-      const response = await postAPI('/api/member/validate/nickname', nickName);
-      console.log(response);
+      await postAPI('/api/member/validate/nickname', nickName);
+      // console.log(response);
       setDuplicateMsg('사용 가능한 닉네임입니다!');
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -34,19 +34,19 @@ export default function ChangeNicknameModal() {
         //   setConditionMsg('한글/영소문자/숫자 포함 2자리 이상 5자리 이하');
         // }
       } else {
-        console.error('Unknown Error:', error);
+        // console.error('Unknown Error:', error);
       }
     }
   };
 
   const putNickname = async (nickName: newNickname) => {
     try {
-      const response = await putAPI('/api/member/update/nickname', nickName);
-      console.log(response);
+      await putAPI('/api/member/update/nickname', nickName);
+      // console.log(response);
       setNickname(newNickname);
       closeModal();
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   };
 

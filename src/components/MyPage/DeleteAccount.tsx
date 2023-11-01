@@ -22,9 +22,9 @@ export default function DeleteAccount() {
 
   const deleteAccount = async (enterPassword: deletePw) => {
     try {
-      console.log(enterPassword);
-      const response = await deleteAPI('/api/member/delete', enterPassword);
-      console.log('회원탈퇴 성공!', response);
+      // console.log(enterPassword);
+      await deleteAPI('/api/member/delete', enterPassword);
+      // console.log('회원탈퇴 성공!', response);
       logOut();
       setIsLoggedIn(false);
       navigate('/');

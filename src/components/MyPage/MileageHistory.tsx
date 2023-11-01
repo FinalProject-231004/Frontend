@@ -42,11 +42,11 @@ export default function MileageHistory() {
       const response = await getAPI<mileageGetHistoryRes>(
         '/api/mypage/mileage-gethistory',
       );
-      console.log('적립내역', response.data.data);
+      // console.log('적립내역', response.data.data);
       setRewardHistory(response.data.data);
-      console.log(rewardHistory);
+      // console.log(rewardHistory);
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   };
 
