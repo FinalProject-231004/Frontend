@@ -208,7 +208,7 @@ function SignUpModal() {
                   pwHandleChange(e.target.value);
                   validatePw(e.target.value);
                   setPwMessage(
-                    '8자리 이상 20자리 이하에 영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 ',
+                    '영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하',
                   );
                   if (isPw === true) setPwMessage('');
                 }}
