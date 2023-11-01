@@ -27,9 +27,9 @@ export { default as Header } from './Layout/Header';
 export { default as Layout } from './Layout/Layout';
 export { default as LoggedInAttendence } from './Layout/LoggedInAttendence';
 export { default as LoggedInHeader } from './Layout/LoggedInHeader';
-export { default as LoggedInNotification } from './Layout/LoggedInNotification';
 export { default as LoggedInProfileMenu } from './Layout/LoggedInProfileMenu';
 export { default as SearchBar } from './Layout/SearchBar';
+export { default as Sse } from './Layout/Sse';
 
 // MyPage
 export { default as ChangeNicknameModal } from './MyPage/ChangeNicknameModal';
@@ -52,6 +52,9 @@ export { default as ResultPageComp } from './Result/ResultPageComp';
 export { default as CommentSection } from './Comment/CommentSection';
 export { default as CommentList } from './Comment/CommentList';
 export { default as CommentInput } from './Comment/CommentInput';
+
+// MileageShop
+export { default as GifticonList } from './MileageShop/GifticonList';
 
 // Root
 export { default as CurrentDate } from './CurrentDate';

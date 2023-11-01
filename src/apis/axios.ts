@@ -27,6 +27,8 @@ axios.interceptors.response.use(
     return response;
   },
   async error => {
+    // 오류 상태 코드가 400인 경우에만 콘솔에 오류를 출력하지 않음
+    if (error.response && error.response.status !== 400) {
     // console.log(error);
     // const originalRequest = error.config;
     // if (
@@ -43,7 +45,7 @@ axios.interceptors.response.use(
     //   originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
     //   console.log("New access token obtained.");
     //   return axios(originalRequest); // 401 에러가 생기면 서버에 리프레쉬 토큰으로 새로운 엑세스 토큰 요청
-    // }
+    }
     return Promise.reject(error);
   },
 );
@@ -52,13 +54,12 @@ export const postAPI = <T = unknown, R = unknown>(
   url: string,
   data?: T,
 ): Promise<AxiosResponse<R>> => {
-  // console.log("요청보내고 있음")
   return axios.post<R>(API_BASE_URL + url, data);
 };
 
 export const putAPI = <T = unknown, R = unknown>(
   url: string,
-  data: T,
+  data?: T,
 ): Promise<AxiosResponse<R>> => {
   return axios.put<R>(API_BASE_URL + url, data);
 };
