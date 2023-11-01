@@ -53,29 +53,36 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     const sendQuizDataToServer = async (choiceId: number) => {
       try {
         const token = localStorage.getItem('Authorization');
-        if (!token) {
-          throw new Error('Authorization 토큰이 존재하지 않습니다.');
+        let headers: {
+          'Content-Type': string;
+          Authorization?: string;
+        } = {
+          'Content-Type': 'application/json',
+        };
+
+        if (token) {
+          headers = {
+            ...headers,
+            Authorization: `Bearer ${token}`,
+          };
         }
 
-        const response = await axios.post(
+        await axios.post(
           `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/choice`,
           { choiceId },
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
+            headers: headers,
           },
         );
-        console.log(response);
+        // console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error(
-            '서버에 데이터를 보내는 데 실패했습니다:',
-            error.response?.data,
-          );
+          // console.error(
+          //   '서버에 데이터를 보내는 데 실패했습니다:',
+          //   error.response?.data,
+          // );
         } else if (error instanceof Error) {
-          console.error('예상치 못한 오류가 발생했습니다:', error.message);
+          // console.error('예상치 못한 오류가 발생했습니다:', error.message);
         }
       }
     };
@@ -140,7 +147,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
               {Array.from({ length: totalQuestions }).map((_, idx) => (
                 <div
                   key={idx}
-                  className={`min-w-[40px] h-[40px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
+                  className={`min-w-10 h-[40px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
                     idx + 1 === selectedQuestion
                       ? 'bg-blue text-white boder-blue'
                       : 'bg-white text-blue border-white'
