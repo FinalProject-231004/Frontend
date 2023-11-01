@@ -1,23 +1,19 @@
-import { QuizDetail, DetailPageCompProps } from '@/types/homeQuiz';
+import { DetailPageCompProps } from '@/types/homeQuiz';
 import {
   QuizCustomButton,
   CommentSection,
   QuizInfo,
   ShareModal,
 } from '@/components';
-import { useGetQuizDetail, useLike } from '@/hooks';
+import { useLike } from '@/hooks';
 import { AiFillHome } from 'react-icons/ai';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
+const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const { data: quizDetail } = useGetQuizDetail<QuizDetail>(`/api/quiz/${id}`, [
-    'quizDetail',
-    id,
-  ]);
 
   const { isLiked, likes, handleLike } = useLike(
     Number(id),
@@ -25,7 +21,7 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
   );
   if (!quizDetail) return null;
 
-  console.log(quizDetail.id);
+  // console.log(quizDetail.id);
 
   const handleCopyLink = () => {
     const baseURL = window.location.origin;
@@ -34,9 +30,9 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
       () => {
         toast.success('링크 복사 완료! 🤗');
       },
-      err => {
-        console.error('Could not copy text: ', err);
-      },
+      // err => {
+      //   console.error('Could not copy text: ', err);
+      // },
     );
   };
 
@@ -52,7 +48,7 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
           >
             <AiFillHome size={35} />
           </div>
-          <h1 className="-mt-24 mb-10 text-center text-blue font-extrabold text-[32px]">
+          <h1 className="-mt-24 mb-10 text-center text-blue font-extrabold text-[28px]">
             {quizDetail?.title}
           </h1>
           <div className="w-[952px] flex h-[400px] justify-center items-center">
@@ -107,4 +103,4 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
   );
 };
 
-export default DetailPageComp;
+export default React.memo(DetailPageComp);
