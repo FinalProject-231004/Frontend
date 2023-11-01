@@ -28,8 +28,8 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
 
   const orderItem = async (info:orderItemInfo) => {
     try {
-      const response = await postAPI('/api/mileageshop/orders',info);
-      console.log(response);
+      await postAPI('/api/mileageshop/orders',info);
+      // console.log(response);
       toast.success('얏호! 구매 완료!');
       setMileage((prevMileage) => {
         const updatedMileage = prevMileage - (price * num);
@@ -40,13 +40,13 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.errorMessage;
         if (errorMessage) {
-          console.error(errorMessage);
+          // console.error(errorMessage);
           setCheckMsg(errorMessage);
         } else {
-          console.error('오류가 발생했습니다.');
+          // console.error('오류가 발생했습니다.');
         }
       } else {
-        console.error('알 수 없는 오류가 발생했습니다.');
+        // console.error('알 수 없는 오류가 발생했습니다.');
       }
     }
   }

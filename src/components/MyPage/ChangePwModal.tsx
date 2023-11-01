@@ -21,8 +21,8 @@ export default function ChangePwModal() {
 
   const putPw = async (pw: putData) => {
     try {
-      const response = await putAPI('/api/member/update/password', pw);
-      console.log(response);
+      await putAPI('/api/member/update/password', pw);
+      // console.log(response);
     } catch (error) {
       console.error('Error:', error);
     }

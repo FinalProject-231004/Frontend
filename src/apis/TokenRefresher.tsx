@@ -36,9 +36,9 @@ export default function TokenRefresher() {
               }},
             )
             .then((res) => {
-              console.log("res : ", res);
-              localStorage.setItem("authorization", res.headers.authorization);
-              localStorage.setItem("refresh", res.headers.refresh);
+              // console.log("res : ", res);
+              // localStorage.setItem("authorization", res.headers.authorization);
+              // localStorage.setItem("refresh", res.headers.refresh);
               
               // 기존 키 데이터를 삭제
               localStorage.removeItem('Authorization');
@@ -48,17 +48,17 @@ export default function TokenRefresher() {
               originalConfig.headers["authorization"]="Bearer "+res.headers.authorization; // 헤더의 기존 데이터 -> 새로 받은 데이터로 수정
               originalConfig.headers["refresh"]= res.headers.refresh;
 
-              console.log("resData ", res.headers.authorization);
-              console.log("resData ", res.headers.refresh);
-              console.log("New access token obtained.");
+              // console.log("resData ", res.headers.authorization);
+              // console.log("resData ", res.headers.refresh);
+              // console.log("New access token obtained.");
               return refreshAPI(originalConfig);
             })
             .then(() =>{
-              console.log("리로드 할거야!!!!")
+              // console.log("리로드 할거야!!!!")
               window.location.reload(); // 액세스 토큰이 만료된 후 수행하려던 요청이 성공적으로 끝나야지 리로드 될것 같다 -> 다른 페이지에서 성공확인 후 다시 돌아와서 확인하기!!
             })
-            .catch((error) => {
-              console.error('An error occurred while refreshing the token:', error);
+            .catch(() => {
+              // console.error('An error occurred while refreshing the token:', error);
             });
           }
           // refresh_token 재발급과 예외 처리

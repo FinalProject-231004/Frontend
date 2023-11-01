@@ -39,7 +39,7 @@ const Sse = () => {
     });
 
     eventSource.onopen = () => {
-      console.log('SSE 연결됨');
+      // console.log('SSE 연결됨');
     };
 
     eventSource.addEventListener('sse', event  => {
@@ -50,7 +50,7 @@ const Sse = () => {
         return;
       }
         setNewAlert((prev) => [...prev, parsedData]);
-        console.log('새로운 알림',newAlert);
+        // console.log('새로운 알림',newAlert);
 
         queryClient.invalidateQueries('alertList');
     });
