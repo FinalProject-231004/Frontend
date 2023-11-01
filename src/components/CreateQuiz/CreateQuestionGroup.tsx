@@ -17,8 +17,9 @@ const CreateQuestionGroup: React.FC = () => {
   const navigate = useNavigate();
   const warningModal = useModalState();
   const completionModal = useModalState();
-  const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
   const { addQuestion, removeQuestion } = useQuestionActions();
+  const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
+
   const { id } = useParams();
   const submitQuiz = async () => {
     try {

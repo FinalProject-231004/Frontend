@@ -139,7 +139,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
             Q{selectedQuestion}.{' '}
             {questions[selectedQuestion - 1]?.title || '제목'}
           </h1>
-          <div className="w-[500px] mb-6 mx-auto">
+          <div className="w-[550px] mb-5 mx-auto">
             <div
               className="flex space-x-5 justify-center items-center"
               ref={questionButtonContainerRef}
@@ -147,7 +147,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
               {Array.from({ length: totalQuestions }).map((_, idx) => (
                 <div
                   key={idx}
-                  className={`min-w-10 h-[40px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
+                  className={`w-[45px] h-[45px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
                     idx + 1 === selectedQuestion
                       ? 'bg-blue text-white boder-blue'
                       : 'bg-white text-blue border-white'
@@ -157,7 +157,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
                 </div>
               ))}
             </div>
-            <div className="w-[500px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
+            <div className="h-[28px] mt-5 border-2 border-blue rounded-[30px] slateshadow">
               <div
                 className="h-full bg-blue rounded-[30px]"
                 style={{

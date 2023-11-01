@@ -8,7 +8,6 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   const quizId = quiz.id;
 
   const handleImageClick = useCallback(() => {
-    // console.log(quizId);
     navigate(`/quiz/${quizId}`);
   }, [quizId, navigate]);
 

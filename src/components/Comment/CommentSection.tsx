@@ -19,7 +19,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
     const storedToken = rawToken?.startsWith('Bearer ')
       ? rawToken.slice('Bearer '.length)
       : rawToken;
-    console.log(storedToken);
     if (storedToken) setToken(storedToken);
   }, [setToken]);
 

@@ -16,7 +16,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      onAddComment(); // 엔터 키를 눌렀을 때 onAddComment 함수를 호출
+      onAddComment();
     }
   };
 
@@ -32,7 +32,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
       />
       <button
         onClick={onAddComment}
-        className="min-w-10 h-10 rounded-full flex items-center justify-center bg-blue text-white shadow-slate-200 shadow-inner"
+        className="min-w-[40px] h-10 rounded-full flex items-center justify-center bg-blue text-white shadow-slate-200 shadow-inner"
       >
         <AiOutlineArrowUp size={24} />
       </button>

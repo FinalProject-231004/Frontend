@@ -19,7 +19,6 @@ const CreateQuizGroup: React.FC = () => {
   const [quiz, setQuiz] = useRecoilState(quizAtom);
   const warningModal = useModalState();
 
-  // 이미지> string으로 변환버전
   const handleImageUpload = async (file: File) => {
     setQuiz({
       ...quiz,
