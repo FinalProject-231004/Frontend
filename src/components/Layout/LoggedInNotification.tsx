@@ -9,6 +9,8 @@ import Tooltip from '@mui/material/Tooltip';
 import React, { useState } from 'react';
 import { getAPI } from '@/apis/axios';
 import { Notification } from '@/types/header';
+import { getTime } from '@/utils/dateUtils';
+// import Sse from './Sse';
 
 export default function LoggedInNotification() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null); // 사용자 메뉴를 표시
@@ -22,42 +24,28 @@ export default function LoggedInNotification() {
       const response = await getAPI('/api/notification');
       const responseData = response.data as Notification[];
       setNotification(responseData);
-      // console.log(responseData);
+      console.log(response);
     } catch (error) {
       console.log('error', error);
     }
   };
-  
-  // 시간 구하기
-  let timeReceived = '';
-  notification.map((note) => {
-    const now = new Date();
-    const postedDate = new Date(note.created_at);
 
-    const differenceInMilliseconds = now.getTime() - postedDate.getTime();
-
-    const differenceInMinutes = Math.floor(differenceInMilliseconds / 60000);
-    const differenceInHours = Math.floor(differenceInMinutes / 60);
-    const differenceInDays = Math.floor(differenceInHours / 24);
-
-    if (differenceInDays > 0) {
-        timeReceived = `${differenceInDays}일 전`;
-    } else if (differenceInHours > 0) {
-        timeReceived = `${differenceInHours % 24}시간 전`;
-    } else {
-        // 10단위로 반올림
-        const roundedMinutes = Math.round(differenceInMinutes / 10) * 10;
-        timeReceived = `${roundedMinutes}분 전`;
-    }
-});
-
+  // const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+  //   getNotification();
+  //   if(notification.length == 0) {
+  //     setAnchorElUser(null);
+  //   } else {
+  //     setHaveNotification(true);
+  //     setAnchorElUser(event.currentTarget);
+  //   }
+  // };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     getNotification();
+    setAnchorElUser(event.currentTarget);
     if(notification.length == 0) {
-      setAnchorElUser(null);
+      setHaveNotification(false);
     } else {
       setHaveNotification(true);
-      setAnchorElUser(event.currentTarget);
     }
   };
 
@@ -99,18 +87,27 @@ export default function LoggedInNotification() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <div className='w-[448px] h-[324px] py-[23px] px-[10px] bg-[#FAFAFA] border-[1.5px] border-solid rounded-md border-black'>
-                {notification.map((note, index) => {
-                  const isFirstItem = index === 0;
-                  return(
-                    <MenuItem className='w-full' onClick={handleCloseUserMenu}> 
-                      <Typography className={`flex justify-between border-b-2 w-[416px] pb-[8px] ${isFirstItem ? 'border-navy' : 'border-blue'}`} textAlign="center">
-                        <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{note.content}</p>
-                        <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{timeReceived}</p>
-                      </Typography>
-                    </MenuItem>
-                  )
-                })}
+              <div className='w-[448px] h-[324px] py-[23px] px-[10px] bg-[#FAFAFA] border-[1.5px] border-solid rounded-md relative'>
+                {haveNotification ? (
+                  notification.map((note, index) => {
+                    const isFirstItem = index === 0;
+                    const timeReceived = getTime(new Date(note.created_at));
+                    return (
+                      <MenuItem className='w-full' onClick={handleCloseUserMenu}>
+                        <Typography className={`flex justify-between border-b-2 w-[416px] pb-[8px] ${isFirstItem ? 'border-navy' : 'border-blue'}`} textAlign="center">
+                          <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{note.content}</p>
+                          <p className={`text-[18px] ${isFirstItem ? 'text-navy' : 'text-blue'}`}>{timeReceived}</p>
+                        </Typography>
+                      </MenuItem>
+                    );
+                  })
+                ):(
+                  <div className='text-[18px] text-deep_dark_gray absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>새로운 소식이 없습니다!</div>
+                )}
+                
+                {/* <Sse /> */}
+                
+                <button className='border-b border-deep_dark_gray text-[14px] text-deep_dark_gray absolute bottom-[22px] left-[24px]'>전체 읽음</button>
               </div>
             </Menu>
           </Box>          

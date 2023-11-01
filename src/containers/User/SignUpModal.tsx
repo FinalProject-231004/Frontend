@@ -3,6 +3,8 @@ import { loginModalState, modalState } from '@/recoil/atoms/signUpModalAtom';
 import { CustomizedButtons, Modal, UserInfoInput } from '@/components';
 import { useEffect, useRef, useState } from 'react';
 import { postAPI } from '@/apis/axios';
+import axios, { AxiosError } from 'axios';
+import { signUpData } from '@/types/header';
 
 function SignUpModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -21,7 +23,8 @@ function SignUpModal() {
   const [pwMessage, setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
   const [checkMsg, setCheckMsg] = useState(true);
-  const checkMsgColor = checkMsg ? 'blue' : 'red';
+  // const [checkAllMsg, setCheckAllMsg] = useState(true);
+  // const checkMsgColor = checkMsg ? 'blue' : 'red';
 
   const setLoginModal = useSetRecoilState(loginModalState);
 
@@ -62,7 +65,7 @@ function SignUpModal() {
   };
   const validatePw = (pw: string) => {
     const pattern =
-      /^(?=.*[A-Za-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
+      /^(?=.*[a-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
     setIsPw(pattern.test(pw));
   };
   const validatepwCheck = (pwCheck: string) => {
@@ -75,19 +78,25 @@ function SignUpModal() {
     }
   };
 
-  type postData = {
-    username: string;
-    password: string;
-    nickname: string;
-  };
 
-  const signUp = async (info: postData) => {
+
+  const signUp = async (info: signUpData) => {
     try {
       const response = await postAPI('/api/member/signup', info);
       console.log('Success:', response.data);
+
       setLoginModal(true);
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (error: unknown) { 
+      if (axios.isAxiosError(error)) {
+        // Axios 오류 처리
+        const serverError = error as AxiosError;
+        if (serverError && serverError.response) {
+          // console.error('Error:', serverError.response.data);
+          // setCheckAllMsg(serverError.response.data.message);
+        }
+      } else {
+        console.error('An unexpected error occurred');
+      }
     }
   };
 
@@ -95,6 +104,7 @@ function SignUpModal() {
     username: idInput,
     password: pwInput,
     nickname: nickNameInput,
+    checkPassword: pwCheckInput,
   };
 
   useEffect(() => {
@@ -198,7 +208,7 @@ function SignUpModal() {
                   pwHandleChange(e.target.value);
                   validatePw(e.target.value);
                   setPwMessage(
-                    '8자리 이상 20자리 이하에 알파벳 대소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 ',
+                    '영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하',
                   );
                   if (isPw === true) setPwMessage('');
                 }}
