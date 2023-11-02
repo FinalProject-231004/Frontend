@@ -60,7 +60,7 @@ const AllQuizCategories: React.FC = () => {
             key={category.category}
             className="flex justify-center items-center gap-2"
           >
-            <img src="/q-fabicon.png" className="w-[27px]" alt={`profile`} />
+            <img src="/q-favicon.png" className="w-[27px]" alt={`profile`} />
             <button
               className={
                 selectedCategory === category.category ? 'text-blue' : ''

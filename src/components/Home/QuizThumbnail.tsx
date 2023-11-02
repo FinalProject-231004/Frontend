@@ -15,7 +15,7 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
     <div className="w-[255px]">
       <img
         loading="lazy"
-        className="h-[135px] w-full object-cover "
+        className="h-[135px] w-full object-cover cursor-pointer"
         src={quiz.image}
         alt={quiz.title}
         onClick={handleImageClick}
