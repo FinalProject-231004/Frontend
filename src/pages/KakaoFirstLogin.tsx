@@ -51,7 +51,7 @@ export default function KakaoFirstLogin() {
       await postAPI('/api/member/kakao/first-login', info);
       // console.log(response);
       success();
-      // navigate('/');
+      navigate('/');
       return (
         <ToastContainer
           position="top-center"
@@ -67,7 +67,7 @@ export default function KakaoFirstLogin() {
         />
       );
     } catch (error) {
-      console.error('카카오 에러:', error);
+      // console.error('카카오 에러:', error);
       wrongPw();
       return (
         <ToastContainer
