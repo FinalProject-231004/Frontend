@@ -8,33 +8,21 @@ import {
 import { useLike } from '@/hooks';
 import { AiFillHome } from 'react-icons/ai';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 
 const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
+  const handleShare = () => {
+    setIsModalOpen(true);
+  };
+
   const { isLiked, likes, handleLike } = useLike(
     Number(id),
     quizDetail?.likes || 0,
   );
   if (!quizDetail) return null;
-
-  // console.log(quizDetail.id);
-
-  const handleCopyLink = () => {
-    const baseURL = window.location.origin;
-    const shareURL = `${baseURL}/quiz/${id}`;
-    navigator.clipboard.writeText(shareURL).then(
-      () => {
-        toast.success('링크 복사 완료! 🤗');
-      },
-      // err => {
-      //   console.error('Could not copy text: ', err);
-      // },
-    );
-  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
@@ -77,14 +65,12 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
           <ShareModal
             isModalOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
-            handleCopyLink={handleCopyLink}
+            id={id.toString()}
+            pathType="detail"
           />
 
           <div className="flex gap-5 w-full justify-end">
-            <QuizCustomButton
-              theme="white"
-              onClick={() => setIsModalOpen(true)}
-            >
+            <QuizCustomButton theme="white" onClick={handleShare}>
               공유하기
             </QuizCustomButton>
             <QuizCustomButton

@@ -37,3 +37,10 @@ export type QuizResultProps = {
     comments: [];
   };
 };
+
+export type ShareModalProps = {
+  isModalOpen: boolean;
+  closeModal: () => void;
+  id?: string;
+  pathType: string;
+};
