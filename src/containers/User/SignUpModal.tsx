@@ -65,8 +65,7 @@ function SignUpModal() {
     setIsNickName(pattern.test(id));
   };
   const validatePw = (pw: string) => {
-    const pattern =
-      /^(?=.*[a-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
+    const pattern = /^(?=.*[a-z])(?=.*\d)(?=.*\W).{8,20}$/;
     setIsPw(pattern.test(pw));
   };
   const validatepwCheck = (pwCheck: string) => {

@@ -9,7 +9,7 @@ export const validateNickName = (nickname: string): boolean => {
 };
 
 export const validatePw = (pw: string): boolean => {
-  const pattern = /^(?=.*[a-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
+  const pattern = /^(?=.*[a-z])(?=.*\d)(?=.*\W).{8,20}$/;
   return pattern.test(pw);
 };
 
