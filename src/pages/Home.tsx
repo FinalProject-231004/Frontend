@@ -21,7 +21,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="min-w-[1920px] min-h-[1080px] mx-auto">
+    <div className="w-screen min-h-[1080px] mx-auto">
       <div className="w-[1080px] mx-auto">
         <HomeBanner />
 
