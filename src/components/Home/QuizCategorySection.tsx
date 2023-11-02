@@ -7,7 +7,7 @@ const QuizCategorySection: React.FC<QuizCategorySectionProps> = React.memo(
     const displayedQuiz = skipSlice ? quiz : quiz.slice(0, 8);
 
     return (
-      <div w-full mx-auto>
+      <div className="w-full mx-auto">
         <h1 className="my-20 text-[28px] text-blue font-extrabold text-center">
           {title}
         </h1>
