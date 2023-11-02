@@ -1,16 +1,42 @@
+import { ShareModalProps } from '@/types/result';
 import { toast } from 'react-toastify';
-
-interface ShareModalProps {
-  isModalOpen: boolean;
-  closeModal: () => void;
-  handleCopyLink: () => void;
-}
 
 const ShareModal: React.FC<ShareModalProps> = ({
   isModalOpen,
   closeModal,
-  handleCopyLink,
+  id,
+  pathType,
 }) => {
+  const handleCopyLink = () => {
+    const baseURL = window.location.origin;
+    const shareURL =
+      pathType === 'detail'
+        ? `${baseURL}/quiz/${id}`
+        : `${baseURL}/quiz/result/${id}`;
+    navigator.clipboard.writeText(shareURL).then(() => {
+      toast.success('링크 복사 완료! 🤗');
+      closeModal();
+    });
+  };
+
+  const shareKakaoLink = (pathType: string) => {
+    const Url = pathType === 'detail' ? `quiz/${id}` : `quiz/${id}`;
+
+    window.Kakao.Share.sendCustom({
+      templateId: 100262,
+      templateArgs: {
+        title: '즐거움이 터지는 퀴즈팝! 🎉',
+        description: '퀴즈를 공유하고 함께 풀어보아요 🤗',
+        url: Url,
+      },
+    });
+  };
+
+  const onShareKakaoClick = () => {
+    shareKakaoLink(pathType);
+    closeModal();
+  };
+
   return (
     <div
       className={`${
@@ -25,9 +51,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
           <div className="flex flex-col text-2xl">
             <button
-              onClick={() => {
-                toast.warn('서비스 준비 중 입니다!🙄💦');
-              }}
+              onClick={onShareKakaoClick}
               className="mt-4 h-[57px] bg-[#FFEB00] border-blue p-2 rounded-full"
             >
               <div className="flex justify-center">

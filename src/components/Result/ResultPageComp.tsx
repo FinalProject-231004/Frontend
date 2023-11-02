@@ -8,7 +8,6 @@ import { useLike } from '@/hooks';
 import { useNavigate } from 'react-router';
 import { QuizResultProps } from '@/types/result';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 
 const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
@@ -17,19 +16,6 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
   const { isLiked, likes, handleLike } = useLike(Number(id), data?.likes || 0);
   const navigate = useNavigate();
   if (!data) return null;
-
-  const handleCopyLink = () => {
-    const baseURL = window.location.origin;
-    const shareURL = `${baseURL}/quiz/${id}`;
-    navigator.clipboard.writeText(shareURL).then(
-      () => {
-        toast.success('링크 복사 완료! 🤗');
-      },
-      err => {
-        console.error('Could not copy text: ', err);
-      },
-    );
-  };
 
   return (
     <div className="w-[1080px] h-full mx-auto">
@@ -60,7 +46,8 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
       <ShareModal
         isModalOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
-        handleCopyLink={handleCopyLink}
+        id={id}
+        pathType="result" // Specify the path type here
       />
 
       <div className="flex gap-5 justify-end mt-8">
