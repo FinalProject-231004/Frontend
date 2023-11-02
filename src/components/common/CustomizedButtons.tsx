@@ -11,6 +11,7 @@ type ButtonsProps = {
   btnhoverbg: string;
   btnactivebg: string;
   borderradius: string;
+  type?: 'button' | 'submit';
   onClick: () => void;
 };
 
