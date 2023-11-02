@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import axios, { AxiosError } from 'axios';
 import { signUpData } from '@/types/header';
+import { validateId, } from '@/hooks/useValidation';
 
 function SignUpModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -55,10 +56,10 @@ function SignUpModal() {
   };
   
   // 유효성 검사
-  const validateId = (id: string) => {
-    const pattern = /^[a-z][a-z\d]{3,14}$/;
-    setIsId(pattern.test(id));
-  };
+  // const validateId = (id: string) => {
+  //   const pattern = /^[a-z][a-z\d]{3,14}$/;
+  //   setIsId(pattern.test(id));
+  // };
   const validateNickName = (id: string) => {
     const pattern = /^(?=.*[a-z\uAC00-\uD7A3\d]).{2,5}$/;
     setIsNickName(pattern.test(id));
@@ -151,12 +152,10 @@ function SignUpModal() {
                   inputVal={idInput}
                   borderColor='none'
                   onChange={e => {
-                    idHandleChange(e.target.value);
-                    validateId(e.target.value);
-                    setIdMessage(
-                      '알파벳 소문자 또는 숫자 포함 4자 이상 15자 이하',
-                    );
-                    // setCheckMsg(false);
+                    const idValue = e.target.value;
+                    idHandleChange(idValue);
+                    setIsId(validateId(idValue));  // 수정된 부분
+                    setIdMessage('알파벳 소문자 또는 숫자 포함 4자 이상 15자 이하');
                     if (isId === true) {setIdMessage(''); }
                   }}
                   onKeyDown={(e) => handleTab(e, nickNameInputRef)}
