@@ -6,6 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 
 const Auth = () => {
+  // console.log('auth 시작')
   const code = window.location.search;
   const navigate = useNavigate();
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);

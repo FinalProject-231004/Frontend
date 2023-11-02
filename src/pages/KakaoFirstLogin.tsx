@@ -48,8 +48,8 @@ export default function KakaoFirstLogin() {
 
   const postPw = async (info: kakaoVarifyPw) => {
     try {
-      const response = await postAPI('/api/member/kakao/first-login', info);
-      console.log(response);
+      await postAPI('/api/member/kakao/first-login', info);
+      // console.log(response);
       success();
       // navigate('/');
       return (

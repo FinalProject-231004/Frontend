@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { Notifications } from '@/types/header';
 import { getTime } from '@/utils/dateUtils';
 
-import { useQueryClient } from 'react-query'; // 예시로 react-query 사용
+import { useQueryClient } from 'react-query';
 import { useGetMessageAlert } from '@/hooks';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
@@ -18,7 +18,6 @@ const Sse = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [newAlert, setNewAlert] = useState<Notifications[]>([]);
   const { data: alertList } = useGetMessageAlert();
-  // const allList: Notification[] | undefined = alertList?.data;
   const allList = alertList
   const queryClient = useQueryClient();
 
@@ -40,6 +39,8 @@ const Sse = () => {
 
     eventSource.onopen = () => {
       // console.log('SSE 연결됨');
+      // console.log('allList', allList);
+
     };
 
     eventSource.addEventListener('sse', event  => {
@@ -49,10 +50,10 @@ const Sse = () => {
         // console.log('더미데이터는 무시하겠다.')
         return;
       }
-        setNewAlert((prev) => [...prev, parsedData]);
-        // console.log('새로운 알림',newAlert);
+      setNewAlert((prev) => [...prev, parsedData]);
+      // console.log('새로운 알림',newAlert);
 
-        queryClient.invalidateQueries('alertList');
+      // queryClient.invalidateQueries('alertList');
     });
 
 
@@ -114,7 +115,7 @@ const Sse = () => {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title={newAlert?.length === 0 ? 'Noting' : 'Check it out'}>
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size="large" aria-label="show new notifications" color="inherit">
-            <Badge  color="error"> {/* badgeContent={newAlert.length} */}
+            <Badge badgeContent={newAlert.length} color="error"> 
               <NotificationsIcon />
             </Badge>
           </IconButton>
