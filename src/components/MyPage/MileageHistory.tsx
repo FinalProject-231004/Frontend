@@ -34,7 +34,7 @@ export default function MileageHistory() {
       setUsageHistory(response.data.data);
       // console.log('usageHistory',usageHistory);
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   };
   const MileageGetHistory = async () => {
@@ -62,7 +62,7 @@ export default function MileageHistory() {
   }, [activeTab]);
 
   return (
-    <div className="h-full mt-[246px] flex flex-col items-end justify-start ">
+    <div className="h-full mt-[246px] flex flex-col items-end justify-start">
       <div className="mb-[60px]">
         <p className="text-[28px] text-blue mb-[12px]">마일리지</p>
 
@@ -84,23 +84,13 @@ export default function MileageHistory() {
         </div>
       </div>
 
-      <div>
-        <div className="w-[988px] flex justify-between items-center">
+      <div className='w-[988px]'>
+        <div className="flex justify-between items-center">
           <h1 className="text-[28px] text-blue mb-2 ">마일리지 이용내역</h1>
           <div className="flex">
             <div className="flex items-center h-[22px]">
               <p
                 className={`w-[47px] border-r-2 border-blue text-[18px] cursor-pointer ${
-                  activeTab === 'usage' ? 'text-blue' : ''
-                }`}
-                onClick={() => {
-                  setActiveTab('usage');
-                }}
-              >
-                사용
-              </p>
-              <p
-                className={`flex-grow text-[18px] cursor-pointer text-left pl-[10px] ${
                   activeTab === 'reward' ? 'text-blue' : ''
                 }`}
                 onClick={() => {
@@ -109,27 +99,19 @@ export default function MileageHistory() {
               >
                 적립
               </p>
+              <p
+                className={`w-[47px] text-[18px] cursor-pointer text-left pl-[10px] ${
+                  activeTab === 'usage' ? 'text-blue' : ''
+                }`}
+                onClick={() => {
+                  setActiveTab('usage');
+                }}
+              >
+                사용
+              </p>
             </div>
           </div>
         </div>
-
-        {activeTab === 'usage' ? (
-          usageHistory && usageHistory.length > 0 ? (
-            usageHistory.map((item, index) => (
-              <HistoryList
-                key={index}
-                price="usage"
-                cost={item.totalPrice}
-                itemName={item.itemName}
-                quantity={item.quantity}
-                email={item.email}
-                date={item.orderedAt}
-              />
-            ))
-          ) : (
-            <div className="empty-data">사용 내역이 없습니다.</div>
-          )
-        ) : null}
 
         {activeTab === 'reward' ? (
           rewardHistory && rewardHistory.length > 0 ? (
@@ -148,6 +130,25 @@ export default function MileageHistory() {
             <div className="empty-data">적립 내역이 없습니다.</div>
           )
         ) : null}
+
+        {activeTab === 'usage' ? (
+          usageHistory && usageHistory.length > 0 ? (
+            usageHistory.map((item, index) => (
+              <HistoryList
+                key={index}
+                price="usage"
+                cost={item.totalPrice}
+                itemName={item.itemName}
+                quantity={item.quantity}
+                email={item.email}
+                date={item.orderedAt}
+              />
+            ))
+          ) : (
+            <div className="empty-data">사용 내역이 없습니다.</div>
+          )
+        ) : null}
+        
       </div>
     </div>
   );

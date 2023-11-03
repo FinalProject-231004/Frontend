@@ -2,35 +2,39 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Quiz } from '@/types/homeQuiz';
 
-const quizCache: Record<string, Quiz[]> = {};
-
 export const useFetchQuiz = (url: string) => {
   const [quiz, setQuiz] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<AxiosError | null>(null);
 
   useEffect(() => {
+    let cancelRequest = false;
+    const cancelToken = axios.CancelToken.source();
+
     const fetchQuiz = async () => {
-      if (quizCache[url]) {
-        setQuiz(quizCache[url]);
-        setLoading(false);
-      } else {
-        try {
-          const response = await axios.get(url);
-          const data = response.data;
-          quizCache[url] = data;
-          setQuiz(data);
+      try {
+        const response = await axios.get(url, {
+          cancelToken: cancelToken.token,
+        });
+        if (!cancelRequest) {
+          setQuiz(response.data);
           setLoading(false);
-        } catch (error) {
+        }
+      } catch (error) {
+        if (!cancelRequest) {
           setError(error as AxiosError);
         }
       }
     };
 
     fetchQuiz();
+
+    return () => {
+      cancelRequest = true;
+      cancelToken.cancel();
+    };
   }, [url]);
 
   return { quiz, loading, error };
 };
-
 export default useFetchQuiz;

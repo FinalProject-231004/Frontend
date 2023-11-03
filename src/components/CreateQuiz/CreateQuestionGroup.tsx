@@ -151,7 +151,7 @@ const CreateQuestionGroup: React.FC = () => {
     <div className="w-screen">
       <div className="w-[720px] mb-48 mx-auto">
         {questions.map((question, index) => (
-          <div key={question.id} className="w-full">
+          <div key={question.text} className="w-full">
             <QuestionItem
               key={question.id}
               question={question}

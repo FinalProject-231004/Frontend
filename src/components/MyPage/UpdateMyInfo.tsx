@@ -22,7 +22,7 @@ export default function UpdateMyInfo() {
       setUserPw(data.password);
       setProfileImg(data.image);
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   }
 
