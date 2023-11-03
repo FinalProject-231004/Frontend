@@ -26,7 +26,7 @@ type ConditionalLayoutProps = {
 
 const ConditionalLayout: React.FC<ConditionalLayoutProps> = ({ children }) => {
   const location = useLocation();
-  if (location.pathname === '/mypage/verify-password') {
+  if (location.pathname === '/mypage/verify-password' || location.pathname === '/kakao/first-login') {
     return children;
   }
   return <Layout>{children}</Layout>;

@@ -58,7 +58,7 @@ export default function ChangeNicknameModal() {
   const nicknameOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewNickname(e.target.value);
     validateNickName(e.target.value);
-    setConditionMsg('한글/영소문자/숫자 포함 2자리 이상 5자리 이하');
+    setConditionMsg('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
     if (isNickName === true) setConditionMsg('');
   };
 
@@ -91,11 +91,14 @@ export default function ChangeNicknameModal() {
               <UserInfoInput
                 inputVal={newNickname}
                 type="text"
-                placeholder="아이디"
+                placeholder="닉네임"
                 size="medium"
                 borderColor="blue"
                 focusBorderColor={''}
-                onChange={e => nicknameOnChange(e)}
+                onChange={e => {
+                  nicknameOnChange(e);
+                  if (newNickname === '') setDuplicateMsg('');
+                }}
               />
               <button
                 className="w-[131px] h-[72px] rounded-r-[6px] bg-[#3E3E3E] text-white text-[24px] absolute z-20 right-0"
@@ -107,7 +110,7 @@ export default function ChangeNicknameModal() {
               </button>
             </div>
             {newNickname.length > 0 && (
-              <div className="my-[6px] absolute text-[16px] text-[#F92316] font-hairline">
+              <div className="my-[6px] absolute right-0 text-[16px] text-[#F92316] font-hairline">
                 {conditionMsg}
               </div>
             )}

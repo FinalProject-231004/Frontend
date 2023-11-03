@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { quizAtom } from '@/recoil/atoms/quizAtom';
 import { toast } from 'react-toastify';
@@ -17,9 +17,9 @@ const CreateQuizGroup: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [quiz, setQuiz] = useRecoilState(quizAtom);
+  const [isLoading, setIsLoading] = useState(false);
   const warningModal = useModalState();
 
-  // 이미지> string으로 변환버전
   const handleImageUpload = async (file: File) => {
     setQuiz({
       ...quiz,
@@ -28,7 +28,6 @@ const CreateQuizGroup: React.FC = () => {
     toast.success(' 이미지 업로드 성공 ! 😎');
   };
 
-  // 퀴즈 정보를 JSON으로 변환하여 formData에 추가
   const requestDto = {
     title: quiz.title || '',
     category: selectedCategory || '',
@@ -38,26 +37,23 @@ const CreateQuizGroup: React.FC = () => {
     type: 'application/json',
   });
 
-  // 퀴즈 정보를 서버에 전송하는 함수
   const submitQuiz = async () => {
+    setIsLoading(true);
     try {
       const formData = new FormData();
 
-      // 이미지 파일이 있으면 formData에 추가
       if (quiz.image && quiz.image.file) {
         formData.append('image', quiz.image.file);
         formData.append('requestDto', blob);
       }
 
-      // localStorage에서 토큰 가져오기
       const token = localStorage.getItem('Authorization');
-
       if (!token) {
         toast.error('로그인이 필요합니다.');
+        setIsLoading(false);
         return;
       }
 
-      // 요청 전송
       const response = await axios.post(
         `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz`,
         formData,
@@ -69,20 +65,31 @@ const CreateQuizGroup: React.FC = () => {
         },
       );
 
+      setQuiz({
+        title: '',
+        content: '',
+        category: '',
+        image: null,
+      });
+
       const quizId = response.data.data.id;
       navigate(`/create-quiz/questions/${quizId}`);
     } catch (error) {
       toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
-      if (axios.isAxiosError(error)) {
-        console.error(
-          '퀴즈 생성에 실패했습니다:',
-          error.response?.data || error.message,
-        );
-      } else {
-        console.error('퀴즈 생성에 실패했습니다:', error);
-      }
+    } finally {
+      setIsLoading(false);
     }
   };
+  useEffect(() => {
+    return () => {
+      setQuiz({
+        title: '',
+        content: '',
+        category: '',
+        image: null,
+      });
+    };
+  }, []);
 
   // '세부 질문 만들기' 버튼 클릭 시 호출되는 함수
   const handleNavigation = async () => {
@@ -173,19 +180,19 @@ const CreateQuizGroup: React.FC = () => {
           isOpen={warningModal.isOpen}
           onRequestClose={warningModal.close}
           title="🚨"
-          message="공백이거나, 체크하지 않은 선택지가 있어요!"
+          message="비어있는 항목 또는 체크하지 않은 선택지가 있어요!"
           button={
             <div
               onClick={warningModal.close}
-              className="bg-blue text-white rounded-md"
+              className="flex justify-center items-center w-20 bg-blue text-white rounded-md py-2"
             >
               닫기
             </div>
           }
         />
       </div>
-      <BottomLongButton onClick={handleNavigation}>
-        세부 질문 만들기
+      <BottomLongButton onClick={handleNavigation} disabled={isLoading}>
+        {isLoading ? '제출 중...' : '세부 질문 만들기'}
       </BottomLongButton>
     </div>
   );

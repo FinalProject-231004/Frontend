@@ -1,44 +1,28 @@
-import { QuizDetail, DetailPageCompProps } from '@/types/homeQuiz';
+import { DetailPageCompProps } from '@/types/homeQuiz';
 import {
   QuizCustomButton,
   CommentSection,
   QuizInfo,
   ShareModal,
 } from '@/components';
-import { useGetQuizDetail, useLike } from '@/hooks';
+import { useLike } from '@/hooks';
 import { AiFillHome } from 'react-icons/ai';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
+const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const { data: quizDetail } = useGetQuizDetail<QuizDetail>(`/api/quiz/${id}`, [
-    'quizDetail',
-    id,
-  ]);
+
+  const handleShare = () => {
+    setIsModalOpen(true);
+  };
 
   const { isLiked, likes, handleLike } = useLike(
     Number(id),
     quizDetail?.likes || 0,
   );
   if (!quizDetail) return null;
-
-  console.log(quizDetail.id);
-
-  const handleCopyLink = () => {
-    const baseURL = window.location.origin;
-    const shareURL = `${baseURL}/quiz/${id}`;
-    navigator.clipboard.writeText(shareURL).then(
-      () => {
-        toast.success('링크 복사 완료! 🤗');
-      },
-      err => {
-        console.error('Could not copy text: ', err);
-      },
-    );
-  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
@@ -52,7 +36,7 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
           >
             <AiFillHome size={35} />
           </div>
-          <h1 className="-mt-24 mb-10 text-center text-blue font-extrabold text-[32px]">
+          <h1 className="-mt-24 mb-10 text-center text-blue font-extrabold text-[28px]">
             {quizDetail?.title}
           </h1>
           <div className="w-[952px] flex h-[400px] justify-center items-center">
@@ -81,14 +65,12 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
           <ShareModal
             isModalOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
-            handleCopyLink={handleCopyLink}
+            id={id.toString()}
+            pathType="detail"
           />
 
           <div className="flex gap-5 w-full justify-end">
-            <QuizCustomButton
-              theme="white"
-              onClick={() => setIsModalOpen(true)}
-            >
+            <QuizCustomButton theme="white" onClick={handleShare}>
               공유하기
             </QuizCustomButton>
             <QuizCustomButton
@@ -107,4 +89,4 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id }) => {
   );
 };
 
-export default DetailPageComp;
+export default React.memo(DetailPageComp);

@@ -3,6 +3,7 @@ import { questionAtom } from '@/recoil/atoms/questionAtom';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 import { useParams } from 'react-router';
 import {
   QuestionItem,
@@ -16,8 +17,9 @@ const CreateQuestionGroup: React.FC = () => {
   const navigate = useNavigate();
   const warningModal = useModalState();
   const completionModal = useModalState();
-  const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
   const { addQuestion, removeQuestion } = useQuestionActions();
+  const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
+
   const { id } = useParams();
   const submitQuiz = async () => {
     try {
@@ -43,11 +45,6 @@ const CreateQuestionGroup: React.FC = () => {
         .map(question => question.image?.file)
         .filter(Boolean);
 
-      if (images.length === 0) {
-        toast.error('모든 질문에 이미지를 첨부해주세요!');
-        return false;
-      }
-
       images.forEach(image => {
         if (image instanceof File) {
           formData.append('image', image);
@@ -72,6 +69,17 @@ const CreateQuestionGroup: React.FC = () => {
           },
         },
       );
+      setQuestions([
+        {
+          id: uuidv4(),
+          text: '',
+          choices: [
+            { id: uuidv4(), text: '', isAnswer: false },
+            { id: uuidv4(), text: '', isAnswer: false },
+          ],
+          image: { file: null, preview: null },
+        },
+      ]);
 
       navigate('/create-quiz/questions');
       return true;
@@ -82,10 +90,19 @@ const CreateQuestionGroup: React.FC = () => {
 
   const checkForIncompleteData = () => {
     return questions.some(question => {
+      // 질문의 텍스트가 없는 경우
       if (!question.text.trim()) return true;
+
+      // 질문에 이미지가 첨부되지 않았을 경우
+      if (!question.image?.file) {
+        toast.error('모든 질문에 이미지를 첨부해주세요!');
+        return true;
+      }
+
       const isCorrectExists = question.choices.some(
         choice => choice.isAnswer && choice.text.trim(),
       );
+
       return (
         !isCorrectExists || question.choices.some(choice => !choice.text.trim())
       );
@@ -113,7 +130,7 @@ const CreateQuestionGroup: React.FC = () => {
     <div className="w-screen">
       <div className="w-[720px] mb-48 mx-auto">
         {questions.map((question, index) => (
-          <div key={question.id} className="w-full">
+          <div key={question.text} className="w-full">
             <QuestionItem
               key={question.id}
               question={question}
@@ -153,7 +170,7 @@ const CreateQuestionGroup: React.FC = () => {
           isOpen={warningModal.isOpen}
           onRequestClose={warningModal.close}
           title="🚨"
-          message="공백이거나, 체크하지 않은 선택지가 있어요!"
+          message="비어있는 항목 또는 체크하지 않은 선택지가 있어요!"
           button={
             <div
               onClick={warningModal.close}

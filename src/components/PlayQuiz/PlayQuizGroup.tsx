@@ -29,13 +29,6 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     useHorizontalScroll(questionButtonContainerRef);
 
     useEffect(() => {
-      if (questions.length > 0) {
-        setQuestions(questions); // Recoil 상태 업데이트
-      }
-    }, [questions, setQuestions]);
-
-    useEffect(() => {
-      // questions 배열이 비어있거나 첫 번째 문항의 quizChoices 길이가 2 미만인 경우
       if (
         questions.length === 0 &&
         questions[0] &&
@@ -53,29 +46,33 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     const sendQuizDataToServer = async (choiceId: number) => {
       try {
         const token = localStorage.getItem('Authorization');
-        if (!token) {
-          throw new Error('Authorization 토큰이 존재하지 않습니다.');
+        let headers: {
+          'Content-Type': string;
+          Authorization?: string;
+        } = {
+          'Content-Type': 'application/json',
+        };
+
+        if (token) {
+          headers = {
+            ...headers,
+            Authorization: `Bearer ${token}`,
+          };
         }
 
-        const response = await axios.post(
+        await axios.post(
           `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/choice`,
           { choiceId },
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
+            headers: headers,
           },
         );
-        console.log(response);
+        // console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error(
-            '서버에 데이터를 보내는 데 실패했습니다:',
-            error.response?.data,
-          );
+          // );
         } else if (error instanceof Error) {
-          console.error('예상치 못한 오류가 발생했습니다:', error.message);
+          // console.error('예상치 못한 오류가 발생했습니다:', error.message);
         }
       }
     };
@@ -92,11 +89,11 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
                 ...q,
                 quizChoices: q.quizChoices.map(c => ({
                   ...c,
-                  checked: c.id === choiceId, // 현재 선택된 질문의 경우, 선택된 선택지만 체크
+                  checked: c.id === choiceId,
                 })),
               };
             }
-            return q; // 다른 질문은 변경하지 않음
+            return q;
           }),
         );
       },
@@ -120,7 +117,6 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
       }
     };
 
-    // 로딩 상태에 따른 조건부 렌더링
     if (loading) {
       return <div>Loading...</div>;
     }
@@ -132,7 +128,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
             Q{selectedQuestion}.{' '}
             {questions[selectedQuestion - 1]?.title || '제목'}
           </h1>
-          <div className="w-[500px] mb-6 mx-auto">
+          <div className="w-[550px] mb-5 mx-auto">
             <div
               className="flex space-x-5 justify-center items-center"
               ref={questionButtonContainerRef}
@@ -140,7 +136,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
               {Array.from({ length: totalQuestions }).map((_, idx) => (
                 <div
                   key={idx}
-                  className={`min-w-[40px] h-[40px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
+                  className={`w-[45px] h-[45px] text-lg rounded-full flex justify-center items-center border-blue border-2 slateshadow ${
                     idx + 1 === selectedQuestion
                       ? 'bg-blue text-white boder-blue'
                       : 'bg-white text-blue border-white'
@@ -150,7 +146,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
                 </div>
               ))}
             </div>
-            <div className="w-[500px] h-[25px] mt-5 border-2 border-blue relative rounded-[30px] slateshadow">
+            <div className="h-[28px] mt-5 border-2 border-blue rounded-[30px] slateshadow">
               <div
                 className="h-full bg-blue rounded-[30px]"
                 style={{

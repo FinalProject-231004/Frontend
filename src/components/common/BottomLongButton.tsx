@@ -1,6 +1,9 @@
+import React from 'react';
+
 type BottomLongButtonProps = {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
+  disabled?: boolean;
 };
 const BottomLongButton: React.FC<BottomLongButtonProps> = ({
   onClick,
@@ -9,7 +12,7 @@ const BottomLongButton: React.FC<BottomLongButtonProps> = ({
   return (
     <button
       type="button"
-      className="w-screen h-[70px] mt-130 fixed bottom-0 bg-blue font-extrabold text-2xl text-white py-3"
+      className="w-screen h-[70px] fixed bottom-0 bg-blue font-extrabold text-2xl text-white py-3"
       onClick={onClick}
     >
       {children}
@@ -17,4 +20,4 @@ const BottomLongButton: React.FC<BottomLongButtonProps> = ({
   );
 };
 
-export default BottomLongButton;
+export default React.memo(BottomLongButton);

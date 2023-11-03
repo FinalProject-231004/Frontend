@@ -20,6 +20,10 @@ body {
   font-family: 'TmoneyRoundWind', sans-serif;
 }
 
+input:focus {
+  outline: none;
+}
+
 .flex::-webkit-scrollbar-thumb {
   border-radius: 25px;
 }
@@ -66,11 +70,15 @@ body {
   scroll-behavior: smooth;
 }
 
+:focus {
+  outline: none;
+}
+
 .title {
-  @apply text-center mt-[132px] mb-[60px] text-[24px] text-blue font-extrabold;
+  @apply text-center mt-[132px] mb-[60px] text-[28px] text-blue font-extrabold;
 }
 .play-quiz__title {
-  @apply text-center mt-[132px] mb-[60px] text-[24px] text-blue font-extrabold;
+  @apply text-center mt-[132px] mb-[60px] text-[28px] text-blue font-extrabold;
 }
 
 .customborder {

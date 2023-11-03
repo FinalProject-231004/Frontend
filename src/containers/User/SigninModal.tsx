@@ -6,6 +6,9 @@ import { postAPI } from '@/apis/axios';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import SignUpModal from './SignUpModal';
 import { postSignIn } from '@/types/header';
+import { useEnterKey } from '@/hooks/useEnterKey';
+import axios, { AxiosError } from 'axios';
+import { SignInErrorResponse } from '@/types/header'
 
 function SignInModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -31,9 +34,17 @@ function SignInModal() {
         closeModal();
       }
       // console.log('Success:', response.data);
-    } catch (error) {
-      // console.error('Error:', error);
-      setAllCheckMessag('아이디 혹은 비밀번호가 일치하지 않습니다!')
+    } catch (error: unknown) { 
+      if (axios.isAxiosError(error)) {
+        // Axios 오류 처리
+        const serverError = error as AxiosError<SignInErrorResponse>;
+        if (serverError && serverError.response) {
+          // console.error('Error:', serverError.response.data.msg);
+          setAllCheckMessag(serverError.response.data.msg);
+        }
+      } else {
+        // console.error('An unexpected error occurred');
+      }
     }
   };
 
@@ -64,6 +75,19 @@ function SignInModal() {
     setLoginMoadal(false);
   };
 
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault(); // 기본 제출 이벤트 방지
+    if (idInput === '' || pwInput === '') {
+      setAllCheckMessag('모든 정보를 입력해주세요.');
+      return;
+    } else {
+      setAllCheckMessag('');
+    }
+    login(data);
+  };
+
+  const enterKeyHandler = useEnterKey(handleSubmit);
+
   const kakaoLogin: () => void = () => {
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_APP_FE_URL}/login/kakao&response_type=code`;
     window.location.href = kakaoURL;
@@ -77,7 +101,6 @@ function SignInModal() {
       >
         로그인
       </button>
-      {/* <Button size='small' fontColor='var(--navy)' BtnName='로그인' BtnBg='#fff' BtnHoverBg='' BtnActiveBg='' borderRadius='18px' onClick={openModal} /> */}
       <Modal
         onRequestClose={closeModal}
         isOpen={isOpen}
@@ -86,7 +109,7 @@ function SignInModal() {
         bgColor="#F1F8FF"
       >
         {loginMoadal ? (
-          <div className="flex flex-col justify-center items-center">
+          <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-center items-center">
             <h1 className="text-[34px] text-blue my-[40px]">로그인</h1>
             <div className="w-[530px] mb-[45px] relative">
               <div className="mb-[22px]">
@@ -118,6 +141,7 @@ function SignInModal() {
 
             <div className="flex flex-col justify-center items-center gap-4">
               <CustomizedButtons
+                type="submit"
                 size="large"
                 fontSize="26px"
                 fontcolor="#fff"
@@ -126,15 +150,7 @@ function SignInModal() {
                 btnhoverbg=""
                 btnactivebg={''}
                 borderradius="12px"
-                onClick={() => {
-                  if (idInput === '' || pwInput === '') {
-                    setAllCheckMessag('모든 정보를 입력해주세요.');
-                    return;
-                  } else {
-                    setAllCheckMessag('');
-                  }
-                  login(data);
-                }}
+                onClick={() => {}}
               />
               <CustomizedButtons
                 size="large"
@@ -159,7 +175,7 @@ function SignInModal() {
                 회원가입하기
               </p>
             </div>
-          </div>
+          </form>
         ) : (
           <SignUpModal />
         )}
