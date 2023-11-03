@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { CommentSectionProps } from '@/types/result';
 import { CommentInput, CommentList } from '@/components';
 import { toast } from 'react-toastify';
@@ -16,21 +16,13 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
 
   useEffect(() => {
     const rawToken = localStorage.getItem('Authorization');
-    const storedToken = rawToken?.startsWith('Bearer ')
+    const storedToken = rawToken?.startsWith('Bearer')
       ? rawToken.slice('Bearer '.length)
       : rawToken;
     if (storedToken) setToken(storedToken);
   }, [setToken]);
 
   const client = useMemo(() => axios.create(), []);
-
-  axiosRetry(client, {
-    retries: 5,
-    retryDelay: retryCount => retryCount * 1000,
-    retryCondition: error =>
-      error.response?.status === 429 ||
-      axiosRetry.isNetworkOrIdempotentRequestError(error),
-  });
 
   const fetchComments = useCallback(async () => {
     if (!quizId) {
@@ -40,6 +32,14 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
       return;
     }
     try {
+      axiosRetry(client, {
+        retries: 5,
+        retryDelay: retryCount => retryCount * 1000,
+        retryCondition: error =>
+          error.response?.status === 429 ||
+          axiosRetry.isNetworkOrIdempotentRequestError(error),
+      });
+
       const response = await client.get(
         `${
           import.meta.env.VITE_APP_GENERATED_SERVER_URL
@@ -55,7 +55,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
 
   useEffect(() => {
     fetchComments();
-  }, [quizId, fetchComments]);
+    return () => setComments([]);
+  }, [quizId, fetchComments, setComments]);
 
   const handleNewCommentChange = (
     event: React.ChangeEvent<HTMLInputElement>,

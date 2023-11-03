@@ -25,6 +25,10 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
 
   if (!quizDetail) return null;
 
+  if (!quizDetail) {
+    return <div className="hidden">Loading...</div>;
+  }
+
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
       <div className="bg-[#F1F8FF] w-[1080px] h-[800px] mt-16 rounded-[30px] shadow-md shdow-slate-200 overflow-hidden flex-nowrap">

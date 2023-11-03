@@ -10,8 +10,10 @@ import {
   ChoiceItem,
   WarningModal,
   BottomLongButton,
+  LoadingSpinner,
 } from '@/components';
 import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
+import React, { useEffect, useState } from 'react';
 const CreateQuestionGroup: React.FC = () => {
   const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
@@ -19,8 +21,13 @@ const CreateQuestionGroup: React.FC = () => {
   const completionModal = useModalState();
   const { addQuestion, removeQuestion } = useQuestionActions();
   const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
-
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
@@ -129,42 +136,47 @@ const CreateQuestionGroup: React.FC = () => {
   return (
     <div className="w-screen">
       <div className="w-[720px] mb-48 mx-auto">
-        {questions.map((question, index) => (
-          <div key={question.id} className="w-full">
-            <QuestionItem
-              key={question.id}
-              question={question}
-              index={index}
-              removeQuestion={removeQuestion}
-              setQuestions={setQuestions}
-              questions={questions}
-            />
-            {question.choices.map(choice => (
-              <ChoiceItem
-                key={choice.id}
-                choice={choice}
-                questionId={question.id}
-                handleChoiceCheck={handleChoiceCheck}
-                handleChoiceChange={(questionId, choiceId, text) => {
-                  setQuestions(
-                    questions.map(q =>
-                      q.id === questionId
-                        ? {
-                            ...q,
-                            choices: q.choices.map(c =>
-                              c.id === choiceId ? { ...c, text } : c,
-                            ),
-                          }
-                        : q,
-                    ),
-                  );
-                }}
-                addChoice={addChoice}
-                removeChoice={removeChoice}
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          questions.map((question, index) => (
+            <div key={question.id} className="w-full">
+              <QuestionItem
+                key={question.id}
+                question={question}
+                index={index}
+                removeQuestion={removeQuestion}
+                setQuestions={setQuestions}
+                questions={questions}
               />
-            ))}
-          </div>
-        ))}
+
+              {question.choices.map(choice => (
+                <ChoiceItem
+                  key={choice.id}
+                  choice={choice}
+                  questionId={question.id}
+                  handleChoiceCheck={handleChoiceCheck}
+                  handleChoiceChange={(questionId, choiceId, text) => {
+                    setQuestions(
+                      questions.map(q =>
+                        q.id === questionId
+                          ? {
+                              ...q,
+                              choices: q.choices.map(c =>
+                                c.id === choiceId ? { ...c, text } : c,
+                              ),
+                            }
+                          : q,
+                      ),
+                    );
+                  }}
+                  addChoice={addChoice}
+                  removeChoice={removeChoice}
+                />
+              ))}
+            </div>
+          ))
+        )}
 
         <WarningModal
           isOpen={warningModal.isOpen}
@@ -224,4 +236,4 @@ const CreateQuestionGroup: React.FC = () => {
     </div>
   );
 };
-export default CreateQuestionGroup;
+export default React.memo(CreateQuestionGroup);
