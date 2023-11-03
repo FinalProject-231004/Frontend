@@ -11,6 +11,7 @@ export { default as ChoiceInput } from './common/ChoiceInput';
 export { default as QuizInfo } from './common/QuizInfo';
 export { default as PrivateRoute } from './common/PrivateRoute';
 export { default as ShareModal } from './common/ShareModal';
+export { default as LoadingSpinner } from './common/LoadingSpinner';
 
 // CreateQuiz
 export { default as CreateQuestionGroup } from './CreateQuiz/CreateQuestionGroup';
