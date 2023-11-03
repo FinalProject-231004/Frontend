@@ -50,8 +50,7 @@ export const useLike = (id: number, initialLikes: number) => {
         },
       ),
     {
-      onSuccess: data => {
-        console.log('좋아요에 대한 서버 응답:', data);
+      onSuccess: () => {
         updateLikes(!isLiked);
         setIsButtonDisabled(false); // 서버 응답 후 버튼 비활성화 해제
       },
