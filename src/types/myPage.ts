@@ -9,7 +9,7 @@ export type varifyPw = {
 
 export type kakaoVarifyPw = {
   password: string;
-  newrPassword: string;
+  newPassword: string;
   newCheckPassword: string;
 }
 
