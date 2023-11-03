@@ -61,7 +61,7 @@ const Sse = () => {
       };
   
       return () => {
-        if (!token && eventSource !== undefined) {
+        if (!token && eventSource) {
           eventSource.close();
         }
       };
