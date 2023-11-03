@@ -8,7 +8,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>

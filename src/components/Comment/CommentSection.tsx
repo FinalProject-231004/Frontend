@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { CommentSectionProps } from '@/types/result';
 import { CommentInput, CommentList } from '@/components';
 import { toast } from 'react-toastify';
@@ -13,28 +13,34 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useRecoilState(commentsState);
   const [token, setToken] = useRecoilState(tokenState);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const rawToken = localStorage.getItem('Authorization');
-    const storedToken = rawToken?.startsWith('Bearer ')
+    const storedToken = rawToken?.startsWith('Bearer')
       ? rawToken.slice('Bearer '.length)
       : rawToken;
     if (storedToken) setToken(storedToken);
-  }, [setToken]);
+  }, []);
 
-  // useMemo가 마운트 될 때 단 한번만 실행되어야 함!
   const client = useMemo(() => axios.create(), []);
 
-  axiosRetry(client, {
-    retries: 5,
-    retryDelay: retryCount => retryCount * 1000,
-    retryCondition: error =>
-      error.response?.status === 429 ||
-      axiosRetry.isNetworkOrIdempotentRequestError(error),
-  });
-
   const fetchComments = useCallback(async () => {
+    if (!quizId) {
+      toast.warn(
+        '😥 댓글 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요',
+      );
+      return;
+    }
     try {
+      axiosRetry(client, {
+        retries: 1,
+        retryDelay: retryCount => retryCount * 1000,
+        retryCondition: error =>
+          error.response?.status === 429 ||
+          axiosRetry.isNetworkOrIdempotentRequestError(error),
+      });
+
       const response = await client.get(
         `${
           import.meta.env.VITE_APP_GENERATED_SERVER_URL
@@ -42,14 +48,21 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
       );
       setComments(response.data.data);
     } catch (error) {
-      console.error('댓글 목록 가져오기 실패', error);
-      toast.error('댓글 목록을 가져오는데 실패했습니다. 😥');
+      toast.error(
+        '😥 댓글 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요',
+      );
     }
   }, [client, quizId, setComments]);
 
   useEffect(() => {
-    fetchComments();
-  }, [quizId, fetchComments]);
+    fetchComments()
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
+  }, [fetchComments]);
+
+  if (loading) {
+    return <div className="hidden">Loading...</div>;
+  }
 
   const handleNewCommentChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -75,7 +88,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
-      fetchComments(); // 댓글 추가 후, 댓글 목록 다시 가져오기
+      fetchComments();
       setNewComment('');
     } catch (error: unknown) {
       const axiosError = error as AxiosError;

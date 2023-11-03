@@ -22,7 +22,10 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
     Number(id),
     quizDetail?.likes || 0,
   );
-  if (!quizDetail) return null;
+
+  if (!quizDetail) {
+    return <div className="hidden">Loading...</div>;
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
