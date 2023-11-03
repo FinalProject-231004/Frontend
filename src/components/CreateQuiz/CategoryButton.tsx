@@ -2,10 +2,16 @@ import { useRef } from 'react';
 import { categories } from '@/constants/categories';
 import { useHorizontalScroll } from '@/hooks';
 
-interface CategoryButtonProps {
+const BUTTON_BASE_CLASSES =
+  'w-[94px] h-[46px] text-base my-5 border-2 flex-shrink-0 flex justify-center items-center rounded-2xl cursor-pointer transition-all shadow-sm';
+const SELECTED_BUTTON_CLASSES = 'bg-blue text-white shadow-inner';
+const HOVERED_BUTTON_CLASSES =
+  'border-gray text-gray-300 hover:bg-blue hover:border-blue hover:text-white hover:shadow-inner hover:shadow-slate-300';
+
+type CategoryButtonProps = {
   selectedCategory: string | null;
   onCategoryClick: (category: string) => void;
-}
+};
 const CategoryButton: React.FC<CategoryButtonProps> = ({
   selectedCategory,
   onCategoryClick,
@@ -29,10 +35,10 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
         {categories.map(category => (
           <div
             key={category.category}
-            className={`w-[94px] h-[46px] text-base my-5 border-2 flex-shrink-0 flex justify-center items-center rounded-2xl cursor-pointer transition-all shadow-sm shadow-slate-200 ${
+            className={`${BUTTON_BASE_CLASSES} ${
               selectedCategory === category.category
-                ? 'bg-blue text-white shadow-inner'
-                : 'border-gray  text-gray-300 hover:bg-blue hover:border-blue hover:text-white hover:shadow-inner hover:shadow-slate-300'
+                ? SELECTED_BUTTON_CLASSES
+                : HOVERED_BUTTON_CLASSES
             }`}
             onClick={() => onCategoryClick(category.category)}
           >

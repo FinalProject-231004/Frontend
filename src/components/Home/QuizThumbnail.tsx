@@ -1,15 +1,27 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { QuizThumbnailProps } from '@/types/homeQuiz';
 import { FaRegEye } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 
 const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const quizId = quiz.id;
 
   const handleImageClick = useCallback(() => {
-    navigate(`/quiz/${quizId}`);
+    setIsLoading(true);
+    const img = new Image();
+    img.src = quiz.image;
+    img.onload = () => {
+      setIsLoading(false);
+      navigate(`/quiz/${quizId}`);
+    };
   }, [quizId, navigate]);
+
+  if (isLoading) {
+    return <div className="hidden">Loading...</div>;
+  }
 
   return (
     <div className="w-[255px]">

@@ -12,6 +12,7 @@ import {
   BottomLongButton,
 } from '@/components';
 import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
+import React, { useEffect } from 'react';
 const CreateQuestionGroup: React.FC = () => {
   const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
@@ -21,6 +22,26 @@ const CreateQuestionGroup: React.FC = () => {
   const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
 
   const { id } = useParams();
+
+  useEffect(() => {
+    // 컴포넌트가 마운트 될 때 필요한 작업을 실행합니다.
+
+    return () => {
+      // 컴포넌트가 언마운트 될 때 상태를 초기화합니다.
+      setQuestions([
+        {
+          id: uuidv4(),
+          text: '',
+          choices: [
+            { id: uuidv4(), text: '', isAnswer: false },
+            { id: uuidv4(), text: '', isAnswer: false },
+          ],
+          image: { file: null, preview: null },
+        },
+      ]);
+    };
+  }, [setQuestions]);
+
   const submitQuiz = async () => {
     try {
       const formData = new FormData();
