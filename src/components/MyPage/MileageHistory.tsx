@@ -34,7 +34,7 @@ export default function MileageHistory() {
       setUsageHistory(response.data.data);
       // console.log('usageHistory',usageHistory);
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   };
   const MileageGetHistory = async () => {

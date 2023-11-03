@@ -49,7 +49,7 @@ export default function VerifyPassword() {
       // console.log(response.data.data);
       setNickName(response.data.data);
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   };
 
@@ -74,7 +74,7 @@ export default function VerifyPassword() {
         />
       );
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
       wrongPw();
       return (
         <ToastContainer

@@ -67,7 +67,7 @@ const SearchBar = () => {
       setIsSearchOpen(true);
       // console.log("퀴즈 검색",response.data);
     } catch (error) {
-      console.log('error', error);
+      // console.log('error', error);
     }
   };
 

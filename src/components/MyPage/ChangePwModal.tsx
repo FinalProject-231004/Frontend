@@ -28,7 +28,7 @@ export default function ChangePwModal() {
       // console.log(response);
       toast.success('비밀번호 변경 완료!!');
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   };
 

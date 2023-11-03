@@ -47,7 +47,7 @@ export default function LoggedInProfileMenu() {
       setImage(getData.image || '');
       setMileage(getData.mileagePoint);
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   };
 

@@ -53,8 +53,8 @@ const Sse = () => {
         // queryClient.invalidateQueries('alertList');
       });
   
-      eventSource.onerror = (error) => {
-        console.error("EventSource failed:", error);
+      eventSource.onerror = () => {
+        // console.error("EventSource failed:", error);
         if (eventSource !== undefined) {
           eventSource.close();
         }
