@@ -7,6 +7,8 @@ import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import SignUpModal from './SignUpModal';
 import { postSignIn } from '@/types/header';
 import { useEnterKey } from '@/hooks/useEnterKey';
+import axios, { AxiosError } from 'axios';
+import { SignInErrorResponse } from '@/types/header'
 
 function SignInModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -32,9 +34,17 @@ function SignInModal() {
         closeModal();
       }
       // console.log('Success:', response.data);
-    } catch (error) {
-      // console.error('Error:', error);
-      setAllCheckMessag('아이디 혹은 비밀번호가 일치하지 않습니다!')
+    } catch (error: unknown) { 
+      if (axios.isAxiosError(error)) {
+        // Axios 오류 처리
+        const serverError = error as AxiosError<SignInErrorResponse>;
+        if (serverError && serverError.response) {
+          // console.error('Error:', serverError.response.data.msg);
+          setAllCheckMessag(serverError.response.data.msg);
+        }
+      } else {
+        // console.error('An unexpected error occurred');
+      }
     }
   };
 

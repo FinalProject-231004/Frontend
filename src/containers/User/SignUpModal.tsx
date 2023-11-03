@@ -8,6 +8,8 @@ import { signUpData } from '@/types/header';
 import { validateId, } from '@/hooks/useValidation';
 import { useEnterKey } from '@/hooks/useEnterKey';
 import { ToastContainer, toast } from 'react-toastify';
+import { SignUpErrorResponse } from '@/types/header'
+
 
 function SignUpModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -91,11 +93,6 @@ function SignUpModal() {
     theme: "colored",
     });
 
-    type ErrorResponse = {
-      errorMessage: string;
-      // 서버가 반환할 수 있는 다른 속성들...
-    }
-
   const signUp = async (info: signUpData) => {
     try {
       await postAPI('/api/member/signup', info);
@@ -119,7 +116,7 @@ function SignUpModal() {
     } catch (error: unknown) { 
       if (axios.isAxiosError(error)) {
         // Axios 오류 처리
-        const serverError = error as AxiosError<ErrorResponse>;
+        const serverError = error as AxiosError<SignUpErrorResponse>;
         if (serverError && serverError.response) {
           // console.error('Error:', serverError.response.data.errorMessage);
           setResultMsg(serverError.response.data.errorMessage);

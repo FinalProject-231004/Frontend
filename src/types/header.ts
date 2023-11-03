@@ -1,3 +1,11 @@
+export type SignUpErrorResponse = {
+  errorMessage: string;
+}
+
+export type SignInErrorResponse = {
+  msg: string;
+}
+
 export type SearchResult = { 
   title: string;
   id: number;
