@@ -138,9 +138,10 @@ const Sse = () => {
         >
           {/* <div className='w-[500px] h-[324px] py-[23px] px-[10px] bg-[#FAFAFA] border-[1.5px] border-solid rounded-md relative'> */}
             {newAlert?.length === 0 ? (
-              <div className='text-[18px] text-deep_dark_gray absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>새로운 소식이 없습니다!</div>
+              <div className='w-full ml-[180px] mt-[120px] text-[18px] text-deep_dark_gray absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2'>새로운 소식이 없습니다!</div>
             ):(
-              [...newAlert].reverse().map((note, index) => {
+              <div>
+              {[...newAlert].reverse().map((note, index) => {
                 const isFirstItem = index === 0;
                 const timeReceived = getTime(new Date(note.created_at));
                 return (
@@ -156,10 +157,13 @@ const Sse = () => {
                     </MenuItem>
                   </div> 
                 );
-              })
+              })}
+
+              <button className='mt-[14px] mb-[14px] ml-[16px] border-b border-deep_dark_gray text-[14px] text-deep_dark_gray'>전체 읽음</button>
+              
+              </div>
             )}
           {/* </div> */}
-          <button className='mt-[14px] mb-[14px] ml-[16px] border-b border-deep_dark_gray text-[14px] text-deep_dark_gray'>전체 읽음</button>
 
         </Menu>
       </Box>          
