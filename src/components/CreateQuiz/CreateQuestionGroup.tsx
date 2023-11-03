@@ -10,10 +10,9 @@ import {
   ChoiceItem,
   WarningModal,
   BottomLongButton,
-  LoadingSpinner,
 } from '@/components';
 import { useChoiceActions, useQuestionActions, useModalState } from '@/hooks';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 const CreateQuestionGroup: React.FC = () => {
   const [questions, setQuestions] = useRecoilState(questionAtom);
   const navigate = useNavigate();
@@ -21,12 +20,27 @@ const CreateQuestionGroup: React.FC = () => {
   const completionModal = useModalState();
   const { addQuestion, removeQuestion } = useQuestionActions();
   const { addChoice, removeChoice, handleChoiceCheck } = useChoiceActions();
+
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(false);
-  }, []);
+    // 컴포넌트가 마운트 될 때 필요한 작업을 실행합니다.
+
+    return () => {
+      // 컴포넌트가 언마운트 될 때 상태를 초기화합니다.
+      setQuestions([
+        {
+          id: uuidv4(),
+          text: '',
+          choices: [
+            { id: uuidv4(), text: '', isAnswer: false },
+            { id: uuidv4(), text: '', isAnswer: false },
+          ],
+          image: { file: null, preview: null },
+        },
+      ]);
+    };
+  }, [setQuestions]);
 
   const submitQuiz = async () => {
     try {
@@ -136,47 +150,42 @@ const CreateQuestionGroup: React.FC = () => {
   return (
     <div className="w-screen">
       <div className="w-[720px] mb-48 mx-auto">
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          questions.map((question, index) => (
-            <div key={question.id} className="w-full">
-              <QuestionItem
-                key={question.id}
-                question={question}
-                index={index}
-                removeQuestion={removeQuestion}
-                setQuestions={setQuestions}
-                questions={questions}
+        {questions.map((question, index) => (
+          <div key={question.id} className="w-full">
+            <QuestionItem
+              key={question.id}
+              question={question}
+              index={index}
+              removeQuestion={removeQuestion}
+              setQuestions={setQuestions}
+              questions={questions}
+            />
+            {question.choices.map(choice => (
+              <ChoiceItem
+                key={choice.id}
+                choice={choice}
+                questionId={question.id}
+                handleChoiceCheck={handleChoiceCheck}
+                handleChoiceChange={(questionId, choiceId, text) => {
+                  setQuestions(
+                    questions.map(q =>
+                      q.id === questionId
+                        ? {
+                            ...q,
+                            choices: q.choices.map(c =>
+                              c.id === choiceId ? { ...c, text } : c,
+                            ),
+                          }
+                        : q,
+                    ),
+                  );
+                }}
+                addChoice={addChoice}
+                removeChoice={removeChoice}
               />
-
-              {question.choices.map(choice => (
-                <ChoiceItem
-                  key={choice.id}
-                  choice={choice}
-                  questionId={question.id}
-                  handleChoiceCheck={handleChoiceCheck}
-                  handleChoiceChange={(questionId, choiceId, text) => {
-                    setQuestions(
-                      questions.map(q =>
-                        q.id === questionId
-                          ? {
-                              ...q,
-                              choices: q.choices.map(c =>
-                                c.id === choiceId ? { ...c, text } : c,
-                              ),
-                            }
-                          : q,
-                      ),
-                    );
-                  }}
-                  addChoice={addChoice}
-                  removeChoice={removeChoice}
-                />
-              ))}
-            </div>
-          ))
-        )}
+            ))}
+          </div>
+        ))}
 
         <WarningModal
           isOpen={warningModal.isOpen}
@@ -236,4 +245,4 @@ const CreateQuestionGroup: React.FC = () => {
     </div>
   );
 };
-export default React.memo(CreateQuestionGroup);
+export default CreateQuestionGroup;

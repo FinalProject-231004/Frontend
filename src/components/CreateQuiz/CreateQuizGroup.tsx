@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { quizAtom } from '@/recoil/atoms/quizAtom';
 import { toast } from 'react-toastify';
@@ -17,6 +17,7 @@ const CreateQuizGroup: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [quiz, setQuiz] = useRecoilState(quizAtom);
+  const [isLoading, setIsLoading] = useState(false);
   const warningModal = useModalState();
 
   const handleImageUpload = async (file: File) => {
@@ -37,6 +38,7 @@ const CreateQuizGroup: React.FC = () => {
   });
 
   const submitQuiz = async () => {
+    setIsLoading(true);
     try {
       const formData = new FormData();
 
@@ -46,9 +48,9 @@ const CreateQuizGroup: React.FC = () => {
       }
 
       const token = localStorage.getItem('Authorization');
-
       if (!token) {
         toast.error('로그인이 필요합니다.');
+        setIsLoading(false);
         return;
       }
 
@@ -74,8 +76,20 @@ const CreateQuizGroup: React.FC = () => {
       navigate(`/create-quiz/questions/${quizId}`);
     } catch (error) {
       toast.error('퀴즈 생성에 실패했어요. 😱 다시 시도해 주세요.');
+    } finally {
+      setIsLoading(false);
     }
   };
+  useEffect(() => {
+    return () => {
+      setQuiz({
+        title: '',
+        content: '',
+        category: '',
+        image: null,
+      });
+    };
+  }, []);
 
   // '세부 질문 만들기' 버튼 클릭 시 호출되는 함수
   const handleNavigation = async () => {
@@ -177,11 +191,11 @@ const CreateQuizGroup: React.FC = () => {
           }
         />
       </div>
-      <BottomLongButton onClick={handleNavigation}>
-        세부 질문 만들기
+      <BottomLongButton onClick={handleNavigation} disabled={isLoading}>
+        {isLoading ? '제출 중...' : '세부 질문 만들기'}
       </BottomLongButton>
     </div>
   );
 };
 
-export default React.memo(CreateQuizGroup);
+export default CreateQuizGroup;
