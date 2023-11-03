@@ -11,6 +11,7 @@ type ButtonsProps = {
   btnhoverbg: string;
   btnactivebg: string;
   borderradius: string;
+  type?: 'button' | 'submit';
   onClick: () => void;
 };
 
@@ -24,6 +25,7 @@ export default function CustomizedButtons({
   btnactivebg,
   borderradius,
   onClick,
+  type = 'button',
 }: ButtonsProps) {
   const fontFamily = "'TmoneyRoundWind', sans-serif";
 
@@ -55,6 +57,7 @@ export default function CustomizedButtons({
     <Stack spacing={2} direction="row">
       <ColorButton
         style={{ fontFamily }}
+        type={type}
         width={width}
         height={height}
         fontcolor={fontcolor}

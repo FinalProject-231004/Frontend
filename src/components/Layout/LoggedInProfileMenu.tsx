@@ -74,7 +74,7 @@ export default function LoggedInProfileMenu() {
       <Box sx={{ flexGrow: 0 }}>
         {/* <Tooltip title="Open settings"> */}
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt={nickName} src={image || 'public/img/bonobono.png'} />
+          <Avatar alt={nickName} src={image || '/img/bonobono.png'} />
         </IconButton>
         {/* </Tooltip> */}
         <Menu

@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import axios, { AxiosError } from 'axios';
 import { signUpData } from '@/types/header';
+import { validateId, } from '@/hooks/useValidation';
+import { useEnterKey } from '@/hooks/useEnterKey';
+import { ToastContainer, toast } from 'react-toastify';
 
 function SignUpModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -23,7 +26,7 @@ function SignUpModal() {
   const [pwMessage, setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
   // const [checkMsg, setCheckMsg] = useState(true);
-  // const [checkAllMsg, setCheckAllMsg] = useState(true);
+  const [resultMsg, setResultMsg] = useState('');
   // const checkMsgColor = checkMsg ? 'blue' : 'red';
 
   const setLoginModal = useSetRecoilState(loginModalState);
@@ -55,17 +58,16 @@ function SignUpModal() {
   };
   
   // 유효성 검사
-  const validateId = (id: string) => {
-    const pattern = /^[a-z][a-z\d]{3,14}$/;
-    setIsId(pattern.test(id));
-  };
+  // const validateId = (id: string) => {
+  //   const pattern = /^[a-z][a-z\d]{3,14}$/;
+  //   setIsId(pattern.test(id));
+  // };
   const validateNickName = (id: string) => {
     const pattern = /^(?=.*[a-z\uAC00-\uD7A3\d]).{2,5}$/;
     setIsNickName(pattern.test(id));
   };
   const validatePw = (pw: string) => {
-    const pattern =
-      /^(?=.*[a-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
+    const pattern = /^(?=.*[a-z])(?=.*\d)(?=.*\W).{8,20}$/;
     setIsPw(pattern.test(pw));
   };
   const validatepwCheck = (pwCheck: string) => {
@@ -78,21 +80,49 @@ function SignUpModal() {
     }
   };
 
+  const notifySuccess = () => toast.success('회원가입 완료!!🎉', {
+    position: "top-center",
+    autoClose: 1000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });
 
+    type ErrorResponse = {
+      errorMessage: string;
+      // 서버가 반환할 수 있는 다른 속성들...
+    }
 
   const signUp = async (info: signUpData) => {
     try {
       await postAPI('/api/member/signup', info);
       // console.log('Success:', response.data);
-
       setLoginModal(true);
+      notifySuccess();
+      return(
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="colored"
+          />
+      )
     } catch (error: unknown) { 
       if (axios.isAxiosError(error)) {
         // Axios 오류 처리
-        const serverError = error as AxiosError;
+        const serverError = error as AxiosError<ErrorResponse>;
         if (serverError && serverError.response) {
-          // console.error('Error:', serverError.response.data);
-          // setCheckAllMsg(serverError.response.data.message);
+          // console.error('Error:', serverError.response.data.errorMessage);
+          setResultMsg(serverError.response.data.errorMessage);
         }
       } else {
         // console.error('An unexpected error occurred');
@@ -120,12 +150,20 @@ function SignUpModal() {
       nameHandleChange('');
       pwHandleChange('');
       pwCheckHandleChange('');
+      setResultMsg('');
     }
   }, [isOpen]);
 
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    signUp(data);
+  };
+
+  const enterKeyHandler = useEnterKey(handleSubmit);
 
   return (
     <>
@@ -136,10 +174,10 @@ function SignUpModal() {
         height="589px"
         bgColor="#F1F8FF"
       >
-        <div className="flex flex-col justify-around items-center">
+        <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-around items-center">
           <p className="my-[42px] text-[34px] text-blue">회원가입</p>
 
-          <div className="w-[530px] h-[337px] mb-[28px] flex flex-col justify-between">
+          <div className="w-[530px] h-[337px] mb-[9px] flex flex-col justify-between relative">
             <div className="flex justify-between">
               <div className='relative'>
                 <UserInfoInput
@@ -151,12 +189,10 @@ function SignUpModal() {
                   inputVal={idInput}
                   borderColor='none'
                   onChange={e => {
-                    idHandleChange(e.target.value);
-                    validateId(e.target.value);
-                    setIdMessage(
-                      '알파벳 소문자 또는 숫자 포함 4자 이상 15자 이하',
-                    );
-                    // setCheckMsg(false);
+                    const idValue = e.target.value;
+                    idHandleChange(idValue);
+                    setIsId(validateId(idValue)); 
+                    setIdMessage('알파벳 소문자 또는 숫자 포함 4자 이상 15자 이하');
                     if (isId === true) {setIdMessage(''); }
                   }}
                   onKeyDown={(e) => handleTab(e, nickNameInputRef)}
@@ -220,42 +256,48 @@ function SignUpModal() {
                 </div>
               )}
             </div>
-
-            <div className='relative mb-[20px]'>
-              <UserInfoInput
-                ref={pwCheckInputRef}
-                type="password"
-                placeholder="비밀번호 확인"
-                size="medium"
-                focusBorderColor={''}
-                borderColor='none'
-                inputVal={pwCheckInput}
-                onChange={e => {
-                  pwCheckHandleChange(e.target.value);
-                  validatepwCheck(e.target.value);
-                }}
-                onKeyDown={(e) => handleTab(e, null)}
-              />
-              {pwCheckInput.length >= 0 && (
-                <div className="mt-[6px] text-[11.5px] text-red font-hairline absolute right-0">
-                  {pwCheckMessage}
-                </div>
-              )}
+            
+            <div className='relative h-[105px]'>
+              <div className='relative'>
+                <UserInfoInput
+                  ref={pwCheckInputRef}
+                  type="password"
+                  placeholder="비밀번호 확인"
+                  size="medium"
+                  focusBorderColor={''}
+                  borderColor='none'
+                  inputVal={pwCheckInput}
+                  onChange={e => {
+                    pwCheckHandleChange(e.target.value);
+                    validatepwCheck(e.target.value);
+                  }}
+                  onKeyDown={(e) => handleTab(e, null)}
+                />
+                {pwCheckInput.length >= 0 && (
+                  <div className="mt-[6px] text-[12px] text-red font-hairline absolute right-0">
+                    {pwCheckMessage}
+                  </div>
+                )}
+              </div>
+              <div className='absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12px] text-red'>{resultMsg}</div>
             </div>
           </div>
-
-          <CustomizedButtons
-            size="signUp"
-            fontcolor="white"
-            fontSize="21px"
-            BtnName="가입하기"
-            btnbg="#0078ff"
-            btnhoverbg='#0e2958'
-            btnactivebg={''}
-            borderradius="28.5px"
-            onClick={() => {signUp(data)}}
-          />
-        </div>
+          
+          <div className='h-[70px] flex flex-col items-center justify-between relative'>
+            <CustomizedButtons
+              type="submit"
+              size="signUp"
+              fontcolor="white"
+              fontSize="21px"
+              BtnName="가입하기"
+              btnbg="#0078ff"
+              btnhoverbg='#0e2958'
+              btnactivebg={''}
+              borderradius="28.5px"
+              onClick={() => {}}
+            />
+          </div>
+        </form>
       </Modal>
     </>
   );

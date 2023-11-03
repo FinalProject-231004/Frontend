@@ -91,7 +91,7 @@ export default function ChangeNicknameModal() {
               <UserInfoInput
                 inputVal={newNickname}
                 type="text"
-                placeholder="아이디"
+                placeholder="닉네임"
                 size="medium"
                 borderColor="blue"
                 focusBorderColor={''}
