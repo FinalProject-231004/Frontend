@@ -37,11 +37,14 @@ function Header() {
             <Link to="/" style={{ width: '132px' }}>
               <img src="/img/logo.svg" alt="Logo" />
             </Link>
-            <Link onClick={handleQuizCreateClick} to="/create-quiz/details">
+            <Link className='transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
+            onClick={handleQuizCreateClick} to="/create-quiz/details">
               퀴즈만들기
             </Link>
-            <Link to="/mileage-shop">마일리지샵</Link>
-            <Link onClick={preparing} to="">라이브 퀴즈</Link>
+            <Link className='transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
+            to="/mileage-shop">마일리지샵</Link>
+            <Link className='transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
+            onClick={preparing} to="">라이브 퀴즈</Link>
           </div>
           <div className="flex">
             <div className="mr-[25px]">

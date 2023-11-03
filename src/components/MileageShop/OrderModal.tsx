@@ -1,5 +1,5 @@
 import { CustomizedButtons, Modal, UserInfoInput } from '..';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { orderModalProps, orderItemInfo } from '@/types/mileageShop';
 import { postAPI } from '@/apis/axios';
 import { toast } from 'react-toastify';
@@ -12,7 +12,7 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
   const [num, setNum] = useState(1);
   const [checkMsg, setCheckMsg] = useState('');
   const headerRef = useRef<HTMLHeadingElement>(null);
-  const [fontSizeClass, setFontSizeClass] = useState('text-[34px]');
+  // const [fontSizeClass, setFontSizeClass] = useState('text-[34px]');
   const setMileage = useSetRecoilState(userMileageState);
 
   const closeModal = () => {
@@ -52,29 +52,6 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
       }
     }
   }
-    
-  useEffect(() => {
-    const header = headerRef.current;
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { height } = entry.contentRect;
-        if (height > 51) {
-          // 높이가 51px를 초과하면 글자 크기를 작게 조정합니다.
-          setFontSizeClass('text-[24px]');
-        } else {
-          setFontSizeClass('text-[34px]');
-        }
-      }
-    });
-
-    if (header) {
-      resizeObserver.observe(header);
-    }
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
 
   return (
     <Modal
@@ -85,10 +62,13 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
         isOpen={isOpen}
       >
         <div className="h-[390px] flex flex-col justify-center items-center">
-        <h1
-          ref={headerRef}
-          className={`w-[520px] mb-[15px] text-center ${fontSizeClass} text-blue h-[51px] overflow-hidden`}
-        >
+          
+          <h1
+            ref={headerRef}
+            className={`w-[520px] h-auto mb-[15px] text-center text-blue ${
+              itemName.length>18 ? 'text-[24px]' : 'text-[32px]'
+            }`}
+          >
             {itemName}
           </h1>
 
@@ -128,7 +108,7 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
             </div>
           </div>
 
-          <div className="mt-[70px] flex gap-[32px]" >
+          <div className="mt-[62px] flex gap-[32px]" >
             <CustomizedButtons
               size="mileage"
               fontcolor="white"

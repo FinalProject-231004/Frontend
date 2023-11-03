@@ -65,10 +65,10 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
  
         <div className="mt-[19px] flex justify-between items-center">
           <label
-            className="text-blue-600 hover:underline cursor-pointer"
+            className=" hover:border-blue hover:text-blue border-b-2 text-[20px] cursor-pointer"
             htmlFor="profileImg"
           >
-            프로필 사진 변경
+            이미지 변경
           </label>
           <input
             className="hidden"
@@ -80,7 +80,7 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
             ref={fileInputRef}
           />
           <button
-            className="text-blue-600 border border-blue-600 rounded px-2 hover:bg-blue hover:text-white"
+            className="w-[59px] h-[26px] ml-[10px] text-blue-600 border border-blue-600 rounded px-2 hover:bg-blue hover:text-white"
             onClick={putProfile}
           >
             저장

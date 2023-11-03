@@ -5,6 +5,7 @@ import { useModalState } from '@/hooks';
 
 export default function GifticonList({image, itemName, price, itemId}:gifticonListProps) {
   const orderModal = useModalState();
+  const formattedPrice = price.toLocaleString('ko-KR');
   
   return (
     <>
@@ -14,7 +15,7 @@ export default function GifticonList({image, itemName, price, itemId}:gifticonLi
         </div>
         <div>
           <p className='text-[18px] mb-[6px]'>{itemName}</p>
-          <p className='text-[24px] text-blue'>{price}M</p>
+          <p className='text-[24px] text-blue'>{formattedPrice} M</p>
         </div>
       </div>
       <OrderModal itemId={itemId} itemName={itemName} price={price} isOpen={orderModal.isOpen} close={orderModal.close} />
