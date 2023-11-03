@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Quiz } from '@/types/homeQuiz';
 
+const quizCache: Record<string, Quiz[]> = {};
+
 export const useFetchQuiz = (url: string) => {
   const [quiz, setQuiz] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -9,13 +11,19 @@ export const useFetchQuiz = (url: string) => {
 
   useEffect(() => {
     const fetchQuiz = async () => {
-      try {
-        const response = await axios.get(url);
-        setQuiz(response.data);
+      if (quizCache[url]) {
+        setQuiz(quizCache[url]);
         setLoading(false);
-      } catch (error) {
-        // console.error(`${url}로부터 퀴즈 가져오는데 실패함 💩:`, error);
-        setError(error as AxiosError);
+      } else {
+        try {
+          const response = await axios.get(url);
+          const data = response.data;
+          quizCache[url] = data;
+          setQuiz(data);
+          setLoading(false);
+        } catch (error) {
+          setError(error as AxiosError);
+        }
       }
     };
 
