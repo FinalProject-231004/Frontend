@@ -103,8 +103,9 @@ const Sse = () => {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title={newAlert?.length === 0 ? 'Noting' : 'Check it out'}>
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size="large" aria-label="show new notifications" color="inherit">
-            <Badge badgeContent={newAlert.length} color="error"> 
-              <NotificationsIcon />
+            <Badge badgeContent={newAlert.length} color="primary"> 
+              {/* <NotificationsIcon /> */}
+              <img className='w-[33px] h-[36px]' src='/img/alertIcon.svg' alt='alertIcon' />
             </Badge>
           </IconButton>
         </Tooltip>
