@@ -96,7 +96,7 @@ function SignInModal() {
   return (
     <>
       <button
-        className="w-[84.77px] h-[36px] rounded-[18px] text-blue border border-[#0078ff]"
+        className="w-[84.77px] h-[36px] rounded-[18px] text-blue border border-[#0078ff] hover:bg-blue hover:text-white"
         onClick={openModal}
       >
         로그인
