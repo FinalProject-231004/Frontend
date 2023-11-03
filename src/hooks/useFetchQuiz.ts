@@ -8,21 +8,33 @@ export const useFetchQuiz = (url: string) => {
   const [error, setError] = useState<AxiosError | null>(null);
 
   useEffect(() => {
+    let cancelRequest = false;
+    const cancelToken = axios.CancelToken.source();
+
     const fetchQuiz = async () => {
       try {
-        const response = await axios.get(url);
-        setQuiz(response.data);
-        setLoading(false);
+        const response = await axios.get(url, {
+          cancelToken: cancelToken.token,
+        });
+        if (!cancelRequest) {
+          setQuiz(response.data);
+          setLoading(false);
+        }
       } catch (error) {
-        // console.error(`${url}로부터 퀴즈 가져오는데 실패함 💩:`, error);
-        setError(error as AxiosError);
+        if (!cancelRequest) {
+          setError(error as AxiosError);
+        }
       }
     };
 
     fetchQuiz();
+
+    return () => {
+      cancelRequest = true;
+      cancelToken.cancel();
+    };
   }, [url]);
 
   return { quiz, loading, error };
 };
-
 export default useFetchQuiz;

@@ -29,13 +29,6 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     useHorizontalScroll(questionButtonContainerRef);
 
     useEffect(() => {
-      if (questions.length > 0) {
-        setQuestions(questions); // Recoil 상태 업데이트
-      }
-    }, [questions, setQuestions]);
-
-    useEffect(() => {
-      // questions 배열이 비어있거나 첫 번째 문항의 quizChoices 길이가 2 미만인 경우
       if (
         questions.length === 0 &&
         questions[0] &&
@@ -77,9 +70,6 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
         // console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          // console.error(
-          //   '서버에 데이터를 보내는 데 실패했습니다:',
-          //   error.response?.data,
           // );
         } else if (error instanceof Error) {
           // console.error('예상치 못한 오류가 발생했습니다:', error.message);
@@ -99,11 +89,11 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
                 ...q,
                 quizChoices: q.quizChoices.map(c => ({
                   ...c,
-                  checked: c.id === choiceId, // 현재 선택된 질문의 경우, 선택된 선택지만 체크
+                  checked: c.id === choiceId,
                 })),
               };
             }
-            return q; // 다른 질문은 변경하지 않음
+            return q;
           }),
         );
       },
@@ -127,7 +117,6 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
       }
     };
 
-    // 로딩 상태에 따른 조건부 렌더링
     if (loading) {
       return <div>Loading...</div>;
     }
