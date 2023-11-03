@@ -7,11 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-const HomeBanner: React.FC<{
-  selectAnimalCategory: () => void;
-  selectFoodCategory: () => void;
-  selectPersonCategory: () => void;
-}> = ({ selectAnimalCategory, selectFoodCategory, selectPersonCategory }) => {
+const HomeBanner: React.FC = () => {
   const navigate = useNavigate();
   return (
     <div className="w-[1080px] h-[285px] mt-[102px] flex justify-center items-center">
@@ -35,8 +31,7 @@ const HomeBanner: React.FC<{
               <button
                 className="w-[266px] h-[57px] rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm shadow-green-600"
                 onClick={() => {
-                  navigate('/quiz/categories?selected=ANIMAL');
-                  selectAnimalCategory();
+                  navigate(`/quiz/categories/ANIMAL`);
                 }}
               >
                 <img src="/BannerBtn01.png" alt="BannerBtn" />
@@ -51,8 +46,7 @@ const HomeBanner: React.FC<{
             <button
               className="w-[266px] h-[57px] rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm shadow-yellow-500"
               onClick={() => {
-                navigate('/quiz/categories?selected=FOOD');
-                selectFoodCategory();
+                navigate(`/quiz/categories/FOOD`);
               }}
             >
               <img src="/BannerBtn02.png" alt="BannerBtn" />
@@ -64,7 +58,7 @@ const HomeBanner: React.FC<{
             <button
               className="w-[299px] h-[57px] rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm shadow-purple-900"
               onClick={() => {
-                navigate('/quiz/categories');
+                navigate(`/quiz/categories/`);
               }}
             >
               <img src="/BannerBtn03.png" alt="BannerBtn" />
@@ -78,8 +72,7 @@ const HomeBanner: React.FC<{
             <button
               className="w-[266px] h-[57px] rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm shadow-orange-500"
               onClick={() => {
-                navigate('/quiz/categories?selected=PERSON');
-                selectPersonCategory();
+                navigate(`/quiz/categories/PERSON`);
               }}
             >
               <img src="/BannerBtn04.png" alt="BannerBtn" />

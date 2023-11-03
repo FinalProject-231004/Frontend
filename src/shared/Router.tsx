@@ -26,7 +26,10 @@ type ConditionalLayoutProps = {
 
 const ConditionalLayout: React.FC<ConditionalLayoutProps> = ({ children }) => {
   const location = useLocation();
-  if (location.pathname === '/mypage/verify-password' || location.pathname === '/kakao/first-login') {
+  if (
+    location.pathname === '/mypage/verify-password' ||
+    location.pathname === '/kakao/first-login'
+  ) {
     return children;
   }
   return <Layout>{children}</Layout>;
@@ -41,6 +44,10 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/quiz/:id" element={<DetailPage />} />
           <Route path="/quiz/categories" element={<AllQuizCategories />} />
+          <Route
+            path="/quiz/categories/:categoryId"
+            element={<AllQuizCategories />}
+          />
           <Route path="/login/kakao" element={<Auth />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
           <Route path="/mileage-shop" element={<MileageShop />} />
