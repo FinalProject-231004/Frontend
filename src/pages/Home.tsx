@@ -23,7 +23,17 @@ const Home: React.FC = () => {
   return (
     <div className="w-screen min-h-[1080px] mx-auto">
       <div className="w-[1080px] mx-auto">
-        <HomeBanner />
+        <HomeBanner
+          selectAnimalCategory={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          selectFoodCategory={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          selectPersonCategory={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+        />
 
         <QuizCategorySection title="🆕 최신 퀴즈" quiz={allQuizzes} />
 
