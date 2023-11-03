@@ -66,7 +66,7 @@ export default function TokenRefresher() {
           else{
             localStorage.clear();
             navigate("/"); 
-            window.alert("토큰이 만료되어 자동으로 로그아웃 되었습니다.")
+            // window.alert("토큰이 만료되어 자동으로 로그아웃 되었습니다.")
           }
         }
         else if(status == 400 || status == 404 || status == 409) {
