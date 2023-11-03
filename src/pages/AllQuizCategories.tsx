@@ -3,96 +3,52 @@ import { categories } from '@/constants/categories';
 import React from 'react';
 import axios from 'axios';
 import { HomeBanner, QuizCategorySection } from '@/components';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const AllQuizCategories: React.FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const selected = params.get('selected');
-    if (selected === 'ANIMAL') {
-      selectAnimalCategory();
-    }
-    if (selected === 'FOOD') {
-      selectFoodCategory();
-    }
-    if (selected === 'PERSON') {
-      selectPersonCategory();
-    } else {
-      fetchCategories('MOVIE_TV');
-    }
-  }, [location.search]);
-
   const [quizzes, setQuizzes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     'MOVIE_TV',
   );
   const [, setCategoryState] = useState(categories);
-  const getToken = () => localStorage.getItem('Authorization');
 
-  const fetchCategories = async (category: string) => {
+  useEffect(() => {
+    const pathSegments = location.pathname.split('/');
+    const currentCategory = pathSegments[pathSegments.length - 1];
+    if (
+      currentCategory &&
+      categories.some(c => c.category === currentCategory)
+    ) {
+      setSelectedCategory(currentCategory);
+      fetchCategories(currentCategory);
+    } else {
+      setSelectedCategory('MOVIE_TV');
+      fetchCategories('MOVIE_TV');
+    }
+  }, [location]); // Depend on location
+
+  const fetchCategories = async (categories: string) => {
     try {
-      const token = getToken();
-
-      let headers: {
-        'Content-Type': string;
-        Authorization?: string;
-      } = {
-        'Content-Type': 'application/json',
-      };
-
-      if (token) {
-        headers = {
-          ...headers,
-          Authorization: `Bearer ${token}`,
-        };
-      }
-
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/category`,
-        {
-          category: category,
-        },
-        {
-          headers: headers,
-        },
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_APP_GENERATED_SERVER_URL
+        }/api/quiz/category/${categories}`,
       );
-      setCategoryState(response.data.categories);
+      setCategoryState(response.data[0].category);
       setQuizzes(response.data);
     } catch (error) {
-      // console.error(error);
+      console.error(error);
     }
-  };
-
-  // 컴포넌트가 마운트될 때 '영화/TV' 카테고리의 데이터를 자동으로 가져오게하기
-  // useEffect(() => {
-  //   fetchCategories('MOVIE_TV');
-  // }, []);
-
-  const selectAnimalCategory = () => {
-    setSelectedCategory('ANIMAL');
-    fetchCategories('ANIMAL');
-  };
-  const selectFoodCategory = () => {
-    setSelectedCategory('FOOD');
-    fetchCategories('FOOD');
-  };
-
-  const selectPersonCategory = () => {
-    setSelectedCategory('PERSON');
-    fetchCategories('PERSON');
   };
 
   return (
     <div className="max-w-[1080px] mx-auto">
       <div className="hidden">
-        <HomeBanner
-          selectAnimalCategory={selectAnimalCategory}
-          selectFoodCategory={selectFoodCategory}
-          selectPersonCategory={selectPersonCategory}
-        />
+        <HomeBanner />
       </div>
+      <div className="hidden"></div>
       <h2 className="title">전체 카테고리</h2>
       <div className="w-full h-[134px] grid grid-cols-5 gap-x-5 py-4 pl-[65px] my-5 justify-items-start rounded-md bg-[#F1F8FF] text-lg font-extrabold">
         {categories.map(category => (
@@ -109,6 +65,7 @@ const AllQuizCategories: React.FC = () => {
               onClick={() => {
                 setSelectedCategory(category.category);
                 fetchCategories(category.category);
+                navigate(`/quiz/categories/${category.category}`);
               }}
             >
               {category.displayName}
