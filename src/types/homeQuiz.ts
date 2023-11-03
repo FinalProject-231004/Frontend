@@ -1,4 +1,4 @@
-import { Comments } from './result';
+import { Comments, QuizInfoProps } from './result';
 
 export type Banner = {
   image: string;
@@ -36,6 +36,7 @@ export interface LikesState {
 
 export type DetailPageCompProps = {
   id: number;
+  quizDetail: QuizInfoProps & QuizDetail;
 };
 
 export type QuizDetail = {

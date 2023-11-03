@@ -10,10 +10,9 @@ const CommentList: React.FC<CommentProps> = ({
   commentData,
   isLastComment,
 }) => {
-  console.log(commentData);
   return (
     <div className="w-full flex mb-7 justify-center items-center">
-      <img src="/profile.png" className="w-[60px]" alt={`profile`} />
+      <img src="/profile.png" className="w-[60px]" alt={commentData.nickname} />
       <div className="w-full ml-4">
         <div className="flex justify-between items-center">
           <div className="flex mb-1 text-sm px-2 justify-start items-center rounded-md bg-blue text-white">

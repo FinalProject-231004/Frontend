@@ -14,7 +14,7 @@ export const useFetchQuiz = (url: string) => {
         setQuiz(response.data);
         setLoading(false);
       } catch (error) {
-        console.error(`${url}로부터 퀴즈 가져오는데 실패함 💩:`, error);
+        // console.error(`${url}로부터 퀴즈 가져오는데 실패함 💩:`, error);
         setError(error as AxiosError);
       }
     };
