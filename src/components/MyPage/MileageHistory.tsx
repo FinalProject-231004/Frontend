@@ -1,4 +1,4 @@
-// import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userMileageState } from '@/recoil/atoms/userInfoAtom';
@@ -14,8 +14,8 @@ import { CurrentDate } from '../index';
 import './MileageHistory.css';
 
 export default function MileageHistory() {
-  // const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('usage');
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('reward');
   const [usageHistory, setUsageHistory] = useState<
     mileageUsingHistory[] | null
   >(null);
@@ -77,7 +77,7 @@ export default function MileageHistory() {
           </div>
           <button
             className="w-[347px] h-[72px] border-0 rounded-[6px] cursor-pointer bg-blue text-white text-[24px]"
-            // onClick={()=>navigate('/mileageShop')}
+            onClick={()=>navigate('/mileage-shop')}
           >
             내 마일리지 사용하러 가기
           </button>
@@ -123,7 +123,7 @@ export default function MileageHistory() {
                 itemName={item.description}
                 quantity={null}
                 email=""
-                date={item.date}
+                date={item.date.split('T')[0]}
               />
             ))
           ) : (
@@ -141,7 +141,7 @@ export default function MileageHistory() {
                 itemName={item.itemName}
                 quantity={item.quantity}
                 email={item.email}
-                date={item.orderedAt}
+                date={item.orderedAt.split('T')[0]}
               />
             ))
           ) : (
