@@ -29,7 +29,7 @@ export default function DeleteAccount() {
       setIsLoggedIn(false);
       navigate('/');
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
       setPwMessage('비밀번호가 일치하지 않습니다');
       setIsPw(true);
     }
