@@ -148,10 +148,10 @@ const Sse = () => {
                     <MenuItem className='w-full' onClick={handleCloseUserMenu}>
                       <Typography className={`mx-[10px] mt-[10px] flex justify-between items-center border-b-2 w-[500px] pb-[8px] ${isFirstItem ? 'border-blue' : 'border-navy'}`} textAlign="center">
                         <span className={`text-[18px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>{note.content}</span>
-                        <div className='flex items-center'>
+                        <span className='flex items-center'>
                           <span className={`text-[18px] mr-[6px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>{timeReceived}</span>
                           <button className={`text-[24px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>×</button>
-                        </div>
+                        </span>
                       </Typography>
                     </MenuItem>
                   </div> 
