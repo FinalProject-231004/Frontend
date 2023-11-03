@@ -96,14 +96,14 @@ export default function VerifyPassword() {
   return (
     <div className="w-screen min-h-[1080px] mx-auto flex justify-center items-center">
       <div className="w-[896px] h-[599px] mx-auto flex flex-col justify-center items-center">
-        <div className="mt-24 mb-[68px] flex flex-col justify-center items-center">
+        <div className="mt-24 mb-[12px] flex flex-col justify-center items-center">
           <h1 className='text-[32px] text-blue '>비밀번호 재확인</h1>
           {/* <p className='mt-2  text-center text-deep_dark_gray'>
             회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번
             확인해주세요.
           </p> */}
         </div>
-        <div className="flex flex-col justify-center items-center gap-[110px]">
+        <div className="flex flex-col justify-center items-center gap-[46px]">
           <div className="w-full py-16 flex flex-col justify-center items-center gap-[64px]">
             <div className="w-[896px] flex flex-col justify-between items-center">
               <p className="w-full text-2xl mb-[12px]">아이디</p>
