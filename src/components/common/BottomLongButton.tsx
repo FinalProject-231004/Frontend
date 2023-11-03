@@ -3,6 +3,7 @@ import React from 'react';
 type BottomLongButtonProps = {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
+  disabled?: boolean;
 };
 const BottomLongButton: React.FC<BottomLongButtonProps> = ({
   onClick,
