@@ -22,7 +22,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
     if (storedToken) setToken(storedToken);
   }, [setToken]);
 
-  // useMemo가 마운트 될 때 단 한번만 실행되어야 함!
   const client = useMemo(() => axios.create(), []);
 
   axiosRetry(client, {
@@ -34,6 +33,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   });
 
   const fetchComments = useCallback(async () => {
+    if (!quizId) {
+      toast.warn(
+        '😥 댓글 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요',
+      );
+      return;
+    }
     try {
       const response = await client.get(
         `${
@@ -42,8 +47,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
       );
       setComments(response.data.data);
     } catch (error) {
-      console.error('댓글 목록 가져오기 실패', error);
-      toast.error('댓글 목록을 가져오는데 실패했습니다. 😥');
+      toast.error(
+        '😥 댓글 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요',
+      );
     }
   }, [client, quizId, setComments]);
 
@@ -75,7 +81,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
-      fetchComments(); // 댓글 추가 후, 댓글 목록 다시 가져오기
+      fetchComments();
       setNewComment('');
     } catch (error: unknown) {
       const axiosError = error as AxiosError;

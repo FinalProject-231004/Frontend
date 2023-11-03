@@ -22,6 +22,7 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
     Number(id),
     quizDetail?.likes || 0,
   );
+
   if (!quizDetail) return null;
 
   return (
