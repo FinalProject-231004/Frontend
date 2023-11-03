@@ -25,6 +25,10 @@ function Header() {
     }
   };
 
+  const preparing = () =>{
+    toast.warning('⚒️준비중인 서비스입니다!!⚒️ 💙우리 조만간 만나요🤗💙');
+  }
+
   return (
     <div className="w-screen mx-auto">
       <div className="w-screen h-[72px] mx-auto justify-center fixed top-0 bg-white flex items-center shadow-sm z-[999]">
@@ -37,7 +41,7 @@ function Header() {
               퀴즈만들기
             </Link>
             <Link to="/mileage-shop">마일리지샵</Link>
-            {/* <Link to="">라이브 퀴즈</Link> */}
+            <Link onClick={preparing} to="">라이브 퀴즈</Link>
           </div>
           <div className="flex">
             <div className="mr-[25px]">
