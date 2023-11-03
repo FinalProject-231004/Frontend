@@ -77,8 +77,6 @@ export const useLike = (id: number, initialLikes: number) => {
 
   // 좋아요 버튼 클릭 핸들러
   const handleLike = () => {
-    console.log('좋아요 버튼 클릭 전 -> 현재 좋아요 상태:', isLiked);
-    console.log('좋아요 버튼 클릭 전 -> 현재 좋아요 수:', likes);
     mutation.mutate();
   };
 
