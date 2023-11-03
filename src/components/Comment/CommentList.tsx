@@ -33,4 +33,4 @@ const CommentList: React.FC<CommentProps> = ({
   );
 };
 
-export default React.memo(CommentList);
+export default CommentList;

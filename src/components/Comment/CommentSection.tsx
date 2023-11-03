@@ -13,6 +13,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useRecoilState(commentsState);
   const [token, setToken] = useRecoilState(tokenState);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const rawToken = localStorage.getItem('Authorization');
@@ -20,7 +21,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
       ? rawToken.slice('Bearer '.length)
       : rawToken;
     if (storedToken) setToken(storedToken);
-  }, [setToken]);
+  }, []);
 
   const client = useMemo(() => axios.create(), []);
 
@@ -33,7 +34,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
     }
     try {
       axiosRetry(client, {
-        retries: 5,
+        retries: 1,
         retryDelay: retryCount => retryCount * 1000,
         retryCondition: error =>
           error.response?.status === 429 ||
@@ -54,9 +55,14 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   }, [client, quizId, setComments]);
 
   useEffect(() => {
-    fetchComments();
-    return () => setComments([]);
-  }, [quizId, fetchComments, setComments]);
+    fetchComments()
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
+  }, [fetchComments]);
+
+  if (loading) {
+    return <div className="hidden">Loading...</div>;
+  }
 
   const handleNewCommentChange = (
     event: React.ChangeEvent<HTMLInputElement>,
