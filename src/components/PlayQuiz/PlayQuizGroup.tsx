@@ -67,7 +67,6 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
             headers: headers,
           },
         );
-        // console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           // );
