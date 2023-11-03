@@ -1,8 +1,10 @@
 import { putAPI } from '@/apis/axios';
 import { CustomizedButtons, Modal, UserInfoInput } from '@/components';
 import { useState } from 'react';
-import { putData } from '@/types/myPage';
+import { changedPw } from '@/types/myPage';
+import { validatePw } from '@/hooks/useValidation'
 import { useModalState } from '@/hooks';
+import { toast } from 'react-toastify';
 
 export default function ChangePwModal() {
   const newPwModal = useModalState();
@@ -13,26 +15,23 @@ export default function ChangePwModal() {
   const [isPwCheck, setIsPwCheck] = useState(false);
   const [pwMessage, setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
-  const [allCheckMessag, setAllCheckMessag] = useState('');
+  // const [allCheckMessag, setAllCheckMessag] = useState('');
 
   const data = {
-    newPassword: checkPw,
+    newPassword: updatePw,
+    newCheckPassword: checkPw,
   };
 
-  const putPw = async (pw: putData) => {
+  const putPw = async (pw: changedPw) => {
     try {
       await putAPI('/api/member/update/password', pw);
       // console.log(response);
+      toast.success('비밀번호 변경 완료!!');
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const validatePw = (pw: string) => {
-    const pattern =
-      /^(?=.*[a-z\d!@#$%^&*()_+\-=[\]{}|;:"<>,.?/~`])(?!.*\s).{8,20}$/;
-    setIsPw(pattern.test(pw));
-  };
   const validatepwCheck = (pwCheck: string) => {
     if (pwCheck === updatePw) {
       setIsPwCheck(true);
@@ -45,7 +44,7 @@ export default function ChangePwModal() {
 
   const saveBtnHandler = () => {
     if (!isPw || !isPwCheck) {
-      setAllCheckMessag('입력값을 확인해주세요.');
+      setPwCheckMessage('입력값을 확인해주세요.');
       return;
     }
     putPw(data);
@@ -75,42 +74,47 @@ export default function ChangePwModal() {
         bgColor="#F1F8FF"
         isOpen={newPwModal.isOpen}
       >
-        <div className="h-[442px] flex flex-col justify-center items-center">
-          <h1 className="mb-[46px] text-[34px] text-blue">비밀번호 변경하기</h1>
+        <div className="h-[442px] flex flex-col justify-center items-center gap-[31px]">
+          <h1 className="text-[34px] text-blue">비밀번호 변경하기</h1>
 
-          <div className="relative flex justify-center items-center z-10">
-            <UserInfoInput
-              inputVal={updatePw}
-              type="password"
-              placeholder="비밀번호"
-              size="medium"
-              borderColor="blue"
-              focusBorderColor={''}
-              onChange={e => {
-                setUpdatePw(e.target.value);
-                validatePw(e.target.value);
-                setPwMessage(
-                  '영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하',
-                ); //알파벳 대소문자 숫자 특수문자
-                if (isPw === true) setPwMessage('');
-              }}
-            />
+          <div className='relative' >
+            <div className="relative flex justify-center items-center">
+              <UserInfoInput
+                inputVal={updatePw}
+                type="password"
+                placeholder="비밀번호"
+                size="medium"
+                borderColor="blue"
+                focusBorderColor={''}
+                onChange={e => {
+                  setUpdatePw(e.target.value);
+                  setIsPw(validatePw(e.target.value));
+                  setPwMessage(
+                    '영소문자/숫자/특수문자 각각 1가지 이상 포함 8자리 이상 20자리 이하',
+                  ); 
+                  if (isPw === true) setPwMessage('');
+                }}
+              />
 
-            {isPw ? (
-              <i className="fa-regular fa-circle-check absolute top-18 right-[17px] h-[37px] w-[37px] text-[37px] text-blue z-20"></i>
-            ) : (
-              <i className="fa-regular fa-circle-xmark absolute top-18 right-[17px] h-[37px] w-[37px] text-[37px] text-[#F92316] z-20"></i>
-            )}
+              {isPw ? (
+                <i className="fa-regular fa-circle-check absolute top-18 right-[17px] h-[37px] w-[37px] text-[37px] text-blue z-20"></i>
+              ) : (
+                <i className="fa-regular fa-circle-xmark absolute top-18 right-[17px] h-[37px] w-[37px] text-[37px] text-[#F92316] z-20"></i>
+              )}
+            </div>
+
+            <div className='w-[530px]'>
+              {updatePw.length > 0 && isPw===false && (
+                <div className="mt-1 text-[16px] text-[#F92316] font-hairline absolute right-0">
+                  {pwMessage}
+                </div>
+              )}
+            </div>
+
           </div>
-          <div>
-            {updatePw.length > 0 && (
-              <div className="my-[6px] text-[16px] text-[#F92316] font-hairline">
-                {pwMessage}
-              </div>
-            )}
-          </div>
+          
 
-          <div className="mt-[10px] relative flex justify-center items-center z-10">
+          <div className="relative flex flex-col">
             <UserInfoInput
               inputVal={checkPw}
               type="password"
@@ -123,16 +127,20 @@ export default function ChangePwModal() {
                 validatepwCheck(e.target.value);
               }}
             />
-          </div>
-          {checkPw.length > 0 && (
-            <div className="text-[16px] my-[6px] text-[#F92316] font-hairline">
-              {pwCheckMessage}
-            </div>
-          )}
 
-          <div className="text-xs text-center mb-2 text-white">
-            {allCheckMessag}
+            <div className='w-[530px]'>
+              {checkPw.length > 0 && (
+                <div className="mt-1 text-[16px] text-[#F92316] font-hairline absolute right-0">
+                  {pwCheckMessage}
+                </div>
+              )}
+            </div>
+
           </div>
+          
+          {/* <div className="text-xs text-center mb-2 text-white">
+            {allCheckMessag}
+          </div> */}
 
           <CustomizedButtons
             size="large"

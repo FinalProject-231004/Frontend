@@ -8,11 +8,12 @@ type UserInfoInputProps = {
   size: string;
   borderColor: string;
   focusBorderColor: string;
+  disabled?: boolean;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const UserInfoInput = React.forwardRef<HTMLInputElement, UserInfoInputProps>(
-  ({ inputVal, onChange, type, placeholder, size, focusBorderColor, borderColor, onKeyDown }, ref) => {
+  ({ inputVal, onChange, type, placeholder, size, focusBorderColor, borderColor, disabled, onKeyDown }, ref) => {
 
      let widthClass: string = '';
 
@@ -22,6 +23,8 @@ const UserInfoInput = React.forwardRef<HTMLInputElement, UserInfoInputProps>(
     widthClass = 'w-[530px]'; 
   } else if (size === 'large') {
     widthClass = 'w-[765px]'; 
+  } else if (size === 'xl') {
+    widthClass = 'w-[895px]'; 
   } 
 
 const borderClass = borderColor === 'none' ? 'border-none' : `border-${borderColor}`;
@@ -38,6 +41,7 @@ const dynamicClasses = `${widthClass} ${borderClass} focus:border-${focusBorderC
             type={type}
             placeholder={placeholder}
             value={inputVal}
+            disabled={disabled}
             onKeyDown={onKeyDown}
             onChange={onChange}
           />
