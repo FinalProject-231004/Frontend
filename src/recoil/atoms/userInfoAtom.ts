@@ -12,3 +12,8 @@ export const userMileageState = atom<number>({
   key: 'userMileageState',
   default: 0,
 });
+
+export const attendanceState = atom({
+  key: 'attendanceState',
+  default: false,
+});
