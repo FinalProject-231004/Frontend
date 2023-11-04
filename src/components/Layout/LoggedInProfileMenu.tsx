@@ -54,6 +54,7 @@ export default function LoggedInProfileMenu() {
   const handleLogOut = () => {
     logOut();
     setIsLoggedIn(false);
+    navigate('/');
   };
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {

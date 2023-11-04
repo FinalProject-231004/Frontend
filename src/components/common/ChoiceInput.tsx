@@ -13,7 +13,6 @@ const ChoiceInput: React.FC<ChoiceInputProps> = React.memo(
   ({ checked, children, onCheck }) => {
     const handleChange = () => {
       onCheck(!checked);
-      // console.log('선택된 choiceId:', choiceId);
     };
 
     return (
