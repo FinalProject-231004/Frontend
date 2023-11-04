@@ -116,7 +116,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     };
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <div className="hidden">Loading...</div>;
     }
 
     return (
