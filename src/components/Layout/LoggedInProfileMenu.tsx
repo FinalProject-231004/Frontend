@@ -1,5 +1,5 @@
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -17,6 +17,7 @@ import { logOut } from '@/utils/authHelpers';
 import {
   userMileageState,
   userNickNameState,
+  userProfileImgState,
 } from '@/recoil/atoms/userInfoAtom';
 
 const fontFamily = "'TmoneyRoundWind', sans-serif";
@@ -27,10 +28,12 @@ export default function LoggedInProfileMenu() {
     null,
   ); // 사용자 메뉴를 표시
   const [nickName, setNickName] = useState('');
-  const [image, setImage] = useState('');
+  // const [image, setImage] = useState('');
   const [mileage, setMileage] = useState(0);
+  const [image, setImage] = useRecoilState(userProfileImgState);
   const setUserNickname = useSetRecoilState(userNickNameState);
   const setUserMileage = useSetRecoilState(userMileageState);
+  
 
   const navigate = useNavigate();
 
