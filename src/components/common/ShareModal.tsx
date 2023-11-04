@@ -9,10 +9,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 }) => {
   const handleCopyLink = () => {
     const baseURL = window.location.origin;
-    const shareURL =
-      pathType === 'detail'
-        ? `${baseURL}/quiz/${id}`
-        : `${baseURL}/quiz/result/${id}`;
+    const shareURL = `${baseURL}/quiz/${id}`;
     navigator.clipboard.writeText(shareURL).then(() => {
       toast.success('링크 복사 완료! 🤗');
       closeModal();
