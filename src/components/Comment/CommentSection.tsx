@@ -27,9 +27,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
 
   const fetchComments = useCallback(async () => {
     if (!quizId) {
-      toast.warn(
-        '😥 댓글 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요',
-      );
       return;
     }
     try {
