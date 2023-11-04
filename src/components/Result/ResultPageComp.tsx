@@ -63,7 +63,7 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
         <QuizCustomButton
           theme="blue"
           onClick={() => {
-            navigate(`/play-quiz/${id}`);
+            navigate(`/`);
           }}
         >
           메인으로
