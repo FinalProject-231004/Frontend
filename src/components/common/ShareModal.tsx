@@ -21,7 +21,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
   const shareKakaoLink = (pathType: string) => {
     const Url = pathType === 'detail' ? `quiz/${id}` : `quiz/${id}`;
-    console.log(Url);
+    // console.log(Url);
     window.Kakao.Share.sendCustom({
       templateId: 100262,
       templateArgs: {
