@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { userMileageState } from '@/recoil/atoms/userInfoAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { attendanceState, userMileageState } from '@/recoil/atoms/userInfoAtom';
 import HistoryList from './HistoryList';
 import { getAPI } from '@/apis/axios';
 import {
@@ -24,6 +24,7 @@ export default function MileageHistory() {
   >(null);
 
   const mileageValue = useRecoilValue(userMileageState);
+  const [hasAttended, setHasAttended] = useRecoilState(attendanceState)
 
   const MileageUsage = async () => {
     try {
@@ -60,6 +61,18 @@ export default function MileageHistory() {
     };
     fetchData();
   }, [activeTab]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (hasAttended) {
+        await MileageGetHistory();
+        setHasAttended(false); // 데이터를 불러온 후 상태 초기화
+      }
+    };
+  
+    fetchData();
+  }, [hasAttended, setHasAttended]); // 출석체크 상태에 의존
+  
 
   return (
     <div className="h-full mt-[246px] flex flex-col items-end justify-start">

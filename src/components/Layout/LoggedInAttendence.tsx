@@ -1,8 +1,10 @@
 import { postAPI } from '@/apis/axios';
+import { attendanceState } from '@/recoil/atoms/userInfoAtom';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSetRecoilState } from 'recoil';
 
 type LoggedInAttendenceProps = {
   handleCloseUserMenu: ()=>void;
@@ -11,6 +13,8 @@ type LoggedInAttendenceProps = {
 const fontFamily = "'TmoneyRoundWind', sans-serif";
 
 export default function LoggedInAttendence({handleCloseUserMenu}:LoggedInAttendenceProps) {
+  const setAttendance = useSetRecoilState(attendanceState);
+  
   const notifySuccess = () => toast.success('잊지 않으셨군요?! 출석 완료!', {
     position: "top-center",
     autoClose: 2000,
@@ -38,6 +42,7 @@ export default function LoggedInAttendence({handleCloseUserMenu}:LoggedInAttende
       const response = await postAPI('/api/mypage/attendance','');
       if(response.status === 202) {
         notifySuccess();
+        setAttendance(true);
         return (
           <ToastContainer
             position="top-center"
