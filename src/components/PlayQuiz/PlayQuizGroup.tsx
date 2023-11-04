@@ -38,8 +38,8 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
           '퀴즈에 오류가 발견 됐어요 😱! 이전 페이지로 돌아갑니다 🐱‍👤',
         );
         setTimeout(() => {
-          navigate(-1); // 이전 페이지로 이동
-        }, 5000); // 3초 후 실행
+          navigate(-1);
+        }, 5000);
       }
     }, []);
 
@@ -67,7 +67,6 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
             headers: headers,
           },
         );
-        // console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           // );
@@ -77,7 +76,6 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
       }
     };
 
-    // 체크 상태를 변경하는 함수
     const handleChoiceCheck = useCallback(
       (questionId: number, choiceId: number) => {
         setSelectedChoiceId(choiceId);
@@ -118,7 +116,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     };
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <div className="hidden">Loading...</div>;
     }
 
     return (

@@ -12,7 +12,6 @@ export const useGetQuizDetail = <T = unknown>(
       return data;
     },
     {
-      // react-query 설정
       retry: 1,
       refetchOnWindowFocus: false,
     },

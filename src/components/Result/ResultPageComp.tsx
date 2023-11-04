@@ -47,7 +47,7 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
         isModalOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
         id={id}
-        pathType="result" // Specify the path type here
+        pathType="result"
       />
 
       <div className="flex gap-5 justify-end mt-8">
@@ -56,14 +56,14 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
         </QuizCustomButton>
         <QuizCustomButton
           theme="dark"
-          onClick={() => navigate('/play-quiz/${id}')}
+          onClick={() => navigate(`/play-quiz/${id}`)}
         >
           다시하기
         </QuizCustomButton>
         <QuizCustomButton
           theme="blue"
           onClick={() => {
-            navigate(`/`);
+            navigate(`/play-quiz/${id}`);
           }}
         >
           메인으로
