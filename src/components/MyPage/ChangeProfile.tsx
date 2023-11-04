@@ -1,6 +1,8 @@
+import { userProfileImgState } from '@/recoil/atoms/userInfoAtom';
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useSetRecoilState } from 'recoil';
 
 type changeProfileProps = {
   profileImg: string | null;
@@ -10,6 +12,7 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
   const [imgFile, setImgFile] = useState<string | null>('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [formData, setFormData] = useState<FormData>(new FormData());
+  const updateImg = useSetRecoilState(userProfileImgState)
   const API_BASE_URL: string = import.meta.env.VITE_APP_GENERATED_SERVER_URL;
 
   const saveImgFile = () => {
@@ -51,6 +54,9 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
           Authorization: `${localStorage.getItem('Authorization')}` 
         },
       });
+      if (imgFile !== null) { 
+        updateImg(imgFile);
+      }
       // console.log(response);
     } catch (error) {
       // console.log(error);
