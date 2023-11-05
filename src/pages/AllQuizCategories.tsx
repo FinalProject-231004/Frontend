@@ -39,7 +39,7 @@ const AllQuizCategories: React.FC = () => {
       setCategoryState(response.data[0].category);
       setQuizzes(response.data);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 

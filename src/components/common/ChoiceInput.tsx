@@ -17,7 +17,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = React.memo(
 
     return (
       <div
-        className="w-full h-[58px] flex mb-[10px] customborder cursor-pointer"
+        className="w-full h-auto flex mb-[10px] customborder cursor-pointer"
         onClick={handleChange}
       >
         <div className="w-full flex justify-between items-center">
@@ -35,7 +35,10 @@ const ChoiceInput: React.FC<ChoiceInputProps> = React.memo(
             }}
           />
 
-          <div className="w-full text-lg pl-[20px] bordernoneinput">
+          <div
+            className="max-w-[636px] text-lg pl-[20px] bordernoneinput"
+            style={{ maxWidth: '636px', wordWrap: 'break-word' }}
+          >
             {children}
           </div>
         </div>
