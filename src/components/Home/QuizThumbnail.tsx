@@ -34,7 +34,12 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
       />
       <div className="flex mt-2 justify-between items-center">
         <div>
-          <h4 className="font-extrabold">{quiz.title}</h4>
+          <h4
+            className="font-extrabold"
+            style={{ wordWrap: 'break-word', maxWidth: '255px' }}
+          >
+            {quiz.title}
+          </h4>
 
           <div className="gap-5">
             <div className="flex items-center gap-1 text-slate-400">

@@ -10,28 +10,31 @@ const QuizInfo: React.FC<QuizInfoProps> = ({
   viewCount,
   content,
 }) => (
-  <div className="w-full">
-    <div className="mx-auto">
-      <img
-        className="w-full h-[282px] object-cover mb-5"
-        src={image}
-        alt={title}
-      />
-      <div className="flex gap-4 justify-end text-2xl mb-5">
-        <button
-          className="flex items-center gap-1"
-          type="button"
-          onClick={onLike}
-        >
-          {likes.isLiked ? <BiSolidLike size={28} /> : <BiLike size={28} />}
-          {likes.count}
-        </button>
-        <div className="flex items-center gap-1">
-          <FaRegEye size={28} />
-          {viewCount}
-        </div>
+  <div className="mx-auto h-full">
+    <img
+      className="w-full h-[282px] object-cover mb-5"
+      src={image}
+      alt={title}
+    />
+    <div className="flex gap-4 justify-end text-2xl mb-5">
+      <button
+        className="flex items-center gap-1"
+        type="button"
+        onClick={onLike}
+      >
+        {likes.isLiked ? <BiSolidLike size={28} /> : <BiLike size={28} />}
+        {likes.count}
+      </button>
+      <div className="flex items-center gap-1">
+        <FaRegEye size={28} />
+        {viewCount}
       </div>
-      <div className="text-xl">{content}</div>
+    </div>
+    <div
+      className="text-xl"
+      style={{ maxWidth: '436px', wordWrap: 'break-word' }}
+    >
+      {content}
     </div>
   </div>
 );

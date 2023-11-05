@@ -129,7 +129,7 @@ const CreateQuizGroup: React.FC = () => {
 
   return (
     <div className="w-screen">
-      <div className="w-[720px] mx-auto  text-blue text-xl">
+      <div className="w-[720px] mx-auto text-blue text-xl">
         <p className="hidden justify-end text-slate-300 underline text-sm cursor-pointer">
           퀴즈 제작 튜토리얼 🔍
         </p>
@@ -139,19 +139,16 @@ const CreateQuizGroup: React.FC = () => {
           value={quiz.title || ''}
           onChange={handleTitleChange}
           inputType="input"
-          maxLength={55}
+          maxLength={64}
         />
-
-        <div className="mb-[20px]">
-          <CustomQuizInput
-            title="퀴즈 소개글"
-            placeholder="퀴즈를 소개하는 글을 써주세요"
-            value={quiz.content || ''}
-            onChange={handleContentChange}
-            inputType="textarea"
-            maxLength={205}
-          />
-        </div>
+        <CustomQuizInput
+          title="퀴즈 소개글"
+          placeholder="퀴즈를 소개하는 글을 써주세요"
+          value={quiz.content || ''}
+          onChange={handleContentChange}
+          inputType="textarea"
+          maxLength={250}
+        />
 
         <CategoryButton
           selectedCategory={selectedCategory}
@@ -166,7 +163,7 @@ const CreateQuizGroup: React.FC = () => {
             removeImage={handleImageRemove}
           />
         </div>
-        <div className="w-full h-[450px] mx-auto mt-[10px] mb-[135px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
+        <div className="w-full h-[450px] mx-auto mt-[10px] mb-[110px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
           {quiz.image?.preview ? (
             <div
               className="w-full h-full bg-contain bg-center bg-no-repeat"

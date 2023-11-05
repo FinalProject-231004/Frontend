@@ -6,7 +6,7 @@ type CustomQuizInputProps = {
   value: string;
   inputType: 'input' | 'textarea';
   onChange: (value: string) => void;
-  maxLength: number; // Add a new prop for maximum length
+  maxLength: number;
 };
 const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
   title,
@@ -14,7 +14,7 @@ const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
   value,
   inputType,
   onChange,
-  maxLength, // Use the maxLength prop
+  maxLength,
 }) => {
   const [inputCount, setInputCount] = useState(0);
 
@@ -35,7 +35,7 @@ const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
   const inputField =
     inputType === 'textarea' ? (
       <textarea
-        className="w-full h-[80px] customborder"
+        className="w-full h-[130px] customborder"
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
@@ -43,7 +43,7 @@ const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
     ) : (
       <input
         type="text"
-        className="w-full h-[48px] customborder"
+        className="w-full h-[48px] mb-1 customborder"
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
@@ -51,8 +51,8 @@ const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
     );
 
   return (
-    <div className="w-full text-blue mb-[20px]">
-      <h3 className="mb-[15px] font-extrabold">{title}</h3>
+    <div className="w-full text-blue mb-[15px]">
+      <h3 className="max-[255px] h-full mb-[15px] font-extrabold">{title}</h3>
       {inputField}
       <p className="flex justify-end text-sm">
         <span>{inputCount}</span>/<span>{maxLength} bytes</span>

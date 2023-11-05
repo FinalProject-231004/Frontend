@@ -29,7 +29,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3 mt-8">
+      <div className="w-full flex items-center justify-between mb-3 mt-8">
         <h3 className="text-xl text-blue font-extrabold">질문 {index + 1}</h3>
         <div className="flex items-center justify-end rounded-[6px] gap-[10px]">
           <ImageUploader

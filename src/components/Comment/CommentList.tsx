@@ -22,7 +22,9 @@ const CommentList: React.FC<CommentProps> = ({
             {commentData.createdAt.split('T')[0]}
           </div>
         </div>
-        <div className="h-[50px] flex customborder">{commentData.comment}</div>
+        <div className="w-[400px] h-auto flex customborder">
+          {commentData.comment}
+        </div>
         {isLastComment && (
           <div className="text-xs text-center text-slate-300">
             마지막 댓글입니다!
