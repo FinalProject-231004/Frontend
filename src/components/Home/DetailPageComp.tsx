@@ -45,7 +45,7 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
           >
             {quizDetail?.title}
           </h1>
-          <div className="w-full h-[492px] flex  justify-center items-center">
+          <div className="w-full h-[472px] flex  justify-center items-center">
             <div className="max-w-1/2 h-full border-r-sky-200">
               <div className="w-[436px] mr-auto">
                 <QuizInfo
