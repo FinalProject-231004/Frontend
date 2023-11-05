@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import axios, { AxiosError } from 'axios';
 import { signUpData } from '@/types/header';
-import { validateId, } from '@/hooks/useValidation';
+import { validateId, validateNickName, validatePw, validatePwCheck } from '@/hooks/useValidation';
 import { useEnterKey } from '@/hooks/useEnterKey';
 import { ToastContainer, toast } from 'react-toastify';
 import { SignUpErrorResponse } from '@/types/header'
@@ -21,13 +21,11 @@ function SignUpModal() {
   const [isNickName, setIsNickName] = useState(false);
   const [isId, setIsId] = useState(false);
   const [isPw, setIsPw] = useState(false);
-  // const [isPwCheck, setIsPwCheck] = useState(false);
 
   const [idMessage, setIdMessage] = useState('');
   const [nickNameMessage, setNickNameMessage] = useState('');
   const [pwMessage, setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
-  // const [checkMsg, setCheckMsg] = useState(true);
   const [resultMsg, setResultMsg] = useState('');
   // const checkMsgColor = checkMsg ? 'blue' : 'red';
 
@@ -56,29 +54,6 @@ function SignUpModal() {
         // 마지막 input에서 Tab을 눌렀을 경우, 첫 번째 input으로 돌아가도록 설정
         idInputRef.current?.focus();
       }
-    }
-  };
-  
-  // 유효성 검사
-  // const validateId = (id: string) => {
-  //   const pattern = /^[a-z][a-z\d]{3,14}$/;
-  //   setIsId(pattern.test(id));
-  // };
-  const validateNickName = (id: string) => {
-    const pattern = /^(?=.*[a-z\uAC00-\uD7A3\d]).{2,5}$/;
-    setIsNickName(pattern.test(id));
-  };
-  const validatePw = (pw: string) => {
-    const pattern = /^(?=.*[a-z])(?=.*\d)(?=.*\W).{8,20}$/;
-    setIsPw(pattern.test(pw));
-  };
-  const validatepwCheck = (pwCheck: string) => {
-    if (pwCheck === pwInput) {
-      // setIsPwCheck(true);
-      setPwCheckMessage('');
-    } else {
-      // setIsPwCheck(false);
-      setPwCheckMessage('비밀번호가 일치하지 않습니다.');
     }
   };
 
@@ -115,10 +90,9 @@ function SignUpModal() {
       )
     } catch (error: unknown) { 
       if (axios.isAxiosError(error)) {
-        // Axios 오류 처리
         const serverError = error as AxiosError<SignUpErrorResponse>;
         if (serverError && serverError.response) {
-          // console.error('Error:', serverError.response.data.errorMessage);
+          console.error('Error:', serverError.response);
           setResultMsg(serverError.response.data.errorMessage);
         }
       } else {
@@ -185,12 +159,19 @@ function SignUpModal() {
                   focusBorderColor='red'
                   inputVal={idInput}
                   borderColor='none'
+                  // onChange 핸들러 수정
                   onChange={e => {
                     const idValue = e.target.value;
                     idHandleChange(idValue);
-                    setIsId(validateId(idValue)); 
-                    setIdMessage('알파벳 소문자 또는 숫자 포함 4자 이상 15자 이하');
-                    if (isId === true) {setIdMessage(''); }
+                    const isValid = validateId(idValue);
+                    setIsId(isValid);
+                    if (!isValid && idValue.length >= 4) {
+                      setIdMessage('아이디는 4자 이상 14자 이하이어야 합니다.');
+                    } else if(!isValid && idValue.length < 4) {
+                      setIdMessage('아이디는 4자 이상 14자 이하이어야 합니다.');
+                    } else {
+                      setIdMessage('');
+                    }
                   }}
                   onKeyDown={(e) => handleTab(e, nickNameInputRef)}
                 />
@@ -211,12 +192,17 @@ function SignUpModal() {
                   borderColor='none'
                   inputVal={nickNameInput}
                   onChange={e => {
-                    nameHandleChange(e.target.value);
-                    validateNickName(e.target.value);
-                    setNickNameMessage(
-                      '한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하',
-                    );
-                    if (isNickName === true) setNickNameMessage('');
+                    const nickanemValue = e.target.value;
+                    nameHandleChange(nickanemValue);
+                    const isValNickname = validateNickName(nickanemValue);
+                    setIsNickName(isValNickname);
+                    if (!isValNickname && nickanemValue.length >= 2) {
+                      setNickNameMessage('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
+                    } else if(!isValNickname && nickanemValue.length < 2) {
+                      setNickNameMessage('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
+                    } else {
+                      setNickNameMessage('');
+                    }
                   }}
                   onKeyDown={(e) => handleTab(e, pwInputRef)}
                 />
@@ -238,12 +224,17 @@ function SignUpModal() {
                 inputVal={pwInput}
                 borderColor='none'
                 onChange={e => {
-                  pwHandleChange(e.target.value);
-                  validatePw(e.target.value);
-                  setPwMessage(
-                    '영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하',
-                  );
-                  if (isPw === true) setPwMessage('');
+                  const pwValue = e.target.value; 
+                  pwHandleChange(pwValue);
+                  const isValPw = validatePw(pwValue);
+                  setIsPw(isValPw);
+                  if (!isValPw && pwValue.length >= 8) {
+                    setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
+                  } else if(!isValPw && pwValue.length < 8) {
+                    setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
+                  } else {
+                    setPwMessage('');
+                  }
                 }}
                 onKeyDown={(e) => handleTab(e, pwCheckInputRef)}
               />
@@ -265,8 +256,10 @@ function SignUpModal() {
                   borderColor='none'
                   inputVal={pwCheckInput}
                   onChange={e => {
-                    pwCheckHandleChange(e.target.value);
-                    validatepwCheck(e.target.value);
+                    const checkPwValue = e.target.value; 
+                    pwCheckHandleChange(checkPwValue);
+                    const isCheckPw = validatePwCheck(pwInput,checkPwValue);
+                    isCheckPw? setPwCheckMessage('') : setPwCheckMessage('비밀번호가 일치하지 않습니다.')
                   }}
                   onKeyDown={(e) => handleTab(e, null)}
                 />

@@ -1,10 +1,10 @@
 export const validateId = (id: string): boolean => {
-  const pattern = /^[a-z][a-z\d]{3,14}$/;
+  const pattern = /^[a-z\d]{4,14}$/;
   return pattern.test(id);
 };
 
 export const validateNickName = (nickname: string): boolean => {
-  const pattern = /^(?=.*[a-z\uAC00-\uD7A3\d]).{2,5}$/;
+  const pattern = /^[a-z\dㄱ-ㅎ가-힣]{2,5}$/;
   return pattern.test(nickname);
 };
 
