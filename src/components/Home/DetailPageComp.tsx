@@ -39,12 +39,12 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
           >
             <AiFillHome size={35} />
           </div>
-          <h1 className="-mt-24 mb-10 text-center text-blue font-extrabold text-[28px]">
+          <h1 className="w-4/5 mx-auto -mt-16 mb-5 text-center text-blue font-extrabold text-[28px]">
             {quizDetail?.title}
           </h1>
-          <div className="w-[952px] flex h-[400px] justify-center items-center">
-            <div className="w-1/2 h-[472px]">
-              <div className="w-[456px] mr-auto">
+          <div className="w-full flex  justify-center items-center">
+            <div className="w-1/2 h-full">
+              <div className="w-[456px] h-full mr-auto">
                 <QuizInfo
                   image={quizDetail.image}
                   title={quizDetail.title}
@@ -55,7 +55,7 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
                 />
               </div>
             </div>
-            <div className="w-1/2 h-[472px]">
+            <div className="w-1/2 h-[450px]">
               <div className="w-[456px] ml-auto">
                 <CommentSection
                   comments={quizDetail.comments}

@@ -31,7 +31,7 @@ const QuizInfo: React.FC<QuizInfoProps> = ({
           {viewCount}
         </div>
       </div>
-      <div className="text-2xl">{content}</div>
+      <div className="text-xl">{content}</div>
     </div>
   </div>
 );
