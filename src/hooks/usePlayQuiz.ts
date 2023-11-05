@@ -25,7 +25,7 @@ export const usePlayQuiz = (id: number) => {
           setQuestions(updatedQuestions);
         }
       } catch (error) {
-        console.error('Error fetching quiz questions:', error);
+        // console.error('Error fetching quiz questions:', error);
       } finally {
         setLoading(false);
       }
