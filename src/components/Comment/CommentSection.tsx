@@ -105,7 +105,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   return (
     <div className="w-full h-[472px] flex flex-col">
       <div
-        className="w-full h-[472px] overflow-x-hidden overflow-y-auto scroll-smooth"
+        className="w-full h-[472px] overflow-x-auto overflow-y-auto scroll-smooth"
         onScroll={handleScroll}
       >
         {comments && comments.length > 0 ? (
