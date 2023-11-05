@@ -123,8 +123,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
       <div className="w-screen">
         <div className="w-[720px] mx-auto">
           <h1 className="play-quiz__title">
-            Q{selectedQuestion}.{' '}
-            {questions[selectedQuestion - 1]?.title || '제목'}
+            Q{selectedQuestion}. {questions[selectedQuestion - 1]?.title}
           </h1>
           <div className="max-w-[650px] mb-5 mx-auto">
             <div
@@ -158,7 +157,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
             src={questions[selectedQuestion - 1]?.image}
             alt="Quiz Image"
           />
-          <div className="mb-48">
+          <div className="w-full mb-48">
             {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
               <ChoiceInput
                 key={choice.choiceId}

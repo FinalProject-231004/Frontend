@@ -24,10 +24,7 @@ const CreateQuestionGroup: React.FC = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    // 컴포넌트가 마운트 될 때 필요한 작업을 실행합니다.
-
     return () => {
-      // 컴포넌트가 언마운트 될 때 상태를 초기화합니다.
       setQuestions([
         {
           id: uuidv4(),
@@ -62,13 +59,19 @@ const CreateQuestionGroup: React.FC = () => {
       });
       formData.append('requestDto', requestDtoBlob);
 
-      const images = questions
-        .map(question => question.image?.file)
-        .filter(Boolean);
+      const images = questions.map(question => question.image?.file);
+
+      const defaultImage = await fetch('/noimage01.jpg');
+      const defaultImageBlob = await defaultImage.blob();
+      const defaultImageFile = new File([defaultImageBlob], 'noimage01.jpg', {
+        type: 'image/png',
+      });
 
       images.forEach(image => {
         if (image instanceof File) {
-          formData.append('image', image);
+          formData.append(`image`, image);
+        } else {
+          formData.append(`image`, defaultImageFile);
         }
       });
 
@@ -85,7 +88,6 @@ const CreateQuestionGroup: React.FC = () => {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -103,22 +105,18 @@ const CreateQuestionGroup: React.FC = () => {
       ]);
 
       navigate('/create-quiz/questions');
+      toast.success('퀴즈 생성 완료! 🤩');
       return true;
     } catch (error) {
-      // ...
+      // console.error('Error:', error);
+      toast.error('퀴즈 생성 중 오류가 발생했습니다. 😢');
+      return false;
     }
   };
 
   const checkForIncompleteData = () => {
     return questions.some(question => {
-      // 질문의 텍스트가 없는 경우
       if (!question.text.trim()) return true;
-
-      // 질문에 이미지가 첨부되지 않았을 경우
-      if (!question.image?.file) {
-        toast.error('모든 질문에 이미지를 첨부해주세요!');
-        return true;
-      }
 
       const isCorrectExists = question.choices.some(
         choice => choice.isAnswer && choice.text.trim(),

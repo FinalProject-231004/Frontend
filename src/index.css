@@ -39,14 +39,12 @@ input:focus {
   opacity: 0.6;
 }
 
-.scrollbar-hide {
-  /* Firefox */
+/* .scrollbar-hide {
   scrollbar-width: none;
-  /* Safari and Chrome */
   &::-webkit-scrollbar {
     display: none;
   }
-}
+} */
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent; /* Chrome/Safari/Webkit */

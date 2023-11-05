@@ -10,7 +10,7 @@ const PlayQuiz: React.FC = () => {
 
   useEffect(() => {
     if (isNaN(numericId) || numericId <= 0) {
-      console.error('Invalid quiz ID');
+      // console.error('Invalid quiz ID');
     }
   }, [numericId]);
 
