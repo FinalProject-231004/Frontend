@@ -84,7 +84,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
         { quizId, content: newComment },
         { headers: { Authorization: `Bearer ${token}` } },
       );
-
       fetchComments();
       setNewComment('');
     } catch (error: unknown) {
@@ -103,9 +102,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   };
 
   return (
-    <div className="w-full h-[472px] flex flex-col">
+    <div className="w-full h-[490px] flex flex-col">
       <div
-        className="w-full h-[472px] overflow-x-auto overflow-y-auto scroll-smooth"
+        className="w-full h-full mb-2 overflow-x-auto overflow-y-auto scroll-smooth"
         onScroll={handleScroll}
       >
         {comments && comments.length > 0 ? (
@@ -122,7 +121,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
           </div>
         )}
       </div>
-      <div className="flex mt-2">
+      <div className="flex">
         <CommentInput
           placeholder="댓글을 입력해주세요"
           value={newComment}
