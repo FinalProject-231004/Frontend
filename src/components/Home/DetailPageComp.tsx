@@ -31,23 +31,25 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
       <div className="bg-[#F1F8FF] w-[1080px] h-[800px] mt-16 rounded-[30px] shadow-md shdow-slate-200 overflow-hidden flex-nowrap">
         <div className="p-16 h-full flex flex-col justify-between">
-          <div
-            className="w-[30px] text-blue -mt-4 cursor-pointer z-[999]"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            <BsFillArrowLeftCircleFill size={35} />
+          <div className="flex items-center">
+            <div
+              className="w-[30px] text-blue cursor-pointer z-[999]"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <BsFillArrowLeftCircleFill size={35} />
+            </div>
+            <h1
+              className="max-w-4/5 mx-auto text-center text-blue font-extrabold text-[28px]"
+              style={{ wordWrap: 'break-word', maxWidth: '766px' }}
+            >
+              {quizDetail?.title}
+            </h1>
           </div>
-          <h1
-            className="max-w-4/5 mx-auto -mt-16 mb-5 text-center text-blue font-extrabold text-[28px]"
-            style={{ wordWrap: 'break-word', maxWidth: '766px' }}
-          >
-            {quizDetail?.title}
-          </h1>
-          <div className="w-full h-[472px] flex  justify-center items-center">
-            <div className="max-w-1/2 h-full border-r-sky-200">
-              <div className="w-[436px] mr-auto">
+          <div className="w-full h-[510px] mt-14 flex justify-center items-center">
+            <div className="w-1/2 h-full">
+              <div className="w-[446px] mr-auto">
                 <QuizInfo
                   image={quizDetail.image}
                   title={quizDetail.title}
@@ -58,8 +60,8 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
                 />
               </div>
             </div>
-            <div className="w-1/2 h-full">
-              <div className="max-w-[436px] ml-auto">
+            <div className="w-1/2 h-full border-l-2 border-dotted">
+              <div className="max-w-[446px] ml-auto">
                 <CommentSection
                   comments={quizDetail.comments}
                   quizId={quizDetail.id}
