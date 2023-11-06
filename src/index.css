@@ -39,19 +39,6 @@ input:focus {
   opacity: 0.6;
 }
 
-.scrollbar-hide {
-  /* Firefox */
-  scrollbar-width: none;
-  /* Safari and Chrome */
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* Chrome/Safari/Webkit */
-}
-
 .canvas {
   height: 100vh;
   left: 0px;
@@ -59,11 +46,6 @@ input:focus {
   position: fixed;
   top: 0px;
   width: 100vw;
-}
-
-* {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
 .smooth-scroll {

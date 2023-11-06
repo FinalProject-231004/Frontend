@@ -95,7 +95,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
           }),
         );
       },
-      [questions, selectedChoiceId],
+      [setQuestions],
     );
 
     const moveToNextQuestion = () => {
@@ -106,10 +106,14 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
         navigate(`/quiz/result/${id}`);
       }
     };
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
       if (selectedChoiceId != null) {
-        sendQuizDataToServer(selectedChoiceId);
-        moveToNextQuestion();
+        try {
+          await sendQuizDataToServer(selectedChoiceId);
+          moveToNextQuestion();
+        } catch (error) {
+          toast.error('서버 요청에 실패했습니다. 다시 시도해주세요.');
+        }
       } else {
         toast.error('선택지를 선택해주세요.');
       }
@@ -123,8 +127,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
       <div className="w-screen">
         <div className="w-[720px] mx-auto">
           <h1 className="play-quiz__title">
-            Q{selectedQuestion}.{' '}
-            {questions[selectedQuestion - 1]?.title || '제목'}
+            Q{selectedQuestion}. {questions[selectedQuestion - 1]?.title}
           </h1>
           <div className="max-w-[650px] mb-5 mx-auto">
             <div
@@ -158,7 +161,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
             src={questions[selectedQuestion - 1]?.image}
             alt="Quiz Image"
           />
-          <div className="mb-48">
+          <div className="w-full mb-48">
             {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
               <ChoiceInput
                 key={choice.choiceId}

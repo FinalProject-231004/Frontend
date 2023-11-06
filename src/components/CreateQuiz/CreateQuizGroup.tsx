@@ -91,7 +91,6 @@ const CreateQuizGroup: React.FC = () => {
     };
   }, []);
 
-  // '세부 질문 만들기' 버튼 클릭 시 호출되는 함수
   const handleNavigation = async () => {
     if (
       !quiz.title?.trim() ||
@@ -114,41 +113,42 @@ const CreateQuizGroup: React.FC = () => {
     setSelectedCategory(category);
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (newValue: string) => {
     setQuiz({
       ...quiz,
-      title: event.target.value,
+      title: newValue,
     });
   };
 
-  const handleContentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const handleContentChange = (newValue: string) => {
     setQuiz({
       ...quiz,
-      content: event.target.value,
+      content: newValue,
     });
   };
 
   return (
     <div className="w-screen">
-      <div className="w-[720px] mx-auto  text-blue text-xl">
+      <div className="w-[720px] mx-auto text-blue text-xl">
+        <p className="hidden justify-end text-slate-300 underline text-sm cursor-pointer">
+          퀴즈 제작 튜토리얼 🔍
+        </p>
         <CustomQuizInput
           title="퀴즈명"
           placeholder="퀴즈명을 입력해 주세요"
           value={quiz.title || ''}
           onChange={handleTitleChange}
+          inputType="input"
+          maxLength={64}
         />
-
-        <div className="mb-[20px]">
-          <h3 className="mb-[15px] font-extrabold">퀴즈 소개글</h3>
-          <textarea
-            className="w-full h-[114px] customborder"
-            placeholder="퀴즈를 소개하는 글을 써주세요"
-            value={quiz.content || ''}
-            onChange={handleContentChange}
-          />
-        </div>
+        <CustomQuizInput
+          title="퀴즈 소개글"
+          placeholder="퀴즈를 소개하는 글을 써주세요"
+          value={quiz.content || ''}
+          onChange={handleContentChange}
+          inputType="textarea"
+          maxLength={250}
+        />
 
         <CategoryButton
           selectedCategory={selectedCategory}
@@ -163,7 +163,7 @@ const CreateQuizGroup: React.FC = () => {
             removeImage={handleImageRemove}
           />
         </div>
-        <div className="w-full h-[450px] mx-auto mt-[10px] mb-[135px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
+        <div className="w-full h-[450px] mx-auto mt-[10px] mb-[110px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
           {quiz.image?.preview ? (
             <div
               className="w-full h-full bg-contain bg-center bg-no-repeat"

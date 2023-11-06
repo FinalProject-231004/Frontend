@@ -27,9 +27,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
 
   const fetchComments = useCallback(async () => {
     if (!quizId) {
-      toast.warn(
-        '😥 댓글 목록을 불러올 수 없습니다. 잠시 후 다시 시도해주세요',
-      );
       return;
     }
     try {
@@ -108,7 +105,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   return (
     <div className="w-full h-[472px] flex flex-col">
       <div
-        className="w-full h-[472px] overflow-x-hidden overflow-y-auto scroll-smooth"
+        className="w-full h-[472px] overflow-x-auto overflow-y-auto scroll-smooth"
         onScroll={handleScroll}
       >
         {comments && comments.length > 0 ? (
