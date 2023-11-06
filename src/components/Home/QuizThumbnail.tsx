@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { QuizThumbnailProps } from '@/types/homeQuiz';
 import { FaRegEye } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
@@ -6,8 +6,16 @@ import { useNavigate } from 'react-router';
 const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [, setHasError] = useState(false);
 
   const quizId = quiz.id;
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = quiz.image;
+    img.onload = () => setIsLoading(false);
+    img.onerror = () => setHasError(true);
+  }, [quiz.image]);
 
   const handleImageClick = useCallback(() => {
     setIsLoading(true);
@@ -26,6 +34,7 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   return (
     <div className="w-[255px]">
       <img
+        loading="lazy"
         className="h-[135px] w-full object-cover cursor-pointer"
         src={quiz.image}
         alt={quiz.title}
