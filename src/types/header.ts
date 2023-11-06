@@ -1,5 +1,5 @@
 export type SignUpErrorResponse = {
-  errorMessage: string;
+  msg: string;
 }
 
 export type SignInErrorResponse = {

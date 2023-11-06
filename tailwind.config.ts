@@ -24,5 +24,5 @@ export default {
       smooth: 'smooth',
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('tailwind-scrollbar-hide')],
+  plugins: [require('@tailwindcss/forms')],
 };
