@@ -50,7 +50,7 @@ const ResultPageComp: React.FC<QuizResultProps> = ({ msg, data }) => {
         pathType="result"
       />
 
-      <div className="flex gap-5 justify-end mt-8">
+      <div className="flex gap-5 justify-end mt-6">
         <QuizCustomButton theme="white" onClick={() => setIsModalOpen(true)}>
           공유하기
         </QuizCustomButton>

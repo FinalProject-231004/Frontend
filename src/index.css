@@ -18,10 +18,14 @@
 
 body {
   font-family: 'TmoneyRoundWind', sans-serif;
+  -ms-overflow-style: none;
 }
 
 input:focus {
   outline: none;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 
 .flex::-webkit-scrollbar-thumb {

@@ -124,9 +124,12 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     }
 
     return (
-      <div className="w-screen">
+      <>
         <div className="w-[720px] mx-auto">
-          <h1 className="play-quiz__title">
+          <h1
+            className="play-quiz__title"
+            style={{ maxWidth: '720x', wordWrap: 'break-word' }}
+          >
             Q{selectedQuestion}. {questions[selectedQuestion - 1]?.title}
           </h1>
           <div className="max-w-[650px] mb-5 mx-auto">
@@ -156,12 +159,14 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
               ></div>
             </div>
           </div>
-          <img
-            className="w-full h-[305px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
-            src={questions[selectedQuestion - 1]?.image}
-            alt="Quiz Image"
-          />
-          <div className="w-full mb-48">
+          {questions[selectedQuestion - 1]?.image ? (
+            <img
+              className="w-full h-[305px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
+              src={questions[selectedQuestion - 1]?.image}
+              alt="Quiz Image"
+            />
+          ) : null}
+          <div className="w-full">
             {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
               <ChoiceInput
                 key={choice.choiceId}
@@ -184,7 +189,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
             ? '문제 결과보기'
             : '다음 문제로!'}
         </BottomLongButton>
-      </div>
+      </>
     );
   },
 );
