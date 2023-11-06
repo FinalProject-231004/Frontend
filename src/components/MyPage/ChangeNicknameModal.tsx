@@ -4,17 +4,17 @@ import { ChangeEvent, useState } from 'react';
 import { newNickname } from '@/types/myPage';
 import { AxiosError } from 'axios';
 import { useModalState } from '@/hooks';
-import { useSetRecoilState } from 'recoil';
+import { validateNickName } from '@/hooks/useValidation'
+import { useRecoilState } from 'recoil';
 import { userNickNameState } from '@/recoil/atoms/userInfoAtom';
+import { toast } from 'react-toastify';
 
 export default function ChangeNicknameModal() {
   const newNicknameModal = useModalState();
   const [newNickname, setNewNickname] = useState('');
-  const [isNickName, setIsNickName] = useState(false);
-  const [conditionMsg, setConditionMsg] = useState('');
-  const [duplicateMsg, setDuplicateMsg] = useState('');
-  // const [isNicknameAvailable, setIsNicknameAvailable] = useState(null);
-  const setNickname = useSetRecoilState(userNickNameState);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [availableMsg, setAvailableMsg] = useState('');
+  const [oriNickname,setOriNickname] = useRecoilState(userNickNameState);
 
   const updateNickname = {
     newNickname: newNickname,
@@ -24,15 +24,11 @@ export default function ChangeNicknameModal() {
     try {
       await postAPI('/api/member/validate/nickname', nickName);
       // console.log(response);
-      setDuplicateMsg('사용 가능한 닉네임입니다!');
+      setAvailableMsg('사용 가능한 닉네임입니다!');
     } catch (error) {
       if (error instanceof AxiosError) {
-        // console.error('Axios Error:', error.response?.data);
-        // if (error.response && error.response.data.errorMessage) {
-        //   setDuplicateMsg('이미 사용 중인 닉네임입니다!');
-        // } else if(error.response && error.response.data.msg) {
-        //   setConditionMsg('한글/영소문자/숫자 포함 2자리 이상 5자리 이하');
-        // }
+        console.error('Axios Error:', error.response?.data);
+        setErrorMsg(error.response?.data.msg);
       } else {
         // console.error('Unknown Error:', error);
       }
@@ -43,29 +39,37 @@ export default function ChangeNicknameModal() {
     try {
       await putAPI('/api/member/update/nickname', nickName);
       // console.log(response);
-      setNickname(newNickname);
+      setOriNickname(newNickname);
+      toast.success('닉네임 변경 완료!!');
       closeModal();
     } catch (error) {
-      // console.error('Error:', error);
+      if (error instanceof AxiosError) {
+       console.error('Error:', error.response?.data.msg);
+       setErrorMsg(error.response?.data.msg);
+      }
     }
   };
 
-  const validateNickName = (id: string) => {
-    const pattern = /^(?=.*[a-z\uAC00-\uD7A3\d]).{2,5}$/;
-    setIsNickName(pattern.test(id));
-  };
-
   const nicknameOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewNickname(e.target.value);
-    validateNickName(e.target.value);
-    setConditionMsg('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
-    if (isNickName === true) setConditionMsg('');
+    const nickNameValue = e.target.value
+    setNewNickname(nickNameValue);
+    const isValNickName = validateNickName(nickNameValue);
+    if (!isValNickName && nickNameValue.length >= 2) {
+      setAvailableMsg('')
+      setErrorMsg('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
+    } else if(!isValNickName && nickNameValue.length < 2) {
+      setAvailableMsg('')
+      setErrorMsg('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
+    } else {
+      setErrorMsg('');
+    }
   };
 
   const closeModal = () => {
     newNicknameModal.close();
     setNewNickname('');
-    setDuplicateMsg('');
+    setAvailableMsg('');
+    setErrorMsg('');
   };
 
   return (
@@ -91,13 +95,13 @@ export default function ChangeNicknameModal() {
               <UserInfoInput
                 inputVal={newNickname}
                 type="text"
-                placeholder="닉네임"
+                placeholder={oriNickname}
                 size="medium"
                 borderColor="blue"
                 focusBorderColor={''}
                 onChange={e => {
                   nicknameOnChange(e);
-                  if (newNickname === '') setDuplicateMsg('');
+                  if (errorMsg) setAvailableMsg('');
                 }}
               />
               <button
@@ -111,14 +115,14 @@ export default function ChangeNicknameModal() {
             </div>
             {newNickname.length > 0 && (
               <div className="my-[6px] absolute right-0 text-[16px] text-[#F92316] font-hairline">
-                {conditionMsg}
+                {errorMsg}
               </div>
             )}
             <div
               className="my-[6px] absolute text-[16px] right-0 font-hairline"
               // style={{ color: isNicknameAvailable === true ? 'blue' : isNicknameAvailable === false ? '#0078FF' : '#F92316' }}
             >
-              {duplicateMsg}
+              {availableMsg}
             </div>
           </div>
 

@@ -159,7 +159,6 @@ function SignUpModal() {
                   focusBorderColor='red'
                   inputVal={idInput}
                   borderColor='none'
-                  // onChange 핸들러 수정
                   onChange={e => {
                     const idValue = e.target.value;
                     idHandleChange(idValue);
