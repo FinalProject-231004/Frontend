@@ -9,6 +9,7 @@ import { validateId, validateNickName, validatePw, validatePwCheck } from '@/hoo
 import { useEnterKey } from '@/hooks/useEnterKey';
 import { ToastContainer, toast } from 'react-toastify';
 import { SignUpErrorResponse } from '@/types/header'
+import * as React from "react";
 
 
 function SignUpModal() {
@@ -92,8 +93,8 @@ function SignUpModal() {
       if (axios.isAxiosError(error)) {
         const serverError = error as AxiosError<SignUpErrorResponse>;
         if (serverError && serverError.response) {
-          console.error('Error:', serverError.response);
-          setResultMsg(serverError.response.data.errorMessage);
+          // console.error('Error:', serverError.response);
+          setPwCheckMessage(serverError.response.data.msg);
         }
       } else {
         // console.error('An unexpected error occurred');
@@ -145,13 +146,15 @@ function SignUpModal() {
         height="589px"
         bgColor="#F1F8FF"
       >
-        <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-around items-center">
-          <p className="my-[42px] text-[34px] text-blue">회원가입</p>
+        <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="py-[10px] h-[589px] flex flex-col justify-around items-center">
+          <p className="text-[34px] text-blue">회원가입</p>
 
-          <div className="w-[530px] h-[337px] mb-[9px] flex flex-col justify-between relative">
+          <div className="w-[530px] h-[350px] flex flex-col justify-between relative">
             <div className="flex justify-between">
               <div className='relative'>
+                <label htmlFor='userId' className='text-deep_dark_gray'>아이디</label>
                 <UserInfoInput
+                  id = 'userId'
                   ref={idInputRef}
                   type="text"
                   placeholder="아이디"
@@ -165,9 +168,9 @@ function SignUpModal() {
                     const isValid = validateId(idValue);
                     setIsId(isValid);
                     if (!isValid && idValue.length >= 4) {
-                      setIdMessage('아이디는 4자 이상 14자 이하이어야 합니다.');
+                      setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
                     } else if(!isValid && idValue.length < 4) {
-                      setIdMessage('아이디는 4자 이상 14자 이하이어야 합니다.');
+                      setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
                     } else {
                       setIdMessage('');
                     }
@@ -175,14 +178,16 @@ function SignUpModal() {
                   onKeyDown={(e) => handleTab(e, nickNameInputRef)}
                 />
                 {idInput.length >= 0 && (
-                  <div className="mt-1 ml-1 text-[11.5px] text-red font-hairline absolute">
+                  <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute">
                     {idMessage}
                   </div>
                 )}
               </div>
 
               <div className='relative'>
+                <label htmlFor='userNickname' className='text-deep_dark_gray'>닉네임</label>
                 <UserInfoInput
+                  id = 'userNickname'
                   ref={nickNameInputRef}
                   type="text"
                   placeholder="닉네임"
@@ -206,7 +211,7 @@ function SignUpModal() {
                   onKeyDown={(e) => handleTab(e, pwInputRef)}
                 />
                 {nickNameInput.length >= 0 && (
-                  <div className="mt-1 ml-1 text-[11.5px] text-red font-hairline absolute">
+                  <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute">
                     {nickNameMessage}
                   </div>
                 )}
@@ -214,7 +219,9 @@ function SignUpModal() {
             </div>
 
             <div className='relative'>
+              <label htmlFor='userPw' className='text-deep_dark_gray'>비밀번호</label>
               <UserInfoInput
+                id = 'userPw'
                 ref={pwInputRef}
                 type="password"
                 placeholder="비밀번호"
@@ -238,7 +245,7 @@ function SignUpModal() {
                 onKeyDown={(e) => handleTab(e, pwCheckInputRef)}
               />
               {pwInput.length >= 0 && (
-                <div className="mt-[6px] text-[11.5px] text-red font-hairline absolute right-0">
+                <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0">
                   {pwMessage}
                 </div>
               )}
@@ -246,7 +253,9 @@ function SignUpModal() {
             
             <div className='relative h-[105px]'>
               <div className='relative'>
+                <label htmlFor='checkPw' className='text-deep_dark_gray'>비밀번호 확인</label>
                 <UserInfoInput
+                  id = 'checkPw'
                   ref={pwCheckInputRef}
                   type="password"
                   placeholder="비밀번호 확인"
@@ -263,7 +272,7 @@ function SignUpModal() {
                   onKeyDown={(e) => handleTab(e, null)}
                 />
                 {pwCheckInput.length >= 0 && (
-                  <div className="mt-[6px] text-[12px] text-red font-hairline absolute right-0">
+                  <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0">
                     {pwCheckMessage}
                   </div>
                 )}
