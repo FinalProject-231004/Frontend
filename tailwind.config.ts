@@ -25,5 +25,5 @@ export default {
       smooth: 'smooth',
     },
   },
-  plugins: [require('@tailwindcss/forms'), tailwindScrollbar],
+  plugins: [require('@tailwindcss/forms')],
 };
