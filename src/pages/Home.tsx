@@ -1,9 +1,17 @@
 import { QuizCategorySection, HomeBanner } from '@/components';
 import { useFetchQuiz } from '@/hooks';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!sessionStorage.getItem('reloaded')) {
+      sessionStorage.setItem('reloaded', 'true');
+      window.location.reload();
+    }
+  }, []);
 
   // 전체조회 (신규순)
   const { quiz: allQuizzes } = useFetchQuiz(

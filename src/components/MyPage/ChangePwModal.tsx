@@ -28,7 +28,7 @@ export default function ChangePwModal() {
       // console.log(response);
       toast.success('비밀번호 변경 완료!!');
     } catch (error) {
-      // console.error('Error:', error);
+      console.error('Error:', error);
     }
   };
 
@@ -57,6 +57,7 @@ export default function ChangePwModal() {
     newPwModal.close();
     setUpdatePw('');
     setCheckPw('');
+    setPwCheckMessage('');
   };
 
   return (
@@ -104,7 +105,7 @@ export default function ChangePwModal() {
             </div>
 
             <div className='w-[530px]'>
-              {updatePw.length > 0 && isPw===false && (
+              {updatePw.length >= 0 && isPw===false && (
                 <div className="mt-1 text-[16px] text-[#F92316] font-hairline absolute right-0">
                   {pwMessage}
                 </div>
@@ -129,7 +130,7 @@ export default function ChangePwModal() {
             />
 
             <div className='w-[530px]'>
-              {checkPw.length > 0 && (
+              {checkPw.length >= 0 && (
                 <div className="mt-1 text-[16px] text-[#F92316] font-hairline absolute right-0">
                   {pwCheckMessage}
                 </div>

@@ -8,12 +8,13 @@ type UserInfoInputProps = {
   size: string;
   borderColor: string;
   focusBorderColor: string;
+  id?: string;
   disabled?: boolean;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const UserInfoInput = React.forwardRef<HTMLInputElement, UserInfoInputProps>(
-  ({ inputVal, onChange, type, placeholder, size, focusBorderColor, borderColor, disabled, onKeyDown }, ref) => {
+  ({ inputVal, onChange, type, placeholder, size, focusBorderColor, borderColor, id, disabled, onKeyDown }, ref) => {
 
      let widthClass: string = '';
 
@@ -36,6 +37,7 @@ const dynamicClasses = `${widthClass} ${borderClass} focus:border-${focusBorderC
       <div className="md:flex md:items-center">
         <div className="md:w-2/3">
           <input
+            id = {id}
             className={`h-[72px] bg-white appearance-none border-2  rounded-[6px] cursor-pointer py-2 px-7 text-gray-700 text-[24px] leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}
             ref={ref}
             type={type}
