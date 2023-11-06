@@ -3,4 +3,5 @@ export const logOut = () =>{
   localStorage.removeItem('Refresh');
   localStorage.removeItem('authorization');
   localStorage.removeItem('refresh');
+  localStorage.removeItem('likes');
 }
