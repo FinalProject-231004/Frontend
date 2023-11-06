@@ -206,12 +206,14 @@ const CreateQuestionGroup: React.FC = () => {
           message="작성 완료 후 수정할 수 없어요!"
           button={[
             <button
+              key="backButton"
               onClick={completionModal.close}
               className="w-28 mr-4 py-2 bg-gray-200 text-black rounded-md"
             >
               돌아가기
             </button>,
             <button
+              key="submitQuizButton"
               onClick={async () => {
                 await handleSubmitQuiz();
               }}

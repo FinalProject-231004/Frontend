@@ -17,7 +17,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = React.memo(
 
     return (
       <div
-        className="w-full h-auto flex mb-[10px] customborder cursor-pointer"
+        className="w-full flex mb-[10px] customborder cursor-pointer"
         onClick={handleChange}
       >
         <div className="w-full flex justify-between items-center">
