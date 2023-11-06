@@ -1,9 +1,13 @@
 import { QuizCategorySection, HomeBanner } from '@/components';
 import { useFetchQuiz } from '@/hooks';
-import { useNavigate } from 'react-router';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {}, [location]);
 
   // 전체조회 (신규순)
   const { quiz: allQuizzes } = useFetchQuiz(
@@ -21,7 +25,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="w-screen min-h-[1080px] mx-auto overflow-y-scroll no-scroll">
+    <div className="w-screen min-h-[1080px] mx-auto">
       <div className="w-[1080px] mx-auto">
         <HomeBanner />
 
