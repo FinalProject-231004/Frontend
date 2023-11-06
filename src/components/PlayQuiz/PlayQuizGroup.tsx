@@ -159,11 +159,13 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
               ></div>
             </div>
           </div>
-          <img
-            className="w-full h-[305px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
-            src={questions[selectedQuestion - 1]?.image}
-            alt="Quiz Image"
-          />
+          {questions[selectedQuestion - 1]?.image ? (
+            <img
+              className="w-full h-[305px] mb-[20px] border-4 border-blue rounded-2xl object-contain bg-center bg-no-repeat flex justify-center items-center slateshadow"
+              src={questions[selectedQuestion - 1]?.image}
+              alt="Quiz Image"
+            />
+          ) : null}
           <div className="w-full">
             {questions[selectedQuestion - 1]?.quizChoices?.map(choice => (
               <ChoiceInput
