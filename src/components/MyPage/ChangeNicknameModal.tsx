@@ -24,10 +24,11 @@ export default function ChangeNicknameModal() {
     try {
       await postAPI('/api/member/validate/nickname', nickName);
       // console.log(response);
+      setErrorMsg('');
       setAvailableMsg('사용 가능한 닉네임입니다!');
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.error('Axios Error:', error.response?.data);
+        // console.error('Axios Error:', error.response?.data);
         setErrorMsg(error.response?.data.msg);
       } else {
         // console.error('Unknown Error:', error);
@@ -44,8 +45,9 @@ export default function ChangeNicknameModal() {
       closeModal();
     } catch (error) {
       if (error instanceof AxiosError) {
-       console.error('Error:', error.response?.data.msg);
+      //  console.error('Error:', error.response);
        setErrorMsg(error.response?.data.msg);
+      //  console.log('errorMsg', errorMsg)
       }
     }
   };
@@ -60,7 +62,8 @@ export default function ChangeNicknameModal() {
     } else if(!isValNickName && nickNameValue.length < 2) {
       setAvailableMsg('')
       setErrorMsg('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
-    } else {
+    } 
+    else {
       setErrorMsg('');
     }
   };
@@ -113,7 +116,7 @@ export default function ChangeNicknameModal() {
                 중복확인
               </button>
             </div>
-            {newNickname.length > 0 && (
+            {newNickname.length >= 0 && (
               <div className="my-[6px] absolute right-0 text-[16px] text-[#F92316] font-hairline">
                 {errorMsg}
               </div>
