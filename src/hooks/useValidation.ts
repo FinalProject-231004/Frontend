@@ -1,5 +1,5 @@
 export const validateId = (id: string): boolean => {
-  const pattern = /^[a-z\d]{4,14}$/;
+  const pattern = /^[a-z\d]{4,15}$/;
   return pattern.test(id);
 };
 
