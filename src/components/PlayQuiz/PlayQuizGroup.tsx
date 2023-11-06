@@ -95,7 +95,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
           }),
         );
       },
-      [questions, selectedChoiceId],
+      [setQuestions],
     );
 
     const moveToNextQuestion = () => {
@@ -106,10 +106,14 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
         navigate(`/quiz/result/${id}`);
       }
     };
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
       if (selectedChoiceId != null) {
-        sendQuizDataToServer(selectedChoiceId);
-        moveToNextQuestion();
+        try {
+          await sendQuizDataToServer(selectedChoiceId);
+          moveToNextQuestion();
+        } catch (error) {
+          toast.error('서버 요청에 실패했습니다. 다시 시도해주세요.');
+        }
       } else {
         toast.error('선택지를 선택해주세요.');
       }
