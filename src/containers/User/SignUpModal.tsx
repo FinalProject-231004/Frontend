@@ -5,10 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import { postAPI } from '@/apis/axios';
 import axios, { AxiosError } from 'axios';
 import { signUpData } from '@/types/header';
-import { validateId, } from '@/hooks/useValidation';
+import { validateId, validateNickName, validatePw, validatePwCheck } from '@/hooks/useValidation';
 import { useEnterKey } from '@/hooks/useEnterKey';
 import { ToastContainer, toast } from 'react-toastify';
 import { SignUpErrorResponse } from '@/types/header'
+import * as React from "react";
 
 
 function SignUpModal() {
@@ -21,13 +22,11 @@ function SignUpModal() {
   const [isNickName, setIsNickName] = useState(false);
   const [isId, setIsId] = useState(false);
   const [isPw, setIsPw] = useState(false);
-  // const [isPwCheck, setIsPwCheck] = useState(false);
 
   const [idMessage, setIdMessage] = useState('');
   const [nickNameMessage, setNickNameMessage] = useState('');
   const [pwMessage, setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
-  // const [checkMsg, setCheckMsg] = useState(true);
   const [resultMsg, setResultMsg] = useState('');
   // const checkMsgColor = checkMsg ? 'blue' : 'red';
 
@@ -56,29 +55,6 @@ function SignUpModal() {
         // 마지막 input에서 Tab을 눌렀을 경우, 첫 번째 input으로 돌아가도록 설정
         idInputRef.current?.focus();
       }
-    }
-  };
-  
-  // 유효성 검사
-  // const validateId = (id: string) => {
-  //   const pattern = /^[a-z][a-z\d]{3,14}$/;
-  //   setIsId(pattern.test(id));
-  // };
-  const validateNickName = (id: string) => {
-    const pattern = /^(?=.*[a-z\uAC00-\uD7A3\d]).{2,5}$/;
-    setIsNickName(pattern.test(id));
-  };
-  const validatePw = (pw: string) => {
-    const pattern = /^(?=.*[a-z])(?=.*\d)(?=.*\W).{8,20}$/;
-    setIsPw(pattern.test(pw));
-  };
-  const validatepwCheck = (pwCheck: string) => {
-    if (pwCheck === pwInput) {
-      // setIsPwCheck(true);
-      setPwCheckMessage('');
-    } else {
-      // setIsPwCheck(false);
-      setPwCheckMessage('비밀번호가 일치하지 않습니다.');
     }
   };
 
@@ -115,11 +91,10 @@ function SignUpModal() {
       )
     } catch (error: unknown) { 
       if (axios.isAxiosError(error)) {
-        // Axios 오류 처리
         const serverError = error as AxiosError<SignUpErrorResponse>;
         if (serverError && serverError.response) {
-          // console.error('Error:', serverError.response.data.errorMessage);
-          setResultMsg(serverError.response.data.errorMessage);
+          // console.error('Error:', serverError.response);
+          setPwCheckMessage(serverError.response.data.msg);
         }
       } else {
         // console.error('An unexpected error occurred');
@@ -171,13 +146,15 @@ function SignUpModal() {
         height="589px"
         bgColor="#F1F8FF"
       >
-        <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-around items-center">
-          <p className="my-[42px] text-[34px] text-blue">회원가입</p>
+        <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="py-[10px] h-[589px] flex flex-col justify-around items-center">
+          <p className="text-[34px] text-blue">회원가입</p>
 
-          <div className="w-[530px] h-[337px] mb-[9px] flex flex-col justify-between relative">
+          <div className="w-[530px] h-[350px] flex flex-col justify-between relative">
             <div className="flex justify-between">
               <div className='relative'>
+                <label htmlFor='userId' className='text-deep_dark_gray'>아이디</label>
                 <UserInfoInput
+                  id = 'userId'
                   ref={idInputRef}
                   type="text"
                   placeholder="아이디"
@@ -188,21 +165,29 @@ function SignUpModal() {
                   onChange={e => {
                     const idValue = e.target.value;
                     idHandleChange(idValue);
-                    setIsId(validateId(idValue)); 
-                    setIdMessage('알파벳 소문자 또는 숫자 포함 4자 이상 15자 이하');
-                    if (isId === true) {setIdMessage(''); }
+                    const isValid = validateId(idValue);
+                    setIsId(isValid);
+                    if (!isValid && idValue.length >= 4) {
+                      setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
+                    } else if(!isValid && idValue.length < 4) {
+                      setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
+                    } else {
+                      setIdMessage('');
+                    }
                   }}
                   onKeyDown={(e) => handleTab(e, nickNameInputRef)}
                 />
                 {idInput.length >= 0 && (
-                  <div className="mt-1 ml-1 text-[11.5px] text-red font-hairline absolute">
+                  <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute">
                     {idMessage}
                   </div>
                 )}
               </div>
 
               <div className='relative'>
+                <label htmlFor='userNickname' className='text-deep_dark_gray'>닉네임</label>
                 <UserInfoInput
+                  id = 'userNickname'
                   ref={nickNameInputRef}
                   type="text"
                   placeholder="닉네임"
@@ -211,17 +196,22 @@ function SignUpModal() {
                   borderColor='none'
                   inputVal={nickNameInput}
                   onChange={e => {
-                    nameHandleChange(e.target.value);
-                    validateNickName(e.target.value);
-                    setNickNameMessage(
-                      '한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하',
-                    );
-                    if (isNickName === true) setNickNameMessage('');
+                    const nickanemValue = e.target.value;
+                    nameHandleChange(nickanemValue);
+                    const isValNickname = validateNickName(nickanemValue);
+                    setIsNickName(isValNickname);
+                    if (!isValNickname && nickanemValue.length >= 2) {
+                      setNickNameMessage('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
+                    } else if(!isValNickname && nickanemValue.length < 2) {
+                      setNickNameMessage('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
+                    } else {
+                      setNickNameMessage('');
+                    }
                   }}
                   onKeyDown={(e) => handleTab(e, pwInputRef)}
                 />
                 {nickNameInput.length >= 0 && (
-                  <div className="mt-1 ml-1 text-[11.5px] text-red font-hairline absolute">
+                  <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute">
                     {nickNameMessage}
                   </div>
                 )}
@@ -229,7 +219,9 @@ function SignUpModal() {
             </div>
 
             <div className='relative'>
+              <label htmlFor='userPw' className='text-deep_dark_gray'>비밀번호</label>
               <UserInfoInput
+                id = 'userPw'
                 ref={pwInputRef}
                 type="password"
                 placeholder="비밀번호"
@@ -238,17 +230,22 @@ function SignUpModal() {
                 inputVal={pwInput}
                 borderColor='none'
                 onChange={e => {
-                  pwHandleChange(e.target.value);
-                  validatePw(e.target.value);
-                  setPwMessage(
-                    '영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하',
-                  );
-                  if (isPw === true) setPwMessage('');
+                  const pwValue = e.target.value; 
+                  pwHandleChange(pwValue);
+                  const isValPw = validatePw(pwValue);
+                  setIsPw(isValPw);
+                  if (!isValPw && pwValue.length >= 8) {
+                    setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
+                  } else if(!isValPw && pwValue.length < 8) {
+                    setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
+                  } else {
+                    setPwMessage('');
+                  }
                 }}
                 onKeyDown={(e) => handleTab(e, pwCheckInputRef)}
               />
               {pwInput.length >= 0 && (
-                <div className="mt-[6px] text-[11.5px] text-red font-hairline absolute right-0">
+                <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0">
                   {pwMessage}
                 </div>
               )}
@@ -256,7 +253,9 @@ function SignUpModal() {
             
             <div className='relative h-[105px]'>
               <div className='relative'>
+                <label htmlFor='checkPw' className='text-deep_dark_gray'>비밀번호 확인</label>
                 <UserInfoInput
+                  id = 'checkPw'
                   ref={pwCheckInputRef}
                   type="password"
                   placeholder="비밀번호 확인"
@@ -265,13 +264,15 @@ function SignUpModal() {
                   borderColor='none'
                   inputVal={pwCheckInput}
                   onChange={e => {
-                    pwCheckHandleChange(e.target.value);
-                    validatepwCheck(e.target.value);
+                    const checkPwValue = e.target.value; 
+                    pwCheckHandleChange(checkPwValue);
+                    const isCheckPw = validatePwCheck(pwInput,checkPwValue);
+                    isCheckPw? setPwCheckMessage('') : setPwCheckMessage('비밀번호가 일치하지 않습니다.')
                   }}
                   onKeyDown={(e) => handleTab(e, null)}
                 />
                 {pwCheckInput.length >= 0 && (
-                  <div className="mt-[6px] text-[12px] text-red font-hairline absolute right-0">
+                  <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0">
                     {pwCheckMessage}
                   </div>
                 )}
