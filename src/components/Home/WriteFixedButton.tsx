@@ -1,11 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { FaPencil } from 'react-icons/fa6';
+import { toast } from 'react-toastify';
 
 const WriteFixedButton: React.FC = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem('Authorization');
 
   const goToPost = (): void => {
-    navigate(`/create-quiz/details`);
+    if (!token) {
+      toast.warning('로그인이 필요한 서비스입니다.');
+    } else {
+      navigate(`/create-quiz/details`);
+    }
   };
 
   return (
