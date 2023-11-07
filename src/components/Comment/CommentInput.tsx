@@ -15,6 +15,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
   onAddComment,
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.nativeEvent.isComposing) return;
     if (event.key === 'Enter') {
       onAddComment();
     }
