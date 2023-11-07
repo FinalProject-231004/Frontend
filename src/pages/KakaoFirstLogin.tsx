@@ -90,7 +90,7 @@ export default function KakaoFirstLogin() {
     <div className="w-[1920px] h-[1080px] mx-auto">
       <div className="w-[1080px] mx-auto flex flex-col justify-center items-center">
         <div className="w-full mt-24 mb-5 text-center">
-          <h1 className='text-[32px] text-blue mb-4'>비밀번호 재확인</h1>
+          <h1 className='text-[32px] text-blue mb-4'>카카오 비밀번호 설정</h1>
           <p className='text-[20px]'>
             카카오 신규회원은 사이트의 원활한 사용을 위해 초기 비밀번호를 변경해주세요. <br />
             초기 비밀번호는 "카카오계정 앞 <span className='text-blue'>2자리</span>" + <span className='text-[#22B465]'>"quiz8@@"</span>입니다.
