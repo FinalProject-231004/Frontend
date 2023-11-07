@@ -93,10 +93,6 @@ const Sse = () => {
     // console.log('alertList',alertList)
   };
 
-  // if (unread === undefined) {
-  //   return null;
-  // }
-
   const handleOpenUserMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElUser(e.currentTarget);
   };
