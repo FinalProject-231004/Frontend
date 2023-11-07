@@ -11,6 +11,6 @@ export const informApis = {
   notificationRead: async (username: string) =>
     await putAPI(`/api/notification/${username}/read`),
 
-  notificationDelete: async (id: number) =>
-    await putAPI(`/api/notification/${id}/delete`),
+  notificationDelete: async (notificationId: string) =>
+    await putAPI(`/api/notification/${notificationId}/delete`),
 };
