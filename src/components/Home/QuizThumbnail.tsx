@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router';
 
 const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   const quizId = quiz.id;
@@ -13,21 +12,15 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   useEffect(() => {
     const img = new Image();
     img.src = quiz.image;
-    img.onload = () => setIsLoading(false);
     img.onerror = () => setHasError(true);
   }, [quiz.image]);
 
   const handleImageClick = useCallback(() => {
-    setIsLoading(true);
     navigate(`/quiz/${quizId}`);
   }, [quizId, navigate, quiz.image]); //
 
-  if (isLoading) {
-    return <div className="hidden">Loading...</div>;
-  }
-
   if (hasError) {
-    return <div className="hidden">이미지 로드 실패</div>; //
+    return <div className="hidden">이미지 로드 실패</div>;
   }
 
   return (

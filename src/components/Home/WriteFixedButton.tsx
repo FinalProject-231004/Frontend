@@ -13,7 +13,7 @@ const WriteFixedButton: React.FC = () => {
       <button
         type="button"
         onClick={goToPost}
-        className="w-14 h-14 rounded-full fixed bottom-6 right-[330px] bg-blue border-2 border-slate-40 shadow-md shadow-slate-300"
+        className="w-14 h-14 rounded-full fixed bottom-6 right-[330px] transition duration-200 ease-in-out transform hover:scale-110 bg-blue border-2 border-slate-40 shadow-md shadow-slate-300"
       >
         <div className="w-12 h-12 rounded-full text-white relative -right-3 -bottom-2">
           <FaPencil size={30} />
