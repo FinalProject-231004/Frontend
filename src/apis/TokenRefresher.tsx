@@ -25,7 +25,7 @@ export default function TokenRefresher() {
         // console.log(status, msg);
         // access_token 재발급
         if (status === 401 ) {
-          if(msg == "Expired Access Token. 토큰이 만료되었습니다.") {
+          if(msg == "Expired Access Token. 토큰이 만료되었습니다") {
             // console.log("토큰 재발급 요청");
             await axios.post(
               `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/token/reissue`,{},
@@ -37,25 +37,15 @@ export default function TokenRefresher() {
             )
             .then((res) => {
               // console.log("res : ", res);
-              // localStorage.setItem("authorization", res.headers.authorization);
-              // localStorage.setItem("refresh", res.headers.refresh);
-              
-              // 기존 키 데이터를 삭제
-              localStorage.removeItem('Authorization');
-              localStorage.removeItem('Refresh');
+              localStorage.setItem("Authorization", res.headers.authorization);
+              localStorage.setItem("Refresh", res.headers.refresh);
 
               // originalConfig 헤더를 업데이트
-              originalConfig.headers["authorization"]="Bearer "+res.headers.authorization; // 헤더의 기존 데이터 -> 새로 받은 데이터로 수정
-              originalConfig.headers["refresh"]= res.headers.refresh;
+              originalConfig.headers["Authorization"]="Bearer "+res.headers.authorization; // 헤더의 기존 데이터 -> 새로 받은 데이터로 수정
+              originalConfig.headers["Refresh"]= res.headers.refresh;
 
-              // console.log("resData ", res.headers.authorization);
-              // console.log("resData ", res.headers.refresh);
               // console.log("New access token obtained.");
               return refreshAPI(originalConfig);
-            })
-            .then(() =>{
-              // console.log("리로드 할거야!!!!")
-              window.location.reload(); // 액세스 토큰이 만료된 후 수행하려던 요청이 성공적으로 끝나야지 리로드 될것 같다 -> 다른 페이지에서 성공확인 후 다시 돌아와서 확인하기!!
             })
             .catch(() => {
               // console.error('An error occurred while refreshing the token:', error);

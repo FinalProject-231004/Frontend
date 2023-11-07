@@ -14,10 +14,13 @@ export type SearchResult = {
 export type Notifications = {
   id: number;
   notificationId: string;
+  receiver: string;
+  readYn: string;
   content: string;
   url: string;
   created_at: string;
 }
+
 
 declare module 'event-source-polyfill' {
   export interface EventSourcePolyfillInit {
