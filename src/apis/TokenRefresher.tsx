@@ -37,12 +37,13 @@ export default function TokenRefresher() {
             )
             .then((res) => {
               // console.log("res : ", res);
+              // 새 토큰 저장
               localStorage.setItem("Authorization", res.headers.authorization);
               localStorage.setItem("Refresh", res.headers.refresh);
 
-              // originalConfig 헤더를 업데이트
-              originalConfig.headers["Authorization"]="Bearer "+res.headers.authorization; // 헤더의 기존 데이터 -> 새로 받은 데이터로 수정
-              originalConfig.headers["Refresh"]= res.headers.refresh;
+              // 응답받은 데이터로 원래 요청 재시도
+              originalConfig.headers["authorization"]="Bearer "+res.headers.authorization;
+              originalConfig.headers["refresh"]= res.headers.refresh;
 
               // console.log("New access token obtained.");
               return refreshAPI(originalConfig);
