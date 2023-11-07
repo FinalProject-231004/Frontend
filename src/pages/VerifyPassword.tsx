@@ -1,5 +1,6 @@
 import { getAPI, postAPI } from '@/apis/axios';
 import { UserInfoInput } from '@/components';
+import { useEnterKey } from '@/hooks/useEnterKey';
 import { nickName, varifyPw } from '@/types/myPage';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -94,13 +95,21 @@ export default function VerifyPassword() {
     }
   };
 
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    postPw(validateInfo);
+  };
+
+  const enterKeyHandler = useEnterKey(handleSubmit);
+
+
   return (
     <div className="w-screen min-h-[1080px] mx-auto flex justify-center items-center">
       <div className="w-[896px] h-[599px] mx-auto flex flex-col justify-center items-center">
         <div className="mt-24 mb-[12px] flex flex-col justify-center items-center">
           <h1 className='text-[32px] text-blue '>비밀번호 재확인</h1>
         </div>
-        <div className="flex flex-col justify-center items-center gap-[46px]">
+        <form className="flex flex-col justify-center items-center gap-[46px]" onSubmit={handleSubmit} onKeyDown={enterKeyHandler}>
           <div className="w-full py-16 flex flex-col justify-center items-center gap-[64px]">
             <div className="w-[896px] flex flex-col justify-between items-center">
               <p className="w-full text-2xl mb-[12px]">아이디</p>
@@ -132,20 +141,16 @@ export default function VerifyPassword() {
           </div>
           
           <div className='w-[300px] flex justify-between'>
-            <button className='w-[130px] h=[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'
-            onClick={() => {
-              postPw(validateInfo);
-            }}
-            >
+            <button type='submit' className='w-[130px] h=[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'>
               확인하기
             </button>
-            <button className='w-[130px] h=[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'
+            <button type='button' className='w-[130px] h=[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'
             onClick={() => { navigate('/mypage')}}
             >
               취소하기
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
