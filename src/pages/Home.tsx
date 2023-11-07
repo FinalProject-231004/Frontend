@@ -46,7 +46,6 @@ const Home: React.FC = () => {
             onClick={() => {
               navigate('/quiz/categories');
             }}
-            className="transition duration-300 ease-in-out transform hover:scale-110"
           >
             전체카테고리 보러가기👉
           </button>
