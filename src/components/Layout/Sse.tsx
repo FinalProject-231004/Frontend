@@ -9,13 +9,18 @@ import { useEffect, useState } from 'react';
 import { Notifications } from '@/types/header';
 import { getTime } from '@/utils/dateUtils';
 import { useQueryClient } from 'react-query';
-import { useGetMessageAlert } from '@/hooks';
+import { useGetMessageAlert, usePutReadAlert, useDeleteAlert } from '@/hooks';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { useNavigate } from 'react-router';
 
 const Sse = () => {
+  const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [newAlert, setNewAlert] = useState<Notifications[]>([]);
+  const [isRead, setIsRead] = useState(false);
   const { data: alertList } = useGetMessageAlert();
+  const { mutateAsync: removeAlert } = useDeleteAlert();
+  const { mutateAsync: readAlert } = usePutReadAlert();
   const allList = alertList
   const queryClient = useQueryClient();
 
@@ -49,7 +54,7 @@ const Sse = () => {
         }
         setNewAlert((prev) => [...prev, parsedData]);
         // console.log('새로운 알림',newAlert);
-        // queryClient.invalidateQueries('alertList');
+        queryClient.invalidateQueries('alertList');
       });
   
       eventSource.onerror = () => {
@@ -74,16 +79,20 @@ const Sse = () => {
     }
   }, [allList, token, queryClient]);
 
-  // const messageDelete = async (id) => {
-  //   await removeAlert(id);
-  //   queryClient.invalidateQueries('alertList');
-  // };
+  const messageDelete = async (id:number) => {
+    await removeAlert(id);
+    queryClient.invalidateQueries('alertList');
+  };
 
-  // const messageRead = async (id, url) => {
-  //   window.location.href = url;
-  //   await readAlert(id);
-  //   queryClient.invalidateQueries('alertList');
-  // };
+  const messageRead = async (id:string) => {
+    // window.location.href = url;
+    await readAlert(id);
+    queryClient.invalidateQueries('alertList'); // 알림리스트 즉시 갱신 요청
+    // console.log('alertList',alertList)
+    if(newAlert[0].readYn === 'Y') {
+      setIsRead(true);
+    }
+  };
 
   // if (unread === undefined) {
   //   return null;
@@ -103,7 +112,6 @@ const Sse = () => {
         <Tooltip title={newAlert?.length === 0 ? 'Noting' : 'Check it out'}>
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size="large" aria-label="show new notifications" color="inherit">
             <Badge badgeContent={newAlert.length} color="primary"> 
-              {/* <NotificationsIcon /> */}
               <img className='w-[33px] h-[36px]' src='/img/alertIcon.svg' alt='alertIcon' />
             </Badge>
           </IconButton>
@@ -113,13 +121,13 @@ const Sse = () => {
             mt: '45px', 
             '& .MuiPaper-root': {
               boxShadow: '-1px 1px 8px 0 rgba(0, 0, 0, 0.1), 1px 1px 8px 0 rgba(0, 0, 0, 0.1)', 
-              width: '540px', height: '324px', bgcolor:'#FAFAFA'
+              width: '560px', height: '324px', bgcolor:'#FAFAFA', 
             },
             '& .MuiMenu-list': { 
-              paddingX: '8px', paddingTop:'17px', 
+              paddingX: '24px', paddingY:'22px', 
             },
             '& .MuiButtonBase-root': {
-              // marginX:'10px', marginTop: '10px',
+              padding: 0, width:'475px', 
             }
           }}
           id="menu-appbar"
@@ -141,26 +149,43 @@ const Sse = () => {
               <div className='w-full ml-[180px] mt-[120px] text-[18px] text-deep_dark_gray absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2'>새로운 소식이 없습니다!</div>
             ):(
               <div>
-              {[...newAlert].reverse().map((note, index) => {
-                const isFirstItem = index === 0;
+              {[...newAlert].reverse().map((note) => {
+                // const isFirstItem = index === 0;
                 const timeReceived = getTime(new Date(note.created_at));
                 return (
                   <div key={note.id}>
-                    <MenuItem className='w-full' onClick={handleCloseUserMenu}>
-                      <Typography className={`mx-[10px] mt-[10px] flex justify-between items-center border-b-2 w-[500px] pb-[8px] ${isFirstItem ? 'border-blue' : 'border-navy'}`} textAlign="center">
-                        <span className={`text-[18px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>{note.content}</span>
-                        <span className='flex items-center'>
-                          <span className={`text-[18px] mr-[6px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>{timeReceived}</span>
-                          <button className={`text-[24px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>×</button>
-                        </span>
-                      </Typography>
+                    <MenuItem className='w-full' >
+                      <div className='flex items-center '>
+                        <div onClick={()=>{navigate(`${note.url}`); handleCloseUserMenu();}}>
+                          <Typography className={`mx-[10px] mt-[10px] flex justify-between items-center border-b-2 w-[475px] py-[8px] ${isRead ? 'border-[#C2C2C2]' : 'border-deep_dark_gray'}`} textAlign="center">
+                          {/* <Typography className={`mx-[10px] mt-[10px] flex justify-between items-center border-b-2 w-[500px] pb-[8px] ${isFirstItem ? 'border-blue' : 'border-navy'}`} textAlign="center"> */}
+                            {/* <span className={`text-[18px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>{note.content}</span>
+                            <span className='flex items-center'>
+                              <span className={`text-[18px] mr-[6px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>{timeReceived}</span>
+                              <button className={`text-[24px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>×</button>
+                            </span> */} {/*라이브 퀴즈 알림용*/}
+                            <span className={`text-[18px] ${isRead ? 'border-[#C2C2C2]' : 'text-deep_dark_gray'}`}>{note.content}</span>
+                            <span className='flex items-center'>
+                              <span className={`text-[18px] mr-[6px] ${isRead ? 'border-[#C2C2C2]' : 'text-deep_dark_gray'}`}>{timeReceived}</span>
+                            </span>
+                          </Typography>
+                        </div>
+                        <button className={`text-[24px] ml-[10px] ${isRead ? 'border-[#C2C2C2]' : 'text-deep_dark_gray'}`}
+                          onClick={()=>{messageDelete(note.id)}}
+                        >
+                          ×
+                        </button>
+                      </div>
                     </MenuItem>
                   </div> 
                 );
               })}
 
-              <button className='mt-[14px] mb-[14px] ml-[16px] border-b border-deep_dark_gray text-[14px] text-deep_dark_gray'>전체 읽음</button>
-              
+                <button className='mt-[19px] border-b border-deep_dark_gray text-[14px] text-deep_dark_gray'
+                  onClick={()=>messageRead(newAlert[0].receiver)}
+                >
+                  전체 읽음
+                </button>
               </div>
             )}
           {/* </div> */}
