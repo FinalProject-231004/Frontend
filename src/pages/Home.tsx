@@ -29,7 +29,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="w-screen h-screen mx-auto">
+    <div className="w-screen h-screen mx-auto overflow-y-auto">
       <div className="w-[1080px] mx-auto">
         <HomeBanner />
 

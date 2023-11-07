@@ -125,7 +125,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
 
     return (
       <>
-        <div className="w-[720px] mx-auto">
+        <div className="w-[720px] mx-auto overflow-y-auto">
           <h1
             className="play-quiz__title"
             style={{ maxWidth: '720x', wordWrap: 'break-word' }}
