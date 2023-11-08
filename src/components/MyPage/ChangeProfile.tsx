@@ -54,6 +54,7 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
           Authorization: `${localStorage.getItem('Authorization')}` 
         },
       });
+      toast.success('이미지 변경 완료!!');
       if (imgFile !== null) { 
         updateImg(imgFile);
       }
@@ -66,7 +67,7 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
   return (
     <div className="flex flex-col items-center justify-center">
         <div className="w-[222px] h-[222px] flex items-center justify-center rounded-full overflow-hidden">
-            <img src={imgFile || profileImg || '/img/bonobono.png'} alt="profile" className="max-w-full h-auto" />
+            <img src={imgFile || profileImg || '/img/bonobono.png'} alt="profile" className="w-full h-full object-cover" />
         </div>
  
         <div className="mt-[19px] flex justify-between items-center">
