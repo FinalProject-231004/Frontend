@@ -3,17 +3,18 @@ import { useRef, useState } from 'react';
 import { orderModalProps, orderItemInfo } from '@/types/mileageShop';
 import { postAPI } from '@/apis/axios';
 import { toast } from 'react-toastify';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userMileageState } from '@/recoil/atoms/userInfoAtom';
 import axios from 'axios';
+import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 
 export default function OrderModal( {itemId, itemName, price, isOpen, close}:orderModalProps ) {
   const [email, setEmail] = useState('');
   const [num, setNum] = useState(1);
   const [checkMsg, setCheckMsg] = useState('');
   const headerRef = useRef<HTMLHeadingElement>(null);
-  // const [fontSizeClass, setFontSizeClass] = useState('text-[34px]');
   const setMileage = useSetRecoilState(userMileageState);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
   const closeModal = () => {
     close();
@@ -39,8 +40,9 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
       });
       closeModal();
     } catch (error) {
+      // console.log(error);
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.errorMessage;
+        const errorMessage = error.response?.data?.msg;
         if (errorMessage) {
           // console.error(errorMessage);
           setCheckMsg(errorMessage);
@@ -130,7 +132,11 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
               btnactivebg={''}
               borderradius="28.5px"
               onClick={() => {
-                email? orderItem(itemInfo) : setCheckMsg('이메일을 입력해 주세요!')
+                if(isLoggedIn) {
+                  email? orderItem(itemInfo) : setCheckMsg('이메일을 입력해 주세요!')
+                } else {
+                  toast.error('로그인 후 이용해주세요!!');
+                }
               }}
             />
           </div>
