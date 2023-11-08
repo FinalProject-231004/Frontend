@@ -107,7 +107,7 @@ export default function VerifyPassword() {
     <div className="w-screen min-h-[1080px] mx-auto flex justify-center items-center">
       <div className="w-[896px] h-[599px] mx-auto flex flex-col justify-center items-center">
         <div className="mt-24 mb-[12px] flex flex-col justify-center items-center">
-          <h1 className='text-[32px] text-blue '>비밀번호 재확인</h1>
+          <h1 className='text-[32px] text-blue font-extrabold'>비밀번호 재확인</h1>
         </div>
         <form className="flex flex-col justify-center items-center gap-[46px]" onSubmit={handleSubmit} onKeyDown={enterKeyHandler}>
           <div className="w-full py-16 flex flex-col justify-center items-center gap-[64px]">
@@ -141,10 +141,10 @@ export default function VerifyPassword() {
           </div>
           
           <div className='w-[300px] flex justify-between'>
-            <button type='submit' className='w-[130px] h=[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'>
+            <button type='submit' className='w-[130px] h-[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'>
               확인하기
             </button>
-            <button type='button' className='w-[130px] h=[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'
+            <button type='button' className='w-[130px] h-[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'
             onClick={() => { navigate('/mypage')}}
             >
               취소하기

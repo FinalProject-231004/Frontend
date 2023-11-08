@@ -81,14 +81,13 @@ const Sse = () => {
   const unreadList = newAlert.filter(note => note.readYn === 'N').length;
 
 
-  const messageDelete = async (id:string) => {
+  const messageDelete = async (id:number) => {
     await removeAlert(id);
     queryClient.invalidateQueries('alertList');
   };
 
-  const messageRead = async (id:string) => {
-    // window.location.href = url;
-    await readAlert(id);
+  const messageRead = async (receiver:string) => {
+    await readAlert(receiver);
     queryClient.invalidateQueries('alertList'); // 알림리스트 즉시 갱신 요청
     // console.log('alertList',alertList)
   };
@@ -166,7 +165,7 @@ const Sse = () => {
                           </Typography>
                         </div>
                         <button className='w-[36px] h-[36px] text-[24px] ml-[10px]' 
-                          onClick={()=>{messageDelete(note.notificationId)}}
+                          onClick={()=>{messageDelete(note.id)}}
                         >
                           ×
                         </button>

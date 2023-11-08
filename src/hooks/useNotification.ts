@@ -12,7 +12,7 @@ export function usePutReadAlert() {
 }
 
 export function useDeleteAlert() {
-  return useMutation((notificationId:string) => {
-    return informApis.notificationDelete(notificationId);
+  return useMutation((id:number) => {
+    return informApis.notificationDelete(id);
   });
 }
