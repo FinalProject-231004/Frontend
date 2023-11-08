@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { getAPI, putAPI } from './axios';
+import { deleteAPI, getAPI, putAPI } from './axios';
 import { Notifications } from '@/types/header';
 
 export const informApis = {
@@ -12,5 +12,5 @@ export const informApis = {
     await putAPI(`/api/notification/${username}/read`),
 
   notificationDelete: async (id: number) =>
-    await putAPI(`/api/notification/${id}/delete`),
+    await deleteAPI(`/api/notification/${id}/delete`),
 };

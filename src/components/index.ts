@@ -12,6 +12,7 @@ export { default as QuizInfo } from './common/QuizInfo';
 export { default as PrivateRoute } from './common/PrivateRoute';
 export { default as ShareModal } from './common/ShareModal';
 export { default as LoadingSpinner } from './common/LoadingSpinner';
+export { default as PwVisibilityToggle } from './common/PwVisibilityToggle';
 
 // CreateQuiz
 export { default as CreateQuestionGroup } from './CreateQuiz/CreateQuestionGroup';
