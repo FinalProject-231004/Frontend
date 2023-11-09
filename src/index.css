@@ -63,6 +63,9 @@ input:focus {
 .title {
   @apply text-center mt-[132px] mb-[60px] text-[28px] text-blue font-extrabold;
 }
+.title_bk {
+  @apply text-center mt-[132px] mb-[60px] text-[28px] font-extrabold;
+}
 .play-quiz__title {
   @apply text-center mt-[132px] mb-[60px] text-[28px] text-blue font-extrabold;
 }
@@ -80,4 +83,24 @@ input:focus {
 
 .slateshadow {
   @apply shadow-md shadow-slate-200;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: slide 18s linear infinite;
 }

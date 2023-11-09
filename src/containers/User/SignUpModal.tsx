@@ -10,7 +10,7 @@ import { useEnterKey } from '@/hooks/useEnterKey';
 import { ToastContainer, toast } from 'react-toastify';
 import { SignUpErrorResponse } from '@/types/header'
 import * as React from "react";
-
+import { PwVisibilityToggle } from '@/components'
 
 function SignUpModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -28,6 +28,9 @@ function SignUpModal() {
   const [pwMessage, setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
   const [resultMsg, setResultMsg] = useState('');
+
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showCheckPw, setShowCheckPw] = React.useState(false);
   // const checkMsgColor = checkMsg ? 'blue' : 'red';
 
   const setLoginModal = useSetRecoilState(loginModalState);
@@ -134,7 +137,6 @@ function SignUpModal() {
     e.preventDefault();
     signUp(data);
   };
-
   const enterKeyHandler = useEnterKey(handleSubmit);
 
   return (
@@ -218,32 +220,36 @@ function SignUpModal() {
               </div>
             </div>
 
-            <div className='relative'>
+            <div className='h-[96px] relative'>
               <label htmlFor='userPw' className='text-deep_dark_gray'>비밀번호</label>
-              <UserInfoInput
-                id = 'userPw'
-                ref={pwInputRef}
-                type="password"
-                placeholder="비밀번호"
-                size="medium"
-                focusBorderColor={''}
-                inputVal={pwInput}
-                borderColor='none'
-                onChange={e => {
-                  const pwValue = e.target.value; 
-                  pwHandleChange(pwValue);
-                  const isValPw = validatePw(pwValue);
-                  setIsPw(isValPw);
-                  if (!isValPw && pwValue.length >= 8) {
-                    setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
-                  } else if(!isValPw && pwValue.length < 8) {
-                    setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
-                  } else {
-                    setPwMessage('');
-                  }
-                }}
-                onKeyDown={(e) => handleTab(e, pwCheckInputRef)}
-              />
+              <div className=' flex items-center relative'>
+                <UserInfoInput
+                  id = 'userPw standard-adornment-password'
+                  ref={pwInputRef}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="비밀번호"
+                  size="medium"
+                  focusBorderColor={''}
+                  inputVal={pwInput}
+                  borderColor='none'
+                  onChange={e => {
+                    const pwValue = e.target.value; 
+                    pwHandleChange(pwValue);
+                    const isValPw = validatePw(pwValue);
+                    setIsPw(isValPw);
+                    if (!isValPw && pwValue.length >= 8) {
+                      setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
+                    } else if(!isValPw && pwValue.length < 8) {
+                      setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
+                    } else {
+                      setPwMessage('');
+                    }
+                  }}
+                  onKeyDown={(e) => handleTab(e, pwCheckInputRef)}
+                />
+                <PwVisibilityToggle showPassword={showPassword} setShowPassword={setShowPassword} />
+              </div>
+
               {pwInput.length >= 0 && (
                 <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0">
                   {pwMessage}
@@ -251,26 +257,29 @@ function SignUpModal() {
               )}
             </div>
             
-            <div className='relative h-[105px]'>
-              <div className='relative'>
+            <div className=' h-[96px]'>
+              <div className=''>
                 <label htmlFor='checkPw' className='text-deep_dark_gray'>비밀번호 확인</label>
-                <UserInfoInput
-                  id = 'checkPw'
-                  ref={pwCheckInputRef}
-                  type="password"
-                  placeholder="비밀번호 확인"
-                  size="medium"
-                  focusBorderColor={''}
-                  borderColor='none'
-                  inputVal={pwCheckInput}
-                  onChange={e => {
-                    const checkPwValue = e.target.value; 
-                    pwCheckHandleChange(checkPwValue);
-                    const isCheckPw = validatePwCheck(pwInput,checkPwValue);
-                    isCheckPw? setPwCheckMessage('') : setPwCheckMessage('비밀번호가 일치하지 않습니다.')
-                  }}
-                  onKeyDown={(e) => handleTab(e, null)}
-                />
+                <div className=' flex items-center relative'>
+                  <UserInfoInput
+                    id = 'checkPw'
+                    ref={pwCheckInputRef}
+                    type={showCheckPw ? 'text' : 'password'}
+                    placeholder="비밀번호 확인"
+                    size="medium"
+                    focusBorderColor={''}
+                    borderColor='none'
+                    inputVal={pwCheckInput}
+                    onChange={e => {
+                      const checkPwValue = e.target.value; 
+                      pwCheckHandleChange(checkPwValue);
+                      const isCheckPw = validatePwCheck(pwInput,checkPwValue);
+                      isCheckPw? setPwCheckMessage('') : setPwCheckMessage('비밀번호가 일치하지 않습니다.')
+                    }}
+                    onKeyDown={(e) => handleTab(e, null)}
+                  />
+                  <PwVisibilityToggle showPassword={showCheckPw} setShowPassword={setShowCheckPw} />
+                </div>
                 {pwCheckInput.length >= 0 && (
                   <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0">
                     {pwCheckMessage}

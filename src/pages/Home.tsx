@@ -3,6 +3,7 @@ import WriteFixedButton from '@/components/Home/WriteFixedButton';
 import { useFetchQuiz } from '@/hooks';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { AllQuizCategories } from '.';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -33,14 +34,14 @@ const Home: React.FC = () => {
     <div className="w-screen h-screen mx-auto overflow-y-auto">
       <div className="w-[1080px] mx-auto">
         <HomeBanner />
-
+        <AllQuizCategories />
         <QuizCategorySection title="최신 퀴즈" quiz={allQuizzes} />
 
         <QuizCategorySection title="인기순 퀴즈" quiz={hotQuiz} />
 
         <QuizCategorySection title="조회순 퀴즈" quiz={viewNum} />
 
-        <div className="flex justify-end underline mt-16 text-blue">
+        <div className="flex justify-end underline mt-16 text-blue sm:w-[100vw] sm:mt-5 sm:pr-[18px]">
           <button
             type="button"
             onClick={() => {
@@ -52,7 +53,7 @@ const Home: React.FC = () => {
         </div>
       </div>
       <WriteFixedButton />
-      <div className="w-full h-7 bg-white"></div>
+      <div className="w-full h-10 bg-white sm:h-10"></div>
     </div>
   );
 };

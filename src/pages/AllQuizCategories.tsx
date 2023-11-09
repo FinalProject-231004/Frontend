@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { categories } from '@/constants/categories';
 import React from 'react';
 import axios from 'axios';
-import { HomeBanner, QuizCategorySection } from '@/components';
+import { QuizCategorySection } from '@/components';
 import { useLocation, useNavigate } from 'react-router';
 
 const AllQuizCategories: React.FC = () => {
@@ -27,8 +27,7 @@ const AllQuizCategories: React.FC = () => {
       setSelectedCategory('MOVIE_TV');
       fetchCategories('MOVIE_TV');
     }
-  }, [location]); // Depend on location
-
+  }, [location]);
   const fetchCategories = async (categories: string) => {
     try {
       const response = await axios.get(
@@ -44,13 +43,9 @@ const AllQuizCategories: React.FC = () => {
   };
 
   return (
-    <div className="max-w-[1080px] mx-auto">
-      <div className="hidden">
-        <HomeBanner />
-      </div>
-      <div className="hidden"></div>
-      <h2 className="title">전체 카테고리</h2>
-      <div className="w-full h-[134px] grid grid-cols-5 gap-x-5 py-4 pl-[65px] my-5 justify-items-start rounded-md bg-[#F1F8FF] text-lg font-extrabold">
+    <div className="w-full mx-auto">
+      {/* <h2 className="title_bk">전체 카테고리</h2> */}
+      <div className="w-full h-[134px]  grid grid-cols-5 gap-x-5 py-4 my-5 pl-[56px] justify-items-start rounded-md bg-[#F1F8FF] text-lg font-extrabold sm:w-[100vw] sm:grid-cols-3 sm:gap-2">
         {categories.map(category => (
           <div
             key={category.category}
