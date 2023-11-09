@@ -1,3 +1,4 @@
+export { useWindowSize } from './useWindowSize';
 export { useChoiceActions } from './useChoiceActions';
 export { useFetchQuiz } from './useFetchQuiz';
 export { useLike } from './useLike';

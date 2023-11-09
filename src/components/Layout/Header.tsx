@@ -26,10 +26,6 @@ function Header() {
     }
   };
 
-  const preparing = () =>{
-    toast.warning('⚒️준비중인 서비스입니다!!⚒️ 💙우리 조만간 만나요🤗💙');
-  }
-
   return (
     <header className="w-screen flex justify-center fixed top-0 bg-white shadow-sm z-[999] sm:flex ">
       <div className="w-[1080px] py-3 m-auto flex justify-between items-center sm:p-0 sm:flex-col">
@@ -53,7 +49,7 @@ function Header() {
             <Link className='transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
               to="/mileage-shop">마일리지샵</Link>
             <Link className='transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
-              onClick={preparing} to="">라이브 퀴즈
+              to="/live-quiz">라이브 퀴즈
             </Link>
           </div>
           </>
@@ -72,7 +68,7 @@ function Header() {
                 to="/mileage-shop">마일리지샵
               </Link>
               <Link className='text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
-                onClick={preparing} to="">라이브 퀴즈
+                to="/live-quiz">라이브 퀴즈
               </Link>
             </div>
             <div className="flex gap-9">

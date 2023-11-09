@@ -1,8 +1,17 @@
+import { NavigateFunction } from 'react-router';
 import { Comments, QuizInfoProps } from './result';
 
 export type Banner = {
   image: string;
-  category: string;
+  buttonImage?: string;
+  category?: string;
+  smImage: string;
+};
+
+export type BannerButtonProps = {
+  image: string;
+  category?: string;
+  navigate: NavigateFunction;
 };
 
 export type Quiz = {
