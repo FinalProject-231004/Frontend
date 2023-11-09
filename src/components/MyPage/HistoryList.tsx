@@ -6,7 +6,7 @@ export default function HistoryList({price, cost, itemName, quantity, email, dat
   };
 
   return (
-    <div className='w-[988px] h-[70px] py-[23px] pl-[25px] pr-[14px] border-b border-blue flex justify-between items-center'>
+    <div className='w-[988px] h-[70px] py-[23px] pl-[25px] pr-[14px] border-b border-blue flex justify-between items-center sm:w-[100vw]'>
       {price === 'reward' ? (
         <p className='text-[22px] text-blue ' style={defaultStyle}>+{cost}M</p>
       ) 
