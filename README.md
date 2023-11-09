@@ -145,8 +145,8 @@
     <td align="center"><b><a href="https://github.com/zidoopal">🍉 지유진</a></b></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/wynter24"><img src="https://avatars.githubusercontent.com/u/132557632?v=4" width="100px" /></a></td>
-    <td align="center"><a href="https://github.com/zidoopal"><img src="https://avatars.githubusercontent.com/u/47877063?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/zidoopal"><img src="[https://avatars.githubusercontent.com/u/47877063?v=4](https://github.com/account)" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/wynter24"><img src="[[https://avatars.githubusercontent.com/u/132557632?v=4](https://github.com/account)](https://avatars.githubusercontent.com/u/97824352?v=4)](https://avatars.githubusercontent.com/u/97824352?v=4)" width="100px" /></a></td>
   </tr>
   <tr>
     <td align="center"><b>💙 React</b></td>
@@ -162,11 +162,7 @@
 ### Frontend
 
 <p>
-![React](https://img.shields.io/badge/-React-61DAFB?style=flat&logo=react)
-![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat&logo=TypeScript)
-![Tailwind CSS](https://img.shields.io/badge/-Tailwind CSS-06B6D4?style=flat&logo=Tailwind CSS)
-![Recoil](https://img.shields.io/badge/-Recoil-3578E5?style=flat&logo=Recoil)
-![React Query](https://img.shields.io/badge/-React Query-3578E5?style=flat&logo=React Query)
+
 
 
 
