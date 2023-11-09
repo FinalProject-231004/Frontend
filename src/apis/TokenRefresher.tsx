@@ -29,7 +29,6 @@ export default function TokenRefresher() {
             // console.log("토큰 재발급 요청");
             await axios.post(
               `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/token/reissue`,{},
-              // accesstoken 수정
               {headers: {
                 Authorization: `${localStorage.getItem('Authorization')}`,
                 Refresh: `${localStorage.getItem('Refresh')}`,
@@ -37,14 +36,16 @@ export default function TokenRefresher() {
             )
             .then((res) => {
               // console.log("res : ", res);
+              // 새 토큰 저장
               localStorage.setItem("Authorization", res.headers.authorization);
               localStorage.setItem("Refresh", res.headers.refresh);
 
-              // originalConfig 헤더를 업데이트
-              originalConfig.headers["Authorization"]="Bearer "+res.headers.authorization; // 헤더의 기존 데이터 -> 새로 받은 데이터로 수정
-              originalConfig.headers["Refresh"]= res.headers.refresh;
+              // 새로 응답받은 데이터로 토큰 만료로 실패한 요청에 대한 인증 시도 (header에 토큰 담아 보낼 때 사용)
+              originalConfig.headers["authorization"]="Bearer "+res.headers.authorization;
+              originalConfig.headers["refresh"]= res.headers.refresh;
 
               // console.log("New access token obtained.");
+              // 새로운 토큰으로 재요청
               return refreshAPI(originalConfig);
             })
             .catch(() => {

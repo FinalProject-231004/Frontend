@@ -17,7 +17,6 @@ const Sse = () => {
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [newAlert, setNewAlert] = useState<Notifications[]>([]);
-  const [isRead, setIsRead] = useState(false);
   const { data: alertList } = useGetMessageAlert();
   const { mutateAsync: removeAlert } = useDeleteAlert();
   const { mutateAsync: readAlert } = usePutReadAlert();
@@ -79,24 +78,19 @@ const Sse = () => {
     }
   }, [allList, token, queryClient]);
 
+  const unreadList = newAlert.filter(note => note.readYn === 'N').length;
+
+
   const messageDelete = async (id:number) => {
     await removeAlert(id);
     queryClient.invalidateQueries('alertList');
   };
 
-  const messageRead = async (id:string) => {
-    // window.location.href = url;
-    await readAlert(id);
+  const messageRead = async (receiver:string) => {
+    await readAlert(receiver);
     queryClient.invalidateQueries('alertList'); // 알림리스트 즉시 갱신 요청
     // console.log('alertList',alertList)
-    if(newAlert[0].readYn === 'Y') {
-      setIsRead(true);
-    }
   };
-
-  // if (unread === undefined) {
-  //   return null;
-  // }
 
   const handleOpenUserMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElUser(e.currentTarget);
@@ -111,7 +105,7 @@ const Sse = () => {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title={newAlert?.length === 0 ? 'Noting' : 'Check it out'}>
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size="large" aria-label="show new notifications" color="inherit">
-            <Badge badgeContent={newAlert.length} color="primary"> 
+            <Badge badgeContent={unreadList} color="primary"> 
               <img className='w-[33px] h-[36px]' src='/img/alertIcon.svg' alt='alertIcon' />
             </Badge>
           </IconButton>
@@ -157,20 +151,20 @@ const Sse = () => {
                     <MenuItem className='w-full' >
                       <div className='flex items-center '>
                         <div onClick={()=>{navigate(`${note.url}`); handleCloseUserMenu();}}>
-                          <Typography className={`mx-[10px] mt-[10px] flex justify-between items-center border-b-2 w-[475px] py-[8px] ${isRead ? 'border-[#C2C2C2]' : 'border-deep_dark_gray'}`} textAlign="center">
+                          <Typography className={`mx-[10px] mt-[10px] flex justify-between items-center border-b-2 w-[475px] py-[8px] ${note.readYn==='Y' ? 'border-[#C2C2C2]' : 'border-deep_dark_gray'}`} textAlign="center">
                           {/* <Typography className={`mx-[10px] mt-[10px] flex justify-between items-center border-b-2 w-[500px] pb-[8px] ${isFirstItem ? 'border-blue' : 'border-navy'}`} textAlign="center"> */}
                             {/* <span className={`text-[18px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>{note.content}</span>
                             <span className='flex items-center'>
                               <span className={`text-[18px] mr-[6px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>{timeReceived}</span>
                               <button className={`text-[24px] ${isFirstItem ? 'text-blue' : 'text-deep_dark_gray'}`}>×</button>
                             </span> */} {/*라이브 퀴즈 알림용*/}
-                            <span className={`text-[18px] ${isRead ? 'border-[#C2C2C2]' : 'text-deep_dark_gray'}`}>{note.content}</span>
+                            <span className={`text-[18px] ${note.readYn==='Y' ? 'text-[#C2C2C2]' : 'text-deep_dark_gray'}`}>{note.content}</span>
                             <span className='flex items-center'>
-                              <span className={`text-[18px] mr-[6px] ${isRead ? 'border-[#C2C2C2]' : 'text-deep_dark_gray'}`}>{timeReceived}</span>
+                              <span className={`text-[18px] mr-[6px] ${note.readYn==='Y' ? 'text-[#C2C2C2]' : 'text-deep_dark_gray'}`}>{timeReceived}</span>
                             </span>
                           </Typography>
                         </div>
-                        <button className={`text-[24px] ml-[10px] ${isRead ? 'border-[#C2C2C2]' : 'text-deep_dark_gray'}`}
+                        <button className='w-[36px] h-[36px] text-[24px] ml-[10px]' 
                           onClick={()=>{messageDelete(note.id)}}
                         >
                           ×

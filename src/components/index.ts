@@ -12,6 +12,7 @@ export { default as QuizInfo } from './common/QuizInfo';
 export { default as PrivateRoute } from './common/PrivateRoute';
 export { default as ShareModal } from './common/ShareModal';
 export { default as LoadingSpinner } from './common/LoadingSpinner';
+export { default as PwVisibilityToggle } from './common/PwVisibilityToggle';
 
 // CreateQuiz
 export { default as CreateQuestionGroup } from './CreateQuiz/CreateQuestionGroup';
@@ -45,6 +46,7 @@ export { default as HomeBanner } from './Home/HomeBanner';
 export { default as QuizCategorySection } from './Home/QuizCategorySection';
 export { default as QuizThumbnail } from './Home/QuizThumbnail';
 export { default as DetailPageComp } from './Home/DetailPageComp';
+export { default as WriteFixedButton } from './Home/WriteFixedButton';
 
 // Result
 export { default as ResultPageComp } from './Result/ResultPageComp';
@@ -57,6 +59,11 @@ export { default as CommentInput } from './Comment/CommentInput';
 // MileageShop
 export { default as GifticonList } from './MileageShop/GifticonList';
 export { default as OrderModal } from './MileageShop/OrderModal';
+
+// LiveQuiz
+export { default as LiveQuizComp } from './LiveQuiz/LiveQuizComp';
+export { default as CanvasContainer } from './LiveQuiz/Canvas/CanvasContainer';
+export { default as CanvasComponent } from './LiveQuiz/Canvas/CanvasComponent';
 
 // Root
 export { default as CurrentDate } from './CurrentDate';

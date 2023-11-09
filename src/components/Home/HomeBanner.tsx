@@ -1,4 +1,3 @@
-import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router';
@@ -6,80 +5,101 @@ import { useNavigate } from 'react-router';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { BannerButtonProps } from '@/types/homeQuiz';
+import { useWindowSize } from '@/hooks';
 
-const HomeBanner: React.FC = () => {
-  const navigate = useNavigate();
+const banners = [
+  {
+    image: '/Banner01.png',
+    smImage: '/smBanner01.png',
+    buttonImage: '/BannerBtn01.png',
+    category: 'ANIMAL',
+  },
+  {
+    image: '/Banner06.png',
+    smImage: '/smBanner06.png',
+  },
+  {
+    image: '/Banner02.png',
+    smImage: '/smBanner02.png',
+    buttonImage: '/BannerBtn02.png',
+    category: 'FOOD',
+  },
+  {
+    image: '/Banner03.png',
+    smImage: '/smBanner03.png',
+    buttonImage: '/BannerBtn03.png',
+    category: 'MOVIE_TV',
+  },
+  {
+    image: '/Banner05.png',
+    smImage: '/smBanner05.png',
+  },
+  {
+    image: '/Banner04.png',
+    smImage: '/smBanner04.png',
+    buttonImage: '/BannerBtn04.png',
+    category: 'PERSON',
+  },
+];
+
+const BannerButton = ({ image, category, navigate }: BannerButtonProps) => {
+  const defalutSize = 'w-[266px] h-[57px] sm:w-[117px] sm:h-[25px]';
+  const additionalStyle =
+    category === 'MOVIE_TV'
+      ? `shadow-purple-800 w-[299px] h-[57px] sm:w-[133px] sm:h-[25px]`
+      : category === 'ANIMAL'
+      ? `${defalutSize} shadow-green-600`
+      : category === 'FOOD'
+      ? `${defalutSize} shadow-yellow-500`
+      : `${defalutSize} shadow-orange-00`;
+
   return (
-    <div className="w-[1080px] h-[285px] mt-[102px] flex justify-center items-center">
-      <div className="w-full h-full">
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper"
-        >
-          <SwiperSlide className="flex items-center justify-center bg-white text-2xl">
-            <div className="relative">
-              <button
-                className="w-[266px] h-[57px] rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm shadow-green-600"
-                onClick={() => {
-                  navigate(`/quiz/categories/ANIMAL`);
-                }}
-              >
-                <img src="/BannerBtn01.png" alt="BannerBtn" />
-              </button>
-              <img src="/Banner01.png" alt="Banner" />
-            </div>
+    <button
+      className={`${additionalStyle} rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm sm:left-[34px] sm:bottom-[30px]`}
+      onClick={() => category && navigate(`/quiz/categories/${category}`)}
+    >
+      <img src={image} alt="BannerBtn" />
+    </button>
+  );
+};
+
+const HomeBanner = () => {
+  const navigate = useNavigate();
+  const windowSize = useWindowSize();
+
+  // 화면 크기에 따라 이미지 선택
+  const getBannerImage = (smImage: string, image: string) => {
+    return windowSize <= 393 ? smImage : image;
+  };
+
+  return (
+    <div className="w-[1080px] h-[285px] mt-[102px] sm:w-[100vw] sm:h-[142px]">
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="mySwiper"
+      >
+        {banners.map(({ image, smImage, buttonImage, category }, index) => (
+          <SwiperSlide
+            key={index}
+            className="flex items-center justify-center bg-white text-2xl"
+          >
+            <img src={getBannerImage(smImage, image)} alt="Banner" />
+            {buttonImage && (
+              <BannerButton
+                image={buttonImage}
+                category={category}
+                navigate={navigate}
+              />
+            )}
           </SwiperSlide>
-          <SwiperSlide className="flex items-center justify-center bg-white text-2xl">
-            <img src="/Banner06.png" alt="Banner" />
-          </SwiperSlide>
-          <SwiperSlide className="flex items-center justify-center bg-white text-2xl">
-            <button
-              className="w-[266px] h-[57px] rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm shadow-yellow-500"
-              onClick={() => {
-                navigate(`/quiz/categories/FOOD`);
-              }}
-            >
-              <img src="/BannerBtn02.png" alt="BannerBtn" />
-            </button>
-            <img src="/Banner02.png" alt="Banner" />
-          </SwiperSlide>
-          <SwiperSlide className="flex items-center justify-center bg-white text-2xl">
-            <img src="/Banner03.png" alt="Banner" />
-            <button
-              className="w-[299px] h-[57px] rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm shadow-purple-900"
-              onClick={() => {
-                navigate(`/quiz/categories/`);
-              }}
-            >
-              <img src="/BannerBtn03.png" alt="BannerBtn" />
-            </button>
-          </SwiperSlide>
-          <SwiperSlide className="flex items-center justify-center bg-white text-2xl">
-            <img src="/Banner05.png" alt="Banner" />
-          </SwiperSlide>
-          <SwiperSlide className="flex items-center justify-center bg-white text-2xl">
-            <img src="/Banner04.png" alt="Banner" />
-            <button
-              className="w-[266px] h-[57px] rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm shadow-orange-500"
-              onClick={() => {
-                navigate(`/quiz/categories/PERSON`);
-              }}
-            >
-              <img src="/BannerBtn04.png" alt="BannerBtn" />
-            </button>
-          </SwiperSlide>
-        </Swiper>
-      </div>
+        ))}
+      </Swiper>
     </div>
   );
 };

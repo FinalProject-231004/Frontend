@@ -155,7 +155,7 @@ const CreateQuizGroup: React.FC = () => {
           onCategoryClick={handleCategoryClick}
         />
 
-        <div className="flex mb-[20px] justify-end">
+        <div className="flex mb-[20px] justify-end sm:w-[100vw]">
           <ImageUploader
             id="quiz-image"
             image={quiz.image}
@@ -163,7 +163,7 @@ const CreateQuizGroup: React.FC = () => {
             removeImage={handleImageRemove}
           />
         </div>
-        <div className="w-full h-[450px] mx-auto mt-[10px] mb-[110px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center">
+        <div className="w-full h-[450px] mt-[10px] mb-[110px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center sm:w-[100vw]">
           {quiz.image?.preview ? (
             <div
               className="w-full h-full bg-contain bg-center bg-no-repeat"
