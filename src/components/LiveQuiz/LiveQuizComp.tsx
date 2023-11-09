@@ -53,13 +53,12 @@ const LiveQuizComp: React.FC = () => {
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
-      toast.error('유저목록을 불러오는데 실패하였습니다 😔.');
+      // toast.error('유저목록을 불러오는데 실패하였습니다 😔.');
     }
   };
 
   useEffect(() => {
-    fetchUsers(); // 먼저 유저 목록을 불러옵니다.
-    connectWebSocket(); // 그 다음에 웹소켓 연결을 설정합니다.
+    fetchUsers();
   }, []);
 
   const connectWebSocket = () => {
