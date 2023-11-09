@@ -19,10 +19,10 @@ export default function MyPage() {
   }, []);  
 
   return (
-    <div className="w-[1920px] h-[1080px] mx-auto flex ">
-      <aside className='mt-[148px] ml-[173px] flex-shrink-0'>
-        <div className='text-[32px] mb-[105px] text-blue font-extrabold'>안녕하세요,<br/>{nickName}님!</div>
-        <ul className='text-[24px] w-[247px]'>
+    <div className="w-[1920px] h-[1080px] flex sm:flex-col sm:w-[100vw] sm:h-[100vh] sm:items-center">
+      <aside className='mt-[148px] ml-[173px] flex-shrink-0 sm:mt-0 sm:ml-0'>
+        <div className='text-[32px] mb-[105px] text-blue font-extrabold sm:mb-0'>안녕하세요,<br/>{nickName}님!</div>
+        <ul className='text-[24px] w-[247px] sm:flex'>
           <li 
             className={`border-b-2 pb-[20px] cursor-pointer ${selected === 'mileage' ? 'text-blue border-blue' : ''}`} 
             onClick={() => setSelected('mileage')}
@@ -41,7 +41,7 @@ export default function MyPage() {
         </ul>
       </aside>  
 
-      <main className="w-[1080px]">
+      <main className="w-[1080px] sm:w-[100vw]">
         {selected === 'mileage' && <MileageHistory />}
         {selected === 'info' && <UpdateMyInfo />}
       </main>
