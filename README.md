@@ -44,7 +44,7 @@
   <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F080bd133-dafa-4a76-9d6a-97cfa8527823%2F98e70914-f2d1-48fd-8672-f59bb2372a94%2F%25EC%258A%25A4%25ED%2581%25AC%25EB%25A6%25B0%25EC%2583%25B7_2023-11-08_134331.png?table=block&id=47b5c60d-5c6c-4a2f-a8b9-b985c8c843fb&spaceId=080bd133-dafa-4a76-9d6a-97cfa8527823&width=2000&userId=353f1212-549d-4134-87c5-3735c507862f&cache=v2"  width="440" />
 </p>
 
-- 퀴즈를 풀면 한 문제당 +10M의 마일리지를 얻을 수 있습니다.<br>
+- 퀴즈를 풀면 한 문제당 +10 M 의 마일리지를 얻을 수 있습니다.<br>
 - 비회원도 문제 풀이가 가능합니다!<br>
 
 <br>
@@ -55,8 +55,8 @@
   <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F080bd133-dafa-4a76-9d6a-97cfa8527823%2F42a1d56d-ca6d-4966-bd9b-30494584773a%2F%25EC%258A%25A4%25ED%2581%25AC%25EB%25A6%25B0%25EC%2583%25B7_2023-11-08_135402.png?table=block&id=607b17c2-b2a1-4e98-903b-9eed2e30ef35&spaceId=080bd133-dafa-4a76-9d6a-97cfa8527823&width=2000&userId=353f1212-549d-4134-87c5-3735c507862f&cache=v2"  width="400" />
 </p>
 
-- 배너에 ‘문제 만들기’ 혹은 아래의 연필 모양을 누르면 문제를 직접 출제할 수 있습니다.<br>
-- 퀴즈를 만들면 하루에 1번 50M를 얻을 수 있습니다.<br>
+- 헤더에 ‘문제 만들기’ 혹은 아래의 연필 모양 버튼을 누르면 문제를 직접 제작 할 수 있습니다.<br>
+- 퀴즈를 만들면 하루에 1번 50 M를 얻을 수 있습니다.<br>
 
 <br/>
 
@@ -64,7 +64,7 @@
 
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F080bd133-dafa-4a76-9d6a-97cfa8527823%2F7605ccb6-9279-482f-a997-252559a15f8b%2FUntitled.png?table=block&id=28ca85c2-1560-448e-a5e2-15ac3c40145d&spaceId=080bd133-dafa-4a76-9d6a-97cfa8527823&width=2000&userId=353f1212-549d-4134-87c5-3735c507862f&cache=v2" width="400">
 
-- 다른 유저가 만든 퀴즈를 풀이하고, 지인들에게 공유할 수 있습니다. <br>
+- 다른 유저가 만든 퀴즈를 풀어보고, 내가 푼 퀴즈를 친구, 가족 등 타인에게 공유할 수 있습니다. <br>
 <br/>
 
 
@@ -107,14 +107,14 @@
 </p>
 
 - 퀴즈에서 댓글작성 및 좋아요 실행시 퀴즈작성자에게 알림이 보내집니다.<br>
-- 읽음처리, 알림 삭제가 가능합니다.<br>
+- 읽음 처리, 알림 삭제가 가능합니다.<br>
 <br>
 
 
 ## 📌 8. 라이브퀴즈
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F080bd133-dafa-4a76-9d6a-97cfa8527823%2Fc4957f83-16c3-4eb7-ab79-e39459bbfc30%2FUntitled.png?table=block&id=83ea6004-ddfd-4771-9c1d-b0a06cba8c35&spaceId=080bd133-dafa-4a76-9d6a-97cfa8527823&width=2000&userId=353f1212-549d-4134-87c5-3735c507862f&cache=v2" width="400" >
 
-- 관리자가 그림을 그리면 해당페이지에서 참여유저들이 볼 수 있고, 채팅을 통해 정답을 맞추는 서비스입니다.<br>
+- 해당페이지에서 관리자가 그림을 그려 문제를 출제, 참여유저들이 채팅을 통해 정답을 맞추는 서비스입니다.<br>
 - 정답을 맞출 경우 상품으로 마일리지를 획득할 수 있습니다.<br>
 - 라이브 퀴즈는 정해진 시간에만 열립니다.<br>
 - 관리자와 실시간으로 소통할 수 있습니다.<br>
@@ -145,8 +145,8 @@
     <td align="center"><b><a href="https://github.com/zidoopal">🍉 지유진</a></b></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/zidoopal"><img src="[https://avatars.githubusercontent.com/u/47877063?v=4](https://github.com/account)" width="100px" /></a></td>
-    <td align="center"><a href="https://github.com/wynter24"><img src="[[https://avatars.githubusercontent.com/u/132557632?v=4](https://github.com/account)](https://avatars.githubusercontent.com/u/97824352?v=4)](https://avatars.githubusercontent.com/u/97824352?v=4)" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/wynter24"><img src="[[[[https://avatars.githubusercontent.com/u/132557632?v=4](https://github.com/account)](https://avatars.githubusercontent.com/u/97824352?v=4)](https://avatars.githubusercontent.com/u/97824352?v=4)](https://github.com/account)](https://avatars.githubusercontent.com/u/97824352?v=4)" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/zidoopal"><img src="[[[https://avatars.githubusercontent.com/u/47877063?v=4](https://github.com/account)](https://avatars.githubusercontent.com/u/97824352?v=4)](https://avatars.githubusercontent.com/u/97824352?v=4)" width="100px" /></a></td>
   </tr>
   <tr>
     <td align="center"><b>💙 React</b></td>
