@@ -79,7 +79,7 @@ export default function MileageHistory() {
       <div className="mb-[60px]">
         <p className="text-[28px] text-blue mb-[12px]">마일리지</p>
 
-        <div className="flex justify-between w-[988px]">
+        <div className="flex justify-between w-[988px] sm:w-[100vw]">
           <div className="w-[620px] h-[70px] py-[22px] px-[25px] flex justify-between items-center  border-[1.5px] border-blue rounded-[6px] bg-white text-[24px]">
             <div className="text-[#D3D3D3] flex justify-between items-center">
               <CurrentDate />
@@ -97,7 +97,7 @@ export default function MileageHistory() {
         </div>
       </div>
 
-      <div className='w-[988px]'>
+      <div className='w-[988px] sm:w-[100vw]'>
         <div className="flex justify-between items-center">
           <h1 className="text-[28px] text-blue mb-2 ">마일리지 이용내역</h1>
           <div className="flex">
