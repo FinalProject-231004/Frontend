@@ -43,6 +43,25 @@ const LiveQuizComp: React.FC = () => {
     setHistory(prevHistory => [...prevHistory, data]);
   };
 
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_APP_GENERATED_SERVER_URL
+        }/api/Quiz/liveQuizUsers`,
+      );
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      toast.error('유저목록을 불러오는데 실패하였습니다 😔.');
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers(); // 먼저 유저 목록을 불러옵니다.
+    connectWebSocket(); // 그 다음에 웹소켓 연결을 설정합니다.
+  }, []);
+
   const connectWebSocket = () => {
     try {
       const token = localStorage.getItem('Authorization');
@@ -93,12 +112,11 @@ const LiveQuizComp: React.FC = () => {
     event.preventDefault();
 
     if (!inputMessage.trim() || !stompClient) {
-      return; // 메시지가 비어있거나, stompClient가 없다면 함수를 종료
+      return;
     }
 
     try {
       if (inputMessage.trim() && stompClient) {
-        // 메시지 전송
         nickName;
         stompClient.publish({
           destination: '/app/liveChatRoom',
@@ -132,7 +150,7 @@ const LiveQuizComp: React.FC = () => {
   return (
     <div className="flex h-full justify-center mx-auto">
       <div className="w-[420px] h-full">
-        <h3 className="w-full pt-[132px] text-xl text-center font-extrabold mb-2">
+        <h3 className="w-full pt-[132px] text-2xl text-center font-extrabold mb-2">
           접속유저 목록
         </h3>
         <ul className="w-full text-center">
