@@ -3,6 +3,7 @@ import WriteFixedButton from '@/components/Home/WriteFixedButton';
 import { useFetchQuiz } from '@/hooks';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { AllQuizCategories } from '.';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const Home: React.FC = () => {
     <div className="w-screen h-screen mx-auto overflow-y-auto">
       <div className="w-[1080px] mx-auto">
         <HomeBanner />
-
+        <AllQuizCategories />
         <QuizCategorySection title="최신 퀴즈" quiz={allQuizzes} />
 
         <QuizCategorySection title="인기순 퀴즈" quiz={hotQuiz} />

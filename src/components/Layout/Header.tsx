@@ -32,52 +32,71 @@ function Header() {
         {isMobile ? (
           // 모바일 환경
           <>
-          <Link to="/" className='py-9 '>
-            <img src="/img/logo.svg" alt="Logo" />
-          </Link>
-          <div className="w-[100vw] flex justify-between px-8 pb-4">
-            <div className="">
-              <SearchBar />
+            <Link to="/" className="py-9 ">
+              <img src="/img/logo.svg" alt="Logo" />
+            </Link>
+            <div className="w-[100vw] flex justify-between px-8 pb-4">
+              <div className="">
+                <SearchBar />
+              </div>
+              {isLoggedIn ? <LoggedInHeader /> : <SignInModal />}
             </div>
-            {isLoggedIn ? <LoggedInHeader /> : <SignInModal />}
-          </div>
-          <div className='w-[100vw] px-8 py-3 flex justify-between'>
-            <Link className='transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
-              onClick={handleQuizCreateClick} to="/create-quiz/details">
+            <div className="w-[100vw] px-8 py-3 flex justify-between">
+              <Link
+                className="transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                onClick={handleQuizCreateClick}
+                to="/create-quiz/details"
+              >
                 퀴즈만들기
-            </Link>
-            <Link className='transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
-              to="/mileage-shop">마일리지샵</Link>
-            <Link className='transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
-              to="/live-quiz">라이브 퀴즈
-            </Link>
-          </div>
+              </Link>
+              <Link
+                className="transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                to="/mileage-shop"
+              >
+                마일리지샵
+              </Link>
+              <Link
+                className="transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                to="/live-quiz"
+              >
+                라이브 퀴즈
+              </Link>
+            </div>
           </>
-          ) : (
-            // 데스크탑 환경
+        ) : (
+          // 데스크탑 환경
           <>
-            <div className='flex justify-center items-center gap-9'>
+            <div className="flex justify-center items-center gap-9">
               <Link to="/">
                 <img src="/img/logo.svg" alt="Logo" />
               </Link>
-              <Link className='text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
-                onClick={handleQuizCreateClick} to="/create-quiz/details">
-                  퀴즈만들기
+              <Link
+                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                onClick={handleQuizCreateClick}
+                to="/create-quiz/details"
+              >
+                퀴즈만들기
               </Link>
-              <Link className='text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
-                to="/mileage-shop">마일리지샵
+              <Link
+                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                to="/mileage-shop"
+              >
+                마일리지샵
               </Link>
-              <Link className='text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 ' 
-                to="/live-quiz">라이브 퀴즈
+              <Link
+                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                to="/live-quiz"
+              >
+                라이브 퀴즈
               </Link>
             </div>
             <div className="flex gap-9">
               <SearchBar />
               {isLoggedIn ? <LoggedInHeader /> : <SignInModal />}
             </div>
-          </>) 
-        }
-        
+          </>
+        )}
+
         <Modal
           isOpen={confirmLoginModal.isOpen}
           onRequestClose={confirmLoginModal.close}
