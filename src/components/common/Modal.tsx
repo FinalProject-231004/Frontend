@@ -11,7 +11,6 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ children, isOpen, onRequestClose, width, height, bgColor }) => {
-
   const customModalStyles: ReactModal.Styles = {
     /*overlay는 모달 창 바깥 부분, content는 모달 창부분*/
     overlay: {

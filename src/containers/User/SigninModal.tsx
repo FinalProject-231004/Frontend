@@ -105,11 +105,11 @@ function SignInModal() {
         onRequestClose={closeModal}
         isOpen={isOpen}
         width="713px"
-        height="590px"
+        height="576px"
         bgColor="#F1F8FF"
       >
         {loginMoadal ? (
-          <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-center items-center">
+          <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-center items-center sm:w-[80vw]">
             <h1 className="text-[34px] text-blue my-[40px]">로그인</h1>
             <div className="w-[530px] mb-[45px] relative">
               <div className="mb-[22px]">
