@@ -20,7 +20,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
   useHorizontalScroll(scrollContainerRef);
 
   return (
-    <div className="w-full mb-6 mx-auto">
+    <div className="w-full mb-6 sm:w-[100vw] sm:px-2">
       <h3 className="font-extrabold">
         나의 퀴즈 카테고리는:{' '}
         <span className="font-extrabold underline">
