@@ -26,125 +26,111 @@ const LiveQuizComp: React.FC = () => {
   const nickName = useRecoilValue(userNickNameState);
 
   useEffect(() => {
-    setCurrentTime(new Date().toLocaleString());
-
     const interval = setInterval(() => {
       setCurrentTime(new Date().toLocaleString());
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
-  const showGreeting = (data: ChatMessage) => {
-    const { username, timestamp, message } = data;
-    console.log(timestamp, message, username);
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const response = await axios.get(`${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/liveQuizUsers`);
+  //       setUsers(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching users:', error);
+  //       toast.error('유저목록을 불러오는데 실패하였습니다 😔.');
+  //     }
+  //   };
 
-    // 새 메시지를 history에 추가
-    setHistory(prevHistory => [...prevHistory, data]);
-  };
+  //   fetchUsers();
+  // }, [setUsers]);
 
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_APP_GENERATED_SERVER_URL
-        }/api/Quiz/liveQuizUsers`,
-      );
-      setUsers(response.data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      // toast.error('유저목록을 불러오는데 실패하였습니다 😔.');
-    }
-  };
-
+  // 웹소켓 연결 및 연결 해제 로직을 포함하는 useEffect
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    const socket = new WebSocket(
+      `${import.meta.env.VITE_APP_WS_SERVER_URL}/ws`,
+    );
+    const newStompClient = Stomp.over(socket);
 
-  const connectWebSocket = () => {
-    try {
+    const connectWebSocket = () => {
       const token = localStorage.getItem('Authorization');
       if (!token) {
         toast.error('로그인이 필요합니다.');
         return;
       }
 
-      const socket = new WebSocket(
-        `${import.meta.env.VITE_APP_WS_SERVER_URL}/ws`,
+      newStompClient.connect(
+        { Authorization: token },
+        async () => {
+          // 웹소켓 연결이 성공한 후 사용자 목록을 가져오는 로직
+          try {
+            const response = await axios.get(
+              `${
+                import.meta.env.VITE_APP_GENERATED_SERVER_URL
+              }/api/quiz/liveQuizUsers`,
+            );
+            setUsers(response.data);
+          } catch (error) {
+            console.error('Error fetching users:', error);
+            toast.error('유저 목록을 불러오는데 실패하였습니다.');
+          }
+
+          // 사용자 목록을 구독합니다.
+          newStompClient.subscribe('/topic/users', message => {
+            const userList = JSON.parse(message.body);
+            setUsers(userList);
+          });
+
+          // 채팅 메시지를 구독합니다.
+          newStompClient.subscribe('/topic/liveChatRoom', message => {
+            const chatMessage = JSON.parse(message.body);
+            setHistory(prevHistory => [...prevHistory, chatMessage]);
+          });
+
+          setStompClient(newStompClient);
+        },
+        (error: unknown) => {
+          console.error('Connection error:', error);
+          toast.error('웹소켓 연결에 실패했습니다.');
+        },
       );
-      const newStompClient = Stomp.over(() => socket);
+    };
 
-      // 연결 설정 시 헤더에 토큰 추가
-      const headers = {
-        Authorization: `${token}`,
-      };
-
-      newStompClient.connect(headers, () => {
-        console.log('웹소켓 연결 성공!😎');
-        // 라이브 퀴즈 채팅방 구독
-        newStompClient.subscribe('/topic/liveChatRoom', liveChat => {
-          const message = JSON.parse(liveChat.body);
-          showGreeting(message);
-          console.log('Received message: ', message);
-        });
-        // '/topic/users' 구독 - 접속자 목록을 받아옵니다.
-        newStompClient.subscribe('/topic/users', usersMessage => {
-          const receivedUserList = JSON.parse(usersMessage.body);
-          setUsers(receivedUserList);
-          console.log(receivedUserList);
-        });
-
-        // 초기 사용자 목록을 요청합니다.
-        // console.log('유저 목록 요청 전송 전');
-        // newStompClient.send('/app/users.request', {}, '');
-        // console.log('유저 목록 요청 전송 후');
-
-        setStompClient(newStompClient);
+    // 웹소켓 연결 해제 함수
+    const disconnectWebSocket = () => {
+      newStompClient.disconnect(() => {
+        console.log('Disconnected from WebSocket.');
       });
-    } catch (error) {
-      console.error('웹소켓 연결 오류: ', error);
-      toast.error('채팅방 입장에 실패했어요. 😱 다시 시도해 주세요.');
-    }
-  };
+    };
+
+    connectWebSocket();
+
+    // 웹소켓 연결을 해제하는 클린업 함수
+    return () => {
+      disconnectWebSocket();
+    };
+  }, [setUsers, setHistory]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [history]);
 
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!inputMessage.trim() || !stompClient) {
-      return;
-    }
-
-    try {
-      if (inputMessage.trim() && stompClient) {
-        nickName;
-        stompClient.publish({
-          destination: '/app/liveChatRoom',
-          body: JSON.stringify({ message: inputMessage, nickName: nickName }),
-        });
-        setInputMessage('');
-        console.log('메시지 전송: ', inputMessage);
-      }
-    } catch (error) {
-      console.error('메시지 전송 오류: ', error);
+    if (inputMessage.trim() && stompClient) {
+      stompClient.publish({
+        destination: '/app/liveChatRoom',
+        body: JSON.stringify({ message: inputMessage, nickName: nickName }),
+      });
+      setInputMessage('');
     }
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(event.currentTarget.value);
   };
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [history]);
-
-  useEffect(() => {
-    connectWebSocket();
-    return () => {
-      if (stompClient) {
-        stompClient.deactivate();
-      }
-    };
-  }, []);
 
   return (
     <div className="flex h-full justify-center mx-auto">
