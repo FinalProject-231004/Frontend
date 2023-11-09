@@ -35,7 +35,7 @@ const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
   const inputField =
     inputType === 'textarea' ? (
       <textarea
-        className="w-full h-[130px] customborder"
+        className={`w-full h-[130px] customborder sm:w-[95vw] sm:h-[87px]`}
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
@@ -43,7 +43,7 @@ const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
     ) : (
       <input
         type="text"
-        className="w-full h-[48px] mb-1 customborder"
+        className="w-full h-[48px] mb-1 customborder sm:h-[36px] sm:w-[95vw] sm:flex "
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
@@ -51,8 +51,8 @@ const CustomQuizInput: React.FC<CustomQuizInputProps> = ({
     );
 
   return (
-    <div className="w-full text-blue mb-[15px]">
-      <h3 className="max-[255px] h-full mb-[15px] font-extrabold">{title}</h3>
+    <div className="w-full text-blue mb-[15px] sm:w-[100vw] sm:flex sm:flex-col sm:justify-start sm:px-2">
+      <h3 className="max-[255px] mb-[15px] font-extrabold sm:h-">{title}</h3>
       {inputField}
       <p className="flex justify-end text-sm">
         <span>{inputCount}</span>/<span>{maxLength} bytes</span>

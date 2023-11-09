@@ -12,6 +12,7 @@ import {
   MileageShop,
   KakaoFirstLogin,
   DetailPage,
+  LiveQuiz,
 } from '@/pages';
 import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
@@ -52,6 +53,7 @@ const Router = () => {
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
           <Route path="/mileage-shop" element={<MileageShop />} />
           <Route path="/quiz/result/:id" element={<ResultPage />} />
+          <Route path="/live-quiz" element={<LiveQuiz />} />
 
           <Route
             path="/mypage"
