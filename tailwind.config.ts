@@ -7,7 +7,7 @@ export default {
       sm: { min: '0px', max: '393px' },
       md: { min: '393px', max: '1024px' },
       lg: { min: '1024px' },
-  },
+    },
     extend: {
       colors: {
         navy: '#0e2958',
