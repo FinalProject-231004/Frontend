@@ -33,10 +33,7 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
         onClick={handleImageClick}
       />
       <div className="mt-1 items-center p-2">
-        <h4
-          className="font-extrabold sm:text-[12px]"
-          style={{ wordWrap: 'break-word', maxWidth: '255px' }}
-        >
+        <h4 className="font-extrabold sm:text-[12px] break-words max-w-[255px]">
           {quiz.title}
         </h4>
         <div className="gap-5">
