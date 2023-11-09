@@ -24,28 +24,25 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   }
 
   return (
-    <div className="w-[255px] bg-slate-100 border-2 shadow-md shadow-slate-100">
+    <div className="w-[255px] sm:w-[167px] sm:mb-2 border-slate-100 border-2 shadow-md shadow-slate-100">
       <img
         loading="lazy"
-        className="h-[135px] w-full object-cover cursor-pointer"
+        className="h-[135px] w-full object-cover cursor-pointer sm:w-[50vw] sm:h-[88px]"
         src={quiz.image}
         alt={quiz.title}
         onClick={handleImageClick}
       />
-      <div className="flex mt-2 justify-between items-center">
-        <div>
-          <h4
-            className="font-extrabold"
-            style={{ wordWrap: 'break-word', maxWidth: '255px' }}
-          >
-            {quiz.title}
-          </h4>
-
-          <div className="gap-5">
-            <div className="flex items-center gap-1 text-slate-400">
-              <FaRegEye size={16} />
-              {quiz.viewCount}
-            </div>
+      <div className="mt-1 items-center p-2">
+        <h4
+          className="font-extrabold sm:text-[12px]"
+          style={{ wordWrap: 'break-word', maxWidth: '255px' }}
+        >
+          {quiz.title}
+        </h4>
+        <div className="gap-5">
+          <div className="flex items-center gap-1 text-slate-400 sm:text-[12px]">
+            <FaRegEye size={16} />
+            {quiz.viewCount}
           </div>
         </div>
       </div>
