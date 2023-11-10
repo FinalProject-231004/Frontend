@@ -14,6 +14,11 @@ export type BannerButtonProps = {
   navigate: NavigateFunction;
 };
 
+export type CategoriesIconsProps = {
+  icons: string;
+  category: string;
+};
+
 export type Quiz = {
   id: number;
   viewCount: number;
