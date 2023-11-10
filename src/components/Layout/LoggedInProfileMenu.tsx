@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
-// import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router';
 import { LoggedInAttendence } from '@/components';
@@ -28,7 +27,6 @@ export default function LoggedInProfileMenu() {
     null,
   ); // 사용자 메뉴를 표시
   const [nickName, setNickName] = useState('');
-  // const [image, setImage] = useState('');
   const [mileage, setMileage] = useState(0);
   const [image, setImage] = useRecoilState(userProfileImgState);
   const setUserNickname = useSetRecoilState(userNickNameState);
@@ -75,11 +73,9 @@ export default function LoggedInProfileMenu() {
   return (
     <>
       <Box sx={{ flexGrow: 0 }}>
-        {/* <Tooltip title="Open settings"> */}
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar alt={nickName} src={image || '/img/bonobono.png'} />
         </IconButton>
-        {/* </Tooltip> */}
         <Menu
           sx={{ 
             mt: '45px', 
