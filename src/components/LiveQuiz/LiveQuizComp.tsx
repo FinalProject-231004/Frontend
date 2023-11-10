@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Client, Stomp } from '@stomp/stompjs';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { userNickNameState } from '@/recoil/atoms/userInfoAtom';
+import { userNickNameState, userRoleState } from '@/recoil/atoms/userInfoAtom';
 import { usersState } from '@/recoil/atoms/userStateAtom';
 import { CanvasComponent } from '..';
 import axios from 'axios';
+import AdminModal from './AdminModal';
+import { AdminModalProps } from './AdminModal';
 
 type ChatMessage = {
   type: string;
@@ -24,6 +26,11 @@ const LiveQuizComp: React.FC = () => {
   const setUsers = useSetRecoilState(usersState);
   const users = useRecoilValue(usersState);
   const nickName = useRecoilValue(userNickNameState);
+  const [isMuted, setIsMuted] = useState(false);
+  const muteTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const userRole = useRecoilValue(userRoleState);
+  const setUserRole = useSetRecoilState(userRoleState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,21 +39,6 @@ const LiveQuizComp: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const response = await axios.get(`${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/liveQuizUsers`);
-  //       setUsers(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching users:', error);
-  //       toast.error('유저목록을 불러오는데 실패하였습니다 😔.');
-  //     }
-  //   };
-
-  //   fetchUsers();
-  // }, [setUsers]);
-
-  // 웹소켓 연결 및 연결 해제 로직을 포함하는 useEffect
   useEffect(() => {
     const socket = new WebSocket(
       `${import.meta.env.VITE_APP_WS_SERVER_URL}/ws`,
@@ -71,6 +63,18 @@ const LiveQuizComp: React.FC = () => {
               }/api/quiz/liveQuizUsers`,
             );
             setUsers(response.data);
+            // 관리자 여부 확인
+            const adminResponse = await axios.get(
+              `${
+                import.meta.env.VITE_APP_GENERATED_SERVER_URL
+              }/api/member/admin/check`,
+              { headers: { Authorization: token } },
+            );
+            if (adminResponse.data.msg === 'ADMIN') {
+              setUserRole('ADMIN');
+            } else {
+              setUserRole('USER');
+            }
           } catch (error) {
             console.error('Error fetching users:', error);
             toast.error('유저 목록을 불러오는데 실패하였습니다.');
@@ -85,7 +89,40 @@ const LiveQuizComp: React.FC = () => {
           // 채팅 메시지를 구독합니다.
           newStompClient.subscribe('/topic/liveChatRoom', message => {
             const chatMessage = JSON.parse(message.body);
-            setHistory(prevHistory => [...prevHistory, chatMessage]);
+            if (
+              chatMessage.type === 'ERROR' &&
+              chatMessage.message === '도배 금지!'
+            ) {
+              toast.error('도배 금지!');
+              // 사용자를 30초 동안 금지합니다.
+              setIsMuted(true);
+              // 기존 타이머가 있다면 클리어합니다.
+              if (muteTimerRef.current) {
+                clearTimeout(muteTimerRef.current);
+              }
+              // 30초 후에 금지를 해제하는 타이머를 설정합니다.
+              muteTimerRef.current = setTimeout(() => {
+                setIsMuted(false);
+              }, 30000);
+            } else {
+              setHistory(prevHistory => [...prevHistory, chatMessage]);
+            }
+          });
+
+          // 에러 메시지를 받을 엔드포인트를 구독합니다.
+          newStompClient.subscribe('/user/queue/errors', message => {
+            const errorResponse = JSON.parse(message.body);
+            // 에러 처리 로직
+            if (errorResponse.type === 'ERROR') {
+              // 토스트 메시지로 사용자에게 에러를 알립니다.
+              toast.error(errorResponse.message);
+
+              // 사용자를 금지 상태로 설정
+              setIsMuted(true);
+
+              // 30초 후에 금지 상태를 해제합니다.
+              setTimeout(() => setIsMuted(false), 30000);
+            }
           });
 
           setStompClient(newStompClient);
@@ -116,8 +153,14 @@ const LiveQuizComp: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history]);
 
+  // 메시지 전송 로직 수정
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    // 사용자가 금지 상태일 때는 메시지를 전송하지 않습니다.
+    if (isMuted) {
+      return;
+    }
 
     if (inputMessage.trim() && stompClient) {
       stompClient.publish({
@@ -128,8 +171,55 @@ const LiveQuizComp: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (muteTimerRef.current) {
+        clearTimeout(muteTimerRef.current);
+      }
+    };
+  }, []);
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(event.currentTarget.value);
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const submitAnswer = () => {
+    openModal();
+  };
+
+  const handleModalSubmit: AdminModalProps['onSubmit'] = async data => {
+    try {
+      const token = localStorage.getItem('Authorization');
+      await axios.post(
+        `${
+          import.meta.env.VITE_APP_GENERATED_SERVER_URL
+        }/api/quiz/liveSubmitAnswer`,
+        {
+          answer: data.answer,
+          winnersCount: data.numberOfPeople,
+          mileagePoint: data.mileage,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+
+      toast.success('문제가 성공적으로 제출되었습니다!');
+      // 여기에 성공시 추가로 실행할 로직을 작성하십시오.
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message || '오류가 발생했습니다.';
+        toast.error(errorMessage);
+      } else {
+        toast.error('알 수 없는 오류가 발생했습니다.');
+      }
+    }
   };
 
   return (
@@ -150,6 +240,21 @@ const LiveQuizComp: React.FC = () => {
           <h1 className="pt-[132px] mb-[42px] text-[28px] text-center text-blue font-extrabold">
             라이브 퀴즈
           </h1>
+
+          {userRole === 'ADMIN' && (
+            <button
+              type="button"
+              className="flex justify-center items-center mb-5 w-[150px] h-[50px] rounded-2xl bg-blue text-white"
+              onClick={submitAnswer}
+            >
+              문제 출제
+            </button>
+          )}
+          <AdminModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onSubmit={handleModalSubmit}
+          />
 
           <div className="flex justify-between">
             <p className="ml-3 text-base text-red font-extrabold">● LIVE</p>
@@ -190,8 +295,13 @@ const LiveQuizComp: React.FC = () => {
                   value={inputMessage}
                   onChange={onChange}
                   placeholder="메시지 입력"
+                  disabled={isMuted} // 사용자가 금지 상태일 때 입력을 비활성화합니다.
                 />
-                <button type="submit" className="ml-2 bg-blue p-2 rounded-md">
+                <button
+                  type="submit"
+                  className="ml-2 bg-blue p-2 rounded-md"
+                  disabled={isMuted}
+                >
                   보내기
                 </button>
               </form>
@@ -200,7 +310,7 @@ const LiveQuizComp: React.FC = () => {
         </div>
       </div>
       <div className="w-[420px] h-full">
-        <h3 className="w-full pt-[132px] text-xl text-center"></h3>
+        <h3 className="w-full pt-[132px] text-xl text-center">dd</h3>
       </div>
     </div>
   );
