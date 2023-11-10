@@ -1,3 +1,4 @@
+import { useMobile } from '@/hooks';
 import React from 'react';
 
 type UserInfoInputProps = {
@@ -18,15 +19,17 @@ const UserInfoInput = React.forwardRef<HTMLInputElement, UserInfoInputProps>(
 
      let widthClass: string = '';
 
-  if (size === 'small') {
-    widthClass = 'w-[255px]'; 
-  } else if (size === 'medium') {
-    widthClass = 'w-[530px]'; 
-  } else if (size === 'large') {
-    widthClass = 'w-[765px]'; 
-  } else if (size === 'xl') {
-    widthClass = 'w-[895px]'; 
-  } 
+     const isMobile = useMobile(); 
+
+    if (size === 'small') {
+      widthClass = isMobile ? 'w-[123px]' : 'w-[255px]'; 
+    } else if (size === 'medium') {
+      widthClass = isMobile ? 'w-[255px]' : 'w-[530px]'; 
+    } else if (size === 'large') {
+      widthClass = isMobile ? 'w-full' : 'w-[765px]'; 
+    } else if (size === 'xl') {
+      widthClass = isMobile ? 'w-full' : 'w-[895px]'; 
+    }  
 
 const borderClass = borderColor === 'none' ? 'border-none' : `border-${borderColor}`;
 const dynamicClasses = `${widthClass} ${borderClass} focus:border-${focusBorderColor}`;
@@ -38,7 +41,7 @@ const dynamicClasses = `${widthClass} ${borderClass} focus:border-${focusBorderC
         <div className="md:w-2/3">
           <input
             id = {id}
-            className={`h-[72px] bg-white appearance-none border-2  rounded-[6px] cursor-pointer py-2 px-7 text-gray-700 text-[24px] leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}
+            className={`h-[72px] sm:h-[35px] bg-white appearance-none border-2  rounded-[6px] cursor-pointer py-2 px-7 sm:px-4 text-gray-700 text-2xl sm:text-xs  leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}
             ref={ref}
             type={type}
             placeholder={placeholder}

@@ -1,5 +1,9 @@
 import { atom } from 'recoil';
 
+export const userRoleState = atom<string>({
+  key: 'userRoleState',
+  default: '',
+});
 export const userNickNameState = atom<string>({
   key: 'userNickNameState',
   default: '',

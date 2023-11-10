@@ -28,8 +28,8 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="w-screen h-screen md-w[100vw] md-w[100vw]">
-      <div className="w-[1080px] mx-auto">
+    <div className="w-screen h-screen">
+      <div className="w-[1080px] mx-auto  md:w-[100vw] sm:w-[100vw]">
         <HomeBanner />
         <AllQuizCategories />
         <QuizCategorySection title="최신 퀴즈" quiz={allQuizzes} />
