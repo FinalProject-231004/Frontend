@@ -14,7 +14,7 @@
 
 <br/>
 
-## 💙 프로젝트 개요:
+## 💙 프로젝트 개요
 
 - 주제: 퀴즈 플랫폼 웹사이트
 - 프로젝트명: 퀴즈팝(Quizpop)
@@ -178,6 +178,8 @@
 <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 <img src="https://img.shields.io/badge/Recoil-3578E5?style=for-the-badge&logo=Recoil&logoColor=white">
 <img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
+<img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white">
+  <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
 </p>
 
 #### Dev tools
