@@ -137,13 +137,12 @@
 <br/>
 <br/>
 
-###  👩‍❤️‍👩 Project Members (FE)
+###  👩‍❤️‍👩 Frontend
 
 <table>
    <tr>
     <td align="center"><b><a href="https://github.com/wynter24">🍑 김민경</a></b></td>
-    <td align="center"><b><a href="https://github.com/zidoopal">🍉 지유진</a></b></td>
-
+    <td align="center"><b><a href="https://github.com/zidoopal">🍋 지유진</a></b></td>
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/wynter24"><img src="https://avatars.githubusercontent.com/u/97824352?v=4" width="100px" /></a></td>
@@ -154,6 +153,16 @@
     <td align="center"><b>💙 React</b></td>
   </tr>
 </table>
+
+<br>
+<br>
+
+###  🔥 담당 업무 (FE & Design)
+|  팀원  | 담당 업무                                                                                                                           |
+| :----: | :---------------------------------------------------------------------------------------------------------------------------------- |
+|  **지유진 (FE)** | **메인 페이지** <br>- 신규 / 인기 / 조회순 / 전체 카테고리 퀴즈 조회 <br>- 메인 배너 <br>**퀴즈 관련** <br>- 퀴즈 제작 페이지 1, 2 <br>- 퀴즈 풀이 페이지 <br>- 퀴즈 상세 정보 페이지 ( 댓글 & 좋아요 ) <br>- 퀴즈 결과 페이지 (결과 링크복사 / 카카오 공유기능 ) <br>**라이브 퀴즈** <br>- 그림판 기능 <br>- 웹소켓 기반 실시간 채팅|
+|  **김민경 (FE)** | **헤더** <br>- 로그인 (JWT: Access/Refresh) <br>- 카카오 소셜로그인 <br>- 회원가입 <br>- Sse 기반 실시간 알림 (전체 읽음 및 삭제) <br>- 검색 <br>- 출석체크 <br> **마이페이지** <br>- 프로필, 닉네임, 비밀번호 변경 <br>- 회원 탈퇴 <br>- 마일리지 내역 조회 <br>**마일리지샵** <br>- 상품 조회 및 구매 |
+|  **문지우 (Design)** | **디자인 총괄 및 반응형 구도작업** <br>- 헤더 디자인 <br>- 파비콘 & 로고 디자인 <br>- 배너 & 캐릭터 디자인 <br>- 전체페이지 반응형 디자인 <br>- 영상용 커버 및 자막배경 디자인 |
 
 
 <br>
