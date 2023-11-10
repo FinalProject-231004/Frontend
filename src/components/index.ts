@@ -65,8 +65,8 @@ export { default as OrderModal } from './MileageShop/OrderModal';
 
 // LiveQuiz
 export { default as LiveQuizComp } from './LiveQuiz/LiveQuizComp';
-export { default as CanvasContainer } from './LiveQuiz/Canvas/CanvasContainer';
 export { default as CanvasComponent } from './LiveQuiz/Canvas/CanvasComponent';
+export { default as AdminModal } from './LiveQuiz/AdminModal';
 
 // Root
 export { default as CurrentDate } from './CurrentDate';
