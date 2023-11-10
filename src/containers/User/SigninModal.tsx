@@ -10,6 +10,7 @@ import { useEnterKey } from '@/hooks/useEnterKey';
 import axios, { AxiosError } from 'axios';
 import { SignInErrorResponse } from '@/types/header'
 import { useMobile } from '@/hooks';
+import { userRoleState } from '@/recoil/atoms/userInfoAtom';
 
 function SignInModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -19,6 +20,7 @@ function SignInModal() {
   const [loginMoadal, setLoginMoadal] = useRecoilState(loginModalState);
   const isMobile = useMobile();
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setUserRole = useSetRecoilState(userRoleState);
   
   const data = {
     username: idInput,
@@ -32,6 +34,12 @@ function SignInModal() {
         localStorage.setItem('Authorization', response.headers.authorization);
         localStorage.setItem('Refresh', response.headers.refresh);
         setIsLoggedIn(true);
+
+        const base64Url = response.headers.authorization.split('.')[1]; // 페이로드 부분 추출
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const payload = JSON.parse(atob(base64));
+        setUserRole(payload.auth);
+        
         closeModal();
       }
       // console.log('Success:', response.data);

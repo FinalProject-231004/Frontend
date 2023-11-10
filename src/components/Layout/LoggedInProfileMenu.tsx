@@ -33,7 +33,6 @@ export default function LoggedInProfileMenu() {
   const [image, setImage] = useRecoilState(userProfileImgState);
   const setUserNickname = useSetRecoilState(userNickNameState);
   const setUserMileage = useSetRecoilState(userMileageState);
-  
 
   const navigate = useNavigate();
 
