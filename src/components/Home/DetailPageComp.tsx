@@ -40,10 +40,7 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
             >
               <BsFillArrowLeftCircleFill size={35} />
             </div>
-            <h1
-              className="max-w-4/5 mx-auto text-center text-blue font-extrabold text-[28px]"
-              style={{ wordWrap: 'break-word', maxWidth: '766px' }}
-            >
+            <h1 className="max-w-4/5 mx-auto text-center text-blue font-extrabold text-[28px]  break-words max-w-[766px]">
               {quizDetail?.title}
             </h1>
           </div>

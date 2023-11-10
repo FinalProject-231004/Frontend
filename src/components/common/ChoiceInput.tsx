@@ -34,11 +34,7 @@ const ChoiceInput: React.FC<ChoiceInputProps> = React.memo(
               },
             }}
           />
-
-          <div
-            className="w-[636px] text-lg bordernoneinput"
-            style={{ maxWidth: '636px', wordWrap: 'break-word' }}
-          >
+          <div className="w-[636px] text-lg bordernoneinput break-words max-w-[636px]">
             {children}
           </div>
         </div>

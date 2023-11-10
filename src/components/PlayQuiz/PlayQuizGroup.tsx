@@ -126,10 +126,7 @@ const PlayQuizGroup: React.FC<PlayQuizProps> = React.memo(
     return (
       <>
         <div className="w-[720px] mx-auto overflow-y-auto">
-          <h1
-            className="play-quiz__title"
-            style={{ maxWidth: '720x', wordWrap: 'break-word' }}
-          >
+          <h1 className="title  break-words max-w-[720px]">
             Q{selectedQuestion}. {questions[selectedQuestion - 1]?.title}
           </h1>
           <div className="max-w-[650px] mb-5 mx-auto">
