@@ -137,22 +137,24 @@
 <br/>
 <br/>
 
-###  🍿 [FE] Project Members 
+###  👩‍❤️‍👩 Project Members (FE)
 
 <table>
    <tr>
     <td align="center"><b><a href="https://github.com/wynter24">🍑 김민경</a></b></td>
     <td align="center"><b><a href="https://github.com/zidoopal">🍉 지유진</a></b></td>
+
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/wynter24"><img src="[[[[https://avatars.githubusercontent.com/u/132557632?v=4](https://github.com/account)](https://avatars.githubusercontent.com/u/97824352?v=4)](https://avatars.githubusercontent.com/u/97824352?v=4)](https://github.com/account)](https://avatars.githubusercontent.com/u/97824352?v=4)" width="100px" /></a></td>
-    <td align="center"><a href="https://github.com/zidoopal"><img src="[[[https://avatars.githubusercontent.com/u/47877063?v=4](https://github.com/account)](https://avatars.githubusercontent.com/u/97824352?v=4)](https://avatars.githubusercontent.com/u/97824352?v=4)" width="100px" /></a></td>
-  </tr>
+    <td align="center"><a href="https://github.com/wynter24"><img src="https://avatars.githubusercontent.com/u/97824352?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/zidoopal"><img src="https://avatars.githubusercontent.com/u/131226548?v=4" width="100px" /></a></td>
+ </tr>
   <tr>
     <td align="center"><b>💙 React</b></td>
     <td align="center"><b>💙 React</b></td>
   </tr>
 </table>
+
 
 <br>
 <br>
@@ -162,16 +164,12 @@
 ### Frontend
 
 <p>
-
-
-
-
-
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white">
+<img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
+<img src="https://img.shields.io/badge/Recoil-3578E5?style=for-the-badge&logo=Recoil&logoColor=white">
+<img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
 </p>
-
-<br>
-
-<br>
 
 #### Dev tools
 
@@ -181,7 +179,6 @@
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
   <img src="https://img.shields.io/badge/figma-F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white"> 
   <img src="https://img.shields.io/badge/notion-%23121011.svg?style=for-the-badge&logo=notion&logoColor=white">
-
 </p>
 
 <br>
