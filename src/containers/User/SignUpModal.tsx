@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { SignUpErrorResponse } from '@/types/header'
 import * as React from "react";
 import { PwVisibilityToggle } from '@/components'
+import { useMobile } from '@/hooks';
 
 function SignUpModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -32,6 +33,8 @@ function SignUpModal() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showCheckPw, setShowCheckPw] = React.useState(false);
   // const checkMsgColor = checkMsg ? 'blue' : 'red';
+  const isMobile = useMobile();
+
 
   const setLoginModal = useSetRecoilState(loginModalState);
 
@@ -144,84 +147,154 @@ function SignUpModal() {
       <Modal
         onRequestClose={closeModal}
         isOpen={isOpen}
-        width="713px"
-        height="589px"
+        width={isMobile? '343px':'713px'}
+        height={isMobile? '341px' : '589px'}
         bgColor="#F1F8FF"
       >
-        <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="py-[10px] h-[589px] flex flex-col justify-around items-center">
-          <p className="text-[34px] text-blue">회원가입</p>
+        <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-around items-center">
+          <p className="text-[34px] text-blue font-extrabold py-9 sm:py-4 sm:text-base">회원가입</p>
 
-          <div className="w-[530px] h-[350px] flex flex-col justify-between relative">
-            <div className="flex justify-between">
-              <div className='relative'>
-                <label htmlFor='userId' className='text-deep_dark_gray'>아이디</label>
-                <UserInfoInput
-                  id = 'userId'
-                  ref={idInputRef}
-                  type="text"
-                  placeholder="아이디"
-                  size="small"
-                  focusBorderColor='red'
-                  inputVal={idInput}
-                  borderColor='none'
-                  onChange={e => {
-                    const idValue = e.target.value;
-                    idHandleChange(idValue);
-                    const isValid = validateId(idValue);
-                    setIsId(isValid);
-                    if (!isValid && idValue.length >= 4) {
-                      setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
-                    } else if(!isValid && idValue.length < 4) {
-                      setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
-                    } else {
-                      setIdMessage('');
-                    }
-                  }}
-                  onKeyDown={(e) => handleTab(e, nickNameInputRef)}
-                />
-                {idInput.length >= 0 && (
-                  <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute">
-                    {idMessage}
+          <div className="flex flex-col justify-between gap-6 relative sm:gap-0">
+            
+            <div className="flex justify-between sm:flex-col sm:items-end">
+              {!isMobile ? (
+                <>
+                  <div className='relative'>
+                    <label htmlFor='userId' className='text-deep_dark_gray sm:text-xs '>아이디</label>
+                    <UserInfoInput
+                      id = 'userId'
+                      ref={idInputRef}
+                      type="text"
+                      placeholder="아이디"
+                      size="small"
+                      focusBorderColor='red'
+                      inputVal={idInput}
+                      borderColor='none'
+                      onChange={e => {
+                        const idValue = e.target.value;
+                        idHandleChange(idValue);
+                        const isValid = validateId(idValue);
+                        setIsId(isValid);
+                        if (!isValid && idValue.length >= 4) {
+                          setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
+                        } else if(!isValid && idValue.length < 4) {
+                          setIdMessage('알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
+                        } else {
+                          setIdMessage('');
+                        }
+                      }}
+                      onKeyDown={(e) => handleTab(e, nickNameInputRef)}
+                    />
+                    {idInput.length >= 0 && (
+                    <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute sm:text-[6px]">
+                      {idMessage}
+                    </div>)}
                   </div>
-                )}
-              </div>
-
-              <div className='relative'>
-                <label htmlFor='userNickname' className='text-deep_dark_gray'>닉네임</label>
-                <UserInfoInput
-                  id = 'userNickname'
-                  ref={nickNameInputRef}
-                  type="text"
-                  placeholder="닉네임"
-                  size="small"
-                  focusBorderColor={''}
-                  borderColor='none'
-                  inputVal={nickNameInput}
-                  onChange={e => {
-                    const nickanemValue = e.target.value;
-                    nameHandleChange(nickanemValue);
-                    const isValNickname = validateNickName(nickanemValue);
-                    setIsNickName(isValNickname);
-                    if (!isValNickname && nickanemValue.length >= 2) {
-                      setNickNameMessage('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
-                    } else if(!isValNickname && nickanemValue.length < 2) {
-                      setNickNameMessage('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
-                    } else {
-                      setNickNameMessage('');
-                    }
-                  }}
-                  onKeyDown={(e) => handleTab(e, pwInputRef)}
-                />
-                {nickNameInput.length >= 0 && (
-                  <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute">
-                    {nickNameMessage}
+                  <div className='relative'>
+                    <label htmlFor='userNickname' className='text-deep_dark_gray sm:text-xs'>닉네임</label>
+                    <UserInfoInput
+                      id = 'userNickname'
+                      ref={nickNameInputRef}
+                      type="text"
+                      placeholder="닉네임"
+                      size="small"
+                      focusBorderColor={''}
+                      borderColor='none'
+                      inputVal={nickNameInput}
+                      onChange={e => {
+                        const nickanemValue = e.target.value;
+                        nameHandleChange(nickanemValue);
+                        const isValNickname = validateNickName(nickanemValue);
+                        setIsNickName(isValNickname);
+                        if (!isValNickname && nickanemValue.length >= 2) {
+                          setNickNameMessage('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
+                        } else if(!isValNickname && nickanemValue.length < 2) {
+                          setNickNameMessage('한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
+                        } else {
+                          setNickNameMessage('');
+                        }
+                      }}
+                      onKeyDown={(e) => handleTab(e, pwInputRef)}
+                    />
+                    {nickNameInput.length >= 0 && (
+                      <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute">
+                        {nickNameMessage}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                </>
+              ) : (
+                <>
+                  <div className='flex justify-center items-center gap-3'>
+                    <div>
+                      <label htmlFor='userId' className='text-deep_dark_gray sm:text-xs '>아이디</label>
+                      <UserInfoInput
+                        id = 'userId'
+                        ref={idInputRef}
+                        type="text"
+                        placeholder="아이디"
+                        size="small"
+                        focusBorderColor='red'
+                        inputVal={idInput}
+                        borderColor='none'
+                        onChange={e => {
+                          const idValue = e.target.value;
+                          idHandleChange(idValue);
+                          const isValid = validateId(idValue);
+                          setIsId(isValid);
+                          if (!isValid && idValue.length >= 4) {
+                            setIdMessage('아이디는 알파벳 소문자/숫자 포함 4자리 이상 15자리 이하 입니다');
+                          } else if(!isValid && idValue.length < 4) {
+                            setIdMessage('아이디는 알파벳 소문자/숫자 포함 4자리 이상 15자리 이하 입니다');
+                          } else {
+                            setIdMessage('');
+                          }
+                        }}
+                        onKeyDown={(e) => handleTab(e, nickNameInputRef)}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='userNickname' className='text-deep_dark_gray sm:text-xs'>닉네임</label>
+                      <UserInfoInput
+                        id = 'userNickname'
+                        ref={nickNameInputRef}
+                        type="text"
+                        placeholder="닉네임"
+                        size="small"
+                        focusBorderColor={''}
+                        borderColor='none'
+                        inputVal={nickNameInput}
+                        onChange={e => {
+                          const nickanemValue = e.target.value;
+                          nameHandleChange(nickanemValue);
+                          const isValNickname = validateNickName(nickanemValue);
+                          setIsNickName(isValNickname);
+                          if (!isValNickname && nickanemValue.length >= 2) {
+                            setNickNameMessage('닉네임은 한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하 입니다');
+                          } else if(!isValNickname && nickanemValue.length < 2) {
+                            setNickNameMessage('닉네임은 한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하 입니다');
+                          } else {
+                            setNickNameMessage('');
+                          }
+                        }}
+                        onKeyDown={(e) => handleTab(e, pwInputRef)}
+                      />
+                    </div>
+                  </div>
+                  <div className='text-[6px] text-red font-hairline pt-1'>
+                    {idInput.length >= 0 && (
+                      <p>{idMessage}</p>
+                    )}
+                    {nickNameInput.length >= 0 && (
+                      <p>{nickNameMessage}</p>
+                    )}
+                  </div>
+                </>
+              )} 
             </div>
 
-            <div className='h-[96px] relative'>
-              <label htmlFor='userPw' className='text-deep_dark_gray'>비밀번호</label>
+            <div className='relative sm:pb-3'>
+              <label htmlFor='userPw' className='text-deep_dark_gray sm:text-xs'>비밀번호</label>
               <div className=' flex items-center relative'>
                 <UserInfoInput
                   id = 'userPw standard-adornment-password'
@@ -251,15 +324,15 @@ function SignUpModal() {
               </div>
 
               {pwInput.length >= 0 && (
-                <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0">
+                <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0 sm:text-[6px]">
                   {pwMessage}
                 </div>
               )}
             </div>
             
-            <div className=' h-[96px]'>
+            <div className='sm:pb-3'>
               <div className=''>
-                <label htmlFor='checkPw' className='text-deep_dark_gray'>비밀번호 확인</label>
+                <label htmlFor='checkPw' className='text-deep_dark_gray sm:text-xs'>비밀번호 확인</label>
                 <div className=' flex items-center relative'>
                   <UserInfoInput
                     id = 'checkPw'
@@ -281,16 +354,16 @@ function SignUpModal() {
                   <PwVisibilityToggle showPassword={showCheckPw} setShowPassword={setShowCheckPw} />
                 </div>
                 {pwCheckInput.length >= 0 && (
-                  <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0">
+                  <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0 sm:text-[6px]">
                     {pwCheckMessage}
                   </div>
                 )}
               </div>
-              <div className='absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12px] text-red'>{resultMsg}</div>
+              <div className='absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12px] text-red sm:text-[6px]'>{resultMsg}</div>
             </div>
           </div>
           
-          <div className='h-[70px] flex flex-col items-center justify-between relative'>
+          <div className='pt-11 pb-7 flex flex-col items-center justify-between relative sm:pt-4 sm:pb-0'>
             <CustomizedButtons
               type="submit"
               size="signUp"
