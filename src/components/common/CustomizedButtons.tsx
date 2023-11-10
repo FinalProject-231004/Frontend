@@ -1,6 +1,7 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { useMobile } from '@/hooks';
 
 type ButtonsProps = {
   size: string;
@@ -28,6 +29,7 @@ export default function CustomizedButtons({
   type = 'button',
 }: ButtonsProps) {
   const fontFamily = "'TmoneyRoundWind', sans-serif";
+  const isMobile = useMobile(); 
 
   let width: string = ''; // 초기화 -> 변수가 할당되기 전에 사용되었다는 오류 막음
   let height: string = '';
@@ -40,7 +42,7 @@ export default function CustomizedButtons({
     width = '150px';
     height = '40px';
   } else if (size === 'large') {
-    width = '530px';
+    width = `${isMobile ?'183px':'530px'}`;
     height = '57px';
   } else if (size === 'pull') {
     width = '1080px';
@@ -59,9 +61,9 @@ export default function CustomizedButtons({
         style={{ fontFamily }}
         type={type}
         width={width}
-        height={height}
+        height={isMobile? '28px':height}
         fontcolor={fontcolor}
-        fontSize={fontSize}
+        fontSize={isMobile? '12px':fontSize}
         btnbg={btnbg}
         borderradius={borderradius}
         btnhoverbg={btnhoverbg}
