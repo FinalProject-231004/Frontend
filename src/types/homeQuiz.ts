@@ -1,4 +1,3 @@
-import { NavigateFunction } from 'react-router';
 import { Comments, QuizInfoProps } from './result';
 
 export type Banner = {
@@ -8,10 +7,15 @@ export type Banner = {
   smImage: string;
 };
 
+export type BannerProps = {
+  onCategoryChange: (category: string) => void;
+};
+
 export type BannerButtonProps = {
   image: string;
-  category?: string;
-  navigate: NavigateFunction;
+  category: string;
+  // navigate: NavigateFunction;
+  onCategoryChange: (category: string) => void;
 };
 
 export type CategoriesIconsProps = {
