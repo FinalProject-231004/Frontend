@@ -1,14 +1,5 @@
+import { AdminModalProps } from '@/types/liveQuiz';
 import { useState } from 'react';
-
-export type AdminModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: {
-    answer: string;
-    numberOfPeople: number;
-    mileage: number;
-  }) => void;
-};
 
 const AdminModal = ({ isOpen, onClose, onSubmit }: AdminModalProps) => {
   const [answer, setAnswer] = useState('');
