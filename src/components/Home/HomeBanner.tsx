@@ -44,10 +44,11 @@ const banners = [
 ];
 
 const BannerButton = ({ image, category, navigate }: BannerButtonProps) => {
-  const defalutSize = 'w-[266px] h-[57px] sm:w-[117px] sm:h-[25px]';
+  const defalutSize =
+    'w-[266px] h-[57px] md:w-[200px] md:h-[30px] sm:w-[117px] sm:h-[25px]';
   const additionalStyle =
     category === 'MOVIE_TV'
-      ? `shadow-purple-800 w-[299px] h-[57px] sm:w-[133px] sm:h-[25px]`
+      ? `shadow-purple-800 w-[299px] h-[57px] md:w-[200px] md:h-[30px] sm:w-[133px] sm:h-[25px]`
       : category === 'ANIMAL'
       ? `${defalutSize} shadow-green-600`
       : category === 'FOOD'
@@ -56,7 +57,7 @@ const BannerButton = ({ image, category, navigate }: BannerButtonProps) => {
 
   return (
     <button
-      className={`${additionalStyle} rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm sm:left-[34px] sm:bottom-[30px]`}
+      className={`${additionalStyle} rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm md:left-12 md:bottom-12 sm:left-[34px] sm:bottom-[30px]`}
       onClick={() => category && navigate(`/quiz/categories/${category}`)}
     >
       <img src={image} alt="BannerBtn" />
@@ -74,7 +75,7 @@ const HomeBanner = () => {
   };
 
   return (
-    <div className="w-[1080px] h-[285px] mt-[102px] sm:w-[100vw] sm:h-[142px]">
+    <div className="w-[1080px] h-[285px] mt-[102px] md:w-[100vw] md:h-[220px] sm:mt-[246px] sm:w-[100vw] sm:h-[142px]">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}

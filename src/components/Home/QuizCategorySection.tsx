@@ -7,13 +7,13 @@ const QuizCategorySection: React.FC<QuizCategorySectionProps> = React.memo(
     const displayedQuiz = skipSlice ? quiz : quiz.slice(0, 8);
 
     return (
-      <div className="w-full sm:w-[100vw]">
-        <h1 className="my-20 text-[28px] font-extrabold text-center sm:justify-center sm:my-[30px] sm:text-lg">
+      <div className="w-full md:w-[100vw] sm:w-[100vw]">
+        <h1 className="my-20 text-[28px] text-blue font-extrabold text-center sm:justify-center sm:my-[30px] sm:text-lg">
           {title}
         </h1>
 
         <div
-          className="gap-5 grid grid-cols-4 sm:grid-cols-2 sm:grid-col-2 sm:gap-1 sm:px-2"
+          className="gap-5 grid grid-cols-4  md:grid-cols-3 md:px-2 sm:grid-cols-2 sm:grid-col-2 sm:gap-1 sm:px-2"
           style={{ justifyItems: 'center' }}
         >
           {displayedQuiz.map(quiz => (
