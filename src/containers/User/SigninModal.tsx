@@ -9,6 +9,8 @@ import { postSignIn } from '@/types/header';
 import { useEnterKey } from '@/hooks/useEnterKey';
 import axios, { AxiosError } from 'axios';
 import { SignInErrorResponse } from '@/types/header'
+import { useMobile } from '@/hooks';
+import { userRoleState } from '@/recoil/atoms/userInfoAtom';
 
 function SignInModal() {
   const [isOpen, setIsOpen] = useRecoilState(modalState);
@@ -16,9 +18,10 @@ function SignInModal() {
   const [pwInput, setPwInput] = useState('');
   const [allCheckMessag, setAllCheckMessag] = useState('');
   const [loginMoadal, setLoginMoadal] = useRecoilState(loginModalState);
-
+  const isMobile = useMobile();
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-
+  const setUserRole = useSetRecoilState(userRoleState);
+  
   const data = {
     username: idInput,
     password: pwInput,
@@ -31,6 +34,12 @@ function SignInModal() {
         localStorage.setItem('Authorization', response.headers.authorization);
         localStorage.setItem('Refresh', response.headers.refresh);
         setIsLoggedIn(true);
+
+        const base64Url = response.headers.authorization.split('.')[1]; // 페이로드 부분 추출
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const payload = JSON.parse(atob(base64));
+        setUserRole(payload.auth);
+        
         closeModal();
       }
       // console.log('Success:', response.data);
@@ -104,15 +113,15 @@ function SignInModal() {
       <Modal
         onRequestClose={closeModal}
         isOpen={isOpen}
-        width="713px"
-        height="576px"
+        width={isMobile? '343px':'713px'}
+        height={isMobile? '277px' : '576px'}
         bgColor="#F1F8FF"
       >
         {loginMoadal ? (
-          <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-center items-center sm:w-[80vw]">
-            <h1 className="text-[34px] text-blue my-[40px]">로그인</h1>
-            <div className="w-[530px] mb-[45px] relative">
-              <div className="mb-[22px]">
+          <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-center items-center">
+            <h1 className="text-4xl text-blue font-extrabold py-[40px] sm:text-base sm:py-4">로그인</h1>
+            <div className=" w-9/12 pb-[45px] flex flex-col gap-5 relative sm:gap-3 sm:pb-6">
+              <div >
                 <UserInfoInput
                   type="text"
                   placeholder="아이디"
@@ -136,10 +145,12 @@ function SignInModal() {
                   setPwInput(e.target.value);
                 }}
               />
-              <div className="mt-[6px] text-[12px] text-[#F92316] absolute right-0">{allCheckMessag}</div>
+              <div className="mt-[6px] text-xs text-[#F92316] absolute right-2 bottom-6 sm:text-[6px] sm:bottom-2">
+                {allCheckMessag}
+              </div>
             </div>
 
-            <div className="flex flex-col justify-center items-center gap-4">
+            <div className="flex flex-col justify-center items-center gap-4 sm:gap-3">
               <CustomizedButtons
                 type="submit"
                 size="large"
@@ -169,7 +180,8 @@ function SignInModal() {
                 onClick={kakaoLogin}
                 />
               <p
-                className="w-[118px] mt-5 mb-6 text-xl font-medium text-center text-navy border-b-2 border-solid border-navy cursor-pointer"
+                className="pt-5 text-xl font-medium text-center text-blue border-b-2 border-solid border-blue cursor-pointer 
+                sm:text-[10px] sm:p-0 sm:border-0 sm:underline"
                 onClick={signUpHandler}
               >
                 회원가입하기

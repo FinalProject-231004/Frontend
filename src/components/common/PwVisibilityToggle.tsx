@@ -2,6 +2,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
+import { useMobile } from '@/hooks';
 
 type PwVisibilityToggleProps = {
   showPassword: boolean;
@@ -9,20 +10,21 @@ type PwVisibilityToggleProps = {
 }
 
 const PwVisibilityToggle: React.FC<PwVisibilityToggleProps> = ({ showPassword, setShowPassword }) => {
-
+  const isMobile = useMobile();
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
   return (
-    <InputAdornment position="end" className='w-[40px] h-[40px] absolute right-[20px] z-10 '>
-      <IconButton className='h-[15px] padding-[10px]'
+    <InputAdornment position="end" className='absolute right-5 z-10 sm:right-3'>
+      <IconButton 
+        size={isMobile? 'small' : 'medium'} 
         aria-label="toggle password visibility"
         onClick={handleClickShowPassword}
         onMouseDown={handleMouseDownPassword}
       >
-        {showPassword ? <VisibilityOff /> : <Visibility />}
+        {showPassword ? <VisibilityOff fontSize="inherit" /> : <Visibility fontSize="inherit"/>}
       </IconButton>
     </InputAdornment>
   );
