@@ -30,12 +30,7 @@ const QuizInfo: React.FC<QuizInfoProps> = ({
         {viewCount}
       </div>
     </div>
-    <div
-      className="text-xl"
-      style={{ maxWidth: '436px', wordWrap: 'break-word' }}
-    >
-      {content}
-    </div>
+    <div className="text-xl break-words max-w-436px]">{content}</div>
   </div>
 );
 

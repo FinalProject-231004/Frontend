@@ -130,9 +130,6 @@ const CreateQuizGroup: React.FC = () => {
   return (
     <div className="w-screen">
       <div className="w-[720px] mx-auto text-blue text-xl">
-        <p className="hidden justify-end text-slate-300 underline text-sm cursor-pointer">
-          퀴즈 제작 튜토리얼 🔍
-        </p>
         <CustomQuizInput
           title="퀴즈명"
           placeholder="퀴즈명을 입력해 주세요"

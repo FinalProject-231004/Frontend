@@ -2,16 +2,11 @@ import { useEffect, useState } from 'react';
 import { categories } from '@/constants/categories';
 import React from 'react';
 import axios from 'axios';
-import { HomeBanner, QuizCategorySection } from '@/components';
-import { useLocation, useNavigate } from 'react-router';
+import { QuizCategorySection } from '@/components';
 
 const AllQuizCategories: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [quizzes, setQuizzes] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    'MOVIE_TV',
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [, setCategoryState] = useState(categories);
 
   useEffect(() => {
@@ -23,11 +18,8 @@ const AllQuizCategories: React.FC = () => {
     ) {
       setSelectedCategory(currentCategory);
       fetchCategories(currentCategory);
-    } else {
-      setSelectedCategory('MOVIE_TV');
-      fetchCategories('MOVIE_TV');
     }
-  }, [location]); // Depend on location
+  }, [location]);
 
   const fetchCategories = async (categories: string) => {
     try {
@@ -43,20 +35,63 @@ const AllQuizCategories: React.FC = () => {
     }
   };
 
+  const basePath = '/emoticon';
+  const icons = [
+    {
+      icon: `${basePath}/film-roll2.png`,
+      category: 'MOVIE_TV',
+    },
+    {
+      icon: `${basePath}/speech-bubble2.png`,
+      category: 'CARTOON',
+    },
+    {
+      icon: `${basePath}/intellect2.png`,
+      category: 'IQ_TEST',
+    },
+    {
+      icon: `${basePath}/restaurant2.png`,
+      category: 'FOOD',
+    },
+    {
+      icon: `${basePath}/game-controller2.png`,
+      category: 'GAME',
+    },
+    {
+      icon: `${basePath}/ball2.png`,
+      category: 'SPORT',
+    },
+    {
+      icon: `${basePath}/vacancy2.png`,
+      category: 'PERSON',
+    },
+    {
+      icon: `${basePath}/pawprint2.png`,
+      category: 'ANIMAL',
+    },
+    {
+      icon: `${basePath}/knowledge2.png`,
+      category: 'COMMON_SENSE',
+    },
+    {
+      icon: `${basePath}/more2.png`,
+      category: 'ETC',
+    },
+  ];
+
   return (
-    <div className="max-w-[1080px] mx-auto">
-      <div className="hidden">
-        <HomeBanner />
-      </div>
-      <div className="hidden"></div>
-      <h2 className="title">전체 카테고리</h2>
-      <div className="w-full h-[134px] grid grid-cols-5 gap-x-5 py-4 pl-[65px] my-5 justify-items-start rounded-md bg-[#F1F8FF] text-lg font-extrabold">
+    <div className="w-full md:w-[100vw] sm:w-[100vw]">
+      <div className="grid grid-cols-5 py-5 pl-[70px] my-5 h-[134px] bg-[#F1F8FF] text-lg font-extrabold sm:text-xs sm:h-[143px] sm:grid-cols-3 sm:gap-2 sm:pl-[46px] sm:content-around shadow-sm shadow-slate-200">
         {categories.map(category => (
-          <div
-            key={category.category}
-            className="flex justify-center items-center gap-2"
-          >
-            <img src="/q-favicon.png" className="w-[27px]" alt={`profile`} />
+          <div key={category.category} className="flex items-center gap-2">
+            <img
+              src={
+                icons.find(icon => icon.category === category.category)?.icon ||
+                '/default/icon/path'
+              }
+              className=" w-[24px]"
+              alt={`${category.category} icon`}
+            />
             <button
               className={
                 selectedCategory === category.category ? 'text-blue' : ''
@@ -65,7 +100,6 @@ const AllQuizCategories: React.FC = () => {
               onClick={() => {
                 setSelectedCategory(category.category);
                 fetchCategories(category.category);
-                navigate(`/quiz/categories/${category.category}`);
               }}
             >
               {category.displayName}
@@ -85,7 +119,6 @@ const AllQuizCategories: React.FC = () => {
           />
         )}
       </div>
-      <div className="w-full h-[72px] bg-white"></div>
     </div>
   );
 };
