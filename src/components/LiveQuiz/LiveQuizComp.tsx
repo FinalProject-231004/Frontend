@@ -4,10 +4,9 @@ import { Client, Stomp } from '@stomp/stompjs';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userNickNameState, userRoleState } from '@/recoil/atoms/userInfoAtom';
 import { usersState } from '@/recoil/atoms/userStateAtom';
-import { CanvasComponent } from '..';
+import { CanvasComponent, AdminModal } from '@/components';
 import axios from 'axios';
-import AdminModal from './AdminModal';
-import { AdminModalProps } from './AdminModal';
+import { AdminModalProps } from '@/types/liveQuiz';
 
 type ChatMessage = {
   type: string;
@@ -163,6 +162,7 @@ const LiveQuizComp: React.FC = () => {
   // 메시지 전송 로직 수정
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(inputMessage);
 
     // 사용자가 금지 상태일 때는 메시지를 전송하지 않습니다.
     if (isMuted) {
@@ -314,7 +314,7 @@ const LiveQuizComp: React.FC = () => {
           </div>
           <div className="flex w-full h-[790px] justify-between">
             <div className="flex w-2/3 justify-center items-center h-full">
-              <CanvasComponent />
+              <CanvasComponent stompClient={stompClient} />
             </div>
 
             <div className="flex flex-col w-1/3 h-full justify-between py-5 items-center bg-slate-100">
