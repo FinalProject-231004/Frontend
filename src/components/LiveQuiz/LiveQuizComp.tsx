@@ -63,6 +63,7 @@ const LiveQuizComp: React.FC = () => {
               }/api/quiz/liveQuizUsers`,
             );
             setUsers(response.data);
+
             // 관리자 여부 확인
             const adminResponse = await axios.get(
               `${
@@ -70,6 +71,9 @@ const LiveQuizComp: React.FC = () => {
               }/api/member/admin/check`,
               { headers: { Authorization: token } },
             );
+
+            console.log(adminResponse.data.msg);
+
             if (adminResponse.data.msg === 'ADMIN') {
               setUserRole('ADMIN');
             } else {
@@ -89,21 +93,24 @@ const LiveQuizComp: React.FC = () => {
           // 채팅 메시지를 구독합니다.
           newStompClient.subscribe('/topic/liveChatRoom', message => {
             const chatMessage = JSON.parse(message.body);
-            if (
-              chatMessage.type === 'ERROR' &&
-              chatMessage.message === '도배 금지!'
-            ) {
-              toast.error('도배 금지!');
-              // 사용자를 30초 동안 금지합니다.
-              setIsMuted(true);
-              // 기존 타이머가 있다면 클리어합니다.
-              if (muteTimerRef.current) {
-                clearTimeout(muteTimerRef.current);
+
+            if (chatMessage.type === 'ERROR') {
+              if (chatMessage.message === '도배 금지!') {
+                toast.error('도배로 인해 30초동안 채팅이 금지됩니다.');
+                // 사용자를 30초 동안 금지합니다.
+                setIsMuted(true);
+                // 기존 타이머가 있다면 클리어합니다.
+                if (muteTimerRef.current) {
+                  clearTimeout(muteTimerRef.current);
+                }
+                // 30초 후에 금지를 해제하는 타이머를 설정합니다.
+                muteTimerRef.current = setTimeout(() => {
+                  setIsMuted(false);
+                }, 30000);
+              } else if (chatMessage.message === '차단된 유저입니다.') {
+                toast.error('차단된 유저는 글을 작성할 수 없습니다.');
+                // 여기에 차단된 유저에 대한 추가적인 처리를 할 수 있습니다.
               }
-              // 30초 후에 금지를 해제하는 타이머를 설정합니다.
-              muteTimerRef.current = setTimeout(() => {
-                setIsMuted(false);
-              }, 30000);
             } else {
               setHistory(prevHistory => [...prevHistory, chatMessage]);
             }
@@ -222,6 +229,41 @@ const LiveQuizComp: React.FC = () => {
     }
   };
 
+  // 신고 핸들러 함수
+  const handleReport = async (nickName: string) => {
+    console.log(nickName);
+    try {
+      const token = localStorage.getItem('Authorization');
+      if (!token) {
+        toast.error('로그인이 필요합니다.');
+        return;
+      }
+
+      await axios.post(
+        `${
+          import.meta.env.VITE_APP_GENERATED_SERVER_URL
+        }/api/report/liveChat/${nickName}`,
+        {}, // POST 요청이므로, 필요한 경우 여기에 추가 데이터를 전달할 수 있습니다.
+        { headers: { Authorization: token } },
+      );
+
+      // 신고가 성공적으로 처리되었을 때의 로직
+      toast.success(`'${nickName}' 사용자가 신고되었습니다.`);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // 서버에서 전달된 오류 메시지를 사용
+        const errorMessage =
+          error.response.data.message ||
+          error.response.data.msg ||
+          '신고 처리 중 오류가 발생했습니다.';
+        toast.error(errorMessage);
+      } else {
+        // 서버로부터의 응답이 없는 경우 일반 오류 메시지를 사용
+        toast.error('신고 처리 중 오류가 발생했습니다.');
+      }
+    }
+  };
+
   return (
     <div className="flex h-full justify-center mx-auto">
       <div className="w-[420px] h-full">
@@ -278,14 +320,31 @@ const LiveQuizComp: React.FC = () => {
             <div className="flex flex-col w-1/3 h-full justify-between py-5 items-center bg-slate-100">
               <div className="overflow-y-auto mb-5">
                 {history.map((item, index) => (
-                  <div key={index} className="mt-3">
+                  <div key={index} className="mt-3 flex justify-between">
                     <div>
-                      <strong>{item.nickName}</strong> (
-                      {new Date(item.timestamp).toLocaleString()}):{' '}
+                      <strong
+                        style={
+                          item.nickName === '공지'
+                            ? { color: 'red', fontWeight: 'bold' }
+                            : {}
+                        }
+                      >
+                        {item.nickName}
+                      </strong>{' '}
+                      ({new Date(item.timestamp).toLocaleTimeString()}):{' '}
                       {item.message}
                     </div>
+                    {item.nickName !== '공지' && (
+                      <button
+                        onClick={() => handleReport(item.nickName)}
+                        className="ml-2 p-1 bg-red-500 text-white rounded"
+                      >
+                        신고하기
+                      </button>
+                    )}
                   </div>
                 ))}
+
                 <div ref={messagesEndRef} />
               </div>
 

@@ -42,11 +42,14 @@ export { default as HistoryList } from './MyPage/HistoryList';
 export { default as UpdateMyInfo } from './MyPage/UpdateMyInfo';
 
 // Home
-export { default as HomeBanner } from './Home/HomeBanner';
 export { default as QuizCategorySection } from './Home/QuizCategorySection';
 export { default as QuizThumbnail } from './Home/QuizThumbnail';
-export { default as DetailPageComp } from './Home/DetailPageComp';
 export { default as WriteFixedButton } from './Home/WriteFixedButton';
+// Banner
+export { default as Banner } from './Home/Banner/Banner';
+
+// Detail
+export { default as DetailPageComp } from './Detail/DetailPageComp';
 
 // Result
 export { default as ResultPageComp } from './Result/ResultPageComp';
