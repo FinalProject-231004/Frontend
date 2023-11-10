@@ -1,12 +1,12 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router';
+import { BannerButtonProps, BannerProps } from '@/types/homeQuiz';
+import { useWindowSize } from '@/hooks';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { BannerButtonProps } from '@/types/homeQuiz';
-import { useWindowSize } from '@/hooks';
 
 const banners = [
   {
@@ -18,6 +18,8 @@ const banners = [
   {
     image: '/Banner06.png',
     smImage: '/smBanner06.png',
+    buttonImage: '/BannerBtn06.png',
+    category: 'QUIZ_GUIDE',
   },
   {
     image: '/Banner02.png',
@@ -34,6 +36,8 @@ const banners = [
   {
     image: '/Banner05.png',
     smImage: '/smBanner05.png',
+    buttonImage: '/BannerBtn05.png',
+    category: 'LIVE_QUIZ',
   },
   {
     image: '/Banner04.png',
@@ -43,39 +47,73 @@ const banners = [
   },
 ];
 
-const BannerButton = ({ image, category, navigate }: BannerButtonProps) => {
-  const defalutSize =
-    'w-[266px] h-[57px] md:w-[200px] md:h-[30px] sm:w-[117px] sm:h-[25px]';
+const BannerButton = ({ image, category }: BannerButtonProps) => {
+  const navigate = useNavigate();
+
+  // 기본 스타일
+  const defaultStyle =
+    'rounded-[50px] absolute bottom-[40px] shadow-sm md:bottom-12 sm:bottom-[30px]';
+
+  // 버튼 사이즈
+  const sizeStyle =
+    category === 'MOVIE_TV' || category === 'LIVE_QUIZ'
+      ? 'w-[299px] h-[57px] md:w-[200px] md:h-[38px] sm:w-[117px] sm:h-[22px]'
+      : 'w-[266px] h-[57px] md:w-[200px] md:h-[42px] sm:w-[117px] sm:h-[25px]';
+
+  // 카테고리에 따른 추가 스타일
   const additionalStyle =
     category === 'MOVIE_TV'
-      ? `shadow-purple-800 w-[299px] h-[57px] md:w-[200px] md:h-[30px] sm:w-[133px] sm:h-[25px]`
+      ? 'shadow-purple-800'
       : category === 'ANIMAL'
-      ? `${defalutSize} shadow-green-600`
+      ? 'shadow-green-600'
       : category === 'FOOD'
-      ? `${defalutSize} shadow-yellow-500`
-      : `${defalutSize} shadow-orange-00`;
+      ? 'shadow-yellow-500'
+      : category === 'PERSON'
+      ? 'shadow-orange-600'
+      : category === 'QUIZ_GUIDE'
+      ? 'shadow-orange-600'
+      : 'shadow-slate-200';
+
+  // 위치 스타일
+  const positionStyle =
+    category === 'QUIZ_GUIDE'
+      ? 'right-[64px] bottom-[65px] md:right-[50px] md:bottom-[50px] sm:right-[30px] sm:bottom-8'
+      : 'left-[62px] md:left-12 md:bottom-[35px] sm:left-[34px]';
+
+  // 최종 스타일 클래스 결합
+  const finalStyle = `${sizeStyle} ${additionalStyle} ${defaultStyle} ${positionStyle}`;
+
+  const handleClick = () => {
+    if (category === 'LIVE_QUIZ') {
+      navigate('/live-quiz');
+    } else if (category === 'QUIZ_GUIDE') {
+      navigate('/tutorial-quizpop');
+    } else {
+      navigate(`/`);
+    }
+  };
 
   return (
-    <button
-      className={`${additionalStyle} rounded-[50px] absolute left-[62px] bottom-[40px] shadow-sm md:left-12 md:bottom-12 sm:left-[34px] sm:bottom-[30px]`}
-      onClick={() => category && navigate(`/quiz/categories/${category}`)}
-    >
+    <button className={finalStyle} onClick={handleClick}>
       <img src={image} alt="BannerBtn" />
     </button>
   );
 };
 
-const HomeBanner = () => {
-  const navigate = useNavigate();
+const Banner: React.FC<BannerProps> = ({ onCategorySelect }) => {
+  // const navigate = useNavigate();
   const windowSize = useWindowSize();
 
-  // 화면 크기에 따라 이미지 선택
+  const handleClick = (category: string) => {
+    onCategorySelect(category);
+  };
+
   const getBannerImage = (smImage: string, image: string) => {
     return windowSize <= 393 ? smImage : image;
   };
 
   return (
-    <div className="w-[1080px] h-[285px] mt-[102px] md:w-[100vw] md:h-[220px] sm:mt-[246px] sm:w-[100vw] sm:h-[142px]">
+    <div className="w-full md:w-[100vw] h-[285px] mt-[102px] md:h-[220px] md:mt-[110px] sm:mt-[246px] sm:h-[142px]">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -95,7 +133,7 @@ const HomeBanner = () => {
               <BannerButton
                 image={buttonImage}
                 category={category}
-                navigate={navigate}
+                onCategorySelect={handleClick}
               />
             )}
           </SwiperSlide>
@@ -105,4 +143,4 @@ const HomeBanner = () => {
   );
 };
 
-export default HomeBanner;
+export default Banner;

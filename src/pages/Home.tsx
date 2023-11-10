@@ -1,16 +1,52 @@
-import { QuizCategorySection, HomeBanner } from '@/components';
+import { QuizCategorySection, Banner } from '@/components';
 import WriteFixedButton from '@/components/Home/WriteFixedButton';
 import { useFetchQuiz } from '@/hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AllQuizCategories } from '.';
+// import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 const Home: React.FC = () => {
+  const [bannerCategory, setBannerCategory] = useState<string | null>(null);
+  const [bannerQuizzes, setBannerQuizzes] = useState([]);
+
+  // const navigate = useNavigate();
+
   useEffect(() => {
     if (!sessionStorage.getItem('reloaded')) {
       sessionStorage.setItem('reloaded', 'true');
       window.location.reload();
     }
   }, []);
+
+  const fetchBannerQuizzes = async (category: string) => {
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_APP_GENERATED_SERVER_URL
+        }/api/quiz/category/${category}`,
+      );
+      setBannerQuizzes(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleCategorySelect = (category: string) => {
+    // Replace 'string' with 'category'
+    setBannerCategory(category);
+    fetchBannerQuizzes(category);
+  };
+
+  // const handleBannerCategoryChange = (category: string) => {
+  //   if (category === 'LIVE_QUIZ') {
+  //     navigate('/live-quiz');
+  //   } else if (category === 'QUIZ_GUIDE') {
+  //     navigate('/tutorial-quizpop');
+  //   } else {
+  //     setBannerCategory(category);
+  //     fetchBannerQuizzes(category);
+  //   }
+  // };
 
   // 전체조회 (신규순)
   const { quiz: allQuizzes } = useFetchQuiz(
@@ -28,10 +64,13 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="w-screen h-screen">
-      <div className="w-[1080px] mx-auto  md:w-[100vw] sm:w-[100vw]">
-        <HomeBanner />
+    <div className="w-[100vw]">
+      <div className="w-[1080px] mx-auto sm:w-[100vw]">
+        <Banner onCategoryChange={handleCategorySelect} />
         <AllQuizCategories />
+        {bannerCategory && (
+          <QuizCategorySection title={bannerCategory} quiz={bannerQuizzes} />
+        )}
         <QuizCategorySection title="최신 퀴즈" quiz={allQuizzes} />
 
         <QuizCategorySection title="인기순 퀴즈" quiz={hotQuiz} />
