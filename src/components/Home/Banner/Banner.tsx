@@ -47,7 +47,11 @@ const banners = [
   },
 ];
 
-const BannerButton = ({ image, category }: BannerButtonProps) => {
+const BannerButton = ({
+  image,
+  category,
+  onCategoryChange,
+}: BannerButtonProps) => {
   const navigate = useNavigate();
 
   // 기본 스타일
@@ -89,7 +93,7 @@ const BannerButton = ({ image, category }: BannerButtonProps) => {
     } else if (category === 'QUIZ_GUIDE') {
       navigate('/tutorial-quizpop');
     } else {
-      navigate(`/`);
+      onCategoryChange(category);
     }
   };
 
@@ -100,13 +104,9 @@ const BannerButton = ({ image, category }: BannerButtonProps) => {
   );
 };
 
-const Banner: React.FC<BannerProps> = ({ onCategorySelect }) => {
+const Banner: React.FC<BannerProps> = ({ onCategoryChange }) => {
   // const navigate = useNavigate();
   const windowSize = useWindowSize();
-
-  const handleClick = (category: string) => {
-    onCategorySelect(category);
-  };
 
   const getBannerImage = (smImage: string, image: string) => {
     return windowSize <= 393 ? smImage : image;
@@ -124,16 +124,13 @@ const Banner: React.FC<BannerProps> = ({ onCategorySelect }) => {
         className="mySwiper"
       >
         {banners.map(({ image, smImage, buttonImage, category }, index) => (
-          <SwiperSlide
-            key={index}
-            className="flex items-center justify-center bg-white text-2xl"
-          >
+          <SwiperSlide key={index}>
             <img src={getBannerImage(smImage, image)} alt="Banner" />
             {buttonImage && (
               <BannerButton
                 image={buttonImage}
                 category={category}
-                onCategorySelect={handleClick}
+                onCategoryChange={onCategoryChange}
               />
             )}
           </SwiperSlide>

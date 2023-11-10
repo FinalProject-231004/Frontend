@@ -13,9 +13,9 @@ export type BannerProps = {
 
 export type BannerButtonProps = {
   image: string;
-  category?: string;
+  category: string;
   // navigate: NavigateFunction;
-  onCategorySelect: (category: string) => void;
+  onCategoryChange: (category: string) => void;
 };
 
 export type CategoriesIconsProps = {
