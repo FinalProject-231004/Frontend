@@ -4,17 +4,9 @@ import { Client, Stomp } from '@stomp/stompjs';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userNickNameState, userRoleState } from '@/recoil/atoms/userInfoAtom';
 import { usersState } from '@/recoil/atoms/userStateAtom';
-import { CanvasComponent, AdminModal } from '@/components';
+import { AdminModal, CanvasComponent } from '@/components';
 import axios from 'axios';
-import { AdminModalProps } from '@/types/liveQuiz';
-
-type ChatMessage = {
-  type: string;
-  username: string;
-  timestamp: string;
-  message: string;
-  nickName: string;
-};
+import { AdminModalProps, ChatMessage, UserStatusMap } from '@/types/liveQuiz';
 
 const LiveQuizComp: React.FC = () => {
   const [inputMessage, setInputMessage] = useState('');
@@ -25,11 +17,17 @@ const LiveQuizComp: React.FC = () => {
   const setUsers = useSetRecoilState(usersState);
   const users = useRecoilValue(usersState);
   const nickName = useRecoilValue(userNickNameState);
-  const [isMuted, setIsMuted] = useState(false);
+  const setNickName = useSetRecoilState(userNickNameState);
+  // const [isMuted, setIsMuted] = useState(false);
   const muteTimerRef = useRef<NodeJS.Timeout | null>(null);
   const userRole = useRecoilValue(userRoleState);
   const setUserRole = useSetRecoilState(userRoleState);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userStatus, setUserStatus] = useState<UserStatusMap>({});
+  const [correctAnsweredUsers, setCorrectAnsweredUsers] = useState([]);
+  const [remainingWinners, setRemainingWinners] = useState(0);
+  const [answerLength, setAnswerLength] = useState(0);
+  const [mileagePoint, setMileagePoint] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,6 +35,18 @@ const LiveQuizComp: React.FC = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    // 도배로 인해 금지된 경우의 타이머 설정
+    if (userStatus[nickName]?.isMuted) {
+      setTimeout(() => {
+        setUserStatus(prevStatus => ({
+          ...prevStatus,
+          [nickName]: { ...prevStatus[nickName], isMuted: false },
+        }));
+      }, 30000);
+    }
+  }, [userStatus, nickName, setUserStatus]);
 
   useEffect(() => {
     const socket = new WebSocket(
@@ -59,25 +69,21 @@ const LiveQuizComp: React.FC = () => {
             const response = await axios.get(
               `${
                 import.meta.env.VITE_APP_GENERATED_SERVER_URL
-              }/api/quiz/liveQuizUsers`,
+              }/api/liveQuiz/userLists`,
             );
             setUsers(response.data);
 
             // 관리자 여부 확인
-            const adminResponse = await axios.get(
+            const userInfoResponse = await axios.get(
               `${
                 import.meta.env.VITE_APP_GENERATED_SERVER_URL
-              }/api/member/admin/check`,
+              }/api/liveQuiz/userInfo`,
               { headers: { Authorization: token } },
             );
-
-            console.log(adminResponse.data.msg);
-
-            if (adminResponse.data.msg === 'ADMIN') {
-              setUserRole('ADMIN');
-            } else {
-              setUserRole('USER');
-            }
+            userInfoResponse.data.role === 'ADMIN'
+              ? setUserRole('ADMIN')
+              : setUserRole('USER');
+            setNickName(userInfoResponse.data.nickName);
           } catch (error) {
             console.error('Error fetching users:', error);
             toast.error('유저 목록을 불러오는데 실패하였습니다.');
@@ -89,48 +95,49 @@ const LiveQuizComp: React.FC = () => {
             setUsers(userList);
           });
 
+          newStompClient.subscribe('/topic/quizUpdate', message => {
+            const update = JSON.parse(message.body);
+            setCorrectAnsweredUsers(update.correctAnsweredUsers);
+            setRemainingWinners(update.remainingWinners);
+            setAnswerLength(update.answerLength);
+            setMileagePoint(update.mileagePoint);
+          });
+
           // 채팅 메시지를 구독합니다.
           newStompClient.subscribe('/topic/liveChatRoom', message => {
             const chatMessage = JSON.parse(message.body);
 
             if (chatMessage.type === 'ERROR') {
               if (chatMessage.message === '도배 금지!') {
-                toast.error('도배로 인해 30초동안 채팅이 금지됩니다.');
-                // 사용자를 30초 동안 금지합니다.
-                setIsMuted(true);
+                console.log(chatMessage);
+                console.log(
+                  '챗닉넴' + chatMessage.nickName,
+                  '리액트닉넴' + nickName,
+                );
+                if (chatMessage.nickName === nickName) {
+                  toast.error('도배로 인해 30초동안 채팅이 금지됩니다.');
+                }
+                setUserStatus(prevStatus => ({
+                  ...prevStatus,
+                  [chatMessage.nickName]: {
+                    ...prevStatus[chatMessage.nickName],
+                    isMuted: true,
+                  },
+                }));
                 // 기존 타이머가 있다면 클리어합니다.
                 if (muteTimerRef.current) {
                   clearTimeout(muteTimerRef.current);
                 }
-                // 30초 후에 금지를 해제하는 타이머를 설정합니다.
-                muteTimerRef.current = setTimeout(() => {
-                  setIsMuted(false);
-                }, 30000);
               } else if (chatMessage.message === '차단된 유저입니다.') {
-                toast.error('차단된 유저는 글을 작성할 수 없습니다.');
+                if (chatMessage.nickName === nickName) {
+                  toast.error('차단된 유저는 메세지를 전송할 수 없습니다.');
+                }
                 // 여기에 차단된 유저에 대한 추가적인 처리를 할 수 있습니다.
               }
             } else {
               setHistory(prevHistory => [...prevHistory, chatMessage]);
             }
           });
-
-          // 에러 메시지를 받을 엔드포인트를 구독합니다.
-          newStompClient.subscribe('/user/queue/errors', message => {
-            const errorResponse = JSON.parse(message.body);
-            // 에러 처리 로직
-            if (errorResponse.type === 'ERROR') {
-              // 토스트 메시지로 사용자에게 에러를 알립니다.
-              toast.error(errorResponse.message);
-
-              // 사용자를 금지 상태로 설정
-              setIsMuted(true);
-
-              // 30초 후에 금지 상태를 해제합니다.
-              setTimeout(() => setIsMuted(false), 30000);
-            }
-          });
-
           setStompClient(newStompClient);
         },
         (error: unknown) => {
@@ -162,10 +169,11 @@ const LiveQuizComp: React.FC = () => {
   // 메시지 전송 로직 수정
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(inputMessage);
 
-    // 사용자가 금지 상태일 때는 메시지를 전송하지 않습니다.
-    if (isMuted) {
+    // 현재 사용자가 금지 상태인지 확인
+    const currentUserStatus = userStatus[nickName];
+    if (currentUserStatus && currentUserStatus.isMuted) {
+      toast.error('도배로 인해 금지된 상태입니다.');
       return;
     }
 
@@ -203,7 +211,7 @@ const LiveQuizComp: React.FC = () => {
       await axios.post(
         `${
           import.meta.env.VITE_APP_GENERATED_SERVER_URL
-        }/api/quiz/liveSubmitAnswer`,
+        }/api/liveQuiz/liveSubmitAnswer`,
         {
           answer: data.answer,
           winnersCount: data.numberOfPeople,
@@ -314,9 +322,19 @@ const LiveQuizComp: React.FC = () => {
           </div>
           <div className="flex w-full h-[790px] justify-between">
             <div className="flex w-2/3 justify-center items-center h-full">
-              <CanvasComponent stompClient={stompClient} />
+              <CanvasComponent stompClient={stompClient} userRole={userRole} />
             </div>
-
+            <div>
+              <h1>정답자 명단:</h1>
+              <ul>
+                {correctAnsweredUsers.map((user, index) => (
+                  <li key={index}>{user}</li>
+                ))}
+              </ul>
+              <p>남은 정답자 수: {remainingWinners}</p>
+              <p>정답의 글자 수: {answerLength}</p>
+              <p>마일리지 포인트: {mileagePoint}</p>
+            </div>
             <div className="flex flex-col w-1/3 h-full justify-between py-5 items-center bg-slate-100">
               <div className="overflow-y-auto mb-5">
                 {history.map((item, index) => (
@@ -354,12 +372,12 @@ const LiveQuizComp: React.FC = () => {
                   value={inputMessage}
                   onChange={onChange}
                   placeholder="메시지 입력"
-                  disabled={isMuted} // 사용자가 금지 상태일 때 입력을 비활성화합니다.
+                  disabled={userStatus[nickName]?.isMuted} // 현재 사용자의 금지 상태에 따라 입력을 비활성화합니다.
                 />
                 <button
                   type="submit"
                   className="ml-2 bg-blue p-2 rounded-md"
-                  disabled={isMuted}
+                  disabled={userStatus[nickName]?.isMuted} // 현재 사용자의 금지 상태에 따라 버튼을 비활성화합니다.
                 >
                   보내기
                 </button>
@@ -369,7 +387,7 @@ const LiveQuizComp: React.FC = () => {
         </div>
       </div>
       <div className="w-[420px] h-full">
-        <h3 className="w-full pt-[132px] text-xl text-center">dd</h3>
+        <h3 className="w-full pt-[132px] text-xl text-center"></h3>
       </div>
     </div>
   );
