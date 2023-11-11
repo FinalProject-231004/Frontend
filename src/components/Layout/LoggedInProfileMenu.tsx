@@ -61,7 +61,6 @@ export default function LoggedInProfileMenu() {
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-    getUserInfo();
   };
 
   const handleCloseUserMenu = () => {
