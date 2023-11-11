@@ -105,7 +105,6 @@ const BannerButton = ({
 };
 
 const Banner: React.FC<BannerProps> = ({ onCategoryChange }) => {
-  // const navigate = useNavigate();
   const windowSize = useWindowSize();
 
   const getBannerImage = (smImage: string, image: string) => {
