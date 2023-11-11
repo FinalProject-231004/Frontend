@@ -1,12 +1,13 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router';
-import { BannerButtonProps, BannerProps } from '@/types/homeQuiz';
-import { useWindowSize } from '@/hooks';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { BannerButtonProps } from '@/types/homeQuiz';
+import { useWindowSize } from '@/hooks';
+import { categories } from '@/constants/categories';
 
 const banners = [
   {
@@ -47,14 +48,10 @@ const banners = [
   },
 ];
 
-const BannerButton = ({
-  image,
-  category,
-  onCategoryChange,
-}: BannerButtonProps) => {
-  const navigate = useNavigate();
+const BannerButton = ({ image, category, navigate }: BannerButtonProps) => {
+  const displayName =
+    categories.find(c => c.category === category)?.displayName || '';
 
-  // 기본 스타일
   const defaultStyle =
     'rounded-[50px] absolute bottom-[40px] shadow-sm md:bottom-12 sm:bottom-[30px]';
 
@@ -75,7 +72,7 @@ const BannerButton = ({
       : category === 'PERSON'
       ? 'shadow-orange-600'
       : category === 'QUIZ_GUIDE'
-      ? 'shadow-orange-600'
+      ? 'shadow-orange-200'
       : 'shadow-slate-200';
 
   // 위치 스타일
@@ -93,7 +90,7 @@ const BannerButton = ({
     } else if (category === 'QUIZ_GUIDE') {
       navigate('/tutorial-quizpop');
     } else {
-      onCategoryChange(category);
+      navigate(`/quiz/search/${displayName}`);
     }
   };
 
@@ -104,15 +101,17 @@ const BannerButton = ({
   );
 };
 
-const Banner: React.FC<BannerProps> = ({ onCategoryChange }) => {
+const Banner = () => {
+  const navigate = useNavigate();
   const windowSize = useWindowSize();
 
+  // 화면 크기에 따라 이미지 선택
   const getBannerImage = (smImage: string, image: string) => {
     return windowSize <= 393 ? smImage : image;
   };
 
   return (
-    <div className="w-full md:w-[100vw] h-[285px] mt-[102px] md:h-[220px] md:mt-[110px] sm:mt-[246px] sm:h-[142px]">
+    <div className="w-full md:w-[100vw] sm:w-[100vw] h-[285px] mt-[102px] md:h-[220px] md:mt-[110px] sm:mt-[246px] sm:h-[142px]">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -129,7 +128,7 @@ const Banner: React.FC<BannerProps> = ({ onCategoryChange }) => {
               <BannerButton
                 image={buttonImage}
                 category={category}
-                onCategoryChange={onCategoryChange}
+                navigate={navigate}
               />
             )}
           </SwiperSlide>

@@ -1,7 +1,4 @@
-import {
-  LoggedInProfileMenu,
-  Sse,
-} from '@/components';
+import { LoggedInProfileMenu, Sse } from '@/components';
 
 function LoggedInHeader() {
   return (

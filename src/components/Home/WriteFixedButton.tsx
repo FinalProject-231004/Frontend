@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { FaPencil } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
+import { useWindowSize } from '@/hooks';
 
 const WriteFixedButton: React.FC = () => {
   const navigate = useNavigate();
+  const windowSize = useWindowSize();
   const token = localStorage.getItem('Authorization');
 
   const goToPost = (): void => {
@@ -14,15 +16,17 @@ const WriteFixedButton: React.FC = () => {
     }
   };
 
+  const pencilIconSize = windowSize <= 393 ? 25 : windowSize <= 1024 ? 40 : 32;
+
   return (
     <div className="w-screen">
       <button
         type="button"
         onClick={goToPost}
-        className="w-16 h-16 rounded-full fixed bottom-9 right-[320px]  md:right-9 md:bottom-8 sm:w-14 sm:h-14  sm:right-5 sm:bottom-5 transition duration-200 ease-in-out transform hover:scale-110 bg-blue border-2 border-slate-40 shadow-md shadow-slate-300 sm:shadow-slate-500"
+        className="w-16 h-16 md:w-20 md:h-20 rounded-full fixed bottom-9 right-[320px] md:right-10 md:bottom-9 sm:w-12 sm:h-12 sm:right-6 sm:bottom-4 transition duration-200 ease-in-out transform hover:scale-110 bg-blue border-2 border-slate-40 shadow-md shadow-slate-300 sm:shadow-slate-500"
       >
-        <div className="w-12 h-12 rounded-full text-white relative -right-[15px] -bottom-2 sm:w-10 sm:h-10 sm:-right-[11px] sm:-bottom-1">
-          <FaPencil size={32} />
+        <div className="rounded-full text-white relative -right-[14px] md:-right-[18px] sm:-right-[7px] sm:-bottom-2">
+          <FaPencil size={pencilIconSize} />
         </div>
       </button>
     </div>
