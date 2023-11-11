@@ -18,6 +18,7 @@ import {
   userNickNameState,
   userProfileImgState,
 } from '@/recoil/atoms/userInfoAtom';
+import { useMobile } from '@/hooks';
 
 const fontFamily = "'TmoneyRoundWind', sans-serif";
 
@@ -31,6 +32,7 @@ export default function LoggedInProfileMenu() {
   const [image, setImage] = useRecoilState(userProfileImgState);
   const setUserNickname = useSetRecoilState(userNickNameState);
   const setUserMileage = useSetRecoilState(userMileageState);
+  const isMobile = useMobile();
 
   const navigate = useNavigate();
 
@@ -84,7 +86,11 @@ export default function LoggedInProfileMenu() {
             },
             '& .MuiMenu-list': { 
               p: 0, 
-            },
+            },'& .MuiButtonBase-root': {
+              // padding: 0, height:`${!isMobile?'54px':'30px'}`, 
+            },'& .MuiTouchRipple-root': {
+              height:`${!isMobile?'54px':'30px'}`
+            }
           }}
           id="menu-appbar"
           anchorEl={anchorElUser}
@@ -100,15 +106,15 @@ export default function LoggedInProfileMenu() {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          <div className='w-[264px] h-[300px] bg-lightBlue flex flex-col justify-center items-center'>
-            <div className='w-[216px] h-[260px]'>
+          <div className='w-[264px] h-[300px] bg-lightBlue flex flex-col justify-center items-center sm:w-[132px] sm:h-[161px]'>
+            <div className=''>
               <div className='flex justify-start mb-[15px]' onClick={handleCloseUserMenu}>
-                <Typography textAlign="center"><span className='pl-[3px] mb-[17px] text-[25px] text-blue hover:' style={{ fontFamily }}>{nickName}</span></Typography>
+                <Typography textAlign="center"><span className='pl-[3px] mb-[17px] text-[25px] sm:text-[10px] text-blue hover:' style={{ fontFamily }}>{nickName}</span></Typography>
               </div>
               <div className='p-0' onClick={handleCloseUserMenu}>
-                <Typography className='flex justify-between border-b-[1.5px] border-black w-[216px] pb-[13px]' textAlign="center">
-                  <span className='pl-[3px] text-[18px]' style={{ fontFamily }}>마일리지</span>
-                  <span className='text-[18px]' style={{ fontFamily }}>{mileage} M</span>
+                <Typography className='flex justify-between border-b-[1.5px] border-black w-[216px] pb-[13px] sm:pb-1s sm:w-[100px]' textAlign="center">
+                  <span className='pl-[3px] text-[18px] sm:text-[10px]' style={{ fontFamily }}>마일리지</span>
+                  <span className='text-[18px] sm:text-[10px]' style={{ fontFamily }}>{mileage} M</span>
                 </Typography>
               </div>
               <LoggedInAttendence
@@ -120,13 +126,15 @@ export default function LoggedInProfileMenu() {
                   navigate('/mypage');
                 }}
               >
-                <Typography className='p-0 border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
-                  <span className='pl-[3px] text-[18px]'>마이페이지</span>
+                <Typography className='p-0 border-b-[1.5px] border-black w-[216px] sm:w-[100px] py-[13px] sm:pb-1 sm:pt-0 sm:h-[30px] flex justify-start hover:text-blue hover:border-blue' 
+                style={{ fontFamily }} textAlign="center">
+                  <span className='pl-[3px] text-[18px] sm:text-[10px]'>마이페이지</span>
                 </Typography>
               </MenuItem>
               <MenuItem sx={{ p: 0, m:0  }} onClick={handleLogOut}>
-                <Typography className='border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
-                  <span className='pl-[3px] text-[18px]'>로그아웃</span>
+                <Typography className='border-b-[1.5px] border-black w-[216px] sm:w-[100px] py-[13px] sm:py-1 flex justify-start hover:text-blue hover:border-blue' 
+                style={{ fontFamily }} textAlign="center">
+                  <span className='pl-[3px] text-[18px] sm:text-[10px]'>로그아웃</span>
                 </Typography>
               </MenuItem>
             </div>
