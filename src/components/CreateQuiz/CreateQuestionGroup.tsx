@@ -105,7 +105,7 @@ const CreateQuestionGroup: React.FC = () => {
       ]);
 
       navigate('/create-quiz/questions');
-      toast.success('퀴즈 생성 완료! 🤩');
+      // toast.success('퀴즈 생성 완료! 🤩');
       return true;
     } catch (error) {
       // console.error('Error:', error);

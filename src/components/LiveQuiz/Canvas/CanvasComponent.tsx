@@ -1,12 +1,86 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { BsEraserFill, BsFillTrashFill } from 'react-icons/bs';
+import { Client } from '@stomp/stompjs';
 
-const CanvasComponent: React.FC = () => {
+type CanvasComponentProps = {
+  stompClient: Client | null;
+  userRole: string;
+};
+
+type DrawData = {
+  type: string;
+  offsetX?: number;
+  offsetY?: number;
+  color?: string;
+  lineWidth?: number;
+};
+
+const CanvasComponent: React.FC<CanvasComponentProps> = ({
+  stompClient,
+  userRole,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState<string>('#000000');
-  const [lineWidth, setLineWidth] = useState<number>(3); // 선 두께의 초기값
+  const [lineWidth, setLineWidth] = useState<number>(3);
   const eraserColor = '#FFFFFF';
+  const canDraw = userRole === 'ADMIN';
+
+  const drawOnCanvas = (data: DrawData) => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext('2d');
+
+    if (!context) {
+      return;
+    }
+    switch (data.type) {
+      case 'start':
+        if (
+          typeof data.offsetX === 'number' &&
+          typeof data.offsetY === 'number'
+        ) {
+          context.beginPath();
+          context.moveTo(data.offsetX, data.offsetY);
+        }
+        break;
+      case 'draw':
+        if (
+          typeof data.offsetX === 'number' &&
+          typeof data.offsetY === 'number' &&
+          typeof data.color === 'string' &&
+          typeof data.lineWidth === 'number'
+        ) {
+          context.lineTo(data.offsetX, data.offsetY);
+          context.strokeStyle = data.color;
+          context.lineWidth = data.lineWidth;
+          context.stroke();
+        }
+        break;
+      case 'end':
+        context.closePath();
+        break;
+      case 'clear':
+        if (canvas) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    if (stompClient && stompClient.connected) {
+      const subscription = stompClient.subscribe('/topic/draw', message => {
+        const data = JSON.parse(message.body);
+        drawOnCanvas(data);
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    }
+  }, [stompClient]); // stompClient가 변경될 때마다 useEffect가 실행됩니다.
 
   const getCanvasContext = () => {
     const canvas = canvasRef.current;
@@ -20,33 +94,62 @@ const CanvasComponent: React.FC = () => {
     return context;
   };
 
-  // 캔버스에 그리기 시작
   const startDrawing = (
     event: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
   ) => {
+    if (!canDraw) return;
     const { offsetX, offsetY } = event.nativeEvent;
-    const context = getCanvasContext();
-    context.beginPath();
-    context.moveTo(offsetX, offsetY);
     setIsDrawing(true);
+    sendDrawingData({
+      type: 'start',
+      offsetX: offsetX as number,
+      offsetY: offsetY as number,
+    });
   };
 
-  // 그리기 중
   const draw = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    if (!isDrawing) return;
-    const { offsetX, offsetY } = event.nativeEvent;
-    const context = getCanvasContext();
-    context.lineTo(offsetX, offsetY);
-    context.strokeStyle = color;
-    context.lineWidth = lineWidth;
-    context.stroke();
+    if (!isDrawing || !canDraw) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
+
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    if (context) {
+      context.lineTo(x, y);
+      context.strokeStyle = color;
+      context.lineWidth = lineWidth;
+      context.stroke();
+      context.beginPath();
+      context.moveTo(x, y);
+    }
+
+    // 그리기 데이터를 웹소켓을 통해 전송합니다.
+    sendDrawingData({ type: 'draw', offsetX: x, offsetY: y, color, lineWidth });
   };
 
-  // 그리기 종료
   const endDrawing = () => {
     const context = getCanvasContext();
     context.closePath();
     setIsDrawing(false);
+    sendDrawingData({ type: 'end' });
+  };
+
+  const sendDrawingData = (data: DrawData) => {
+    if (stompClient && stompClient.connected) {
+      stompClient.publish({
+        destination: '/app/draw', // 백엔드 엔드포인트
+        body: JSON.stringify(data),
+      });
+    }
   };
 
   // 색상 선택 핸들러
@@ -65,11 +168,14 @@ const CanvasComponent: React.FC = () => {
 
   // 캔버스 전체 지우기
   const clearCanvas = () => {
+    if (!canDraw) return;
     const canvas = canvasRef.current;
     if (canvas) {
       const context = canvas.getContext('2d');
       if (context) {
         context.clearRect(0, 0, canvas.width, canvas.height);
+        // 웹소켓을 통해 캔버스 지우기 메시지 전송
+        sendDrawingData({ type: 'clear' });
       }
     }
   };

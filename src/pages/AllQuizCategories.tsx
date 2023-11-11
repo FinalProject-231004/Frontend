@@ -4,7 +4,9 @@ import React from 'react';
 import axios from 'axios';
 import { QuizCategorySection } from '@/components';
 
-const AllQuizCategories: React.FC = () => {
+const AllQuizCategories: React.FC<{
+  onCategorySelection: (category: string) => void;
+}> = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [, setCategoryState] = useState(categories);

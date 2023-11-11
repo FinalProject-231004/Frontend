@@ -42,11 +42,14 @@ export { default as HistoryList } from './MyPage/HistoryList';
 export { default as UpdateMyInfo } from './MyPage/UpdateMyInfo';
 
 // Home
-export { default as HomeBanner } from './Home/HomeBanner';
 export { default as QuizCategorySection } from './Home/QuizCategorySection';
 export { default as QuizThumbnail } from './Home/QuizThumbnail';
-export { default as DetailPageComp } from './Home/DetailPageComp';
 export { default as WriteFixedButton } from './Home/WriteFixedButton';
+// Banner
+export { default as Banner } from './Home/Banner/Banner';
+
+// Detail
+export { default as DetailPageComp } from './Detail/DetailPageComp';
 
 // Result
 export { default as ResultPageComp } from './Result/ResultPageComp';
@@ -62,8 +65,8 @@ export { default as OrderModal } from './MileageShop/OrderModal';
 
 // LiveQuiz
 export { default as LiveQuizComp } from './LiveQuiz/LiveQuizComp';
-export { default as CanvasContainer } from './LiveQuiz/Canvas/CanvasContainer';
 export { default as CanvasComponent } from './LiveQuiz/Canvas/CanvasComponent';
+export { default as AdminModal } from './LiveQuiz/AdminModal';
 
 // Root
 export { default as CurrentDate } from './CurrentDate';
