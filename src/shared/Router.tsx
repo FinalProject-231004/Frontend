@@ -8,7 +8,6 @@ import {
   ResultPage,
   VerifyPassword,
   MyPage,
-  AllQuizCategories,
   MileageShop,
   KakaoFirstLogin,
   DetailPage,
@@ -44,11 +43,11 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/quiz/:id" element={<DetailPage />} />
-          <Route path="/quiz/categories" element={<AllQuizCategories />} />
+          {/* <Route path="/quiz/categories" element={<AllQuizCategories />} />
           <Route
             path="/quiz/categories/:categoryId"
             element={<AllQuizCategories />}
-          />
+          /> */}
           <Route path="/login/kakao" element={<Auth />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
           <Route path="/mileage-shop" element={<MileageShop />} />
