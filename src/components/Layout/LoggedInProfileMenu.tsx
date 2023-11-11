@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 import { LoggedInAttendence } from '@/components';
 import { getAPI } from '@/apis/axios';
 import { profileAPIResponse } from '@/types/header';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { logOut } from '@/utils/authHelpers';
 import {
   userMileageState,
@@ -23,15 +23,13 @@ import { useMobile } from '@/hooks';
 const fontFamily = "'TmoneyRoundWind', sans-serif";
 
 export default function LoggedInProfileMenu() {
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState); // 사용자의 로그인 상태 업데이트
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
-  ); // 사용자 메뉴를 표시
-  const [nickName, setNickName] = useState('');
-  const [mileage, setMileage] = useState(0);
+  );
+  const [nickName, setNickName] = useRecoilState(userNickNameState);
+  const [mileage, setMileage] = useRecoilState(userMileageState);
   const [image, setImage] = useRecoilState(userProfileImgState);
-  const setUserNickname = useSetRecoilState(userNickNameState);
-  const setUserMileage = useSetRecoilState(userMileageState);
   const isMobile = useMobile();
 
   const navigate = useNavigate();
@@ -44,8 +42,6 @@ export default function LoggedInProfileMenu() {
       // console.log(response.data.data);
       const getData = response.data.data;
       setNickName(getData.nickname);
-      setUserNickname(getData.nickname);
-      setUserMileage(getData.mileagePoint);
       setImage(getData.image || '');
       setMileage(getData.mileagePoint);
     } catch (error) {
