@@ -120,7 +120,7 @@ function SignInModal() {
         {loginMoadal ? (
           <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-center items-center">
             <h1 className="text-4xl text-blue font-extrabold py-[40px] sm:text-base sm:py-4">로그인</h1>
-            <div className=" w-9/12 pb-[45px] flex flex-col gap-5 relative sm:gap-3 sm:pb-6">
+            <div className=" w-9/12 pb-[45px] flex flex-col gap-5 relative sm:gap-3 sm:pb-7">
               <div >
                 <UserInfoInput
                   type="text"
@@ -145,7 +145,7 @@ function SignInModal() {
                   setPwInput(e.target.value);
                 }}
               />
-              <div className="mt-[6px] text-xs text-[#F92316] absolute right-2 bottom-6 sm:text-[6px] sm:bottom-2">
+              <div className="mt-[6px] text-xs text-[#F92316] absolute right-2 bottom-6 sm:text-[10px] sm:bottom-2">
                 {allCheckMessag}
               </div>
             </div>
