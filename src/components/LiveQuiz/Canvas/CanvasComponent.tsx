@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import { BsEraserFill, BsFillTrashFill } from 'react-icons/bs';
 import { Client } from '@stomp/stompjs';
 
-// CanvasComponent 컴포넌트의 props 타입 정의
 type CanvasComponentProps = {
   stompClient: Client | null;
+  userRole: string;
 };
 
 type DrawData = {
@@ -15,15 +15,24 @@ type DrawData = {
   lineWidth?: number;
 };
 
-const CanvasComponent: React.FC<CanvasComponentProps> = ({ stompClient }) => {
+const CanvasComponent: React.FC<CanvasComponentProps> = ({
+  stompClient,
+  userRole,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState<string>('#000000');
-  const [lineWidth, setLineWidth] = useState<number>(3); // 선 두께의 초기값
+  const [lineWidth, setLineWidth] = useState<number>(3);
   const eraserColor = '#FFFFFF';
+  const canDraw = userRole === 'ADMIN';
 
   const drawOnCanvas = (data: DrawData) => {
-    const context = getCanvasContext();
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext('2d');
+
+    if (!context) {
+      return;
+    }
     switch (data.type) {
       case 'start':
         if (
@@ -49,6 +58,11 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({ stompClient }) => {
         break;
       case 'end':
         context.closePath();
+        break;
+      case 'clear':
+        if (canvas) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+        }
         break;
       default:
         break;
@@ -83,6 +97,7 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({ stompClient }) => {
   const startDrawing = (
     event: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
   ) => {
+    if (!canDraw) return;
     const { offsetX, offsetY } = event.nativeEvent;
     setIsDrawing(true);
     sendDrawingData({
@@ -93,17 +108,32 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({ stompClient }) => {
   };
 
   const draw = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    if (!isDrawing) return;
-    const { offsetX, offsetY } = event.nativeEvent;
-    const context = getCanvasContext();
+    if (!isDrawing || !canDraw) return;
 
-    context.lineTo(offsetX, offsetY); // 현재 마우스 위치까지 선을 그립니다.
-    context.strokeStyle = color; // 선의 색상을 설정합니다.
-    context.lineWidth = lineWidth; // 선의 두께를 설정합니다.
-    context.stroke(); // 캔버스에 선을 그립니다.
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
+
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    if (context) {
+      context.lineTo(x, y);
+      context.strokeStyle = color;
+      context.lineWidth = lineWidth;
+      context.stroke();
+      context.beginPath();
+      context.moveTo(x, y);
+    }
 
     // 그리기 데이터를 웹소켓을 통해 전송합니다.
-    sendDrawingData({ type: 'draw', offsetX, offsetY, color, lineWidth });
+    sendDrawingData({ type: 'draw', offsetX: x, offsetY: y, color, lineWidth });
   };
 
   const endDrawing = () => {
@@ -138,11 +168,14 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({ stompClient }) => {
 
   // 캔버스 전체 지우기
   const clearCanvas = () => {
+    if (!canDraw) return;
     const canvas = canvasRef.current;
     if (canvas) {
       const context = canvas.getContext('2d');
       if (context) {
         context.clearRect(0, 0, canvas.width, canvas.height);
+        // 웹소켓을 통해 캔버스 지우기 메시지 전송
+        sendDrawingData({ type: 'clear' });
       }
     }
   };
