@@ -63,9 +63,9 @@ export default function LoggedInProfileMenu() {
     setAnchorElUser(null);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getUserInfo();
-  },[])
+  }, []);
 
   return (
     <>
@@ -74,13 +74,14 @@ export default function LoggedInProfileMenu() {
           <Avatar alt={nickName} src={image || '/img/bonobono.png'} />
         </IconButton>
         <Menu
-          sx={{ 
-            mt: '45px', 
+          sx={{
+            mt: '45px',
             '& .MuiPaper-root': {
-              boxShadow: '-1px 1px 8px 0 rgba(0, 0, 0, 0.1), 1px 1px 8px 0 rgba(0, 0, 0, 0.1)', 
+              boxShadow:
+                '-1px 1px 8px 0 rgba(0, 0, 0, 0.1), 1px 1px 8px 0 rgba(0, 0, 0, 0.1)',
             },
-            '& .MuiMenu-list': { 
-              p: 0, 
+            '& .MuiMenu-list': {
+              p: 0,
             },
           }}
           id="menu-appbar"
@@ -97,65 +98,99 @@ export default function LoggedInProfileMenu() {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          <div className='w-[264px] h-[300px] bg-lightBlue flex flex-col justify-center items-center sm:w-[132px] sm:h-[161px]'>
-            <div className=''>
-              <div className='flex justify-start mb-[20px] sm:mb-3' onClick={handleCloseUserMenu}>
-                <Typography textAlign="center"><span className='pl-[3px] mb-[17px] text-[25px] sm:text-[10px] text-blue hover:' style={{ fontFamily }}>{nickName}</span></Typography>
+          <div className="w-[264px] h-[300px] bg-lightBlue flex flex-col justify-center items-center sm:w-[132px] sm:h-[161px]">
+            <div className="">
+              <div
+                className="flex justify-start mb-[20px] sm:mb-3"
+                onClick={handleCloseUserMenu}
+              >
+                <Typography textAlign="center">
+                  <span
+                    className="pl-[3px] mb-[17px] text-[25px] sm:text-[10px] text-blue hover:"
+                    style={{ fontFamily }}
+                  >
+                    {nickName}
+                  </span>
+                </Typography>
               </div>
-              <div className='p-0' onClick={handleCloseUserMenu}>
-                <Typography className='flex justify-between border-b-[1.5px] border-black w-[216px] pb-[13px] sm:pb-1 sm:w-[100px] sm:border-b' textAlign="center">
-                  <span className='pl-[3px] text-[18px] sm:text-[10px]' style={{ fontFamily }}>마일리지</span>
-                  <span className='text-[18px] sm:text-[10px]' style={{ fontFamily }}>{mileage} M</span>
+              <div className="p-0" onClick={handleCloseUserMenu}>
+                <Typography
+                  className="flex justify-between border-b-[1.5px] border-black w-[216px] pb-[13px] sm:pb-1 sm:w-[100px] sm:border-b"
+                  textAlign="center"
+                >
+                  <span
+                    className="pl-[3px] text-[18px] sm:text-[10px]"
+                    style={{ fontFamily }}
+                  >
+                    마일리지
+                  </span>
+                  <span
+                    className="text-[18px] sm:text-[10px]"
+                    style={{ fontFamily }}
+                  >
+                    {mileage} M
+                  </span>
                 </Typography>
               </div>
               <LoggedInAttendence
                 handleCloseUserMenu={() => handleCloseUserMenu()}
               />
-              {!isMobile? (
+              {!isMobile ? (
                 <>
-                  <MenuItem sx={{ p: 0, m:0 }} 
+                  <MenuItem
+                    sx={{ p: 0, m: 0 }}
                     onClick={() => {
                       handleCloseUserMenu();
                       navigate('/mypage');
                     }}
                   >
-                    <Typography className='p-0 border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' 
-                    style={{ fontFamily }} textAlign="center">
-                      <span className='pl-[3px] text-[18px]'>마이페이지</span>
+                    <Typography
+                      className="p-0 border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue"
+                      style={{ fontFamily }}
+                      textAlign="center"
+                    >
+                      <span className="pl-[3px] text-[18px]">마이페이지</span>
                     </Typography>
                   </MenuItem>
-                  <MenuItem sx={{ p: 0, m:0  }} onClick={handleLogOut}>
-                    <Typography className='border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue ' 
-                    style={{ fontFamily }} textAlign="center">
-                      <span className='pl-[3px] text-[18px]'>로그아웃</span>
+                  <MenuItem sx={{ p: 0, m: 0 }} onClick={handleLogOut}>
+                    <Typography
+                      className="border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue "
+                      style={{ fontFamily }}
+                      textAlign="center"
+                    >
+                      <span className="pl-[3px] text-[18px]">로그아웃</span>
                     </Typography>
                   </MenuItem>
                 </>
               ) : (
                 <>
-                  <div 
+                  <div
                     onClick={() => {
                       handleCloseUserMenu();
                       navigate('/mypage');
                     }}
                   >
-                    <Typography className='p-0 border-black flex justify-start hover:text-blue hover:border-blue w-[100px] py-[6px] border-b' 
-                    style={{ fontFamily }} textAlign="center">
-                      <span className='pl-[3px] text-[10px]'>마이페이지</span>
+                    <Typography
+                      className="p-0 border-black flex justify-start hover:text-blue hover:border-blue w-[100px] py-[6px] border-b"
+                      style={{ fontFamily }}
+                      textAlign="center"
+                    >
+                      <span className="pl-[3px] text-[10px]">마이페이지</span>
                     </Typography>
                   </div>
                   <div onClick={handleLogOut}>
-                    <Typography className='border-black flex justify-start hover:text-blue hover:border-blue w-[100px] py-[6px] border-b' 
-                    style={{ fontFamily }} textAlign="center">
-                      <span className='pl-[3px] text-[10px]'>로그아웃</span>
+                    <Typography
+                      className="border-black flex justify-start hover:text-blue hover:border-blue w-[100px] py-[6px] border-b"
+                      style={{ fontFamily }}
+                      textAlign="center"
+                    >
+                      <span className="pl-[3px] text-[10px]">로그아웃</span>
                     </Typography>
                   </div>
                 </>
               )}
-              
             </div>
           </div>
-          
         </Menu>
       </Box>
     </>

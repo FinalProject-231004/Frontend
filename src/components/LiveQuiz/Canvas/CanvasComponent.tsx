@@ -70,6 +70,27 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
   };
 
   useEffect(() => {
+    // 캔버스 초기 상태를 백엔드에서 로드하는 로직
+    const loadInitialCanvasState = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/draw/state`,
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const initialState = await response.json();
+        // initialState를 이용하여 캔버스를 업데이트하는 로직
+        drawInitialState(initialState);
+      } catch (error) {
+        // console.error('초기 캔버스 상태 로딩 실패:', error);
+      }
+    };
+
+    loadInitialCanvasState();
+  }, []); // 빈 의존성 배열을 사용하여 컴포넌트 마운트 시에만 호출
+
+  useEffect(() => {
     if (stompClient && stompClient.connected) {
       const subscription = stompClient.subscribe('/topic/draw', message => {
         const data = JSON.parse(message.body);
@@ -92,6 +113,12 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
       throw new Error('Canvas context is not available');
     }
     return context;
+  };
+
+  const drawInitialState = (initialState: DrawData[]) => {
+    initialState.forEach(drawData => {
+      drawOnCanvas(drawData);
+    });
   };
 
   const startDrawing = (
