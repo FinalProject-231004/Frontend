@@ -64,7 +64,7 @@ export default function ChangePwModal() {
     <>
       <button
         onClick={newPwModal.open}
-        className="bg-blue rounded-r-md text-[24px] text-white hover:bg-navy w-[131px] h-[72px]"
+        className="bg-blue rounded-r-md text-[24px] text-white hover:bg-navy w-[131px] h-[72px] sm:w-[65px] sm:h-[36px] sm:text-xs"
       >
         변경하기
       </button>
@@ -76,7 +76,7 @@ export default function ChangePwModal() {
         isOpen={newPwModal.isOpen}
       >
         <div className="h-[442px] flex flex-col justify-center items-center gap-[31px]">
-          <h1 className="text-[34px] text-blue">비밀번호 변경하기</h1>
+          <h1 className="text-[34px] font-extrabold text-blue sm:text-[14px]">비밀번호 변경하기</h1>
 
           <div className='relative' >
             <div className="relative flex justify-center items-center">

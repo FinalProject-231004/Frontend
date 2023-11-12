@@ -52,8 +52,9 @@ export default function DeleteAccount() {
     <>
       <button
         onClick={deleteAccountModal.open}
-        className="w-[130px] h-[72px] text-[24px] text-blue rounded-[6px] border-2 border-blue hover:bg-navy"
-      >
+        className="w-[130px] h-[72px] text-[24px] text-blue rounded-[6px] border-2 border-blue hover:bg-navy 
+        sm:w-[65px] sm:h-[36px] sm:text-xs sm:border
+      ">
         회원탈퇴
       </button>
       <Modal

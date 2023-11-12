@@ -79,7 +79,7 @@ export default function ChangeNicknameModal() {
     <>
       <button
         onClick={newNicknameModal.open}
-        className="bg-blue rounded-r-md text-[24px] text-white hover:bg-navy w-[131px] h-[72px]"
+        className="bg-blue rounded-r-md text-[24px] text-white hover:bg-navy w-[131px] h-[72px] sm:w-[65px] sm:h-[36px] sm:text-xs"
       >
         변경하기
       </button>
@@ -91,7 +91,7 @@ export default function ChangeNicknameModal() {
         isOpen={newNicknameModal.isOpen}
       >
         <div className="h-[368px] flex flex-col justify-center items-center">
-          <h1 className="mb-[46px] text-[34px] text-blue">닉네임 변경하기</h1>
+          <h1 className="mb-[46px] text-[34px] font-extrabold text-blue">닉네임 변경하기</h1>
 
           <div className="relative">
             <div className="w-[530px] relative flex justify-center items-center z-10">
