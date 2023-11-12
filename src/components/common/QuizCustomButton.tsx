@@ -15,7 +15,7 @@ const QuizCustomButton: React.FC<QuizCustomButtonProps> = ({
     <button
       type="button"
       onClick={onClick}
-      className={`w-[110px] h-[60px] rounded-md border-2 text-xl shadow-md shadow-slate-200 ${
+      className={`w-[110px] h-[60px] rounded-md border-2 text-xl shadow-md shadow-slate-200 md:w-[90px] md:h-[50px] md:rounded-2xl md:text-lg ${
         theme === 'blue'
           ? 'bg-blue text-white'
           : theme === 'dark'

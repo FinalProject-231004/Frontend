@@ -56,8 +56,10 @@ const CommentList: React.FC<CommentProps> = ({ commentData }) => {
             alt={commentData.nickname}
           />
 
-          <div className="w-full h-auto flex ml-2 customborder">
-            {commentData.comment}
+          <div className="customborder w-full h-auto mx-2 px-3">
+            <div className="break-words md:w-[67.1vw] md:overflow-y-auto">
+              {commentData.comment}
+            </div>
           </div>
         </div>
       </div>

@@ -151,7 +151,7 @@ const CreateQuizGroup: React.FC = () => {
           value={quiz.title || ''}
           onChange={handleTitleChange}
           inputType="input"
-          maxLength={64}
+          maxLength={60}
         />
         <CustomQuizInput
           title="퀴즈 소개글"
