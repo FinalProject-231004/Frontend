@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import { logOut } from '@/utils/authHelpers';
 import { useSetRecoilState } from 'recoil';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
+import { validatePw } from '@/hooks/useValidation';
 
 export default function DeleteAccount() {
   const navigate = useNavigate();
@@ -34,12 +35,6 @@ export default function DeleteAccount() {
       setPwMessage('비밀번호가 일치하지 않습니다');
       setIsPw(true);
     }
-  };
-
-  const validatePw = (pw: string) => {
-    const pattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d\s]).{8,20}$/;
-    setIsPw(pattern.test(pw));
   };
 
   const closeModal = () => {
@@ -80,7 +75,7 @@ export default function DeleteAccount() {
                 focusBorderColor={''}
                 onChange={e => {
                   setInputPw(e.target.value);
-                  validatePw(e.target.value);
+                  setIsPw(validatePw(e.target.value));
                 }}
               />
               {isPw && (
