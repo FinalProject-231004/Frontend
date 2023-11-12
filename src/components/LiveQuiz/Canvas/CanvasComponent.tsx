@@ -1,3 +1,4 @@
+// CanvasComponent.tsx
 import React, { useRef, useState, useEffect } from 'react';
 import { BsEraserFill, BsFillTrashFill } from 'react-icons/bs';
 import { Client } from '@stomp/stompjs';
@@ -83,7 +84,7 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
         // initialState를 이용하여 캔버스를 업데이트하는 로직
         drawInitialState(initialState);
       } catch (error) {
-        // console.error('초기 캔버스 상태 로딩 실패:', error);
+        console.error('초기 캔버스 상태 로딩 실패:', error);
       }
     };
 
@@ -225,47 +226,56 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
         width={700}
         height={700}
       />
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div className="gap-3 flex">
           <button
             onClick={() => changeColor('#ff0000')}
-            className={getButtonClass('#ff0000') + ' bg-red'}
-          >
-            Red
-          </button>
+            className={
+              getButtonClass('#ff0000') + ' bg-red rounded-full w-10 h-10'
+            }
+          ></button>
+          <button
+            onClick={() => changeColor('#F7BD00')}
+            className={
+              getButtonClass('#F7BD00') + ' bg-[#F7BD00] rounded-full w-10 h-10'
+            }
+          ></button>
           <button
             onClick={() => changeColor('#00ff00')}
-            className={getButtonClass('#00ff00') + ' bg-green-500 '}
-          >
-            Green
-          </button>
+            className={
+              getButtonClass('#00ff00') + ' bg-green-500 rounded-full w-10 h-10'
+            }
+          ></button>
           <button
             onClick={() => changeColor('#0000ff')}
-            className={getButtonClass('#0000ff') + ' bg-[#0000ff] '}
-          >
-            Blue
-          </button>
+            className={
+              getButtonClass('#0000ff') +
+              ' bg-[#0000ff]  rounded-full w-10 h-10'
+            }
+          ></button>
           <button
             onClick={() => changeColor('#000000')}
-            className={getButtonClass('#000000') + ' bg-black '}
-          >
-            Black
-          </button>
+            className={
+              getButtonClass('#000000') + ' bg-black  rounded-full w-10 h-10'
+            }
+          ></button>
           <button
             onClick={() => changeColor('eraser')}
-            className={getButtonClass('eraser') + ' bg-gray-300'}
+            className={
+              getButtonClass('eraser') + ' bg-gray-300 rounded-full w-10 h-10'
+            }
           >
             <BsEraserFill size={24} />
           </button>
           <button
             onClick={clearCanvas}
-            className="mt-2 p-2 bg-gray-300 rounded-lg text-white"
+            className="mt-2 p-2 bg-gray-300 rounded-lg text-white  w-10 h-10"
           >
             <BsFillTrashFill size={24} />
           </button>
         </div>
 
-        <div className="mt-4 gap-3 flex">
+        <div className="mt-2 gap-3 flex items-center justify-center">
           <button
             onClick={() => setLineWidth(3)}
             className={getLineWidthButtonClass(3) + ' bg-gray-200'}
