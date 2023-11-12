@@ -68,7 +68,7 @@ const QuestionItem: React.FC<QuestionItemProps> = ({
       />
       {question.image?.preview && (
         <div
-          className="w-[720] h-[400px] mx-auto mt-[10px] mb-[20px] border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat"
+          className="w-[720px] h-[350px] sm:w-[94vw] sm:h-[240px] mx-auto mt-[10px] mb-[20px] border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${question.image.preview})` }}
         ></div>
       )}
