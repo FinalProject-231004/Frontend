@@ -104,15 +104,15 @@ export default function VerifyPassword() {
 
 
   return (
-    <div className="w-screen min-h-[1080px] mx-auto flex justify-center items-center">
-      <div className="w-[896px] h-[599px] mx-auto flex flex-col justify-center items-center">
-        <div className="mt-24 mb-[12px] flex flex-col justify-center items-center">
-          <h1 className='text-[32px] text-blue font-extrabold'>비밀번호 재확인</h1>
+    <div className="w-screen h-screen mx-auto flex justify-center items-center ">
+      <div className="flex flex-col justify-center items-center sm:pt-[157px]">
+        <div className="pb-[12px] flex flex-col justify-center items-center">
+          <h1 className='text-[32px] text-blue font-extrabold sm:text-[16px]'>비밀번호 재확인</h1>
         </div>
-        <form className="flex flex-col justify-center items-center gap-[46px]" onSubmit={handleSubmit} onKeyDown={enterKeyHandler}>
-          <div className="w-full py-16 flex flex-col justify-center items-center gap-[64px]">
-            <div className="w-[896px] flex flex-col justify-between items-center">
-              <p className="w-full text-2xl mb-[12px]">아이디</p>
+        <form className="flex flex-col justify-center items-center gap-[46px] sm:gap-[25px]" onSubmit={handleSubmit} onKeyDown={enterKeyHandler}>
+          <div className="w-full py-16 flex flex-col justify-center items-center gap-[64px] sm:gap-[32px] sm:py-[32px]">
+            <div className="w-[896px] flex flex-col justify-between items-center sm:w-full">
+              <p className="w-full text-2xl mb-[12px] sm:text-sm ">아이디</p>
               <UserInfoInput
                 disabled={true}
                 inputVal={nickName}
@@ -124,8 +124,8 @@ export default function VerifyPassword() {
                 focusBorderColor={''}
               />
             </div>
-            <div className="w-[896px] flex flex-col justify-between items-center">
-              <p className="w-full text-2xl mb-[12px]">비밀번호</p>
+            <div className="w-[896px] flex flex-col justify-between items-center sm:w-full">
+              <p className="w-full text-2xl mb-[12px] sm:text-sm">비밀번호</p>
               <UserInfoInput
                 inputVal={pwInput}
                 onChange={e => {
@@ -140,11 +140,14 @@ export default function VerifyPassword() {
             </div>
           </div>
           
-          <div className='w-[300px] flex justify-between'>
-            <button type='submit' className='w-[130px] h-[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'>
+          <div className='w-[300px] flex justify-between sm:w-[150px]'>
+            <button type='submit' className='w-[130px] h-[72px] border-[1.5px] border-blue rounded-[6px] text-[24px] text-blue hover:bg-blue hover:text-white
+              sm:w-[65px] sm:h-[36px] sm:text-xs 
+            '>
               확인하기
             </button>
-            <button type='button' className='w-[130px] h-[72px] border-[1.5px] border-blue rounded-[6px] px-[15px] py-[17px] text-[24px] text-blue hover:bg-blue hover:text-white'
+            <button type='button' className='w-[130px] h-[72px] border-[1.5px] border-blue rounded-[6px] text-[24px] text-blue hover:bg-blue hover:text-white
+            sm:w-[65px] sm:h-[36px] sm:text-xs'
             onClick={() => { navigate('/mypage')}}
             >
               취소하기

@@ -28,7 +28,7 @@ const UserInfoInput = React.forwardRef<HTMLInputElement, UserInfoInputProps>(
     } else if (size === 'large') {
       widthClass = isMobile ? 'w-full' : 'w-[765px]'; 
     } else if (size === 'xl') {
-      widthClass = isMobile ? 'w-full' : 'w-[895px]'; 
+      widthClass = isMobile ? 'w-[343px]' : 'w-[895px]'; 
     }  
 
 const borderClass = borderColor === 'none' ? 'border-none' : `border-${borderColor}`;
