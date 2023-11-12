@@ -129,7 +129,22 @@ const CreateQuizGroup: React.FC = () => {
 
   return (
     <div className="w-screen">
-      <div className="w-[720px] mx-auto text-blue text-xl">
+      <div className="w-[720px] mx-auto text-blue text-xl  sm:w-[92vw] sm:text-lg">
+        <WarningModal
+          isOpen={warningModal.isOpen}
+          onRequestClose={warningModal.close}
+          title="🚨"
+          message="비어있는 항목 또는 체크하지 않은 선택지가 있어요!"
+          button={
+            <div
+              onClick={warningModal.close}
+              className="flex justify-center items-center w-20 bg-blue text-white rounded-md py-2 sm:w-[70px]"
+            >
+              확인
+            </div>
+          }
+        />
+
         <CustomQuizInput
           title="퀴즈명"
           placeholder="퀴즈명을 입력해 주세요"
@@ -151,8 +166,7 @@ const CreateQuizGroup: React.FC = () => {
           selectedCategory={selectedCategory}
           onCategoryClick={handleCategoryClick}
         />
-
-        <div className="flex mb-[20px] justify-end sm:w-[100vw]">
+        <div className="flex mt-[40px] mb-4 justify-end sm:w-[92vw] sm:mb-2">
           <ImageUploader
             id="quiz-image"
             image={quiz.image}
@@ -160,7 +174,7 @@ const CreateQuizGroup: React.FC = () => {
             removeImage={handleImageRemove}
           />
         </div>
-        <div className="w-full h-[450px] mt-[10px] mb-[110px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center sm:w-[100vw]">
+        <div className="h-[450px] mb-[110px] border-dotted border-4 border-blue rounded-2xl bg-contain bg-center bg-no-repeat flex justify-center items-center sm:w-[92vw] sm:h-[230px] sm:mb-20">
           {quiz.image?.preview ? (
             <div
               className="w-full h-full bg-contain bg-center bg-no-repeat"
@@ -172,21 +186,6 @@ const CreateQuizGroup: React.FC = () => {
             </span>
           )}
         </div>
-
-        <WarningModal
-          isOpen={warningModal.isOpen}
-          onRequestClose={warningModal.close}
-          title="🚨"
-          message="비어있는 항목 또는 체크하지 않은 선택지가 있어요!"
-          button={
-            <div
-              onClick={warningModal.close}
-              className="flex justify-center items-center w-20 bg-blue text-white rounded-md py-2"
-            >
-              닫기
-            </div>
-          }
-        />
       </div>
       <BottomLongButton onClick={handleNavigation} disabled={isLoading}>
         {isLoading ? '제출 중...' : '세부 질문 만들기'}

@@ -1,4 +1,5 @@
 import { postAPI } from '@/apis/axios';
+import { useMobile } from '@/hooks';
 import { attendanceState } from '@/recoil/atoms/userInfoAtom';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
@@ -14,6 +15,7 @@ const fontFamily = "'TmoneyRoundWind', sans-serif";
 
 export default function LoggedInAttendence({handleCloseUserMenu}:LoggedInAttendenceProps) {
   const setAttendance = useSetRecoilState(attendanceState);
+  const isMobile = useMobile();
   
   const notifySuccess = () => toast.success('잊지 않으셨군요?! 출석 완료!', {
     position: "top-center",
@@ -81,11 +83,22 @@ export default function LoggedInAttendence({handleCloseUserMenu}:LoggedInAttende
 
   return (
     <>
-      <MenuItem sx={{ p: 0 }} onClick={()=>{handleCloseUserMenu(); postAttendencs();}}> 
-        <Typography className='border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
-          <span className='pl-[3px] text-[18px]'>출석체크</span>
-        </Typography>
-      </MenuItem>
+      {!isMobile? (
+        <MenuItem sx={{ p: 0 }} onClick={()=>{handleCloseUserMenu(); postAttendencs();}}> 
+          <Typography className='border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue ' 
+          style={{ fontFamily }} textAlign="center">
+            <span className='pl-[3px] text-[18px]'>출석체크</span>
+          </Typography>
+        </MenuItem>
+      ) : (
+        <div onClick={()=>{handleCloseUserMenu(); postAttendencs();}}> 
+          <Typography className=' border-black flex justify-start hover:text-blue hover:border-blue w-[100px] py-[6px] border-b' 
+          style={{ fontFamily }} textAlign="center">
+            <span className='pl-[3px] text-[10px]'>출석체크</span>
+          </Typography>
+        </div>
+      )}
+      
     </>
     
   )

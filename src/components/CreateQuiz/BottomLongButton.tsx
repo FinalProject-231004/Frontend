@@ -12,7 +12,7 @@ const BottomLongButton: React.FC<BottomLongButtonProps> = ({
   return (
     <button
       type="button"
-      className="w-screen h-[70px] fixed bottom-0 bg-blue font-extrabold text-2xl text-white py-3"
+      className="w-[100vw] h-[70px] fixed bottom-0 bg-blue text-2xl md:text-xl font-extrabold text-white sm:text-lg sm:h-[60px]"
       onClick={onClick}
     >
       {children}

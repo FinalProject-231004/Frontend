@@ -6,33 +6,31 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
-// import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router';
 import { LoggedInAttendence } from '@/components';
 import { getAPI } from '@/apis/axios';
 import { profileAPIResponse } from '@/types/header';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { logOut } from '@/utils/authHelpers';
 import {
   userMileageState,
   userNickNameState,
   userProfileImgState,
 } from '@/recoil/atoms/userInfoAtom';
+import { useMobile } from '@/hooks';
 
 const fontFamily = "'TmoneyRoundWind', sans-serif";
 
 export default function LoggedInProfileMenu() {
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState); // 사용자의 로그인 상태 업데이트
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
-  ); // 사용자 메뉴를 표시
-  const [nickName, setNickName] = useState('');
-  // const [image, setImage] = useState('');
-  const [mileage, setMileage] = useState(0);
+  );
+  const [nickName, setNickName] = useRecoilState(userNickNameState);
+  const [mileage, setMileage] = useRecoilState(userMileageState);
   const [image, setImage] = useRecoilState(userProfileImgState);
-  const setUserNickname = useSetRecoilState(userNickNameState);
-  const setUserMileage = useSetRecoilState(userMileageState);
+  const isMobile = useMobile();
 
   const navigate = useNavigate();
 
@@ -44,8 +42,6 @@ export default function LoggedInProfileMenu() {
       // console.log(response.data.data);
       const getData = response.data.data;
       setNickName(getData.nickname);
-      setUserNickname(getData.nickname);
-      setUserMileage(getData.mileagePoint);
       setImage(getData.image || '');
       setMileage(getData.mileagePoint);
     } catch (error) {
@@ -61,33 +57,31 @@ export default function LoggedInProfileMenu() {
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-    getUserInfo();
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getUserInfo();
-  },[])
+  }, []);
 
   return (
     <>
       <Box sx={{ flexGrow: 0 }}>
-        {/* <Tooltip title="Open settings"> */}
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar alt={nickName} src={image || '/img/bonobono.png'} />
         </IconButton>
-        {/* </Tooltip> */}
         <Menu
-          sx={{ 
-            mt: '45px', 
+          sx={{
+            mt: '45px',
             '& .MuiPaper-root': {
-              boxShadow: '-1px 1px 8px 0 rgba(0, 0, 0, 0.1), 1px 1px 8px 0 rgba(0, 0, 0, 0.1)', 
+              boxShadow:
+                '-1px 1px 8px 0 rgba(0, 0, 0, 0.1), 1px 1px 8px 0 rgba(0, 0, 0, 0.1)',
             },
-            '& .MuiMenu-list': { 
-              p: 0, 
+            '& .MuiMenu-list': {
+              p: 0,
             },
           }}
           id="menu-appbar"
@@ -104,38 +98,99 @@ export default function LoggedInProfileMenu() {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          <div className='w-[264px] h-[300px] bg-lightBlue flex flex-col justify-center items-center'>
-            <div className='w-[216px] h-[260px]'>
-              <div className='flex justify-start mb-[15px]' onClick={handleCloseUserMenu}>
-                <Typography textAlign="center"><span className='pl-[3px] mb-[17px] text-[25px] text-blue hover:' style={{ fontFamily }}>{nickName}</span></Typography>
+          <div className="w-[264px] h-[300px] bg-lightBlue flex flex-col justify-center items-center sm:w-[132px] sm:h-[161px]">
+            <div className="">
+              <div
+                className="flex justify-start mb-[20px] sm:mb-3"
+                onClick={handleCloseUserMenu}
+              >
+                <Typography textAlign="center">
+                  <span
+                    className="pl-[3px] mb-[17px] text-[25px] sm:text-[10px] text-blue hover:"
+                    style={{ fontFamily }}
+                  >
+                    {nickName}
+                  </span>
+                </Typography>
               </div>
-              <div className='p-0' onClick={handleCloseUserMenu}>
-                <Typography className='flex justify-between border-b-[1.5px] border-black w-[216px] pb-[13px]' textAlign="center">
-                  <span className='pl-[3px] text-[18px]' style={{ fontFamily }}>마일리지</span>
-                  <span className='text-[18px]' style={{ fontFamily }}>{mileage} M</span>
+              <div className="p-0" onClick={handleCloseUserMenu}>
+                <Typography
+                  className="flex justify-between border-b-[1.5px] border-black w-[216px] pb-[13px] sm:pb-1 sm:w-[100px] sm:border-b"
+                  textAlign="center"
+                >
+                  <span
+                    className="pl-[3px] text-[18px] sm:text-[10px]"
+                    style={{ fontFamily }}
+                  >
+                    마일리지
+                  </span>
+                  <span
+                    className="text-[18px] sm:text-[10px]"
+                    style={{ fontFamily }}
+                  >
+                    {mileage} M
+                  </span>
                 </Typography>
               </div>
               <LoggedInAttendence
                 handleCloseUserMenu={() => handleCloseUserMenu()}
               />
-              <MenuItem sx={{ p: 0, m:0 }}
-                onClick={() => {
-                  handleCloseUserMenu();
-                  navigate('/mypage');
-                }}
-              >
-                <Typography className='p-0 border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
-                  <span className='pl-[3px] text-[18px]'>마이페이지</span>
-                </Typography>
-              </MenuItem>
-              <MenuItem sx={{ p: 0, m:0  }} onClick={handleLogOut}>
-                <Typography className='border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue' style={{ fontFamily }} textAlign="center">
-                  <span className='pl-[3px] text-[18px]'>로그아웃</span>
-                </Typography>
-              </MenuItem>
+              {!isMobile ? (
+                <>
+                  <MenuItem
+                    sx={{ p: 0, m: 0 }}
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      navigate('/mypage');
+                    }}
+                  >
+                    <Typography
+                      className="p-0 border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue"
+                      style={{ fontFamily }}
+                      textAlign="center"
+                    >
+                      <span className="pl-[3px] text-[18px]">마이페이지</span>
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem sx={{ p: 0, m: 0 }} onClick={handleLogOut}>
+                    <Typography
+                      className="border-b-[1.5px] border-black w-[216px] py-[13px] flex justify-start hover:text-blue hover:border-blue "
+                      style={{ fontFamily }}
+                      textAlign="center"
+                    >
+                      <span className="pl-[3px] text-[18px]">로그아웃</span>
+                    </Typography>
+                  </MenuItem>
+                </>
+              ) : (
+                <>
+                  <div
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      navigate('/mypage');
+                    }}
+                  >
+                    <Typography
+                      className="p-0 border-black flex justify-start hover:text-blue hover:border-blue w-[100px] py-[6px] border-b"
+                      style={{ fontFamily }}
+                      textAlign="center"
+                    >
+                      <span className="pl-[3px] text-[10px]">마이페이지</span>
+                    </Typography>
+                  </div>
+                  <div onClick={handleLogOut}>
+                    <Typography
+                      className="border-black flex justify-start hover:text-blue hover:border-blue w-[100px] py-[6px] border-b"
+                      style={{ fontFamily }}
+                      textAlign="center"
+                    >
+                      <span className="pl-[3px] text-[10px]">로그아웃</span>
+                    </Typography>
+                  </div>
+                </>
+              )}
             </div>
           </div>
-          
         </Menu>
       </Box>
     </>
