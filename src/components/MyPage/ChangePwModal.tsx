@@ -3,7 +3,7 @@ import { CustomizedButtons, Modal, UserInfoInput } from '@/components';
 import { useState } from 'react';
 import { changedPw } from '@/types/myPage';
 import { validatePw } from '@/hooks/useValidation'
-import { useModalState } from '@/hooks';
+import { useMobile, useModalState } from '@/hooks';
 import { toast } from 'react-toastify';
 
 export default function ChangePwModal() {
@@ -16,6 +16,7 @@ export default function ChangePwModal() {
   const [pwMessage, setPwMessage] = useState('');
   const [pwCheckMessage, setPwCheckMessage] = useState('');
   // const [allCheckMessag, setAllCheckMessag] = useState('');
+  const isMobile = useMobile(); 
 
   const data = {
     newPassword: updatePw,
@@ -57,6 +58,7 @@ export default function ChangePwModal() {
     newPwModal.close();
     setUpdatePw('');
     setCheckPw('');
+    setPwMessage('');
     setPwCheckMessage('');
   };
 
@@ -70,90 +72,88 @@ export default function ChangePwModal() {
       </button>
       <Modal
         onRequestClose={closeModal}
-        width="713px"
-        height="442px"
+        width={!isMobile? '713px' : '356px'}
+        height={!isMobile? '442px' : '230px'}
         bgColor="#F1F8FF"
         isOpen={newPwModal.isOpen}
       >
-        <div className="h-[442px] flex flex-col justify-center items-center gap-[31px]">
-          <h1 className="text-[34px] font-extrabold text-blue sm:text-[14px]">비밀번호 변경하기</h1>
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-[34px] py-[42px] font-extrabold text-blue sm:text-[16px] sm:py-[21px]">비밀번호 변경하기</h1>
 
-          <div className='relative' >
-            <div className="relative flex justify-center items-center">
-              <UserInfoInput
-                inputVal={updatePw}
-                type="password"
-                placeholder="비밀번호"
-                size="medium"
-                borderColor="blue"
-                focusBorderColor={''}
-                onChange={e => {
-                  setUpdatePw(e.target.value);
-                  setIsPw(validatePw(e.target.value));
-                  setPwMessage(
-                    '영소문자/숫자/특수문자 각각 1가지 이상 포함 8자리 이상 20자리 이하',
-                  ); 
-                  if (isPw === true) setPwMessage('');
-                }}
-              />
+          <div className='pb-[] flex flex-col justify-center items-center gap-[34px] sm:gap-[22px]'>
+            <div className='relative'>
+              <div className="relative flex justify-center items-center">
+                <UserInfoInput
+                  inputVal={updatePw}
+                  type="password"
+                  placeholder="비밀번호"
+                  size="medium"
+                  borderColor="blue"
+                  focusBorderColor={''}
+                  onChange={e => {
+                    setUpdatePw(e.target.value);
+                    setIsPw(validatePw(e.target.value));
+                    !isMobile? (
+                      setPwMessage('영소문자/숫자/특수문자 각각 1가지 이상 포함 8자리 이상 20자리 이하')
+                    ) : (
+                      setPwMessage('영소문자/숫자/특수문자 각각 1가지 이상 포함 8-20자리')
+                    )
+                    if (isPw === true) setPwMessage('');
+                  }}
+                />
 
-              {isPw ? (
-                <i className="fa-regular fa-circle-check absolute top-18 right-[17px] h-[37px] w-[37px] text-[37px] text-blue z-20"></i>
-              ) : (
-                <i className="fa-regular fa-circle-xmark absolute top-18 right-[17px] h-[37px] w-[37px] text-[37px] text-[#F92316] z-20"></i>
-              )}
-            </div>
+                {isPw ? (
+                  <i className="far fa-circle-check absolute top-18 right-[17px] text-[37px] text-blue z-20 sm:text-base "></i>
+                ) : (
+                  <i className="far fa-circle-xmark absolute top-18 right-[17px] text-[37px] text-red z-20 sm:text-base"></i>
+                )}
+              </div>
 
-            <div className='w-[530px]'>
               {updatePw.length >= 0 && isPw===false && (
-                <div className="mt-1 text-[16px] text-[#F92316] font-hairline absolute right-0">
+                <div className="pt-1 text-[16px] text-red font-hairline absolute right-0 sm:text-[10px] sm:pt-[2px]">
                   {pwMessage}
                 </div>
               )}
             </div>
+            
+            <div className="relative">
+              <UserInfoInput
+                inputVal={checkPw}
+                type="password"
+                placeholder="비밀번호 확인"
+                size="medium"
+                borderColor="blue"
+                focusBorderColor={''}
+                onChange={e => {
+                  setCheckPw(e.target.value);
+                  validatepwCheck(e.target.value);
+                }}
+              />
 
-          </div>
-          
-
-          <div className="relative flex flex-col">
-            <UserInfoInput
-              inputVal={checkPw}
-              type="password"
-              placeholder="비밀번호 확인"
-              size="medium"
-              borderColor="blue"
-              focusBorderColor={''}
-              onChange={e => {
-                setCheckPw(e.target.value);
-                validatepwCheck(e.target.value);
-              }}
-            />
-
-            <div className='w-[530px]'>
-              {checkPw.length >= 0 && (
-                <div className="mt-1 text-[16px] text-[#F92316] font-hairline absolute right-0">
-                  {pwCheckMessage}
-                </div>
-              )}
+            {checkPw.length >= 0 && (
+              <div className="pt-1 text-[16px] text-red font-hairline absolute right-0 sm:text-[10px] sm:pt-[2px]">
+                {pwCheckMessage}
+              </div>
+            )}
             </div>
-
-          </div>
           
-          {/* <div className="text-xs text-center mb-2 text-white">
-            {allCheckMessag}
-          </div> */}
+          
+            {/* <div className="text-xs text-center mb-2 text-white">
+              {allCheckMessag}
+            </div> */}
 
-          <CustomizedButtons
-            size="large"
-            fontcolor="white"
-            fontSize="24px"
-            BtnName="저장하기"
-            btnbg="#0078FF"
-            btnhoverbg="navy"
-            btnactivebg={''}
-            borderradius="28.5px"
-            onClick={saveBtnHandler}
-          />
+            <CustomizedButtons
+              size="large"
+              fontcolor="white"
+              fontSize={!isMobile?'24px':'10px'}
+              BtnName="저장하기"
+              btnbg="#0078FF"
+              btnhoverbg="navy"
+              btnactivebg={''}
+              borderradius="28.5px"
+              onClick={saveBtnHandler}
+            />
+          </div>
         </div>
       </Modal>
     </>
