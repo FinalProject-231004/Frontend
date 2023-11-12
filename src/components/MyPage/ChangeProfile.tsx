@@ -66,13 +66,13 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
 
   return (
     <div className="flex flex-col items-center justify-center">
-        <div className="w-[222px] h-[222px] flex items-center justify-center rounded-full overflow-hidden">
+        <div className="w-[222px] h-[222px] flex items-center justify-center rounded-full overflow-hidden sm:w-[111px] sm:h-[111px]">
             <img src={imgFile || profileImg || '/img/bonobono.png'} alt="profile" className="w-full h-full object-cover" />
         </div>
  
         <div className="mt-[19px] flex justify-between items-center">
           <label
-            className=" hover:border-blue hover:text-blue border-b-2 text-[20px] cursor-pointer"
+            className=" hover:border-blue hover:text-blue border-b-2 text-[20px] cursor-pointer sm:text-xs"
             htmlFor="profileImg"
           >
             이미지 변경
@@ -87,7 +87,9 @@ export default function ChangeProfile({profileImg}:changeProfileProps) {
             ref={fileInputRef}
           />
           <button
-            className="w-[59px] h-[26px] ml-[10px] text-blue-600 border border-blue-600 rounded px-2 hover:bg-blue hover:text-white"
+            className="w-[59px] h-[30px] ml-[10px] text-blue-600 border border-blue-600 rounded hover:bg-blue hover:text-white
+              sm:w-[40px] sm:h-[16px] sm:text-xs
+            "
             onClick={putProfile}
           >
             저장

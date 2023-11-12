@@ -28,7 +28,7 @@ const CurrentDate: React.FC = () => {
   };
 
   return (
-    <div className="text-center">
+    <div className="text-center sm:hidden">
       <p className="text-[24px]">{formatDate(today)}</p>
     </div>
   );
