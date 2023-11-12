@@ -102,7 +102,6 @@ export default function VerifyPassword() {
 
   const enterKeyHandler = useEnterKey(handleSubmit);
 
-
   return (
     <div className="w-screen h-screen mx-auto flex justify-center items-center ">
       <div className="flex flex-col justify-center items-center sm:pt-[157px]">
@@ -142,12 +141,12 @@ export default function VerifyPassword() {
           
           <div className='w-[300px] flex justify-between sm:w-[150px]'>
             <button type='submit' className='w-[130px] h-[72px] border-[1.5px] border-blue rounded-[6px] text-[24px] text-blue hover:bg-blue hover:text-white
-              sm:w-[65px] sm:h-[36px] sm:text-xs 
+              sm:w-[65px] sm:h-[36px] sm:text-xs sm:border
             '>
               확인하기
             </button>
             <button type='button' className='w-[130px] h-[72px] border-[1.5px] border-blue rounded-[6px] text-[24px] text-blue hover:bg-blue hover:text-white
-            sm:w-[65px] sm:h-[36px] sm:text-xs'
+            sm:w-[65px] sm:h-[36px] sm:text-xs sm:border'
             onClick={() => { navigate('/mypage')}}
             >
               취소하기
