@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="w-screen h-screen">
-      <div className="w-[1080px] mx-auto pb-10 sm:w-[100vw] sm:pb-5">
+      <div className="w-[1080px] mx-auto pb-1 md:w-[100vw] sm:w-[100vw] sm:pb-7">
         <Banner />
         <AllQuizCategories />
         <QuizCategorySection title="최신 퀴즈" quiz={allQuizzes} />

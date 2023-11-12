@@ -16,16 +16,16 @@ const WriteFixedButton: React.FC = () => {
     }
   };
 
-  const pencilIconSize = windowSize <= 393 ? 25 : windowSize <= 1024 ? 40 : 32;
+  const pencilIconSize = windowSize <= 393 ? 25 : windowSize <= 1024 ? 32 : 30;
 
   return (
     <div className="w-screen">
       <button
         type="button"
         onClick={goToPost}
-        className="w-16 h-16 md:w-20 md:h-20 rounded-full fixed bottom-9 right-[320px] md:right-10 md:bottom-9 sm:w-12 sm:h-12 sm:right-6 sm:bottom-4 transition duration-200 ease-in-out transform hover:scale-110 bg-blue border-2 border-slate-40 shadow-md shadow-slate-300 sm:shadow-slate-500"
+        className="w-16 h-16 rounded-full fixed bottom-8 right-[325px] md:right-8 md:bottom-7 sm:w-12 sm:h-12 sm:right-5 sm:bottom-4 transition duration-200 ease-in-out transform hover:scale-110 bg-blue border-2 border-slate-40 shadow-md shadow-slate-300 sm:shadow-slate-500"
       >
-        <div className="rounded-full text-white relative -right-[14px] md:-right-[18px] sm:-right-[7px] sm:-bottom-2">
+        <div className="rounded-full text-white relative -right-[15px] md:-right-[14px] sm:-right-[10px] sm:-bottom-0">
           <FaPencil size={pencilIconSize} />
         </div>
       </button>
