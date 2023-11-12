@@ -8,7 +8,7 @@ const QuizCategorySection: React.FC<QuizCategorySectionProps> = React.memo(
 
     return (
       <div className="w-full md:w-[100vw] sm:w-[100vw]">
-        <h1 className="my-20 text-[28px] text-blue font-extrabold text-center sm:justify-center sm:my-[30px] sm:text-lg">
+        <h1 className="flex my-20 text-[28px] text-blue font-extrabold text-center sm:justify-start sm:my-[30px] sm:text-lg">
           {title}
         </h1>
 
