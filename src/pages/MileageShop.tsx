@@ -39,22 +39,24 @@ const MileageShop: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-w-[1920px] min-h-[1080px] mx-auto">
-      <div className="w-[1080px] mx-auto mt-[148px] flex flex-col items-center">
-        <div className="mb-[101px] text-[32px] text-blue">마일리지샵</div>
+    <div className="w-screen h-screen">
+      <div className="w-[1080px] mx-auto mt-[148px] flex flex-col items-center sm:w-[100vw]">
+        <div className="mb-[101px] text-[32px] text-blue font-extrabold">마일리지샵</div>
         <div className="w-full">
-          <div className="text-[26px]">
+          <div className="text-[26px] sm:text-xs">
             내 마일리지: <span className="text-blue">{mileage}M</span>
           </div>
-          <div className="h-[87px] grid grid-cols-6 gap-x-5 py-4 pl-[65px] my-5 justify-items-start rounded-md bg-[#F1F8FF] text-lg font-extrabold">
+          <div className="h-[87px] grid grid-cols-6 gap-x-5 py-4 pl-[65px] my-5 justify-items-start rounded-md bg-[#F1F8FF] text-lg font-extrabold
+            sm:grid-cols-3 sm:gap-1 sm:px-2 sm:mb-10 sm:text-[10px] sm:pl-[32.5px]
+          ">
             {MileageCategories.map(category => (
               <div
                 key={category.category}
-                className="flex justify-center items-center gap-2"
+                className="flex justify-center items-center gap-2 sm:gap-1"
               >
                 <img
-                  src="/q-favicon.png"
-                  className="w-[27px]"
+                  src={category.icon}
+                  className="w-[27px] sm:w-[13.5px]"
                   alt={`profile`}
                 />
                 <button
@@ -74,7 +76,7 @@ const MileageShop: React.FC = () => {
           </div>
         </div>
 
-        <div className="gap-5 grid grid-cols-3">
+        <div className="gap-5 grid grid-cols-3 sm:grid-cols-2 sm:gap-2">
           {selectedCategory === null
             ? gifiticons.map(item => (
                 <GifticonList
