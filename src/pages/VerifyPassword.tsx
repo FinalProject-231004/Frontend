@@ -106,13 +106,13 @@ export default function VerifyPassword() {
   return (
     <div className="w-screen h-screen mx-auto flex justify-center items-center ">
       <div className="flex flex-col justify-center items-center sm:pt-[157px]">
-        <div className="pb-[12px] flex flex-col justify-center items-center">
+        <div className="pb-[12px] flex flex-col justify-center items-center sm:pb-0">
           <h1 className='text-[32px] text-blue font-extrabold sm:text-[16px]'>비밀번호 재확인</h1>
         </div>
         <form className="flex flex-col justify-center items-center gap-[46px] sm:gap-[25px]" onSubmit={handleSubmit} onKeyDown={enterKeyHandler}>
           <div className="w-full py-16 flex flex-col justify-center items-center gap-[64px] sm:gap-[32px] sm:py-[32px]">
             <div className="w-[896px] flex flex-col justify-between items-center sm:w-full">
-              <p className="w-full text-2xl mb-[12px] sm:text-sm ">아이디</p>
+              <p className="w-full text-2xl mb-[12px] sm:text-sm sm:mb-[6px]">아이디</p>
               <UserInfoInput
                 disabled={true}
                 inputVal={nickName}
@@ -125,7 +125,7 @@ export default function VerifyPassword() {
               />
             </div>
             <div className="w-[896px] flex flex-col justify-between items-center sm:w-full">
-              <p className="w-full text-2xl mb-[12px] sm:text-sm">비밀번호</p>
+              <p className="w-full text-2xl mb-[12px] sm:text-sm sm:mb-[6px]">비밀번호</p>
               <UserInfoInput
                 inputVal={pwInput}
                 onChange={e => {

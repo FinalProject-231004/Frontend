@@ -41,7 +41,9 @@ const dynamicClasses = `${widthClass} ${borderClass} focus:border-${focusBorderC
         <div className="md:w-2/3">
           <input
             id = {id}
-            className={`h-[72px] sm:h-[35px] bg-white appearance-none border-2  rounded-[6px] cursor-pointer py-2 px-7 sm:px-4 text-gray-700 text-2xl sm:text-xs  leading-tight focus:outline-none focus:bg-white ${dynamicClasses}`}
+            className={`h-[72px] bg-white appearance-none border-2 rounded-[6px] cursor-pointer py-2 px-7 text-gray-700 text-2xl leading-tight focus:outline-none focus:bg-white ${dynamicClasses}
+            sm:h-[35px] sm:px-4 sm:text-xs sm:border
+            `}
             ref={ref}
             type={type}
             placeholder={placeholder}
