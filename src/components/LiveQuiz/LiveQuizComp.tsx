@@ -18,7 +18,6 @@ const LiveQuizComp: React.FC = () => {
   const users = useRecoilValue(usersState);
   const nickName = useRecoilValue(userNickNameState);
   const setNickName = useSetRecoilState(userNickNameState);
-  // const [isMuted, setIsMuted] = useState(false);
   const muteTimerRef = useRef<NodeJS.Timeout | null>(null);
   const userRole = useRecoilValue(userRoleState);
   const setUserRole = useSetRecoilState(userRoleState);
@@ -84,8 +83,16 @@ const LiveQuizComp: React.FC = () => {
               ? setUserRole('ADMIN')
               : setUserRole('USER');
             setNickName(userInfoResponse.data.nickName);
+            setCorrectAnsweredUsers(
+              userInfoResponse.data.quizUpdateDto.correctAnsweredUsers,
+            );
+            setRemainingWinners(
+              userInfoResponse.data.quizUpdateDto.remainingWinners,
+            );
+            setAnswerLength(userInfoResponse.data.quizUpdateDto.answerLength);
+            setMileagePoint(userInfoResponse.data.quizUpdateDto.mileagePoint);
           } catch (error) {
-            console.error('Error fetching users:', error);
+            // console.error('Error fetching users:', error);
             toast.error('유저 목록을 불러오는데 실패하였습니다.');
           }
 
@@ -109,11 +116,11 @@ const LiveQuizComp: React.FC = () => {
 
             if (chatMessage.type === 'ERROR') {
               if (chatMessage.message === '도배 금지!') {
-                console.log(chatMessage);
-                console.log(
-                  '챗닉넴' + chatMessage.nickName,
-                  '리액트닉넴' + nickName,
-                );
+                // console.log(chatMessage);
+                // console.log(
+                //   '챗닉넴' + chatMessage.nickName,
+                //   '리액트닉넴' + nickName,
+                // );
                 if (chatMessage.nickName === nickName) {
                   toast.error('도배로 인해 30초동안 채팅이 금지됩니다.');
                 }
@@ -140,7 +147,7 @@ const LiveQuizComp: React.FC = () => {
           });
           setStompClient(newStompClient);
         },
-        (error: unknown) => {
+        (error: Error) => {
           console.error('Connection error:', error);
           toast.error('웹소켓 연결에 실패했습니다.');
         },
@@ -150,7 +157,7 @@ const LiveQuizComp: React.FC = () => {
     // 웹소켓 연결 해제 함수
     const disconnectWebSocket = () => {
       newStompClient.disconnect(() => {
-        console.log('Disconnected from WebSocket.');
+        // console.log('Disconnected from WebSocket.');
       });
     };
 
@@ -239,7 +246,7 @@ const LiveQuizComp: React.FC = () => {
 
   // 신고 핸들러 함수
   const handleReport = async (nickName: string) => {
-    console.log(nickName);
+    // console.log(nickName);
     try {
       const token = localStorage.getItem('Authorization');
       if (!token) {

@@ -28,7 +28,7 @@ function Header() {
 
   return (
     <header className="w-screen flex justify-center fixed top-0 bg-white shadow-sm z-[999] sm:flex ">
-      <div className="w-[1080px] py-3 m-auto flex justify-between items-center sm:p-0 sm:flex-col">
+      <div className="w-[1080px] py-3 m-auto flex justify-between items-center sm:p-0 sm:flex-col md:w-[90vw]">
         {isMobile ? (
           // 모바일 환경
           <>
@@ -43,7 +43,7 @@ function Header() {
             </div>
             <div className="w-[100vw] px-8 py-3 flex justify-between">
               <Link
-                className="transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                className="transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300"
                 onClick={handleQuizCreateClick}
                 to="/create-quiz/details"
               >
@@ -71,26 +71,26 @@ function Header() {
                 <img src="/img/logo.svg" alt="Logo" />
               </Link>
               <Link
-                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 md:text-base"
                 onClick={handleQuizCreateClick}
                 to="/create-quiz/details"
               >
                 퀴즈만들기
               </Link>
               <Link
-                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 md:text-base"
                 to="/mileage-shop"
               >
                 마일리지샵
               </Link>
               <Link
-                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 "
+                className="text-xl transform motion-safe:hover:-translate motion-safe:hover:scale-110 transition ease-in-out duration-300 md:text-base"
                 to="/live-quiz"
               >
                 라이브 퀴즈
               </Link>
             </div>
-            <div className="flex gap-9">
+            <div className="flex gap-9 md:w-60">
               <SearchBar />
               {isLoggedIn ? <LoggedInHeader /> : <SignInModal />}
             </div>

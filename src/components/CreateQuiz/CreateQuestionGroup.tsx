@@ -147,7 +147,7 @@ const CreateQuestionGroup: React.FC = () => {
 
   return (
     <div className="w-screen">
-      <div className="w-[720px] mb-48 mx-auto">
+      <div className="w-[720px] sm:w-[94vw] mb-48 mx-auto sm:mt-[70px]">
         {questions.map((question, index) => (
           <div key={question.id} className="w-full">
             <QuestionItem
@@ -225,14 +225,14 @@ const CreateQuestionGroup: React.FC = () => {
         />
 
         <div className="flex justify-between gap-2.5">
-          <button
+          {/* <button
             className="w-[355px] h-[55px] text-white text-lg font-extrabold bg-slate-200 border-2 py-3 rounded-md shadow-sm shadow-slate-300"
             onClick={() => {}}
           >
             임시저장 하기
-          </button>
+          </button> */}
           <button
-            className="w-[355px] h-[55px] text-blue text-lg font-extrabold bg-white border-blue border-2 py-3 rounded-md shadow-sm shadow-slate-300"
+            className="bg-slate-100 active:scale-95 transition-transform  duration-3000 w-full h-[55px] mt-3 text-lg text-slate-400 font-extrabold border-2 border-slate-300 py-3 rounded-md shadow-md shadow-slate-100"
             onClick={addQuestion}
           >
             + 질문 추가하기
