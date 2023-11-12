@@ -35,7 +35,6 @@ function SignUpModal() {
   // const checkMsgColor = checkMsg ? 'blue' : 'red';
   const isMobile = useMobile();
 
-
   const setLoginModal = useSetRecoilState(loginModalState);
 
   // 각 입력 필드에 대한 참조 생성
@@ -148,7 +147,7 @@ function SignUpModal() {
         onRequestClose={closeModal}
         isOpen={isOpen}
         width={isMobile? '343px':'713px'}
-        height={isMobile? '341px' : '589px'}
+        height={isMobile? '350px' : '589px'}
         bgColor="#F1F8FF"
       >
         <form onSubmit={handleSubmit} onKeyDown={enterKeyHandler} className="flex flex-col justify-around items-center">
@@ -186,7 +185,7 @@ function SignUpModal() {
                       onKeyDown={(e) => handleTab(e, nickNameInputRef)}
                     />
                     {idInput.length >= 0 && (
-                    <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute sm:text-[6px]">
+                    <div className="ml-1 text-[11.5px] text-red font-hairline absolute">
                       {idMessage}
                     </div>)}
                   </div>
@@ -217,7 +216,7 @@ function SignUpModal() {
                       onKeyDown={(e) => handleTab(e, pwInputRef)}
                     />
                     {nickNameInput.length >= 0 && (
-                      <div className="mt-[2px] ml-1 text-[11.5px] text-red font-hairline absolute">
+                      <div className="ml-1 text-[11.5px] text-red font-hairline absolute">
                         {nickNameMessage}
                       </div>
                     )}
@@ -227,7 +226,7 @@ function SignUpModal() {
                 <>
                   <div className='flex justify-center items-center gap-3'>
                     <div>
-                      <label htmlFor='userId' className='text-deep_dark_gray sm:text-xs '>아이디</label>
+                      <label htmlFor='userId' className='text-deep_dark_gray text-xs '>아이디</label>
                       <UserInfoInput
                         id = 'userId'
                         ref={idInputRef}
@@ -243,9 +242,9 @@ function SignUpModal() {
                           const isValid = validateId(idValue);
                           setIsId(isValid);
                           if (!isValid && idValue.length >= 4) {
-                            setIdMessage('아이디는 알파벳 소문자/숫자 포함 4자리 이상 15자리 이하 입니다');
+                            setIdMessage('아이디: 알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
                           } else if(!isValid && idValue.length < 4) {
-                            setIdMessage('아이디는 알파벳 소문자/숫자 포함 4자리 이상 15자리 이하 입니다');
+                            setIdMessage('아이디: 알파벳 소문자/숫자 포함 4자리 이상 15자리 이하');
                           } else {
                             setIdMessage('');
                           }
@@ -254,7 +253,7 @@ function SignUpModal() {
                       />
                     </div>
                     <div>
-                      <label htmlFor='userNickname' className='text-deep_dark_gray sm:text-xs'>닉네임</label>
+                      <label htmlFor='userNickname' className='text-deep_dark_gray text-xs'>닉네임</label>
                       <UserInfoInput
                         id = 'userNickname'
                         ref={nickNameInputRef}
@@ -270,9 +269,9 @@ function SignUpModal() {
                           const isValNickname = validateNickName(nickanemValue);
                           setIsNickName(isValNickname);
                           if (!isValNickname && nickanemValue.length >= 2) {
-                            setNickNameMessage('닉네임은 한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하 입니다');
+                            setNickNameMessage('닉네임: 한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
                           } else if(!isValNickname && nickanemValue.length < 2) {
-                            setNickNameMessage('닉네임은 한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하 입니다');
+                            setNickNameMessage('닉네임: 한글/숫자/소문자 한 가지 이상 2자 이상 5자 이하');
                           } else {
                             setNickNameMessage('');
                           }
@@ -281,7 +280,7 @@ function SignUpModal() {
                       />
                     </div>
                   </div>
-                  <div className='text-[6px] text-red font-hairline pt-1'>
+                  <div className='text-[10px] text-red font-hairline pt-1'>
                     {idInput.length >= 0 && (
                       <p>{idMessage}</p>
                     )}
@@ -293,9 +292,9 @@ function SignUpModal() {
               )} 
             </div>
 
-            <div className='relative sm:pb-3'>
+            <div className='sm:pb-3'>
               <label htmlFor='userPw' className='text-deep_dark_gray sm:text-xs'>비밀번호</label>
-              <div className=' flex items-center relative'>
+              <div className=' flex items-center'>
                 <UserInfoInput
                   id = 'userPw standard-adornment-password'
                   ref={pwInputRef}
@@ -311,9 +310,9 @@ function SignUpModal() {
                     const isValPw = validatePw(pwValue);
                     setIsPw(isValPw);
                     if (!isValPw && pwValue.length >= 8) {
-                      setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
+                      setPwMessage('영소문자/숫자/특수문자 각각 1가지 이상 포함 8-20자리');
                     } else if(!isValPw && pwValue.length < 8) {
-                      setPwMessage('영소문자/숫자/특수문자(공백 제외) 각각 1가지 이상 포함 8자리 이상 20자리 이하');
+                      setPwMessage('영소문자/숫자/특수문자 각각 1가지 이상 포함 8-20자리');
                     } else {
                       setPwMessage('');
                     }
@@ -322,9 +321,9 @@ function SignUpModal() {
                 />
                 <PwVisibilityToggle showPassword={showPassword} setShowPassword={setShowPassword} />
               </div>
-
+                  
               {pwInput.length >= 0 && (
-                <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0 sm:text-[6px]">
+                <div className="text-[11.5px] text-red font-hairline absolute right-0 sm:text-[10px]">
                   {pwMessage}
                 </div>
               )}
@@ -354,16 +353,16 @@ function SignUpModal() {
                   <PwVisibilityToggle showPassword={showCheckPw} setShowPassword={setShowCheckPw} />
                 </div>
                 {pwCheckInput.length >= 0 && (
-                  <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0 sm:text-[6px]">
+                  <div className="mt-[2px] text-[11.5px] text-red font-hairline absolute right-0 text-right sm:text-[10px]">
                     {pwCheckMessage}
                   </div>
                 )}
               </div>
-              <div className='absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12px] text-red sm:text-[6px]'>{resultMsg}</div>
+              <div className='absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red'>{resultMsg}</div>
             </div>
           </div>
           
-          <div className='pt-11 pb-7 flex flex-col items-center justify-between relative sm:pt-4 sm:pb-0'>
+          <div className='pt-11 pb-7 flex flex-col items-center justify-between relative sm:pt-5 sm:pb-0'>
             <CustomizedButtons
               type="submit"
               size="signUp"
