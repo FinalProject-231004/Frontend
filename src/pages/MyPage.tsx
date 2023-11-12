@@ -19,33 +19,35 @@ export default function MyPage() {
   }, []);  
 
   return (
-    <div className="w-[1920px] h-[1080px] flex sm:flex-col sm:w-[100vw] sm:h-[100vh] sm:items-center">
-      <aside className='mt-[148px] ml-[173px] flex-shrink-0 sm:mt-0 sm:ml-0'>
-        <div className='text-[32px] mb-[105px] text-blue font-extrabold sm:mb-0'>안녕하세요,<br/>{nickName}님!</div>
-        <ul className='text-[24px] w-[247px] sm:flex'>
-          <li 
-            className={`border-b-2 pb-[20px] cursor-pointer ${selected === 'mileage' ? 'text-blue border-blue' : ''}`} 
-            onClick={() => setSelected('mileage')}
-          >
-            마일리지
-          </li>
-          <li 
-            className={`border-b-2 py-[20px] cursor-pointer ${selected === 'info' ? 'text-blue border-blue' : ''}`} 
-            onClick={() => {
-              setSelected('info');
-              navigate('/mypage/verify-password');
-            }}
-          >
-            내 정보 수정
-          </li>
-        </ul>
-      </aside>  
+    <div className="w-[100vw] flex justify-center sm:items-center">
+      <div className='flex pr-[250px] sm:flex-none sm:px-[25px] sm:flex-col'>
+        <aside className='mt-[148px] flex-shrink-0 sm:mt-[224px] sm:flex sm:flex-col sm:items-center sm:w-[100vw]'>
+          <div className='text-[32px] mb-[105px] text-blue font-extrabold sm:my-[42px] sm:text-[16px] sm:text-center'>안녕하세요,<br/>{nickName}님!</div>
+          <ul className='text-[24px] w-[247px] sm:flex sm:text-xs sm:w-auto sm:gap-5'>
+            <li 
+              className={`border-b-2 pb-[20px] cursor-pointer sm:py-[8px] ${selected === 'mileage' ? 'text-blue border-blue' : ''}`} 
+              onClick={() => setSelected('mileage')}
+            >
+              마일리지
+            </li>
+            <li 
+              className={`border-b-2 py-[20px] cursor-pointer sm:py-[8px] ${selected === 'info' ? 'text-blue border-blue' : ''}`} 
+              onClick={() => {
+                setSelected('info');
+                navigate('/mypage/verify-password');
+              }}
+            >
+              내 정보 수정
+            </li>
+          </ul>
+        </aside>  
 
-      <main className="w-[1080px] sm:w-[100vw]">
-        {selected === 'mileage' && <MileageHistory />}
-        {selected === 'info' && <UpdateMyInfo />}
-      </main>
-      
+        <main className="w-[1080px] sm:w-[100vw]">
+          {selected === 'mileage' && <MileageHistory />}
+          {selected === 'info' && <UpdateMyInfo />}
+        </main>
+        
+      </div>
     </div>
   );
 }
