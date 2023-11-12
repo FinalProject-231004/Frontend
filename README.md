@@ -154,6 +154,30 @@
   </tr>
 </table>
 
+<br/>
+
+###  👩‍❤️‍👩 Backend
+<table>
+   <tr>
+    <td align="center"><b><a href="https://github.com/jihyeon4956">👑 노지현</a></b></td>
+    <td align="center"><b><a href="https://github.com/SangYoungBaek">🍰 백상용</a></b></td>
+    <td align="center"><b><a href="https://github.com/sarakyang">🥯 양승민</a></b></td>
+    <td align="center"><b><a href="https://github.com/heypoppop">🍔 진민지</a></b></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/jihyeon4956"><img src="https://avatars.githubusercontent.com/u/132557632?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/SangYoungBaek"><img src="https://avatars.githubusercontent.com/u/47877063?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/sarakyang"><img src="https://avatars.githubusercontent.com/u/139844539?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/heypoppop"><img src="https://avatars.githubusercontent.com/u/140745309?v=4" width="100px" /></a></td>
+  </tr>
+  <tr>
+    <td align="center"><b>🌱 Spring</b></td>
+    <td align="center"><b>🌱 Spring</b></td>
+    <td align="center"><b>🌱 Spring</b></td>
+    <td align="center"><b>🌱 Spring</b></td>
+  </tr>
+</table>
+
 <br>
 <br>
 
