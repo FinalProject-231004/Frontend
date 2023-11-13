@@ -102,9 +102,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   };
 
   return (
-    <div className="w-full h-[480px] flex flex-col md:-mb-20 md:w-[79.7vw] md:h-[28vh] sm:-mb-20 sm:w-[79.7vw] sm:h-[28vh]">
+    <div className="w-full h-[500px] flex flex-col md:-mb-20 md:w-[79.7vw] md:h-[28vh] sm:-mb-20 sm:w-[329px] sm:h-[28vh]">
       <div
-        className="w-full h-full mb-2 overflow-x-auto overflow-y-auto scroll-smooth md:w-[100vw] sm:w-[100vw]"
+        className="w-full h-full mb-2 overflow-x-auto overflow-y-auto scroll-smooth md:w-[100vw] sm:w-[329px]"
         onScroll={handleScroll}
       >
         {comments && comments.length > 0 ? (
@@ -121,7 +121,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
           </div>
         )}
       </div>
-      <div className="flex w-full">
+      <div className="flex w-full sm:mb-7">
         <CommentInput
           placeholder="댓글을 입력해주세요"
           value={newComment}
