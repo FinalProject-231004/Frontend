@@ -81,7 +81,7 @@ const AllQuizCategories: React.FC = () => {
 
   return (
     <div className="w-full md:w-[100vw] sm:w-[100vw]">
-      <div className="grid grid-cols-5 py-5 pl-[70px] my-8 h-[134px] bg-[#F1F8FF] text-lg font-extrabold md:mt-5 sm:text-xs sm:my-6 sm:h-[143px] sm:grid-cols-3 sm:gap-2 sm:pl-[46px] sm:content-around shadow-sm shadow-slate-200">
+      <div className="grid grid-cols-5 py-5 pl-[70px] mt-4 mb-12 h-[134px] bg-[#F1F8FF] text-lg font-extrabold md:mt-5 sm:text-xs sm:my-6 sm:h-[143px] sm:grid-cols-3 sm:gap-2 sm:pl-[46px] sm:content-around shadow-sm shadow-slate-200">
         {categories.map(category => (
           <div key={category.category} className="flex items-center gap-2">
             <img
