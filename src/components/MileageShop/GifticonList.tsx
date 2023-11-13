@@ -10,7 +10,7 @@ export default function GifticonList({image, itemName, price, itemId}:gifticonLi
   return (
     <>
       <div className='cursor-pointer' onClick={orderModal.open}>
-        <div className='w-[347px] h-[436px] pb-[20px] flex justify-center items-center sm:w-[173.5px] sm:h-[218px] sm:pb-[10px]'>
+        <div className='w-[347px] h-[436px] pb-[20px] flex justify-center items-center sm:w-full sm:h-[209px] sm:pb-[10px]'>
           <img src={image} alt={itemName} />
         </div>
         <div>

@@ -40,14 +40,14 @@ const MileageShop: React.FC = () => {
 
   return (
     <div className="w-screen h-screen">
-      <div className="w-[1080px] mx-auto mt-[148px] flex flex-col items-center sm:w-[100vw]">
-        <div className="mb-[101px] text-[32px] text-blue font-extrabold">마일리지샵</div>
+      <div className="w-[1080px] mx-auto mt-[148px] flex flex-col items-center sm:w-[100vw] sm:mt-[246px] sm:px-[25px]">
+        <div className="pb-[101px] text-[32px] text-blue font-extrabold sm:pb-[30px] sm:text-[16px]">마일리지샵</div>
         <div className="w-full">
-          <div className="text-[26px] sm:text-xs">
+          <div className="text-[26px] sm:hidden  ">
             내 마일리지: <span className="text-blue">{mileage}M</span>
           </div>
           <div className="h-[87px] grid grid-cols-6 gap-x-5 py-4 pl-[65px] my-5 justify-items-start rounded-md bg-[#F1F8FF] text-lg font-extrabold
-            sm:grid-cols-3 sm:gap-1 sm:px-2 sm:mb-10 sm:text-[10px] sm:pl-[32.5px]
+            sm:grid-cols-3 sm:gap-x-1 sm:px-2 sm:my-[10px] sm:text-[10px] sm:pl-[32.5px] sm:py-2
           ">
             {MileageCategories.map(category => (
               <div
