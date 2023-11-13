@@ -25,3 +25,10 @@ export type UserStatus = {
 export type UserStatusMap = {
   [nickName: string]: UserStatus;
 };
+
+export type UserRole = 'ADMIN' | 'USER';
+
+export type User = {
+  nickName: string;
+  role: UserRole;
+};

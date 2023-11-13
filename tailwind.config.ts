@@ -17,6 +17,15 @@ export default {
         deep_dark_gray: '#3e3e3e',
         red: '#F92316',
       },
+      animation: {
+        blink: 'blink 1s ease-in-out infinite alternate',
+      },
+      keyframes: {
+        blink: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
     },
     fontFamily: {
       tmoney: ['TmoneyRoundWind', 'sans-serif'],
