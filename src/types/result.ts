@@ -20,6 +20,11 @@ export type Comments = {
   createdAt: string;
 };
 
+export type CommentProps = {
+  commentData: Comments;
+  isLastComment: boolean;
+};
+
 export type CommentSectionProps = {
   comments: Comments[];
   quizId: number;

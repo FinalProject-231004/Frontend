@@ -17,6 +17,7 @@ import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
 import { ReactNode } from 'react';
 import Auth from '@/containers/User/Auth';
+import { useMobile } from '@/hooks';
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
@@ -26,7 +27,9 @@ type ConditionalLayoutProps = {
 
 const ConditionalLayout: React.FC<ConditionalLayoutProps> = ({ children }) => {
   const location = useLocation();
+  const isMobile = useMobile();
   if (
+    !isMobile&&
     location.pathname === '/mypage/verify-password' ||
     location.pathname === '/kakao/first-login'
   ) {

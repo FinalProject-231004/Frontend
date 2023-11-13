@@ -26,7 +26,6 @@ const QuizThumbnail: React.FC<QuizThumbnailProps> = React.memo(({ quiz }) => {
   return (
     <div className="w-[255px] md:w-[230px] sm:w-[167px] sm:mb-2 border-slate-100 border-2 shadow-md shadow-slate-100">
       <img
-        loading="lazy"
         className="h-[135px] w-full object-cover cursor-pointer sm:w-[50vw] sm:h-[88px]"
         src={quiz.image}
         alt={quiz.title}

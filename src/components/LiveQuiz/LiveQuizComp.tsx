@@ -244,9 +244,7 @@ const LiveQuizComp: React.FC = () => {
     }
   };
 
-  // 신고 핸들러 함수
   const handleReport = async (nickName: string) => {
-    // console.log(nickName);
     try {
       const token = localStorage.getItem('Authorization');
       if (!token) {
@@ -258,22 +256,19 @@ const LiveQuizComp: React.FC = () => {
         `${
           import.meta.env.VITE_APP_GENERATED_SERVER_URL
         }/api/report/liveChat/${nickName}`,
-        {}, // POST 요청이므로, 필요한 경우 여기에 추가 데이터를 전달할 수 있습니다.
+        {},
         { headers: { Authorization: token } },
       );
 
-      // 신고가 성공적으로 처리되었을 때의 로직
       toast.success(`'${nickName}' 사용자가 신고되었습니다.`);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        // 서버에서 전달된 오류 메시지를 사용
         const errorMessage =
           error.response.data.message ||
           error.response.data.msg ||
           '신고 처리 중 오류가 발생했습니다.';
         toast.error(errorMessage);
       } else {
-        // 서버로부터의 응답이 없는 경우 일반 오류 메시지를 사용
         toast.error('신고 처리 중 오류가 발생했습니다.');
       }
     }

@@ -17,9 +17,9 @@ const DetailPage: React.FC = () => {
   }
 
   return (
-    <div className="w-screen h-[1080px] mx-auto">
+    <>
       <DetailPageComp id={quizId} quizDetail={quizDetail} />
-    </div>
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userMileageState } from '@/recoil/atoms/userInfoAtom';
 import axios from 'axios';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
+import { useMobile } from '@/hooks';
 
 export default function OrderModal( {itemId, itemName, price, isOpen, close}:orderModalProps ) {
   const [email, setEmail] = useState('');
@@ -15,6 +16,7 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
   const headerRef = useRef<HTMLHeadingElement>(null);
   const setMileage = useSetRecoilState(userMileageState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isMobile = useMobile(); 
 
   const closeModal = () => {
     close();
@@ -58,63 +60,62 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
   return (
     <Modal
         onRequestClose={closeModal}
-        width="713px"
-        height="390px"
+        width={!isMobile? '713px' : '356px'}
+        height={!isMobile? '400px' : '200px'}
         bgColor="#F1F8FF"
         isOpen={isOpen}
       >
-        <div className="h-[390px] flex flex-col justify-center items-center">
-          
+        <div className="h-[400px] flex flex-col justify-center items-center sm:h-[200px]">
           <h1
             ref={headerRef}
-            className={`w-[520px] h-auto mb-[15px] text-center text-blue ${
-              itemName.length>18 ? 'text-[24px]' : 'text-[32px]'
+            className={`px-24 pb-[15px] text-center text-blue sm:px-12 sm:pb-[12.5px] ${
+              itemName.length>18 ? 'text-[24px] sm:text-xs' : 'text-[32px] sm:text-[16px]'
             }`}
           >
             {itemName}
           </h1>
 
-          <div className='mb-[15px] flex flex-col justify-center items-center'>
-            <p className='text-[20px]'>수량</p>
-            <div className='flex gap-3'>
-              <p className='text-[25px] cursor-pointer' 
+          <div className='pb-[15px] flex flex-col justify-center items-center sm:pb-[12.5px]'>
+            <p className='text-[20px] sm:text-[10px]'>수량</p>
+            <div className='flex gap-3 sm:gap-1'>
+              <p className='text-[25px] cursor-pointer sm:text-[12.5px]' 
                 onClick={()=>{
                   if (num > 1) {
                     setNum(num - 1);
                 }}}
                 >-</p>
-              <p className='text-[25px]'>{num}</p>
-              <p className='text-[25px] cursor-pointer' onClick={()=>{setNum(num+1)}}>+</p>
+              <p className='text-[25px] sm:text-[12.5px]'>{num}</p>
+              <p className='text-[25px] cursor-pointer sm:text-[12.5px]' onClick={()=>{setNum(num+1)}}>+</p>
             </div>
           </div>
-
-          <div className="relative flex justify-center items-center z-10">
-            <UserInfoInput
-              inputVal={email}
-              type="email"
-              placeholder="수령 받으실 이메일을 입력해주세요"
-              size="medium"
-              borderColor="blue"
-              focusBorderColor={''}
-              onChange={e => {
-                setEmail(e.target.value);
-              }}
-            />
-          </div>
-          <div className="relative w-[530px]">
-            <div className="absolute right-0 mt-[6px] text-[16px] text-blue font-hairline">
+          
+          <div className="relative">
+            <div className="flex justify-center items-center z-10">
+              <UserInfoInput
+                inputVal={email}
+                type="email"
+                placeholder="수령 받으실 이메일을 입력해주세요"
+                size="medium"
+                borderColor="blue"
+                focusBorderColor={''}
+                onChange={e => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </div>
+            <div className="absolute right-0 pt-[4px] text-[16px] text-blue font-hairline sm:text-[10px] sm:pt-[2px]">
               재발송은 불가하오니 이메일 작성에 유의해주세요!
             </div>
-            <div className='text-red text-[16px] absolute right-0 mt-[28px]'>
+            <div className='text-red text-[16px] absolute right-0 pt-[26px] font-hairline sm:text-[10px] sm:pt-[13px]'>
               {checkMsg}
             </div>
           </div>
 
-          <div className="mt-[62px] flex gap-[32px]" >
+          <div className="pt-[62px] flex gap-8 sm:gap-4 sm:pt-[31px]">
             <CustomizedButtons
               size="mileage"
               fontcolor="white"
-              fontSize="20px"
+              fontSize={!isMobile?'20px':'10px'}
               BtnName="취소하기"
               btnbg="#3E3E3E"
               btnhoverbg={''}
@@ -125,7 +126,7 @@ export default function OrderModal( {itemId, itemName, price, isOpen, close}:ord
             <CustomizedButtons
               size="mileage"
               fontcolor="white"
-              fontSize="20px"
+              fontSize={!isMobile?'20px':'10px'}
               BtnName="결제하기"
               btnbg="#0078FF"
               btnhoverbg={''}

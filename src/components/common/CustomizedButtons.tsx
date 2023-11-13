@@ -51,7 +51,7 @@ export default function CustomizedButtons({
     width = '146px';
     height = '57px';
   } else if (size === 'mileage') {
-    width = '249px';
+    width = `${isMobile ?'124.5px':'249px'}`;
     height = '57px';
   }
 
