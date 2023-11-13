@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useSetRecoilState } from 'recoil';
@@ -39,11 +39,20 @@ const Auth = () => {
         }
 
       } catch (error) {
-        // console.error('카카오 소셜 로그인 에러 : ', error);
-        toast.error("카카오 로그인에 문제가 생겼습니다.");
+        if (axios.isAxiosError(error)) {
+          const axiosError = error as AxiosError;
+          if (axiosError.response && axiosError.response.status === 403) {
+            toast.error("신고누적으로 계정이 차단되었습니다.");
+            navigate('/');
+          } else {
+            toast.error("카카오 로그인에 문제가 생겼습니다.");
+            navigate('/');
+          }
+        } else {
+          toast.error("에러가 발생했습니다.");
+        }
       }
     };
-
     fetchData();
   }, [navigate, setIsLoggedIn, code]);
 
