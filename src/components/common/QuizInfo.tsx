@@ -10,9 +10,9 @@ const QuizInfo: React.FC<QuizInfoProps> = ({
   viewCount,
   content,
 }) => (
-  <div className="mx-auto h-full md:w-[79.7vw] md:h-[36vh] md:mx-0">
+  <div className="mx-auto h-full md:w-[79.5vw] md:h-[32vh] md:mx-0">
     <img
-      className="w-full h-[282px] object-cover mb-3 mb:mx-auto sm:w-[100vw] sm:h-[20vh]"
+      className="w-full h-[282px] object-cover mb-3 md:h-[30vh] sm:w-[100vw] sm:h-[20vh]"
       src={image}
       alt={title}
     />
@@ -32,7 +32,7 @@ const QuizInfo: React.FC<QuizInfoProps> = ({
         </div>
       </div>
     </div>
-    <div className="text-xl break-words max-w-[446px] md:max-w-[610px] md:h-[60px] md:mt-9 md:mb-6 md:overflow-y-auto">
+    <div className="text-xl break-words max-w-[446px] md:text-base md:max-w-[79.5vw] md:h-12 md:mt-8 md:overflow-y-auto">
       {content}
     </div>
   </div>

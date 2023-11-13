@@ -159,7 +159,7 @@ const CreateQuizGroup: React.FC = () => {
           value={quiz.content || ''}
           onChange={handleContentChange}
           inputType="textarea"
-          maxLength={250}
+          maxLength={160}
         />
 
         <CategoryButton

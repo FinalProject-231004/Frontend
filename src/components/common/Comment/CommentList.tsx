@@ -36,7 +36,7 @@ const CommentList: React.FC<CommentProps> = ({ commentData }) => {
   };
 
   return (
-    <div className="w-full flex mb-5 justify-center items-center">
+    <div className="w-full flex mb-5 justify-center items-center md:mb-4">
       <div className="w-full">
         <div className="flex justify-between items-center">
           <div className="w-[85px] flex mb-1 ml-[68px] text-sm px-2 justify-start items-center rounded-md bg-blue text-white">
@@ -56,8 +56,8 @@ const CommentList: React.FC<CommentProps> = ({ commentData }) => {
             alt={commentData.nickname}
           />
 
-          <div className="customborder w-full h-auto mx-2 px-3">
-            <div className="break-words md:w-[67.1vw] md:overflow-y-auto">
+          <div className="customborder w-full h-auto mx-4 px-3 flex md:w-[70.5vw]">
+            <div className="break-words w-[340px] md:w-[67vw]  md:overflow-y-auto md:break-words md:max-w-[67vw]">
               {commentData.comment}
             </div>
           </div>
