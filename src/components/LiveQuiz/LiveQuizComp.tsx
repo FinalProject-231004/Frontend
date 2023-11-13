@@ -36,7 +36,6 @@ const LiveQuizComp: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // 도배로 인해 금지된 경우의 타이머 설정
     if (userStatus[nickName]?.isMuted) {
       setTimeout(() => {
         setUserStatus(prevStatus => ({
@@ -63,7 +62,6 @@ const LiveQuizComp: React.FC = () => {
       newStompClient.connect(
         { Authorization: token },
         async () => {
-          // 웹소켓 연결이 성공한 후 사용자 목록을 가져오는 로직
           try {
             const response = await axios.get(
               `${
@@ -72,7 +70,6 @@ const LiveQuizComp: React.FC = () => {
             );
             setUsers(response.data);
 
-            // 관리자 여부 확인
             const userInfoResponse = await axios.get(
               `${
                 import.meta.env.VITE_APP_GENERATED_SERVER_URL
@@ -92,11 +89,9 @@ const LiveQuizComp: React.FC = () => {
             setAnswerLength(userInfoResponse.data.quizUpdateDto.answerLength);
             setMileagePoint(userInfoResponse.data.quizUpdateDto.mileagePoint);
           } catch (error) {
-            // console.error('Error fetching users:', error);
             toast.error('유저 목록을 불러오는데 실패하였습니다.');
           }
 
-          // 사용자 목록을 구독합니다.
           newStompClient.subscribe('/topic/users', message => {
             const userList = JSON.parse(message.body);
             setUsers(userList);
@@ -110,17 +105,11 @@ const LiveQuizComp: React.FC = () => {
             setMileagePoint(update.mileagePoint);
           });
 
-          // 채팅 메시지를 구독합니다.
           newStompClient.subscribe('/topic/liveChatRoom', message => {
             const chatMessage = JSON.parse(message.body);
 
             if (chatMessage.type === 'ERROR') {
               if (chatMessage.message === '도배 금지!') {
-                // console.log(chatMessage);
-                // console.log(
-                //   '챗닉넴' + chatMessage.nickName,
-                //   '리액트닉넴' + nickName,
-                // );
                 if (chatMessage.nickName === nickName) {
                   toast.error('도배로 인해 30초동안 채팅이 금지됩니다.');
                 }
@@ -131,7 +120,7 @@ const LiveQuizComp: React.FC = () => {
                     isMuted: true,
                   },
                 }));
-                // 기존 타이머가 있다면 클리어합니다.
+
                 if (muteTimerRef.current) {
                   clearTimeout(muteTimerRef.current);
                 }
@@ -139,7 +128,6 @@ const LiveQuizComp: React.FC = () => {
                 if (chatMessage.nickName === nickName) {
                   toast.error('차단된 유저는 메세지를 전송할 수 없습니다.');
                 }
-                // 여기에 차단된 유저에 대한 추가적인 처리를 할 수 있습니다.
               }
             } else {
               setHistory(prevHistory => [...prevHistory, chatMessage]);
@@ -154,16 +142,12 @@ const LiveQuizComp: React.FC = () => {
       );
     };
 
-    // 웹소켓 연결 해제 함수
     const disconnectWebSocket = () => {
-      newStompClient.disconnect(() => {
-        // console.log('Disconnected from WebSocket.');
-      });
+      newStompClient.disconnect(() => {});
     };
 
     connectWebSocket();
 
-    // 웹소켓 연결을 해제하는 클린업 함수
     return () => {
       disconnectWebSocket();
     };
@@ -173,11 +157,9 @@ const LiveQuizComp: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history]);
 
-  // 메시지 전송 로직 수정
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // 현재 사용자가 금지 상태인지 확인
     const currentUserStatus = userStatus[nickName];
     if (currentUserStatus && currentUserStatus.isMuted) {
       toast.error('도배로 인해 금지된 상태입니다.');
@@ -232,7 +214,6 @@ const LiveQuizComp: React.FC = () => {
       );
 
       toast.success('문제가 성공적으로 제출되었습니다!');
-      // 여기에 성공시 추가로 실행할 로직을 작성하십시오.
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage =
@@ -275,28 +256,112 @@ const LiveQuizComp: React.FC = () => {
   };
 
   return (
-    <div className="flex h-full justify-center mx-auto">
-      <div className="w-[420px] h-full">
-        <h3 className="w-full pt-[132px] text-2xl text-center font-extrabold mb-2">
-          접속유저 목록
-        </h3>
-        <ul className="w-full text-center">
-          {users.map((user: string, index: number) => (
-            <li key={index}>{user}</li>
+    <div className="flex w-screen h-[920px] justify-center mx-auto overflow-y-hidden">
+      <div className="w-[420px] h-auto mt-[185px] mr-5">
+        <ul className="w-1/2 py-5 ml-auto bg-lightBlue shadow-md shadow-slate-300 rounded-xl">
+          <h1 className="text-center font-extrabold text-xl text-black">
+            접속유저 목록
+          </h1>
+          <hr className="w-3/4 mx-auto my-3" />
+          {users.map((user, index) => (
+            <li key={index} className="mt-3 ml-[44px]">
+              💙 {user}
+            </li>
           ))}
         </ul>
       </div>
+      <div className="w-[1080px] h-full">
+        <div className="pt-[90px]"></div>
 
-      <div>
-        <div className="w-[1080px] h-full">
-          <h1 className="pt-[132px] mb-[42px] text-[28px] text-center text-blue font-extrabold">
-            라이브 퀴즈
-          </h1>
+        <div className="flex justify-between font-extrabold text-red mb-2 mt-30 text-lg">
+          <div className="ml-3 text-red flex items-center">
+            <span className="ml-1 animate-blink">● LIVE 퀴즈</span>
+          </div>
+          <p className="mr-3">{currentTime}</p>
+        </div>
 
+        <div className="flex items-center w-full h-[50px] mx-auto bg-blue rounded-md overflow-hidden">
+          <div className="px-3 text-white text-xl mx-auto marquee">
+            <span>
+              🔥 즐거움이 터지는 퀴즈팝 ! 🎉 운영자와 함께 즐기는 라이브 그림
+              퀴즈로 즐거움과 마일리지 모두 얻어가세요 \(@^0^@)/ 🔥
+            </span>
+          </div>
+        </div>
+        <div className="flex  h- justify-between">
+          <div className="flex w-2/3 justify-start  h-full">
+            <CanvasComponent stompClient={stompClient} userRole={userRole} />
+          </div>
+
+          <div className="flex flex-col w-[33%] h-[668px] mt-2 bg-lightBlue rounded-xl p-2">
+            <div className="flex-grow overflow-y-auto">
+              {history.map((item, index) => (
+                <div key={index} className="mx-auto w-[94%] mb-3">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span
+                        className={`font-extrabold ${
+                          item.nickName === '공지' ? 'text-red' : 'text-black'
+                        }`}
+                      >
+                        {item.nickName}
+                      </span>
+                      <span className="font-regular text-slate-300 ml-2 text-sm">
+                        {new Date(item.timestamp).toLocaleTimeString()}
+                      </span>
+                    </div>
+                    {item.nickName !== '공지' && (
+                      <button
+                        onClick={() => handleReport(item.nickName)}
+                        className="flex items-center mt-2 p-1 rounded mb-1"
+                      >
+                        🚨{' '}
+                        <span className="text-red text-sm underline">신고</span>
+                      </button>
+                    )}
+                  </div>
+                  <div
+                    className={`flex items-center p-3  bg-white rounded-xl shadow${
+                      item.nickName === '공지'
+                        ? 'font-extrabold'
+                        : 'font-regular'
+                    }`}
+                  >
+                    {item.message}
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+            <form onSubmit={sendMessage} className="w-[94%] mx-auto">
+              <div className="flex my-3">
+                <input
+                  type="text"
+                  value={inputMessage}
+                  onChange={onChange}
+                  placeholder="메시지 입력"
+                  disabled={userStatus[nickName]?.isMuted}
+                  className="w-[250px] px-2 rounded-md focus:ring-none focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="ml-2 bg-blue p-2 rounded-md text-white"
+                  disabled={userStatus[nickName]?.isMuted}
+                >
+                  보내기
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-[420px] h-full">
+        <div className="w-[420px] h-auto mt-[125px] ml-5 ">
           {userRole === 'ADMIN' && (
             <button
               type="button"
-              className="flex justify-center items-center mb-5 w-[150px] h-[50px] rounded-2xl bg-blue text-white"
+              className="w-[50%] flex justify-center items-center mb-2 text-lg h-[50px] rounded-2xl bg-blue text-white shadow-sm shadow-slate-600"
               onClick={submitAnswer}
             >
               문제 출제
@@ -307,88 +372,36 @@ const LiveQuizComp: React.FC = () => {
             onClose={closeModal}
             onSubmit={handleModalSubmit}
           />
-
-          <div className="flex justify-between">
-            <p className="ml-3 text-base text-red font-extrabold">● LIVE</p>
-            <p className="mr-3 text-base text-red font-extrabold">
-              {currentTime}
-            </p>
-          </div>
-          <div className="flex items-center w-full h-[50px] mx-auto bg-blue rounded-md overflow-hidden">
-            <div className="px-3 text-white text-xl mx-auto marquee">
-              <span>
-                퀴즈팝 방송중임 라이브 방송중임 🔥 전민지 바보 노시오패스 바보
-                김곡갱 바보 양씨 백씨 다 바보 🔥 두팔이 귀여워 🔥
-              </span>
-            </div>
-          </div>
-          <div className="flex w-full h-[790px] justify-between">
-            <div className="flex w-2/3 justify-center items-center h-full">
-              <CanvasComponent stompClient={stompClient} userRole={userRole} />
-            </div>
-            <div>
-              <h1>정답자 명단:</h1>
-              <ul>
-                {correctAnsweredUsers.map((user, index) => (
-                  <li key={index}>{user}</li>
-                ))}
-              </ul>
-              <p>남은 정답자 수: {remainingWinners}</p>
-              <p>정답의 글자 수: {answerLength}</p>
-              <p>마일리지 포인트: {mileagePoint}</p>
-            </div>
-            <div className="flex flex-col w-1/3 h-full justify-between py-5 items-center bg-slate-100">
-              <div className="overflow-y-auto mb-5">
-                {history.map((item, index) => (
-                  <div key={index} className="mt-3 flex justify-between">
-                    <div>
-                      <strong
-                        style={
-                          item.nickName === '공지'
-                            ? { color: 'red', fontWeight: 'bold' }
-                            : {}
-                        }
-                      >
-                        {item.nickName}
-                      </strong>{' '}
-                      ({new Date(item.timestamp).toLocaleTimeString()}):{' '}
-                      {item.message}
-                    </div>
-                    {item.nickName !== '공지' && (
-                      <button
-                        onClick={() => handleReport(item.nickName)}
-                        className="ml-2 p-1 bg-red-500 text-white rounded"
-                      >
-                        신고하기
-                      </button>
-                    )}
-                  </div>
-                ))}
-
-                <div ref={messagesEndRef} />
-              </div>
-
-              <form onSubmit={sendMessage}>
-                <input
-                  type="text"
-                  value={inputMessage}
-                  onChange={onChange}
-                  placeholder="메시지 입력"
-                  disabled={userStatus[nickName]?.isMuted} // 현재 사용자의 금지 상태에 따라 입력을 비활성화합니다.
-                />
-                <button
-                  type="submit"
-                  className="ml-2 bg-blue p-2 rounded-md"
-                  disabled={userStatus[nickName]?.isMuted} // 현재 사용자의 금지 상태에 따라 버튼을 비활성화합니다.
-                >
-                  보내기
-                </button>
-              </form>
-            </div>
-          </div>
         </div>
-      </div>
-      <div className="w-[420px] h-full">
+        <div className="w-[50%]  ml-5 flex flex-col text-center mr-52 bg-lightBlue px-3 py-5 rounded-xl shadow-md shadow-slate-300">
+          <h1 className="w-full text-xl  font-extrabold mb-2">
+            🎉 정답자 명단 🎉
+          </h1>
+          <ul className="text-lg my-1">
+            {correctAnsweredUsers.map((user, index) => (
+              <li key={index}>✅ {user}</li>
+            ))}
+          </ul>
+          <hr className="w-2/3  my-5 mx-auto" />
+          <p>
+            남은 정답자 수:{' '}
+            <span className="text-xl font-extrabold">
+              <span className="text-blue">{remainingWinners}</span>
+            </span>
+          </p>
+          <p>
+            정답의 글자 수:{' '}
+            <span className="text-xl font-extrabold">
+              <span className="text-blue">{answerLength}</span>
+            </span>
+          </p>
+          <p>
+            마일리지 포인트:{' '}
+            <span className="text-xl font-extrabold">
+              <span className="text-blue">{mileagePoint}</span>
+            </span>
+          </p>
+        </div>
         <h3 className="w-full pt-[132px] text-xl text-center"></h3>
       </div>
     </div>
