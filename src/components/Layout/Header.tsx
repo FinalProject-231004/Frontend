@@ -2,7 +2,7 @@ import SignInModal from '@/containers/User/SigninModal';
 import { isLoggedInState } from '@/recoil/atoms/loggedHeaderAtom';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { LoggedInHeader, SearchBar } from '@/components';
+import { LoggedInHeader } from '@/components';
 import { useModalState, useMobile } from '@/hooks';
 import { Modal } from '@/components/index';
 import { toast } from 'react-toastify';
@@ -37,7 +37,8 @@ function Header() {
             </Link>
             <div className="w-[100vw] flex justify-between px-8 pb-4">
               <div className="">
-                <SearchBar />
+              <img className='w-[33px] h-[38px]' src="/img/searchIcon.svg" alt="seachIcon" 
+                onClick={()=> {navigate('/search')}}/>
               </div>
               {isLoggedIn ? <LoggedInHeader /> : <SignInModal />}
             </div>
@@ -91,7 +92,8 @@ function Header() {
               </Link>
             </div>
             <div className="flex gap-9 md:w-60">
-              <SearchBar />
+              <img className='w-[33px] h-[38px]' src="/img/searchIcon.svg" alt="seachIcon" 
+                onClick={()=> {navigate('/search')}}/>
               {isLoggedIn ? <LoggedInHeader /> : <SignInModal />}
             </div>
           </>

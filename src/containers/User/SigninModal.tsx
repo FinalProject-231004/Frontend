@@ -44,6 +44,7 @@ function SignInModal() {
       }
       // console.log('Success:', response.data);
     } catch (error: unknown) { 
+      // console.log('error',error)
       if (axios.isAxiosError(error)) {
         // Axios 오류 처리
         const serverError = error as AxiosError<SignInErrorResponse>;
@@ -52,7 +53,7 @@ function SignInModal() {
           setAllCheckMessag(serverError.response.data.msg);
         }
       } else {
-        // console.error('An unexpected error occurred');
+        // console.error('An unexpected error occurred', error);
       }
     }
   };

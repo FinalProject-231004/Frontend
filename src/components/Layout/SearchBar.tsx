@@ -78,7 +78,7 @@ const SearchBar = () => {
   const SwitchToQuizPage = () => {
     const found = relativeSearch.find(result => result.title === searchInput);
     if (found) {
-      navigate(''); // 퀴즈 소개 페이지로 이동
+      navigate(`/quiz/${found.id}`); // 퀴즈 소개 페이지로 이동
     }
   };
 
@@ -126,7 +126,7 @@ const SearchBar = () => {
                 key={result.id}
                 className="p-2 hover:bg-gray-100 cursor-pointer"
                 onClick={() => {
-                  navigate('');
+                  navigate(`/quiz/${result.id}`);
                   setIsSearchOpen(false);
                 }}
               >
