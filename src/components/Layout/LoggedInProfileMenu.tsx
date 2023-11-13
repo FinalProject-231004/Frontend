@@ -12,13 +12,13 @@ import { LoggedInAttendence } from '@/components';
 import { getAPI } from '@/apis/axios';
 import { profileAPIResponse } from '@/types/header';
 import { useEffect } from 'react';
-import { logOut } from '@/utils/authHelpers';
 import {
   userMileageState,
   userNickNameState,
   userProfileImgState,
 } from '@/recoil/atoms/userInfoAtom';
 import { useMobile } from '@/hooks';
+// import axios from 'axios';
 
 const fontFamily = "'TmoneyRoundWind', sans-serif";
 
@@ -33,6 +33,12 @@ export default function LoggedInProfileMenu() {
   const isMobile = useMobile();
 
   const navigate = useNavigate();
+
+  const logOut = () =>{
+    localStorage.removeItem('Authorization');
+    localStorage.removeItem('Refresh');
+    localStorage.removeItem('likes');
+  }
 
   const getUserInfo = async () => {
     try {
@@ -49,7 +55,25 @@ export default function LoggedInProfileMenu() {
     }
   };
 
-  const handleLogOut = () => {
+  // 로그아웃 시 액세스랑 리프레서 토큰 같이 담아서 post 요청보내기!
+  const handleLogOut = async () => {
+    // const accessToken = localStorage.getItem('Authorization');
+    // const refreshToken = localStorage.getItem('Refresh');
+    // try {
+    //   const response = await axios.post(
+    //     `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/quiz/comments`,{},
+    //     { headers: { 
+    //       Authorization: `Bearer ${accessToken}`, 
+    //       Refresh: `${refreshToken}`,
+    //     }},
+    //   );
+    //   console.log('로그아웃 성공!!',response);
+    //   logOut();
+    //   setIsLoggedIn(false);
+    //   navigate('/');
+    // } catch (error) {
+    //   console.error('error',error);
+    // }
     logOut();
     setIsLoggedIn(false);
     navigate('/');
