@@ -23,7 +23,7 @@ const Home: React.FC = () => {
         setHotQuiz(responses[1].data);
         setViewNum(responses[2].data);
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     };
 

@@ -84,7 +84,7 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
         // initialState를 이용하여 캔버스를 업데이트하는 로직
         drawInitialState(initialState);
       } catch (error) {
-        console.error('초기 캔버스 상태 로딩 실패:', error);
+        // console.error('초기 캔버스 상태 로딩 실패:', error);
       }
     };
 
