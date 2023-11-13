@@ -19,6 +19,7 @@ import {
 } from '@/recoil/atoms/userInfoAtom';
 import { useMobile } from '@/hooks';
 import axios from 'axios';
+import { logOut } from '@/utils/authHelpers';
 
 const fontFamily = "'TmoneyRoundWind', sans-serif";
 
@@ -33,12 +34,6 @@ export default function LoggedInProfileMenu() {
   const isMobile = useMobile();
 
   const navigate = useNavigate();
-
-  const logOut = () =>{
-    localStorage.removeItem('Authorization');
-    localStorage.removeItem('Refresh');
-    localStorage.removeItem('likes');
-  }
 
   const getUserInfo = async () => {
     try {
