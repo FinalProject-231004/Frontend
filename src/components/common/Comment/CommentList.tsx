@@ -72,15 +72,15 @@ const CommentList: React.FC<CommentProps> = ({ commentData }) => {
       <div className="w-full">
         <div className="flex gap-2 justify-between">
           {' '}
-          <div className="w-[85px] flex mb-1 ml-[76px] text-sm px-2 justify-start items-center rounded-md bg-blue text-white">
+          <div className="w-fit md:ml-30 flex mb-1 ml-20 text-sm px-2 justify-start items-center rounded-md bg-blue text-white sm:ml-[57px]">
             {commentData.nickname}
           </div>
           <button
             type="button"
-            className="flex items-center mr-1"
+            className="flex sm:w-fit items-center"
             onClick={() => handleReport(commentData.nickname)}
           >
-            🚨<span className="text-sm underline text-red"> 신고</span>
+            🚨<span className="text-sm underline mr-2 text-red"> 신고</span>
           </button>
         </div>
 
@@ -89,14 +89,14 @@ const CommentList: React.FC<CommentProps> = ({ commentData }) => {
             loading="lazy"
             src={commentData.profileImage || '/profile.png'}
             onError={handleImageError}
-            className="min-w-[60px] max-w-[60px] h-[60px] rounded-full object-cover"
+            className="min-w-[60px] max-w-[60px] h-[60px] rounded-full object-cover sm:min-w-[50px] sm:max-w-[50px] sm:h-[50px]"
             alt={commentData.nickname}
           />
 
-          <div className="customborder w-full h-auto mx-4 px-3 flex">
-            <div className="break-words w-[340px] md:overflow-y-auto md:break-words md:w-[66.5vw]">
+          <div className="customborder w-[83%] h-auto ml-5 px-3 flex sm:h-14 sm:overflow-y-auto sm:py-5 md:w-full">
+            <div className="break-words w-[412px] md:overflow-y-auto md:break-words md:w-[66.5vw] sm:w-[230px] sm:text-sm sm:h-auto">
               {commentData.comment}
-              <div className="flex justify-end text-slate-300 text-xs">
+              <div className="flex justify-end text-slate-300 text-xs sm:-mr-2">
                 {getTimeAgo(commentData.createdAt)}
               </div>
             </div>
