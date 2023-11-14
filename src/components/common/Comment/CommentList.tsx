@@ -94,7 +94,7 @@ const CommentList: React.FC<CommentProps> = ({ commentData }) => {
           />
 
           <div className="customborder w-[83%] h-auto ml-5 px-3 flex sm:h-14 sm:overflow-y-auto sm:py-5 md:w-full">
-            <div className="break-words w-[412px] md:overflow-y-auto md:break-words md:w-[66.5vw] sm:w-[230px] sm:text-sm sm:h-auto">
+            <div className="overflow-y-auto break-words md:overflow-y-auto md:break-words md:w-[66.5vw] sm:w-[230px] sm:text-sm sm:h-auto">
               {commentData.comment}
               <div className="flex justify-end text-slate-300 text-xs sm:-mr-2">
                 {getTimeAgo(commentData.createdAt)}
