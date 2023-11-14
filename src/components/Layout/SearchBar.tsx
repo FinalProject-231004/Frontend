@@ -3,8 +3,13 @@ import { getAPI } from '@/apis/axios';
 import { useDebounce } from '@/hooks';
 import { useNavigate } from 'react-router';
 import { SearchResult } from '@/types/header';
+import { Quiz } from '@/types/homeQuiz';
 
-const SearchBar = () => {
+type searchBarProps = {
+  onSearch: (quizzes: Quiz[]) => void;
+}
+
+const SearchBar = ({onSearch}:searchBarProps) => {
   const [searchInput, setSearchInput] = useState('');
   const [relativeSearch, setRelativeSearch] = useState<SearchResult[]>([]);
   const debouncedSearchTerm = useDebounce(searchInput, 200);
@@ -45,7 +50,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     if (debouncedSearchTerm) {
-      getSearchResult();
+      getRelatedResult();
     } else {
       setRelativeSearch([]);
     }
@@ -58,7 +63,7 @@ const SearchBar = () => {
   //   }
   // }, [isSearchOpen]);
 
-  const getSearchResult = async () => {
+  const getRelatedResult = async () => {
     try {
       const response = await getAPI<SearchResult[]>(
         `/api/quiz/search-bar?keyword=${searchInput}`,
@@ -66,6 +71,18 @@ const SearchBar = () => {
       setRelativeSearch(response.data);
       setIsSearchOpen(true);
       // console.log("퀴즈 검색",response.data);
+    } catch (error) {
+      // console.log('error', error);
+    }
+  };
+  const getSearchResult = async () => {
+    try {
+      const response = await getAPI<Quiz[]>(
+        `/api/quiz/search?keyword=${searchInput}`,
+      );
+      onSearch(response.data);
+      setIsSearchOpen(false);
+      console.log("퀴즈 검색",response.data);
     } catch (error) {
       // console.log('error', error);
     }
@@ -83,26 +100,27 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="relative" ref={wrapperRef}>
+    <div className="relative w-full" ref={wrapperRef}>
       <form onSubmit={handleSubmit}>
         <div className="relative">
           <input
             type="search"
             id="default-search"
-            className="block w-full m-0 h-[37px] p-4 text-sm text-gray-900 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block w-full m-0 h-[72px] pl-8 pr-20 text-2xl text-gray-900 border-gray-300 rounded-[28px] bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+            sm:h-[36px] sm:pr-10 sm:text-base sm:pl-4"
             placeholder=""
             required
             onChange={handleSearchChange}
             ref={inputRef}
           />
           <button
-            className="absolute inset-y-0 right-0 flex items-center pr-3 "
-            onClick={SwitchToQuizPage}
+            className="absolute inset-y-0 right-0 flex items-center pr-8 sm:pr-3"
+            onClick={()=> {SwitchToQuizPage(); getSearchResult();}}
           >
             <svg
-              className="w-4 h-4 text-gray-500 dark:text-gray-400"
+              className="w-8 h-10 text-gray-500 dark:text-gray-400 sm:w-4 sm:h-5"
               aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
+              xmlns='/img/logo.svg'
               fill="none"
               viewBox="0 0 20 20"
             >
@@ -124,14 +142,12 @@ const SearchBar = () => {
             relativeSearch.map(result => (
               <div
                 key={result.id}
-                className="p-2 hover:bg-gray-100 cursor-pointer"
+                className="p-2 hover:bg-gray-100 cursor-pointer text-2xl"
                 onClick={() => {
                   navigate(`/quiz/${result.id}`);
                   setIsSearchOpen(false);
                 }}
               >
-                {' '}
-                {/*퀴즈 상세페이지로 이동하고 검색창 닫기*/}
                 {result.title}
               </div>
             ))}
