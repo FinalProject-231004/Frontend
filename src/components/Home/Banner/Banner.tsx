@@ -100,7 +100,6 @@ const BannerButton = ({ image, category, navigate }: BannerButtonProps) => {
       navigate(`/search`);
     }
   };
-
   return (
     <button className={finalStyle} onClick={handleClick}>
       <img src={image} alt="BannerBtn" />
