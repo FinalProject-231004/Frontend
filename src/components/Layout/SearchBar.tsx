@@ -4,13 +4,17 @@ import { useDebounce } from '@/hooks';
 import { useNavigate } from 'react-router';
 import { SearchResult } from '@/types/header';
 import { Quiz } from '@/types/homeQuiz';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { searchInputState } from '@/recoil/atoms/searchAtom';
 
 type searchBarProps = {
   onSearch: (quizzes: Quiz[]) => void;
-}
+};
 
-const SearchBar = ({onSearch}:searchBarProps) => {
-  const [searchInput, setSearchInput] = useState('');
+const SearchBar = ({ onSearch }: searchBarProps) => {
+  // const [searchInput, setSearchInput] = useState('');
+  const searchInput = useRecoilValue(searchInputState);
+  const setSearchInput = useSetRecoilState(searchInputState);
   const [relativeSearch, setRelativeSearch] = useState<SearchResult[]>([]);
   const debouncedSearchTerm = useDebounce(searchInput, 200);
 
@@ -56,6 +60,23 @@ const SearchBar = ({onSearch}:searchBarProps) => {
     }
   }, [debouncedSearchTerm]);
 
+  // const getSearchResult = async (keyword: string) => {
+  //   try {
+  //     const response = await getAPI<Quiz[]>(
+  //       `/api/quiz/search?keyword=${encodeURIComponent(keyword)}`,
+  //     );
+  //     onSearch(response.data);
+  //   } catch (error) {
+  //     toast.error('Search failed');
+  //   }
+  // };
+
+  useEffect(() => {
+    if (searchInput) {
+      getSearchResult();
+      setSearchInput(''); // Clear the search input in the global state
+    }
+  }, [searchInput]);
   // useEffect(() => {
   //   if (!isSearchOpen) {
   //     console.log('isSearchOpen:', isSearchOpen);
@@ -82,7 +103,6 @@ const SearchBar = ({onSearch}:searchBarProps) => {
       );
       onSearch(response.data);
       setIsSearchOpen(false);
-      console.log("퀴즈 검색",response.data);
     } catch (error) {
       // console.log('error', error);
     }
@@ -115,12 +135,15 @@ const SearchBar = ({onSearch}:searchBarProps) => {
           />
           <button
             className="absolute inset-y-0 right-0 flex items-center pr-8 sm:pr-3"
-            onClick={()=> {SwitchToQuizPage(); getSearchResult();}}
+            onClick={() => {
+              SwitchToQuizPage();
+              getSearchResult();
+            }}
           >
             <svg
               className="w-8 h-10 text-gray-500 dark:text-gray-400 sm:w-4 sm:h-5"
               aria-hidden="true"
-              xmlns='/img/logo.svg'
+              xmlns="/img/logo.svg"
               fill="none"
               viewBox="0 0 20 20"
             >

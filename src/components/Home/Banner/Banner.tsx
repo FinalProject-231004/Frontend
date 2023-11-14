@@ -8,6 +8,9 @@ import 'swiper/css/navigation';
 import { BannerButtonProps } from '@/types/homeQuiz';
 import { useWindowSize } from '@/hooks';
 import { categories } from '@/constants/categories';
+import { useSetRecoilState } from 'recoil';
+import { searchInputState } from '@/recoil/atoms/searchAtom';
+import { toast } from 'react-toastify';
 
 const banners = [
   {
@@ -49,6 +52,8 @@ const banners = [
 ];
 
 const BannerButton = ({ image, category, navigate }: BannerButtonProps) => {
+  const setSearchInput = useSetRecoilState(searchInputState);
+
   const displayName =
     categories.find(c => c.category === category)?.displayName || '';
 
@@ -88,9 +93,11 @@ const BannerButton = ({ image, category, navigate }: BannerButtonProps) => {
     if (category === 'LIVE_QUIZ') {
       navigate('/live-quiz');
     } else if (category === 'QUIZ_GUIDE') {
-      navigate('/tutorial-quizpop');
+      toast.warn('준비중 입니다. 곧 만나러 올게요! 🥰');
+      // navigate('/tutorial-quizpop');
     } else {
-      navigate(`/quiz/search/${displayName}`);
+      setSearchInput(displayName);
+      navigate(`/search`);
     }
   };
 
