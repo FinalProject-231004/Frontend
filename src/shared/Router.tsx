@@ -14,7 +14,7 @@ import {
   LiveQuiz,
   Search,
 } from '@/pages';
-import { Layout, PrivateRoute, SseConnection } from '@/components';
+import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
 import { ReactNode } from 'react';
 import Auth from '@/containers/User/Auth';
@@ -30,8 +30,7 @@ const ConditionalLayout: React.FC<ConditionalLayoutProps> = ({ children }) => {
   const location = useLocation();
   const isMobile = useMobile();
   if (
-    !isMobile&&
-    location.pathname === '/mypage/verify-password' ||
+    (!isMobile && location.pathname === '/mypage/verify-password') ||
     location.pathname === '/kakao/first-login' ||
     location.pathname === '/search'
   ) {
@@ -44,7 +43,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <TokenRefresher />
-      <SseConnection />
+      {/* <SseConnection /> */}
       <ConditionalLayout>
         <Routes>
           <Route path="/" element={<Home />} />
