@@ -9,6 +9,7 @@ function Search() {
   const [quizzes, setQuizzes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<Quiz[]>([]);
+  const [choseQuiz, setChoseQuiz] = useState(false);
 
   const fetchCategories = async (categories: string) => {
     try {
@@ -23,7 +24,6 @@ function Search() {
     }
   };
 
-
   return (
     <div className="w-screen h-screen">
       <div className="w-[1080px] mx-auto pb-1 md:w-[100vw] pt-[103px] sm:w-[100vw] sm:pb-7">
@@ -31,7 +31,7 @@ function Search() {
           <Link to="/" className=" ">
             <img className='w-[250px]' src="/img/logo.svg" alt="Logo" />
           </Link>
-          <SearchBar onSearch ={setSearchResults}/>
+          <SearchBar onSearch ={setSearchResults} setChoseQuiz={setChoseQuiz}/>
         </div>
 
         <div className='pt-3 pb-16 sm:pt-1 sm:pb-4'>
@@ -43,6 +43,7 @@ function Search() {
             onClick={()=>{
                 fetchCategories(category.category);
                 setSelectedCategory(category.category); 
+                setChoseQuiz(true);
             }}
             >
               {category.displayName}
@@ -52,28 +53,31 @@ function Search() {
         </div>
 
         <div>
-          {selectedCategory && (
-            <QuizCategorySection
-              title={
-                categories.find(c => c.category === selectedCategory)
-                  ?.displayName || ''
-              }
-              quiz={quizzes}
-              skipSlice={true}
-            />
-          )}
-          {searchResults && (
-            <div className="w-full md:w-[96vw] md:mx-auto sm:w-[100vw]">
-              <div
-                className="gap-5 grid grid-cols-4 mb-12 md:grid-cols-3 md:w-[95vw] sm:grid-cols-2 sm:grid-col-2 sm:gap-1 sm:px-2 sm:mb-10"
-                style={{ justifyItems: 'center' }}
-              >
-                {searchResults.map(quiz => (
-                  <QuizThumbnail key={quiz.id} quiz={quiz} />
-                ))}
+          {choseQuiz? (
+            selectedCategory && (
+              <QuizCategorySection
+                title={
+                  categories.find(c => c.category === selectedCategory)
+                    ?.displayName || ''
+                }
+                quiz={quizzes}
+                skipSlice={true}
+              />
+              )
+            ) : (
+            searchResults && (
+              <div className="w-full md:w-[96vw] md:mx-auto sm:w-[100vw]">
+                <div
+                  className="gap-5 grid grid-cols-4 mb-12 md:grid-cols-3 md:w-[95vw] sm:grid-cols-2 sm:grid-col-2 sm:gap-1 sm:px-2 sm:mb-10"
+                  style={{ justifyItems: 'center' }}
+                >
+                  {searchResults.map(quiz => (
+                    <QuizThumbnail key={quiz.id} quiz={quiz} />
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            ))
+           }
         </div>
       </div>
     </div>
