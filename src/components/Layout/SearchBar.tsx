@@ -7,9 +7,10 @@ import { Quiz } from '@/types/homeQuiz';
 
 type searchBarProps = {
   onSearch: (quizzes: Quiz[]) => void;
+  setChoseQuiz: (choseQuiz:boolean)=> void;
 }
 
-const SearchBar = ({onSearch}:searchBarProps) => {
+const SearchBar = ({onSearch, setChoseQuiz}:searchBarProps) => {
   const [searchInput, setSearchInput] = useState('');
   const [relativeSearch, setRelativeSearch] = useState<SearchResult[]>([]);
   const debouncedSearchTerm = useDebounce(searchInput, 200);
@@ -82,7 +83,7 @@ const SearchBar = ({onSearch}:searchBarProps) => {
       );
       onSearch(response.data);
       setIsSearchOpen(false);
-      console.log("퀴즈 검색",response.data);
+      // console.log("퀴즈 검색",response.data);
     } catch (error) {
       // console.log('error', error);
     }
@@ -115,7 +116,7 @@ const SearchBar = ({onSearch}:searchBarProps) => {
           />
           <button
             className="absolute inset-y-0 right-0 flex items-center pr-8 sm:pr-3"
-            onClick={()=> {SwitchToQuizPage(); getSearchResult();}}
+            onClick={()=> {SwitchToQuizPage(); getSearchResult(); setChoseQuiz(false);}}
           >
             <svg
               className="w-8 h-10 text-gray-500 dark:text-gray-400 sm:w-4 sm:h-5"
