@@ -102,9 +102,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
   };
 
   return (
-    <div className="w-full h-[480px] flex flex-col md:mt-12 md:w-[76vw] md:h-[27vh]">
+    <div className="w-full h-[500px] flex flex-col md:-mb-20 md:w-[79.7vw] md:h-[28vh] sm:-mb-20 sm:w-[329px] sm:h-[28vh]">
       <div
-        className="w-full h-full mb-2 overflow-x-auto overflow-y-auto scroll-smooth md:w-[100vw]"
+        className="w-full h-full mb-2 overflow-x-auto overflow-y-auto scroll-smooth md:w-[100vw] sm:w-[329px]"
         onScroll={handleScroll}
       >
         {comments && comments.length > 0 ? (
@@ -116,12 +116,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({ quizId }) => {
             />
           ))
         ) : (
-          <div className="flex items-center justify-center h-full text-slate-300">
+          <div className="flex items-center justify-center h-full text-slate-300 md:w-[80vw]">
             아직 등록된 댓글이 없어요! 🧐
           </div>
         )}
       </div>
-      <div className="flex">
+      <div className="flex w-full sm:mb-7">
         <CommentInput
           placeholder="댓글을 입력해주세요"
           value={newComment}

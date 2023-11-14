@@ -84,7 +84,7 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
         // initialState를 이용하여 캔버스를 업데이트하는 로직
         drawInitialState(initialState);
       } catch (error) {
-        console.error('초기 캔버스 상태 로딩 실패:', error);
+        // console.error('초기 캔버스 상태 로딩 실패:', error);
       }
     };
 
@@ -102,7 +102,7 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
         subscription.unsubscribe();
       };
     }
-  }, [stompClient]); // stompClient가 변경될 때마다 useEffect가 실행됩니다.
+  }, [stompClient]);
 
   const getCanvasContext = () => {
     const canvas = canvasRef.current;
@@ -216,15 +216,15 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
   };
 
   return (
-    <div>
+    <div className="mt-2">
       <canvas
         ref={canvasRef}
         onMouseDown={startDrawing}
         onMouseUp={endDrawing}
         onMouseMove={draw}
         className="border-4 border-blue rounded-xl"
-        width={700}
-        height={700}
+        width={705}
+        height={660}
       />
       <div className="flex justify-between items-center">
         <div className="gap-3 flex">
@@ -241,9 +241,9 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
             }
           ></button>
           <button
-            onClick={() => changeColor('#00ff00')}
+            onClick={() => changeColor('#167c16')}
             className={
-              getButtonClass('#00ff00') + ' bg-green-500 rounded-full w-10 h-10'
+              getButtonClass('#167c16') + ' bg-[#167c16] rounded-full w-10 h-10'
             }
           ></button>
           <button
@@ -295,7 +295,7 @@ const CanvasComponent: React.FC<CanvasComponentProps> = ({
             }
           >
             Thick
-          </button>
+          </button>{' '}
         </div>
       </div>
     </div>

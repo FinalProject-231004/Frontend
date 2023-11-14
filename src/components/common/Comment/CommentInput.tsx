@@ -22,7 +22,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
   };
 
   return (
-    <div className="flex w-full h-[60px] customborder md:mb-3">
+    <div className="flex w-full h-[60px] mt-2 customborder md:my-3">
       <input
         className="w-full bg-transparent bordernoneinput -ml-2 mr-1"
         type="text"
