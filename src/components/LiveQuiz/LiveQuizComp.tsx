@@ -59,87 +59,80 @@ const LiveQuizComp: React.FC = () => {
         return;
       }
 
-      newStompClient.connect(
-        { Authorization: token },
-        async () => {
-          try {
-            const response = await axios.get(
-              `${
-                import.meta.env.VITE_APP_GENERATED_SERVER_URL
-              }/api/liveQuiz/userLists`,
-            );
-            setUsers(response.data);
+      newStompClient.connect({ Authorization: token }, async () => {
+        try {
+          const response = await axios.get(
+            `${
+              import.meta.env.VITE_APP_GENERATED_SERVER_URL
+            }/api/liveQuiz/userLists`,
+          );
+          setUsers(response.data);
 
-            const userInfoResponse = await axios.get(
-              `${
-                import.meta.env.VITE_APP_GENERATED_SERVER_URL
-              }/api/liveQuiz/userInfo`,
-              { headers: { Authorization: token } },
-            );
-            userInfoResponse.data.role === 'ADMIN'
-              ? setUserRole('ADMIN')
-              : setUserRole('USER');
-            setNickName(userInfoResponse.data.nickName);
-            setCorrectAnsweredUsers(
-              userInfoResponse.data.quizUpdateDto.correctAnsweredUsers,
-            );
-            setRemainingWinners(
-              userInfoResponse.data.quizUpdateDto.remainingWinners,
-            );
-            setAnswerLength(userInfoResponse.data.quizUpdateDto.answerLength);
-            setMileagePoint(userInfoResponse.data.quizUpdateDto.mileagePoint);
-          } catch (error) {
-            toast.error('유저 목록을 불러오는데 실패하였습니다.');
-          }
+          const userInfoResponse = await axios.get(
+            `${
+              import.meta.env.VITE_APP_GENERATED_SERVER_URL
+            }/api/liveQuiz/userInfo`,
+            { headers: { Authorization: token } },
+          );
+          userInfoResponse.data.role === 'ADMIN'
+            ? setUserRole('ADMIN')
+            : setUserRole('USER');
+          setNickName(userInfoResponse.data.nickName);
+          setCorrectAnsweredUsers(
+            userInfoResponse.data.quizUpdateDto.correctAnsweredUsers,
+          );
+          setRemainingWinners(
+            userInfoResponse.data.quizUpdateDto.remainingWinners,
+          );
+          setAnswerLength(userInfoResponse.data.quizUpdateDto.answerLength);
+          setMileagePoint(userInfoResponse.data.quizUpdateDto.mileagePoint);
+        } catch (error) {
+          toast.error('유저 목록을 불러오는데 실패하였습니다.');
+        }
 
-          newStompClient.subscribe('/topic/users', message => {
-            const userList = JSON.parse(message.body);
-            setUsers(userList);
-          });
+        newStompClient.subscribe('/topic/users', message => {
+          const userList = JSON.parse(message.body);
+          setUsers(userList);
+        });
 
-          newStompClient.subscribe('/topic/quizUpdate', message => {
-            const update = JSON.parse(message.body);
-            setCorrectAnsweredUsers(update.correctAnsweredUsers);
-            setRemainingWinners(update.remainingWinners);
-            setAnswerLength(update.answerLength);
-            setMileagePoint(update.mileagePoint);
-          });
+        newStompClient.subscribe('/topic/quizUpdate', message => {
+          const update = JSON.parse(message.body);
+          setCorrectAnsweredUsers(update.correctAnsweredUsers);
+          setRemainingWinners(update.remainingWinners);
+          setAnswerLength(update.answerLength);
+          setMileagePoint(update.mileagePoint);
+        });
 
-          newStompClient.subscribe('/topic/liveChatRoom', message => {
-            const chatMessage = JSON.parse(message.body);
+        newStompClient.subscribe('/topic/liveChatRoom', message => {
+          const chatMessage = JSON.parse(message.body);
 
-            if (chatMessage.type === 'ERROR') {
-              if (chatMessage.message === '도배 금지!') {
-                if (chatMessage.nickName === nickName) {
-                  toast.error('도배로 인해 30초동안 채팅이 금지됩니다.');
-                }
-                setUserStatus(prevStatus => ({
-                  ...prevStatus,
-                  [chatMessage.nickName]: {
-                    ...prevStatus[chatMessage.nickName],
-                    isMuted: true,
-                  },
-                }));
-
-                if (muteTimerRef.current) {
-                  clearTimeout(muteTimerRef.current);
-                }
-              } else if (chatMessage.message === '차단된 유저입니다.') {
-                if (chatMessage.nickName === nickName) {
-                  toast.error('차단된 유저는 메세지를 전송할 수 없습니다.');
-                }
+          if (chatMessage.type === 'ERROR') {
+            if (chatMessage.message === '도배 금지!') {
+              if (chatMessage.nickName === nickName) {
+                toast.error('도배로 인해 30초동안 채팅이 금지됩니다.');
               }
-            } else {
-              setHistory(prevHistory => [...prevHistory, chatMessage]);
+              setUserStatus(prevStatus => ({
+                ...prevStatus,
+                [chatMessage.nickName]: {
+                  ...prevStatus[chatMessage.nickName],
+                  isMuted: true,
+                },
+              }));
+
+              if (muteTimerRef.current) {
+                clearTimeout(muteTimerRef.current);
+              }
+            } else if (chatMessage.message === '차단된 유저입니다.') {
+              if (chatMessage.nickName === nickName) {
+                toast.error('차단된 유저는 메세지를 전송할 수 없습니다.');
+              }
             }
-          });
-          setStompClient(newStompClient);
-        },
-        (error: Error) => {
-          console.error('Connection error:', error);
-          toast.error('웹소켓 연결에 실패했습니다.');
-        },
-      );
+          } else {
+            toast.error('알 수 없는 오류가 발생했습니다.');
+          }
+        });
+        setStompClient(newStompClient);
+      });
     };
 
     const disconnectWebSocket = () => {

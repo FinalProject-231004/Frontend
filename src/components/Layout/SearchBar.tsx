@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { getAPI } from '@/apis/axios';
 import { useDebounce } from '@/hooks';
 import { useNavigate } from 'react-router';
@@ -7,9 +7,10 @@ import { Quiz } from '@/types/homeQuiz';
 
 type searchBarProps = {
   onSearch: (quizzes: Quiz[]) => void;
-}
+  setChoseQuiz: Dispatch<SetStateAction<boolean>>;
+};
 
-const SearchBar = ({onSearch}:searchBarProps) => {
+const SearchBar = ({ onSearch }: searchBarProps) => {
   const [searchInput, setSearchInput] = useState('');
   const [relativeSearch, setRelativeSearch] = useState<SearchResult[]>([]);
   const debouncedSearchTerm = useDebounce(searchInput, 200);
@@ -56,6 +57,11 @@ const SearchBar = ({onSearch}:searchBarProps) => {
     }
   }, [debouncedSearchTerm]);
 
+  useEffect(() => {
+    if (searchInput) {
+      setSearchInput(searchInput); // 입력창에 Recoil 상태값 설정
+    }
+  }, [searchInput, setSearchInput]);
   // useEffect(() => {
   //   if (!isSearchOpen) {
   //     console.log('isSearchOpen:', isSearchOpen);
@@ -82,7 +88,7 @@ const SearchBar = ({onSearch}:searchBarProps) => {
       );
       onSearch(response.data);
       setIsSearchOpen(false);
-      console.log("퀴즈 검색",response.data);
+      console.log('퀴즈 검색', response.data);
     } catch (error) {
       // console.log('error', error);
     }
@@ -115,12 +121,15 @@ const SearchBar = ({onSearch}:searchBarProps) => {
           />
           <button
             className="absolute inset-y-0 right-0 flex items-center pr-8 sm:pr-3"
-            onClick={()=> {SwitchToQuizPage(); getSearchResult();}}
+            onClick={() => {
+              SwitchToQuizPage();
+              getSearchResult();
+            }}
           >
             <svg
               className="w-8 h-10 text-gray-500 dark:text-gray-400 sm:w-4 sm:h-5"
               aria-hidden="true"
-              xmlns='/img/logo.svg'
+              xmlns="/img/logo.svg"
               fill="none"
               viewBox="0 0 20 20"
             >
