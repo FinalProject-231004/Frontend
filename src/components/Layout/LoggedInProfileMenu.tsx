@@ -54,7 +54,7 @@ export default function LoggedInProfileMenu() {
     const accessToken = localStorage.getItem('Authorization');
     const refreshToken = localStorage.getItem('Refresh');
     try {
-      const response = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_APP_GENERATED_SERVER_URL}/api/member/logout`,{},
         { headers: { 
           Authorization: `Bearer ${accessToken}`, 
