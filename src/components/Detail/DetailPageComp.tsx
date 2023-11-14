@@ -124,8 +124,8 @@ const DetailPageComp: React.FC<DetailPageCompProps> = ({ id, quizDetail }) => {
                 </span>
               </span>
             </button>
-            <div className="flex justify-end gap-4 md:mt-0 md:gap-10 md:items-center">
-              <div className="sm:flex sm:gap-2 sm:ml-36">
+            <div className="flex justify-end md:mt-0 md:gap-10 md:items-center">
+              <div className="flex gap-3 sm:flex sm:gap-4 sm:ml-36">
                 <QuizCustomButton theme="white" onClick={handleShare}>
                   공유하기
                 </QuizCustomButton>

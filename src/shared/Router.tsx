@@ -30,8 +30,7 @@ const ConditionalLayout: React.FC<ConditionalLayoutProps> = ({ children }) => {
   const location = useLocation();
   const isMobile = useMobile();
   if (
-    !isMobile&&
-    location.pathname === '/mypage/verify-password' ||
+    (!isMobile && location.pathname === '/mypage/verify-password') ||
     location.pathname === '/kakao/first-login' ||
     location.pathname === '/search'
   ) {
