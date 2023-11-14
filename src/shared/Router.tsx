@@ -14,7 +14,7 @@ import {
   LiveQuiz,
   Search,
 } from '@/pages';
-import { Layout, PrivateRoute, SseConnection } from '@/components';
+import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
 import { ReactNode } from 'react';
 import Auth from '@/containers/User/Auth';
@@ -44,7 +44,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <TokenRefresher />
-      <SseConnection />
+      {/* <SseConnection /> */}
       <ConditionalLayout>
         <Routes>
           <Route path="/" element={<Home />} />
