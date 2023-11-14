@@ -10,3 +10,4 @@ export { default as MyPage } from './MyPage';
 export { default as PlayQuiz } from './PlayQuiz';
 export { default as ResultPage } from './ResultPage';
 export { default as VerifyPassword } from './VerifyPassword';
+export { default as Search } from './Search';

@@ -12,6 +12,7 @@ import {
   KakaoFirstLogin,
   DetailPage,
   LiveQuiz,
+  Search,
 } from '@/pages';
 import { Layout, PrivateRoute } from '@/components';
 import TokenRefresher from '@/apis/TokenRefresher';
@@ -29,9 +30,9 @@ const ConditionalLayout: React.FC<ConditionalLayoutProps> = ({ children }) => {
   const location = useLocation();
   const isMobile = useMobile();
   if (
-    !isMobile&&
-    location.pathname === '/mypage/verify-password' ||
-    location.pathname === '/kakao/first-login'
+    (!isMobile && location.pathname === '/mypage/verify-password') ||
+    location.pathname === '/kakao/first-login' ||
+    location.pathname === '/search'
   ) {
     return children;
   }
@@ -42,6 +43,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <TokenRefresher />
+      {/* <SseConnection /> */}
       <ConditionalLayout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -52,6 +54,7 @@ const Router = () => {
             element={<AllQuizCategories />}
           /> */}
           <Route path="/login/kakao" element={<Auth />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/play-quiz/:id" element={<PlayQuiz />} />
           <Route path="/mileage-shop" element={<MileageShop />} />
           <Route path="/quiz/result/:id" element={<ResultPage />} />
