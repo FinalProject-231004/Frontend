@@ -61,12 +61,12 @@ export default function LoggedInProfileMenu() {
           Refresh: `${refreshToken}`,
         }},
       );
-      console.log('로그아웃 성공!!',response);
+      // console.log('로그아웃 성공!!',response);
       logOut();
       setIsLoggedIn(false);
       navigate('/');
     } catch (error) {
-      console.error('error',error);
+      // console.error('error',error);
     }
     logOut();
     setIsLoggedIn(false);
