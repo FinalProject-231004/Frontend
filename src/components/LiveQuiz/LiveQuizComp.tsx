@@ -7,6 +7,7 @@ import { usersState } from '@/recoil/atoms/userStateAtom';
 import { AdminModal, CanvasComponent } from '@/components';
 import axios from 'axios';
 import { AdminModalProps, ChatMessage, UserStatusMap } from '@/types/liveQuiz';
+import DOMPurify from 'dompurify';
 
 const LiveQuizComp: React.FC = () => {
   const [inputMessage, setInputMessage] = useState('');
@@ -329,7 +330,7 @@ const LiveQuizComp: React.FC = () => {
                         : 'font-regular'
                     }`}
                   >
-                    {item.message}
+                    {DOMPurify.sanitize(item.message)}
                   </div>
                 </div>
               ))}
