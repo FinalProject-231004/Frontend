@@ -324,14 +324,15 @@ const LiveQuizComp: React.FC = () => {
                     )}
                   </div>
                   <div
-                    className={`flex items-center p-3  bg-white rounded-xl shadow${
+                    className={`flex items-center p-3 bg-white rounded-xl shadow${
                       item.nickName === '공지'
                         ? 'font-extrabold'
                         : 'font-regular'
                     }`}
-                  >
-                    {DOMPurify.sanitize(item.message)}
-                  </div>
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(item.message),
+                    }}
+                  />
                 </div>
               ))}
               <div ref={messagesEndRef} />
