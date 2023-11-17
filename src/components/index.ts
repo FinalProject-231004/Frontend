@@ -1,6 +1,5 @@
 // common
 export { default as CustomizedButtons } from './common/CustomizedButtons';
-export { default as LoadingSpinner } from './common/LoadingSpinner';
 export { default as Modal } from './common/Modal';
 export { default as PrivateRoute } from './common/PrivateRoute';
 export { default as PwVisibilityToggle } from './common/PwVisibilityToggle';
@@ -49,7 +48,7 @@ export { default as UpdateMyInfo } from './MyPage/UpdateMyInfo';
 export { default as QuizCategorySection } from './Home/QuizCategorySection';
 export { default as QuizThumbnail } from './Home/QuizThumbnail';
 export { default as WriteFixedButton } from './Home/WriteFixedButton';
-export { default as Banner } from './Home/Banner/Banner';
+export { default as Banner } from './Home/Banner';
 
 // Detail
 export { default as DetailPageComp } from './Detail/DetailPageComp';
