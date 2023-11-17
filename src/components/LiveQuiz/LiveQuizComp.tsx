@@ -7,6 +7,7 @@ import { usersState } from '@/recoil/atoms/userStateAtom';
 import { AdminModal, CanvasComponent } from '@/components';
 import axios from 'axios';
 import { AdminModalProps, ChatMessage, UserStatusMap } from '@/types/liveQuiz';
+import DOMPurify from 'dompurify';
 
 const LiveQuizComp: React.FC = () => {
   const [inputMessage, setInputMessage] = useState('');
@@ -256,19 +257,21 @@ const LiveQuizComp: React.FC = () => {
   };
 
   return (
-    <div className="flex w-screen h-[920px] justify-center mx-auto overflow-y-hidden">
-      <div className="w-[420px] h-auto mt-[185px] mr-5">
-        <ul className="w-1/2 py-5 ml-auto bg-lightBlue shadow-md shadow-slate-300 rounded-xl">
-          <h1 className="text-center font-extrabold text-xl text-black">
-            접속유저 목록
-          </h1>
-          <hr className="w-3/4 mx-auto my-3" />
-          {users.map((user, index) => (
-            <li key={index} className="mt-3 ml-[44px]">
-              💙 {user}
-            </li>
-          ))}
-        </ul>
+    <div className="flex w-[100vw] h-[920px] justify-center mx-auto overflow-y-hidden">
+      <div className="min-w-[210px] h-auto mt-[125px]">
+        <div className="mr-5 flex flex-col text-center bg-lightBlue px-3 py-5 rounded-xl shadow-md shadow-slate-300">
+          <ul>
+            <h1 className="text-center font-extrabold text-xl text-black">
+              접속유저 목록
+            </h1>
+            <hr className="w-3/4 mx-auto my-3" />
+            {users.map((user, index) => (
+              <li key={index} className="mt-3 mx-auto">
+                💙 {user} 💙
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div className="w-[1080px] h-full">
         <div className="pt-[90px]"></div>
@@ -321,14 +324,15 @@ const LiveQuizComp: React.FC = () => {
                     )}
                   </div>
                   <div
-                    className={`flex items-center p-3  bg-white rounded-xl shadow${
+                    className={`flex items-center p-3 bg-white rounded-xl shadow${
                       item.nickName === '공지'
                         ? 'font-extrabold'
                         : 'font-regular'
                     }`}
-                  >
-                    {item.message}
-                  </div>
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(item.message),
+                    }}
+                  />
                 </div>
               ))}
               <div ref={messagesEndRef} />
@@ -373,6 +377,7 @@ const LiveQuizComp: React.FC = () => {
             onSubmit={handleModalSubmit}
           />
         </div>
+
         <div className="w-[50%]  ml-5 flex flex-col text-center mr-52 bg-lightBlue px-3 py-5 rounded-xl shadow-md shadow-slate-300">
           <h1 className="w-full text-xl  font-extrabold mb-2">
             🎉 정답자 명단 🎉
